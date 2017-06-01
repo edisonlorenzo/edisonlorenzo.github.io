@@ -29,35 +29,37 @@ window.addEventListener("resize", function (event) {
   scaleToWindow(renderer.view);
 });
 
-PIXI.loader
-    .add('powercore_male_characters', 'images/spine/powercore/team_powercore.json')
-    .load(onAssetsLoaded);
+
+var assetLoader = new PIXI.loaders.Loader();
+assetLoader.add('popple', 'images/spine/popple/popple.json')
+.load(onAssetsLoaded);
+
 
 stage.interactive = true;
 stage.buttonMode = true;
 
 function onAssetsLoaded(loader, res)
 {
-    var powercore_male = new PIXI.spine.Spine(res.powercore_male_characters.spineData);
+    var popple = new PIXI.spine.Spine(res.popple.spineData);
 
     // set current skin
-    powercore_male.skeleton.setSkinByName('edison');
-    powercore_male.skeleton.setSlotsToSetupPose();
+    popple.skeleton.setSkinByName('Popple');
+    popple.skeleton.setSlotsToSetupPose();
 
     // set the position
-    powercore_male.x = 400;
-    powercore_male.y = 600;
+    popple.x = renderer.view.offsetWidth / 2;
+    popple.y = (renderer.view.offsetHeight / 2) + (popple.height/2);
 
-    powercore_male.scale.set(1.5);
+    popple.scale.set(1);
 
     // play animation
-    powercore_male.state.setAnimation(0, 'idle', true);
+    popple.state.setAnimation(0, 'idle', true);
 
-    stage.addChild(powercore_male);
+    stage.addChild(popple);
 
     stage.on('pointertap', function() {
-        powercore_male.state.setAnimation(0, 'attack', false);
-        powercore_male.state.addAnimation(0, 'attack', false, 0);
+        popple.state.setAnimation(0, 'attack', false);
+        popple.state.addAnimation(0, 'idle', true, 0);
     });
     update();
 }

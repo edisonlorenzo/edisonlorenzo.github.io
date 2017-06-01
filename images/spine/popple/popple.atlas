@@ -1,0 +1,146 @@
+
+popple.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+attack_burst01
+  rotate: false
+  xy: 745, 711
+  size: 169, 140
+  orig: 169, 140
+  offset: 0, 0
+  index: -1
+attack_burst02
+  rotate: false
+  xy: 733, 853
+  size: 209, 158
+  orig: 209, 158
+  offset: 0, 0
+  index: -1
+attack_burst03
+  rotate: true
+  xy: 2, 80
+  size: 230, 191
+  orig: 230, 191
+  offset: 0, 0
+  index: -1
+attack_burst04
+  rotate: true
+  xy: 361, 624
+  size: 73, 83
+  orig: 73, 83
+  offset: 0, 0
+  index: -1
+attack_slash01
+  rotate: true
+  xy: 207, 381
+  size: 241, 138
+  orig: 241, 138
+  offset: 0, 0
+  index: -1
+attack_slash02
+  rotate: false
+  xy: 361, 699
+  size: 189, 312
+  orig: 189, 312
+  offset: 0, 0
+  index: -1
+attack_slash03
+  rotate: false
+  xy: 2, 312
+  size: 203, 310
+  orig: 203, 310
+  offset: 0, 0
+  index: -1
+attack_slash04
+  rotate: true
+  xy: 552, 657
+  size: 132, 191
+  orig: 132, 191
+  offset: 0, 0
+  index: -1
+popple/popple_arm_left
+  rotate: true
+  xy: 745, 664
+  size: 45, 74
+  orig: 45, 74
+  offset: 0, 0
+  index: -1
+popple/popple_arm_right
+  rotate: false
+  xy: 944, 858
+  size: 44, 72
+  orig: 44, 72
+  offset: 0, 0
+  index: -1
+popple/popple_body
+  rotate: true
+  xy: 207, 253
+  size: 126, 130
+  orig: 126, 130
+  offset: 0, 0
+  index: -1
+popple/popple_hand_L
+  rotate: true
+  xy: 347, 355
+  size: 267, 95
+  orig: 267, 95
+  offset: 0, 0
+  index: -1
+popple/popple_hand_R
+  rotate: false
+  xy: 339, 292
+  size: 55, 61
+  orig: 55, 61
+  offset: 0, 0
+  index: -1
+popple/popple_head
+  rotate: false
+  xy: 552, 791
+  size: 179, 220
+  orig: 179, 220
+  offset: 0, 0
+  index: -1
+popple/popple_leg_lower_left
+  rotate: false
+  xy: 446, 625
+  size: 68, 72
+  orig: 68, 72
+  offset: 0, 0
+  index: -1
+popple/popple_leg_lower_right
+  rotate: false
+  xy: 85, 12
+  size: 62, 66
+  orig: 62, 66
+  offset: 0, 0
+  index: -1
+popple/popple_leg_upper_left
+  rotate: false
+  xy: 2, 2
+  size: 81, 76
+  orig: 81, 76
+  offset: 0, 0
+  index: -1
+popple/popple_leg_upper_right
+  rotate: true
+  xy: 944, 932
+  size: 79, 68
+  orig: 79, 68
+  offset: 0, 0
+  index: -1
+popple/white_popple
+  rotate: false
+  xy: 2, 624
+  size: 357, 387
+  orig: 357, 387
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 516, 685
+  size: 34, 12
+  orig: 34, 12
+  offset: 0, 0
+  index: -1
