@@ -7,6 +7,7 @@ var renderer = PIXI.autoDetectRenderer(600, 800);
 renderer.view.style.width = '600px';
 renderer.view.style.height = '800px';
 
+//Add style in document head
 var newStyle = document.createElement("style");
 var style = "* {padding: 0; margin: 0}";
 newStyle.appendChild(document.createTextNode(style));
@@ -24,82 +25,45 @@ renderer.render(stage);
 
 scaleToWindow(renderer.view);
 
-window.addEventListener("resize", function(event){ 
+window.addEventListener("resize", function (event) { 
   scaleToWindow(renderer.view);
 });
 
 PIXI.loader
-  .add("images/bunny.png")
-  .load(setup);
+    .add('powercore_male_characters', 'images/spine/powercore/team_powercore.json')
+    .load(onAssetsLoaded);
 
-var padding = 100;
-var bounds = new PIXI.Rectangle(
-    -padding,
-    -padding, 
-    renderer.width + padding * 2, 
-    renderer.height + padding * 2
-);
-var bunnies = [];
+stage.interactive = true;
+stage.buttonMode = true;
 
-function setup() {
+function onAssetsLoaded(loader, res)
+{
+    var powercore_male = new PIXI.spine.Spine(res.powercore_male_characters.spineData);
 
-	for (var i = 0; i < 50; i++)
-	{
-	    var bunny =  PIXI.Sprite.fromImage("images/bunny.png");
-	    bunny.anchor.set(0.5);
-	    stage.addChild(bunny);
-	
-	    bunny.direction = Math.random() * Math.PI * 2;
-	    bunny.speed = 1;
-	    bunny.turnSpeed = Math.random() - 0.8;
+    // set current skin
+    powercore_male.skeleton.setSkinByName('edison');
+    powercore_male.skeleton.setSlotsToSetupPose();
 
-	    bunny.x = Math.random() * bounds.width;
-	    bunny.y = Math.random() * bounds.height;
+    // set the position
+    powercore_male.x = 400;
+    powercore_male.y = 600;
 
-	    bunny.scale.set(1 + Math.random() * 0.3);
-	    bunny.original = new PIXI.Point();
-	    bunny.original.copy(bunny.scale);
-    	    bunnies.push(bunny);
+    powercore_male.scale.set(1.5);
 
-	}
-  	update();
+    // play animation
+    powercore_male.state.setAnimation(0, 'idle', true);
+
+    stage.addChild(powercore_male);
+
+    stage.on('pointertap', function() {
+        powercore_male.state.setAnimation(0, 'attack', false);
+        powercore_male.state.addAnimation(0, 'attack', false, 0);
+    });
+    update();
 }
 
-var count = 0;
-var ticker = new PIXI.ticker.Ticker();
-ticker.add(function() {
-    
-    count += 0.05;
 
-    for (var i = 0; i < bunnies.length; i++) {
-        var bunny = bunnies[i];
-
-        bunny.direction += bunny.turnSpeed * 0.01;
-        bunny.x += Math.sin(bunny.direction) * bunny.speed;
-        bunny.y += Math.cos(bunny.direction) * bunny.speed;
-
-        bunny.rotation =- bunny.direction - Math.PI/2;
-        bunny.scale.x = bunny.original.x + Math.sin(count) * 0.2;
-
-        // wrap the bunnys around as the crawl
-        if (bunny.x < bounds.x) {
-            bunny.x += bounds.width;
-        }
-        else if (bunny.x > bounds.x + bounds.width) {
-            bunny.x -= bounds.width;
-        }
-
-        if (bunny.y < bounds.y) {
-            bunny.y += bounds.height;
-        }
-        else if (bunny.y > bounds.y + bounds.height) {
-            bunny.y -= bounds.height;
-        }
-    }
-});
-ticker.start();
-
-function update(){
+function update (){
 
   //Loop this function 60 times per second
   requestAnimationFrame(update);

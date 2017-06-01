@@ -1,0 +1,496 @@
+
+team_powercore_female.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Flo-pngs/Flo-Head
+  rotate: false
+  xy: 855, 879
+  size: 144, 143
+  orig: 144, 143
+  offset: 0, 0
+  index: -1
+Flo-pngs/Flo-arm_left
+  rotate: true
+  xy: 790, 757
+  size: 34, 58
+  orig: 34, 58
+  offset: 0, 0
+  index: -1
+Flo-pngs/Flo-arm_right
+  rotate: true
+  xy: 686, 696
+  size: 48, 53
+  orig: 48, 53
+  offset: 0, 0
+  index: -1
+Flo-pngs/Flo-body
+  rotate: true
+  xy: 392, 469
+  size: 75, 135
+  orig: 75, 135
+  offset: 0, 0
+  index: -1
+Flo-pngs/Flo-hand_left
+  rotate: true
+  xy: 250, 120
+  size: 41, 79
+  orig: 41, 79
+  offset: 0, 0
+  index: -1
+Flo-pngs/Flo-hand_right
+  rotate: false
+  xy: 939, 807
+  size: 67, 70
+  orig: 67, 70
+  offset: 0, 0
+  index: -1
+Flo-pngs/Flo-hip
+  rotate: false
+  xy: 550, 873
+  size: 151, 149
+  orig: 151, 149
+  offset: 0, 0
+  index: -1
+Flo-pngs/Flo-white
+  rotate: false
+  xy: 196, 679
+  size: 159, 343
+  orig: 159, 343
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB01
+  rotate: true
+  xy: 250, 163
+  size: 169, 84
+  orig: 169, 84
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB02
+  rotate: true
+  xy: 146, 2
+  size: 115, 162
+  orig: 115, 162
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB03
+  rotate: false
+  xy: 357, 685
+  size: 151, 162
+  orig: 151, 162
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB04
+  rotate: true
+  xy: 536, 405
+  size: 132, 131
+  orig: 132, 131
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB05
+  rotate: false
+  xy: 392, 546
+  size: 138, 137
+  orig: 138, 137
+  offset: 0, 0
+  index: -1
+mayu-pngs1/Mayu-white
+  rotate: false
+  xy: 171, 334
+  size: 151, 343
+  orig: 151, 343
+  offset: 0, 0
+  index: -1
+mayu-pngs1/mayu_Head
+  rotate: false
+  xy: 703, 882
+  size: 150, 140
+  orig: 150, 140
+  offset: 0, 0
+  index: -1
+mayu-pngs1/mayu_Hip
+  rotate: false
+  xy: 931, 758
+  size: 77, 47
+  orig: 77, 47
+  offset: 0, 0
+  index: -1
+mayu-pngs1/mayu_arm_l
+  rotate: false
+  xy: 673, 206
+  size: 33, 58
+  orig: 33, 58
+  offset: 0, 0
+  index: -1
+mayu-pngs1/mayu_arm_r
+  rotate: false
+  xy: 572, 102
+  size: 47, 54
+  orig: 47, 54
+  offset: 0, 0
+  index: -1
+mayu-pngs1/mayu_foot_l
+  rotate: false
+  xy: 968, 642
+  size: 39, 60
+  orig: 39, 60
+  offset: 0, 0
+  index: -1
+mayu-pngs1/mayu_foot_r
+  rotate: false
+  xy: 859, 695
+  size: 43, 62
+  orig: 43, 62
+  offset: 0, 0
+  index: -1
+mayu-pngs1/mayu_hand_l
+  rotate: false
+  xy: 310, 39
+  size: 38, 79
+  orig: 38, 79
+  offset: 0, 0
+  index: -1
+mayu-pngs1/mayu_hand_r
+  rotate: false
+  xy: 350, 68
+  size: 65, 67
+  orig: 65, 67
+  offset: 0, 0
+  index: -1
+mayu-pngs1/mayu_leg_l
+  rotate: true
+  xy: 66, 4
+  size: 33, 62
+  orig: 33, 62
+  offset: 0, 0
+  index: -1
+mayu-pngs1/mayu_leg_r
+  rotate: false
+  xy: 813, 686
+  size: 44, 69
+  orig: 44, 69
+  offset: 0, 0
+  index: -1
+mayu-pngs1/mayu_torso
+  rotate: false
+  xy: 510, 685
+  size: 85, 162
+  orig: 85, 162
+  offset: 0, 0
+  index: -1
+misako/Head
+  rotate: false
+  xy: 357, 849
+  size: 191, 173
+  orig: 191, 173
+  offset: 0, 0
+  index: -1
+misako/arm_left
+  rotate: false
+  xy: 680, 146
+  size: 31, 58
+  orig: 31, 58
+  offset: 0, 0
+  index: -1
+misako/arm_right
+  rotate: false
+  xy: 904, 704
+  size: 50, 52
+  orig: 50, 52
+  offset: 0, 0
+  index: -1
+misako/body
+  rotate: false
+  xy: 597, 708
+  size: 87, 163
+  orig: 87, 163
+  offset: 0, 0
+  index: -1
+misako/foot_left
+  rotate: false
+  xy: 529, 42
+  size: 41, 60
+  orig: 41, 60
+  offset: 0, 0
+  index: -1
+misako/foot_right
+  rotate: false
+  xy: 482, 92
+  size: 43, 62
+  orig: 43, 62
+  offset: 0, 0
+  index: -1
+misako/hand_left
+  rotate: true
+  xy: 423, 156
+  size: 36, 79
+  orig: 36, 79
+  offset: 0, 0
+  index: -1
+misako/hand_right
+  rotate: false
+  xy: 417, 87
+  size: 63, 67
+  orig: 63, 67
+  offset: 0, 0
+  index: -1
+misako/hip
+  rotate: false
+  xy: 850, 759
+  size: 79, 46
+  orig: 79, 46
+  offset: 0, 0
+  index: -1
+misako/leg_left
+  rotate: true
+  xy: 904, 669
+  size: 33, 62
+  orig: 33, 62
+  offset: 0, 0
+  index: -1
+misako/leg_right
+  rotate: true
+  xy: 741, 711
+  size: 44, 70
+  orig: 44, 70
+  offset: 0, 0
+  index: -1
+misako/white
+  rotate: false
+  xy: 2, 679
+  size: 192, 343
+  orig: 192, 343
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-arm_left
+  rotate: false
+  xy: 671, 86
+  size: 33, 58
+  orig: 33, 58
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-arm_right
+  rotate: false
+  xy: 621, 103
+  size: 48, 53
+  orig: 48, 53
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-backhair
+  rotate: false
+  xy: 2, 104
+  size: 142, 228
+  orig: 142, 228
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-body
+  rotate: true
+  xy: 536, 328
+  size: 75, 131
+  orig: 75, 131
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-face
+  rotate: false
+  xy: 532, 539
+  size: 128, 144
+  orig: 128, 144
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-foot_left
+  rotate: false
+  xy: 663, 266
+  size: 39, 60
+  orig: 39, 60
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-foot_right
+  rotate: false
+  xy: 484, 28
+  size: 43, 62
+  orig: 43, 62
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-hair_1
+  rotate: false
+  xy: 423, 194
+  size: 93, 156
+  orig: 93, 156
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-hair_2
+  rotate: true
+  xy: 518, 243
+  size: 83, 143
+  orig: 83, 143
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-hair_3
+  rotate: true
+  xy: 2, 39
+  size: 63, 142
+  orig: 63, 142
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-hair_4
+  rotate: false
+  xy: 738, 757
+  size: 50, 123
+  orig: 50, 123
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-hand_left
+  rotate: true
+  xy: 336, 137
+  size: 37, 79
+  orig: 37, 79
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-hand_right
+  rotate: true
+  xy: 350, 2
+  size: 64, 67
+  orig: 64, 67
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-hip
+  rotate: false
+  xy: 850, 807
+  size: 87, 70
+  orig: 87, 70
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-leg_left
+  rotate: true
+  xy: 2, 3
+  size: 34, 62
+  orig: 34, 62
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-leg_right
+  rotate: true
+  xy: 741, 665
+  size: 44, 70
+  orig: 44, 70
+  offset: 0, 0
+  index: -1
+sav-pngs/Sav-white
+  rotate: false
+  xy: 2, 334
+  size: 167, 343
+  orig: 167, 343
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: true
+  xy: 504, 158
+  size: 34, 12
+  orig: 34, 12
+  offset: 0, 0
+  index: -1
+tu-anh/arm_left
+  rotate: true
+  xy: 813, 652
+  size: 32, 58
+  orig: 32, 58
+  offset: 0, 0
+  index: -1
+tu-anh/arm_right
+  rotate: false
+  xy: 956, 704
+  size: 50, 52
+  orig: 50, 52
+  offset: 0, 0
+  index: -1
+tu-anh/back-hair
+  rotate: false
+  xy: 146, 119
+  size: 102, 213
+  orig: 102, 213
+  offset: 0, 0
+  index: -1
+tu-anh/body
+  rotate: false
+  xy: 336, 176
+  size: 85, 162
+  orig: 85, 162
+  offset: 0, 0
+  index: -1
+tu-anh/face
+  rotate: true
+  xy: 391, 352
+  size: 115, 143
+  orig: 115, 143
+  offset: 0, 0
+  index: -1
+tu-anh/foot_left
+  rotate: false
+  xy: 572, 40
+  size: 41, 60
+  orig: 41, 60
+  offset: 0, 0
+  index: -1
+tu-anh/foot_right
+  rotate: false
+  xy: 527, 104
+  size: 43, 61
+  orig: 43, 61
+  offset: 0, 0
+  index: -1
+tu-anh/hair1
+  rotate: false
+  xy: 324, 340
+  size: 65, 166
+  orig: 65, 166
+  offset: 0, 0
+  index: -1
+tu-anh/hair2
+  rotate: false
+  xy: 686, 746
+  size: 50, 125
+  orig: 50, 125
+  offset: 0, 0
+  index: -1
+tu-anh/hair3
+  rotate: true
+  xy: 518, 205
+  size: 36, 153
+  orig: 36, 153
+  offset: 0, 0
+  index: -1
+tu-anh/hand_left
+  rotate: true
+  xy: 518, 167
+  size: 36, 79
+  orig: 36, 79
+  offset: 0, 0
+  index: -1
+tu-anh/hand_right
+  rotate: false
+  xy: 419, 18
+  size: 63, 67
+  orig: 63, 67
+  offset: 0, 0
+  index: -1
+tu-anh/leg_left
+  rotate: true
+  xy: 599, 158
+  size: 45, 79
+  orig: 45, 79
+  offset: 0, 0
+  index: -1
+tu-anh/leg_right
+  rotate: false
+  xy: 790, 793
+  size: 58, 87
+  orig: 58, 87
+  offset: 0, 0
+  index: -1
+tu-anh/white
+  rotate: false
+  xy: 324, 508
+  size: 66, 169
+  orig: 66, 169
+  offset: 0, 0
+  index: -1
