@@ -19,8 +19,8 @@ function assetReady()
     spineManager.createSpine("powercore_male","Edison",100,250,0.5);  
     spineManager.createSpine("powercore_male","Jia",300,250,0.5);  
     spineManager.createSpine("powercore_male","Jian",500,250,0.5);  
-    spineManager.createSpine("popple","Popple",100,500,0.5); 
-    spineManager.createSpine("popple","Pico",300,500,0.5);  
+    spineManager.createSpine("popple","Popple",150,500,0.5); 
+    spineManager.createSpine("popple","Pico",450,500,0.5);  
 }
 
 
