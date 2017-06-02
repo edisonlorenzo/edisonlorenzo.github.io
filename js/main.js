@@ -1,4 +1,9 @@
 
+if(window.jsonic) {
+	// kludge for spines being in JS rather than json
+	JSON.parse = jsonic;
+}
+
 var assetLoaderManager = AssetLoaderManager.getInstance();
 var stageManager = StageManager.getInstance();
 var spineManager = SpineManager.getInstance();
@@ -12,8 +17,10 @@ assetLoaderManager.load();
 function assetReady()
 {
     spineManager.createSpine("powercore_male","Edison",100,250,0.5);  
-    spineManager.createSpine("powercore_male","Jia",250,250,0.5);  
-    spineManager.createSpine("powercore_male","Jian",400,250,0.5);  
+    spineManager.createSpine("powercore_male","Jia",300,250,0.5);  
+    spineManager.createSpine("powercore_male","Jian",500,250,0.5);  
+    spineManager.createSpine("popple","Popple",100,500,0.5); 
+    spineManager.createSpine("popple","Pico",300,500,0.5);  
 }
 
 

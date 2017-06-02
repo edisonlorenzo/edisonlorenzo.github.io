@@ -6,14 +6,14 @@ filter: Linear,Linear
 repeat: none
 attack_burst01
   rotate: false
-  xy: 745, 711
+  xy: 361, 557
   size: 169, 140
   orig: 169, 140
   offset: 0, 0
   index: -1
 attack_burst02
   rotate: false
-  xy: 733, 853
+  xy: 347, 397
   size: 209, 158
   orig: 209, 158
   offset: 0, 0
@@ -27,7 +27,7 @@ attack_burst03
   index: -1
 attack_burst04
   rotate: true
-  xy: 361, 624
+  xy: 85, 5
   size: 73, 83
   orig: 73, 83
   offset: 0, 0
@@ -55,77 +55,147 @@ attack_slash03
   index: -1
 attack_slash04
   rotate: true
-  xy: 552, 657
+  xy: 532, 560
   size: 132, 191
   orig: 132, 191
   offset: 0, 0
   index: -1
-popple/popple_arm_left
+pico/pico_arm_left
   rotate: true
-  xy: 745, 664
+  xy: 416, 350
   size: 45, 74
   orig: 45, 74
   offset: 0, 0
   index: -1
-popple/popple_arm_right
+pico/pico_arm_right
   rotate: false
-  xy: 944, 858
+  xy: 733, 488
   size: 44, 72
   orig: 44, 72
   offset: 0, 0
   index: -1
-popple/popple_body
-  rotate: true
-  xy: 207, 253
+pico/pico_body
+  rotate: false
+  xy: 558, 428
   size: 126, 130
   orig: 126, 130
   offset: 0, 0
   index: -1
-popple/popple_hand_L
-  rotate: true
-  xy: 347, 355
+pico/pico_hand_L
+  rotate: false
+  xy: 552, 694
   size: 267, 95
   orig: 267, 95
   offset: 0, 0
   index: -1
-popple/popple_hand_R
+pico/pico_hand_R
   rotate: false
-  xy: 339, 292
+  xy: 779, 499
   size: 55, 61
   orig: 55, 61
   offset: 0, 0
   index: -1
-popple/popple_head
+pico/pico_head
   rotate: false
   xy: 552, 791
   size: 179, 220
   orig: 179, 220
   offset: 0, 0
   index: -1
-popple/popple_leg_lower_left
+pico/pico_leg_lower_left
   rotate: false
-  xy: 446, 625
+  xy: 195, 167
   size: 68, 72
   orig: 68, 72
   offset: 0, 0
   index: -1
-popple/popple_leg_lower_right
+pico/pico_leg_lower_right
   rotate: false
-  xy: 85, 12
+  xy: 288, 313
   size: 62, 66
   orig: 62, 66
   offset: 0, 0
   index: -1
-popple/popple_leg_upper_left
+pico/pico_leg_upper_left
   rotate: false
   xy: 2, 2
   size: 81, 76
   orig: 81, 76
   offset: 0, 0
   index: -1
-popple/popple_leg_upper_right
+pico/pico_leg_upper_right
+  rotate: false
+  xy: 207, 311
+  size: 79, 68
+  orig: 79, 68
+  offset: 0, 0
+  index: -1
+popple/popple_arm_left
+  rotate: false
+  xy: 686, 484
+  size: 45, 74
+  orig: 45, 74
+  offset: 0, 0
+  index: -1
+popple/popple_arm_right
   rotate: true
-  xy: 944, 932
+  xy: 492, 351
+  size: 44, 72
+  orig: 44, 72
+  offset: 0, 0
+  index: -1
+popple/popple_body
+  rotate: false
+  xy: 725, 562
+  size: 126, 130
+  orig: 126, 130
+  offset: 0, 0
+  index: -1
+popple/popple_hand_L
+  rotate: true
+  xy: 914, 744
+  size: 267, 95
+  orig: 267, 95
+  offset: 0, 0
+  index: -1
+popple/popple_hand_R
+  rotate: false
+  xy: 686, 421
+  size: 55, 61
+  orig: 55, 61
+  offset: 0, 0
+  index: -1
+popple/popple_head
+  rotate: false
+  xy: 733, 791
+  size: 179, 220
+  orig: 179, 220
+  offset: 0, 0
+  index: -1
+popple/popple_leg_lower_left
+  rotate: false
+  xy: 195, 93
+  size: 68, 72
+  orig: 68, 72
+  offset: 0, 0
+  index: -1
+popple/popple_leg_lower_right
+  rotate: false
+  xy: 352, 329
+  size: 62, 66
+  orig: 62, 66
+  offset: 0, 0
+  index: -1
+popple/popple_leg_upper_left
+  rotate: false
+  xy: 821, 713
+  size: 81, 76
+  orig: 81, 76
+  offset: 0, 0
+  index: -1
+popple/popple_leg_upper_right
+  rotate: false
+  xy: 195, 241
   size: 79, 68
   orig: 79, 68
   offset: 0, 0
@@ -138,8 +208,8 @@ popple/white_popple
   offset: 0, 0
   index: -1
 shadow
-  rotate: false
-  xy: 516, 685
+  rotate: true
+  xy: 347, 588
   size: 34, 12
   orig: 34, 12
   offset: 0, 0
