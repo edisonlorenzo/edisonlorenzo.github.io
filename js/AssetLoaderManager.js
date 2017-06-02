@@ -77,8 +77,11 @@ var AssetLoaderManager = (function () {
         function onAssetsLoaded(loader, res)
         {
             spineRes = res;
-            onReadyCallback();
-            progress.stop();
+            setTimeout(function(){
+                    onReadyCallback();
+                    progress.stop();
+                }, 200
+            );
         }
         
         function getRes()
