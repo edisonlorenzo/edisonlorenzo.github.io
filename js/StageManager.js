@@ -1,75 +1,84 @@
 var StageManager = (function () {
 
-  // Instance stores a reference to the Singleton
-  var instance;
+    // Instance stores a reference to the Singleton
+    var instance;
 
-  function init() {
+    function init() {
 
-    // Singleton Init
+        // Singleton Init
 
-    var renderer;
-    var stage;
-    
-    //Create the renderer
-    renderer = PIXI.autoDetectRenderer(600, 800);
+        var renderer;
+        var stage;
 
-    renderer.view.style.width = '600px';
-    renderer.view.style.height = '800px';
+        //Create the renderer
+        renderer = PIXI.autoDetectRenderer(600, 800);
 
-    //Add style in document head
-    var newStyle = document.createElement("style");
-    var style = "* {padding: 0; margin: 0}";
-    newStyle.appendChild(document.createTextNode(style));
-    document.head.appendChild(newStyle);
+        renderer.view.style.width = '600px';
+        renderer.view.style.height = '800px';
+
+        //Add style in document head
+        var newStyle = document.createElement("style");
+        var style = "* {padding: 0; margin: 0}";
+        newStyle.appendChild(document.createTextNode(style));
+        document.head.appendChild(newStyle);
 
 
-    //Add the canvas to the HTML document
-    document.body.appendChild(renderer.view);
+        //Add the canvas to the HTML document
+        document.body.appendChild(renderer.view);
 
-    //Create a container object called the `stage`
-    stage = new PIXI.Container();
+        //Create a container object called the `stage`
+        stage = new PIXI.Container();
 
-    //Tell the `renderer` to `render` the `stage`
-    renderer.render(stage);
-
-    scaleToWindow(renderer.view);
-
-    window.addEventListener("resize", function (event) { 
-      scaleToWindow(renderer.view);
-    });
-
-    update(); 
-
-    function update (){
-        //Loop this function 60 times per second
-        requestAnimationFrame(update);
-
-        //Render the stage
+        //Tell the `renderer` to `render` the `stage`
         renderer.render(stage);
-    }
-      
-    return {
 
-        renderer: renderer,
-        stage: stage
+        scaleToWindow(renderer.view);
+
+        window.addEventListener("resize", function (event) { 
+            scaleToWindow(renderer.view);
+        });
+
+        update(); 
+
+        function update (){
+            //Loop this function 60 times per second
+            requestAnimationFrame(update);
+
+            //Render the stage
+            renderer.render(stage);
+        }
+
+        function getStage()
+        {
+            return stage;
+        }
+        
+        function getRenderer()
+        {
+            return renderer;
+        }
+
+        return {
+            getRenderer: getRenderer,
+            getStage: getStage
+        };
+
     };
 
-  };
+    return {
 
-  return {
+        // Get the Singleton instance if one exists
+        // or create one if it doesn't
+        getInstance: function () {
 
-    // Get the Singleton instance if one exists
-    // or create one if it doesn't
-    getInstance: function () {
+            if ( !instance ) {
+                instance = init();
+            }
 
-      if ( !instance ) {
-        instance = init();
-      }
+            return instance;
+        }
 
-      return instance;
-    }
-
-  };
+    };
 
 })();
 
