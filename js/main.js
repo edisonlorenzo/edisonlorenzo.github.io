@@ -4,10 +4,10 @@ if(window.jsonic) {
 	JSON.parse = jsonic;
 }
 
-var assetLoaderManager = AssetLoaderManager.getInstance();
 var stageManager = StageManager.getInstance();
 var spineManager = SpineManager.getInstance();
 var soundManager = SoundManager.getInstance();
+var assetLoaderManager = AssetLoaderManager.getInstance();
 
 assetLoaderManager.addAsset(spineManager.getAsset());
 assetLoaderManager.addAsset(soundManager.getAsset());
