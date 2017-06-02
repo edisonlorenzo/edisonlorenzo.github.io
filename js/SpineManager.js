@@ -52,7 +52,7 @@ var SpineManager = (function () {
 
             spine.on('pointertap', function() {
                 var animationData = new Array();
-                animationData.push(new AnimationData('attack', ['hit1','hit2','hit3','hit4'], 0.6));
+                animationData.push(new AnimationData('attack', ['hit1','hit2','hit3','hit4'], 0.35));
                 animationData.push(new AnimationData('summon', ['voice1'], 0));
                 animationData.push(new AnimationData('hit', ['pain1','pain2','pain3','pain4','pain5','pain6'], 0));
                 
