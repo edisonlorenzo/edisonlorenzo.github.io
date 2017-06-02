@@ -25,14 +25,11 @@ var SpineManager = (function () {
     function onAssetsLoaded(loader, res)
     {
         spineRes = res;
-        console.log(onReadyCallback);
         onReadyCallback();
     }
       
     function createSpine (spineName, skinName, x, y, scale)
     {
-        console.log(spineRes);
-        console.log(spineName);
         var spine = new PIXI.spine.Spine(spineRes[spineName].spineData);
 
         spine.interactive = true;
