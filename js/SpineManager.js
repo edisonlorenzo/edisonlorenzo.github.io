@@ -12,7 +12,7 @@ var SpineManager = (function () {
         var assetLoaderManager = AssetLoaderManager.getInstance();
 
         var assets = new Array();
-        assets.push(new Asset('popple', 'images/spine/popple/popple.json'));
+//        assets.push(new Asset('popple', 'images/spine/popple/popple.json'));
         assets.push(new Asset('powercore_male', 'images/spine/powercore/team_powercore.json'));
         assets.push(new Asset('powercore_female', 'images/spine/powercore/team_powercore_female.json'));
 
@@ -48,7 +48,7 @@ var SpineManager = (function () {
             // play animation
             spine.state.setAnimation(0, 'idle', true);
 
-            stageManager.getStage().addChild(spine);
+//            stageManager.getStage().addChild(spine);
 
             spine.on('pointertap', function() {
                 var animationData = new Array();
@@ -78,6 +78,7 @@ var SpineManager = (function () {
                 };
             }
 
+            return spine;
         }
 
         return {
