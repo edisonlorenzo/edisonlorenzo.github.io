@@ -11,17 +11,16 @@ var StageManager = (function () {
         var stage;
 
         //Create the renderer
-        renderer = PIXI.autoDetectRenderer(600, 800);
+        renderer = PIXI.autoDetectRenderer(720, 1280, {backgroundColor : "0x1099bb"});
 
-        renderer.view.style.width = '600px';
-        renderer.view.style.height = '800px';
+        renderer.view.style.width = '720px';
+        renderer.view.style.height = '1280px';
 
         //Add style in document head
         var newStyle = document.createElement("style");
         var style = "* {padding: 0; margin: 0}";
         newStyle.appendChild(document.createTextNode(style));
         document.head.appendChild(newStyle);
-
 
         //Add the canvas to the HTML document
         document.body.appendChild(renderer.view);
@@ -37,8 +36,6 @@ var StageManager = (function () {
         window.addEventListener("resize", function (event) { 
             scaleToWindow(renderer.view);
         });
-
-        update(); 
 
         function update (){
             //Loop this function 60 times per second
@@ -58,6 +55,8 @@ var StageManager = (function () {
             return renderer;
         }
 
+        update(); 
+        
         return {
             getRenderer: getRenderer,
             getStage: getStage

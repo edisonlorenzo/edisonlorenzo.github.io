@@ -1,8 +1,8 @@
 
-//if (window.jsonic) {
-//	// kludge for spines being in JS rather than json
-//	JSON.parse = jsonic;
-//}
+if (window.jsonic) {
+	// kludge for spines being in JS rather than json
+	JSON.parse = jsonic;
+}
 
 var stageManager = StageManager.getInstance();
 var spineManager = SpineManager.getInstance();
@@ -28,10 +28,7 @@ function init()
 
 function onReady()
 {
-    uiManager.showDialog(0);
-//    spineManager.createSpine("popple", "Popple", 150, 500, 0.5);
-//    spineManager.createSpine("popple", "Pico", 450, 500, 0.5);
-
+    uiManager.showDialog();
 }
 
 
