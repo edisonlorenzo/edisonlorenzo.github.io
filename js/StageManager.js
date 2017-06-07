@@ -76,10 +76,15 @@ var StageManager = (function () {
         {
             this.width = width;
             this.height = height;
+            this.calculateRatioByWidth = function(value){
+                return width / value;
+            };
+            this.calculateRatioByHeight = function(value){
+                return height / value;
+            };
+            
             return this;
         }
-
-//        update(); 
         
         return {
             getDimension: getDimension,

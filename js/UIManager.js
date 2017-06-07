@@ -35,6 +35,10 @@ var UIManager = (function () {
             var textureMask = new PIXI.Sprite(res['panel-650x400-mask'].texture);
             texture.anchor.set(0.5);
             
+            var dimension = {};
+            dimension.width = texture.width;
+            dimension.height = texture.height;
+            
             var container = new PIXI.Container();
             container.width = texture.width;
             container.height = texture.height;
@@ -46,9 +50,12 @@ var UIManager = (function () {
             container.mask = textureMask;
             texture.addChild(container);
             
+            texture.scale.x = texture.scale.y = stageManager.getDimension().calculateRatioByWidth(texture.width) * .85;
+            
             this.texture = texture;
             this.texture.id = id;
             this.texture.container = container;
+            this.texture.dimension = dimension;
             
             elements.push(this.texture);
             
@@ -84,8 +91,8 @@ var UIManager = (function () {
            
             var dialog = createDialog('dialogSpine');
             var button = createButton('buttonNext');
-            button.x = (dialog.width * .75);
-            button.y = (dialog.height * .80);
+            button.x = (dialog.dimension.width * .75);
+            button.y = (dialog.dimension.height * .80);
 
             button.on('pointertap', function () {
                 if(!button.hasClicked)
@@ -166,8 +173,7 @@ var UIManager = (function () {
             {
                 for(var i = 0; i < spineCharacters.length; i++)
                 {
-                    spineCharacterObjects.push(spineManager.createSpine(spineCharacters[i].spineName, spineCharacters[i].skinName, (dialog.width * .3), (dialog.height * .85), 0.75));
-                    
+                    spineCharacterObjects.push(spineManager.createSpine(spineCharacters[i].spineName, spineCharacters[i].skinName, (dialog.dimension.width * .3), (dialog.dimension.height * .85), 0.75));
                 }
             }
 
