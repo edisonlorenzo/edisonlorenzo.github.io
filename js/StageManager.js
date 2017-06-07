@@ -9,7 +9,8 @@ var StageManager = (function () {
 
         var renderer;
         var stage;
-
+        var container;
+        
         var width = window.innerWidth;
 		var height = window.innerHeight;
         
@@ -36,14 +37,17 @@ var StageManager = (function () {
         //Create a container object called the `stage`
         stage = new PIXI.Container();
 
+        container = new PIXI.Container();
+		stage.addChild(container);
         //Tell the `renderer` to `render` the `stage`
-        renderer.render(stage);
+        //renderer.render(stage);
 
         //scaleToWindow(renderer.view);
 
 //        window.addEventListener("resize", function (event) { 
 //            scaleToWindow(renderer.view);
 //        });
+        requestAnimationFrame(update);
 
         function update (){
             //Loop this function 60 times per second
@@ -58,6 +62,11 @@ var StageManager = (function () {
             return stage;
         }
         
+        function getContainer()
+        {
+            return container;
+        }
+        
         function getRenderer()
         {
             return renderer;
@@ -70,12 +79,13 @@ var StageManager = (function () {
             return this;
         }
 
-        update(); 
+//        update(); 
         
         return {
             getDimension: getDimension,
             getRenderer: getRenderer,
-            getStage: getStage
+            getStage: getStage,
+            getContainer: getContainer
         };
 
     };

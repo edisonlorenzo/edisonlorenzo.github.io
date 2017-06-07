@@ -25,6 +25,3 @@ function onReady()
 {
     uiManager.showDialog();
 }
-
-
-

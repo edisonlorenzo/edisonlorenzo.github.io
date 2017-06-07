@@ -40,7 +40,6 @@ var AssetLoaderManager = (function () {
             
             var requestId;
             function loop() {
-                console.log("progress : " + assetLoader.progress);
                 if (requestId) {
                     richText.text = 'Loading ' + Math.floor(assetLoader.progress) + "%";
                     window.requestAnimationFrame(loop);

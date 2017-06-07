@@ -143,7 +143,7 @@ var UIManager = (function () {
             button.addChild(buttonText);
             dialog.container.addChild(button);
             
-            stageManager.getStage().addChild(dialog);
+            stageManager.getContainer().addChild(dialog);
             
             callback();
         }
