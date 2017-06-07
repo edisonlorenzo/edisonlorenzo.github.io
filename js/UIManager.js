@@ -50,7 +50,7 @@ var UIManager = (function () {
             container.mask = textureMask;
             texture.addChild(container);
             
-            texture.scale.x = texture.scale.y = stageManager.getDimension().calculateRatioBoth(texture.width, texture.height, .9, .5);
+            texture.scale.x = texture.scale.y = stageManager.getDimension().calculateRatioBoth(texture.width, texture.height, .9, .7);
             
             this.texture = texture;
             this.texture.id = id;
