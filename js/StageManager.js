@@ -10,11 +10,19 @@ var StageManager = (function () {
         var renderer;
         var stage;
 
+        var width = window.innerWidth;
+		var height = window.innerHeight;
+        
+        
         //Create the renderer
-        renderer = PIXI.autoDetectRenderer(720, 1280, {backgroundColor : "0x1099bb"});
-
-        renderer.view.style.width = '720px';
-        renderer.view.style.height = '1280px';
+		renderer = PIXI.autoDetectRenderer(width, height, {backgroundColor : "0x1099bb", resolution: window.devicePixelRatio});
+		renderer.view.style.display = "block";
+		renderer.view.style.width = "100%";
+		renderer.view.style.height = "100%";
+        
+//        renderer = PIXI.autoDetectRenderer(720, 1280, {backgroundColor : "0x1099bb"});
+//        renderer.view.style.width = '720px';
+//        renderer.view.style.height = '1280px';
 
         //Add style in document head
         var newStyle = document.createElement("style");
@@ -31,11 +39,11 @@ var StageManager = (function () {
         //Tell the `renderer` to `render` the `stage`
         renderer.render(stage);
 
-        scaleToWindow(renderer.view);
+        //scaleToWindow(renderer.view);
 
-        window.addEventListener("resize", function (event) { 
-            scaleToWindow(renderer.view);
-        });
+//        window.addEventListener("resize", function (event) { 
+//            scaleToWindow(renderer.view);
+//        });
 
         function update (){
             //Loop this function 60 times per second
@@ -54,10 +62,18 @@ var StageManager = (function () {
         {
             return renderer;
         }
+        
+        function getDimension()
+        {
+            this.width = width;
+            this.height = height;
+            return this;
+        }
 
         update(); 
         
         return {
+            getDimension: getDimension,
             getRenderer: getRenderer,
             getStage: getStage
         };

@@ -10,7 +10,7 @@ var AssetLoaderManager = (function () {
         
         var ticker = new PIXI.ticker.Ticker();
         var assetLoader = new PIXI.loaders.Loader();
-        var spineRes;
+        var resources;
         var onReadyCallback;
 
         var progress = new function ()
@@ -33,8 +33,8 @@ var AssetLoaderManager = (function () {
             });
 
             var richText = new PIXI.Text('', style);
-            richText.x = stageManager.getRenderer().width / 2;
-            richText.y = stageManager.getRenderer().height / 2;
+            richText.x = stageManager.getDimension().width / 2;
+            richText.y = stageManager.getDimension().height / 2;
             richText.anchor.set(0.5);
            
             
@@ -76,7 +76,7 @@ var AssetLoaderManager = (function () {
 
         function onAssetsLoaded(loader, res)
         {
-            spineRes = res;
+            resources = res;
             setTimeout(function(){
                     onReadyCallback();
                     progress.stop();
@@ -86,7 +86,7 @@ var AssetLoaderManager = (function () {
         
         function getRes()
         {
-            return spineRes;
+            return resources;
         }
 
         function addAsset(assets)

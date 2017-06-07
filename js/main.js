@@ -18,11 +18,6 @@ assetLoaderManager.load();
 
 function assetReady()
 {
-    init();
-}
-
-function init()
-{
     uiManager.setupUI(onReady);
 }
 
@@ -30,8 +25,6 @@ function onReady()
 {
     uiManager.showDialog();
 }
-
-
 
 
 

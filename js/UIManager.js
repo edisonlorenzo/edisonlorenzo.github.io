@@ -65,7 +65,7 @@ var UIManager = (function () {
             
             this.texture = texture;
             this.texture.id = id;
-            
+            this.texture.hasClicked = false;
             elements.push(this.texture);
             
             return this.texture;
@@ -88,15 +88,15 @@ var UIManager = (function () {
             button.y = (dialog.height * .80);
 
             button.on('pointertap', function () {
-                if(!hasClicked)
+                if(!button.hasClicked)
                 {
-                    hasClicked = true;
-                    var targetX = -(dialog.width * .5) - stageManager.getRenderer().width ;
+                    button.hasClicked = true;
+                    var targetX = -(dialog.width * .5) - stageManager.getDimension().width ;
                     TweenMax.to(dialog.position, 1, {x: targetX, y: dialog.position.y, ease: Back.easeIn, onComplete:completeHandler});
                     
                     function completeHandler(){
                         dialog.visible = false;
-                        hasClicked = false;
+                        button.hasClicked = false;
                         showDialog();
                     };
                 }
@@ -149,7 +149,6 @@ var UIManager = (function () {
         }
         
         var currentCharIndex = 0;
-        var hasClicked;
         var spineCharacters = [
             {spineName:'powercore_male', skinName:'Edison'},
             {spineName:'powercore_male', skinName:'Jia'},
@@ -158,9 +157,6 @@ var UIManager = (function () {
             {spineName:'popple', skinName:'Pico'}
         ];
         var spineCharacterObjects = new Array();
-        var charEdison;
-        var charJia;
-        var charJian;
         
         function showDialog()
         {
@@ -175,8 +171,8 @@ var UIManager = (function () {
                 }
             }
 
-            dialog.position.x = stageManager.getRenderer().width + (dialog.width / 2);
-            dialog.position.y = stageManager.getRenderer().height / 2;
+            dialog.position.x = stageManager.getDimension().width + (dialog.width / 2);
+            dialog.position.y = stageManager.getDimension().height / 2;
             dialog.visible = true;
             
             for(var i = 0; i < spineCharacters.length; i++)
@@ -189,7 +185,7 @@ var UIManager = (function () {
             currentCharIndex ++;
             currentCharIndex = currentCharIndex >= spineCharacterObjects.length ? 0 : currentCharIndex; 
             
-            var targetX = stageManager.getRenderer().width / 2;
+            var targetX = stageManager.getDimension().width / 2;
             TweenMax.to(dialog.position, 1, {x: targetX, y: dialog.position.y, ease: Back.easeOut});
         }
 

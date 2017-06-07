@@ -26,7 +26,23 @@ var SpineManager = (function () {
         {
             return assets;
         }
-
+        
+        var animationDataArray = new Array();
+        animationDataArray.push(new AnimationData('attack', ['hit1','hit2','hit3','hit4'], 0.35));
+        animationDataArray.push(new AnimationData('summon', ['voice1'], 0));
+        animationDataArray.push(new AnimationData('hit', ['pain1','pain2','pain3','pain4','pain5','pain6'], 0));
+        
+        function AnimationData(animationName, soundName, soundDelay)
+        {
+            this.animationName = animationName;
+            this.soundName = soundName;
+            this.soundDelay = soundDelay;
+            this.getRandomSound = function(){
+                var randomValue = Math.floor(Math.random() * soundName.length);
+                return soundName[randomValue];
+            };
+        }
+        
         function createSpine (spineName, skinName, x, y, scale)
         {
             var spineRes = assetLoaderManager.getRes();
@@ -49,29 +65,15 @@ var SpineManager = (function () {
             spine.state.setAnimation(0, 'idle', true);
 
             spine.on('pointertap', function() {
-                var animationData = new Array();
-                animationData.push(new AnimationData('attack', ['hit1','hit2','hit3','hit4'], 0.35));
-                animationData.push(new AnimationData('summon', ['voice1'], 0));
-                animationData.push(new AnimationData('hit', ['pain1','pain2','pain3','pain4','pain5','pain6'], 0));
+                var randomValue = Math.floor(Math.random() * animationDataArray.length);
+                var animationData = animationDataArray[randomValue];
                 
-                var randomValue = Math.floor(Math.random() * animationData.length);
-                
-                spine.state.setAnimation(0, animationData[randomValue].animationName, false);
+                // play random animation when clicked
+                spine.state.setAnimation(0, animationData.animationName, false);
                 spine.state.addAnimation(0, 'idle', true, 0);
                 
-                soundManager.playSound(animationData[randomValue].getRandomSound(), animationData[randomValue].soundDelay);
+                soundManager.playSound(animationData.getRandomSound(), animationData.soundDelay);
             });
-            
-            function AnimationData(animationName, soundName, soundDelay)
-            {
-                this.animationName = animationName;
-                this.soundName = soundName;
-                this.soundDelay = soundDelay;
-                this.getRandomSound = function(){
-                    var randomValue = Math.floor(Math.random() * soundName.length);
-                    return soundName[randomValue];
-                };
-            }
 
             return spine;
         }
