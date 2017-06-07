@@ -76,13 +76,15 @@ var StageManager = (function () {
         {
             this.width = width;
             this.height = height;
-            this.calculateRatioByWidth = function(value){
-                return width / value;
+            this.calculateRatioByWidth = function(value, multiplier){
+                return (multiplier * width) / value;
             };
-            this.calculateRatioByHeight = function(value){
-                return height / value;
+            this.calculateRatioByHeight = function(value, multiplier){
+                return (multiplier * height) / value;
             };
-            
+            this.calculateRatioBoth = function(_width, _height, _multiplierWidth, _multiplierHeight){
+                return width < height ? (_multiplierWidth * width) / _width : (_multiplierHeight * height) / _height;
+            };
             return this;
         }
         
