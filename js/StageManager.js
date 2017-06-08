@@ -14,7 +14,6 @@ var StageManager = (function () {
         var width = window.innerWidth;
 		var height = window.innerHeight;
         
-        
         //Create the renderer
 		renderer = PIXI.autoDetectRenderer(width, height, {backgroundColor : "0x1099bb", resolution: window.devicePixelRatio});
 		renderer.view.style.display = "block";
@@ -52,7 +51,7 @@ var StageManager = (function () {
         function update (){
             //Loop this function 60 times per second
             requestAnimationFrame(update);
-
+            
             //Render the stage
             renderer.render(stage);
         }
