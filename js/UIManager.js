@@ -15,6 +15,7 @@ var UIManager = (function () {
         assets.push(new Asset('panel-650x400', 'images/ui/panel-650x400.png'));
         assets.push(new Asset('panel-650x400-mask', 'images/ui/panel-650x400-mask.png'));
         assets.push(new Asset('orange-btn', 'images/ui/orange-btn.png'));
+        assets.push(new Asset('powercore-bg', 'images/ui/powercore-bg.png'));
         
         var res;
         
@@ -27,6 +28,17 @@ var UIManager = (function () {
         function getAsset()
         {
             return assets;
+        }
+        
+        function createBackground(id)
+        {
+            var texture = new PIXI.Sprite(res['powercore-bg'].texture);
+            texture.anchor.set(0.5);
+            texture.x = stageManager.getDimension().width / 2;
+            texture.y = stageManager.getDimension().height / 2;
+            texture.scale.x = texture.scale.y = stageManager.getDimension().calculateRatioBoth('width', texture.width, texture.height, 1, 1);
+            
+            return texture;
         }
         
         function createDialog(id)
@@ -50,7 +62,7 @@ var UIManager = (function () {
             container.mask = textureMask;
             texture.addChild(container);
             
-            texture.scale.x = texture.scale.y = stageManager.getDimension().calculateRatioBoth(texture.width, texture.height, .9, .7);
+            texture.scale.x = texture.scale.y = stageManager.getDimension().calculateRatioBoth('height', texture.width, texture.height, .9, .6);
             
             this.texture = texture;
             this.texture.id = id;
@@ -88,7 +100,7 @@ var UIManager = (function () {
         function setupUI(callback)
         {
             res = assetLoaderManager.getRes();
-           
+            var bg = createBackground('bg');
             var dialog = createDialog('dialogSpine');
             var button = createButton('buttonNext');
             button.x = (dialog.dimension.width * .75);
@@ -118,7 +130,11 @@ var UIManager = (function () {
             });
             
             button.on('pointerup', function () {
-                TweenMax.to(button.scale, 0.25, {x: 1.1, y: 1.1, ease: Back.easeIn});
+                TweenMax.to(button.scale, 0.25, {x: 1, y: 1, ease: Back.easeIn});
+            });
+            
+            button.on('pointerupoutside', function () {
+                TweenMax.to(button.scale, 0.25, {x: 1, y: 1, ease: Back.easeIn});
             });
             
             button.on('pointerdown', function () {
@@ -150,6 +166,7 @@ var UIManager = (function () {
             button.addChild(buttonText);
             dialog.container.addChild(button);
             
+            stageManager.getContainer().addChild(bg);
             stageManager.getContainer().addChild(dialog);
             
             callback();
@@ -196,7 +213,7 @@ var UIManager = (function () {
         }
 
         return {
-            getElement:getElement,
+            getElement: getElement,
             getAsset: getAsset,
             setupUI: setupUI,
             showDialog: showDialog

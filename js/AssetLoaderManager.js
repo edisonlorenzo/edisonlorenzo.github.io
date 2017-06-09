@@ -36,7 +36,7 @@ var AssetLoaderManager = (function () {
             richText.x = stageManager.getDimension().width / 2;
             richText.y = stageManager.getDimension().height / 2;
             richText.anchor.set(0.5);
-            richText.scale.x = richText.scale.y = stageManager.getDimension().calculateRatioBoth(richText.width, richText.height, .5, .1);
+            richText.scale.x = richText.scale.y = stageManager.getDimension().calculateRatioBoth('height', richText.width, richText.height, .5, .1);
             
             var requestId;
             function loop() {

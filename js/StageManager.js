@@ -15,7 +15,7 @@ var StageManager = (function () {
 		var height = window.innerHeight;
         
         //Create the renderer
-		renderer = PIXI.autoDetectRenderer(width, height, {backgroundColor : "0x1099bb", resolution: window.devicePixelRatio});
+		renderer = PIXI.autoDetectRenderer(width, height, {backgroundColor : "0x000000", resolution: window.devicePixelRatio});
 		renderer.view.style.display = "block";
 		renderer.view.style.width = "100%";
 		renderer.view.style.height = "100%";
@@ -81,8 +81,17 @@ var StageManager = (function () {
             this.calculateRatioByHeight = function(value, multiplier){
                 return (multiplier * height) / value;
             };
-            this.calculateRatioBoth = function(_width, _height, _multiplierWidth, _multiplierHeight){
-                return width < height ? (_multiplierWidth * width) / _width : (_multiplierHeight * height) / _height;
+            this.calculateRatioBoth = function(_match, _width, _height, _multiplierWidth, _multiplierHeight){
+                var ratioByWidth = (_multiplierWidth * width) / _width;
+                var ratioByHeight = (_multiplierHeight * height) / _height;
+                if(_match == 'width')
+                {
+                    return width > height ? ratioByWidth : ratioByHeight;
+                }
+                else
+                {
+                    return width < height ? ratioByWidth : ratioByHeight;
+                }
             };
             return this;
         }
