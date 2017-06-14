@@ -19,7 +19,7 @@ var StageManager = (function () {
 		renderer.view.style.display = "block";
 		renderer.view.style.width = "100%";
 		renderer.view.style.height = "100%";
-        
+
 //        renderer = PIXI.autoDetectRenderer(720, 1280, {backgroundColor : "0x1099bb"});
 //        renderer.view.style.width = '720px';
 //        renderer.view.style.height = '1280px';
@@ -51,9 +51,16 @@ var StageManager = (function () {
         function update (){
             //Loop this function 60 times per second
             requestAnimationFrame(update);
-            
+
             //Render the stage
             renderer.render(stage);
+        }
+        
+        function resize()
+        {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            renderer.resize(width, height);
         }
 
         function getStage()
@@ -100,7 +107,8 @@ var StageManager = (function () {
             getDimension: getDimension,
             getRenderer: getRenderer,
             getStage: getStage,
-            getContainer: getContainer
+            getContainer: getContainer,
+            resize: resize
         };
 
     };
