@@ -170,6 +170,7 @@ var UIManager = (function () {
             this.texture.PIXIText = buttonText;
             this.texture.id = id;
             this.texture.hasClicked = false;
+            this.texture.currentScale = texture.scale.x;
             elements.push(this.texture);
             
             return this.texture;
@@ -267,7 +268,8 @@ var UIManager = (function () {
             btnFullscreen.PIXIText.text = 'Fullscreen';
             btnFullscreen.x = stageManager.getDimension().width * .5;
             btnFullscreen.y = stageManager.getDimension().height + btnFullscreen.height;
-
+            btnFullscreen.scale.x = btnFullscreen.scale.y = stageManager.getDimension().calculateRatioBoth('width', btnFullscreen.width, btnFullscreen.height, .25, .1);
+            btnFullscreen.currentScale = btnFullscreen.scale.x;
             function checkFullscreen()
             {
                 requestAnimationFrame(checkFullscreen);
@@ -296,23 +298,23 @@ var UIManager = (function () {
             });
             
             btnFullscreen.on('pointerover', function () {
-                TweenMax.to(btnFullscreen.scale, 0.25, {x: 1.1, y: 1.1, ease: Back.easeOut});
+                TweenMax.to(btnFullscreen.scale, 0.25, {x: btnFullscreen.currentScale * 1.1, y: btnFullscreen.currentScale * 1.1, ease: Back.easeOut});
             });
             
             btnFullscreen.on('pointerout', function () {
-                TweenMax.to(btnFullscreen.scale, 0.25, {x: 1, y: 1, ease: Back.easeIn});
+                TweenMax.to(btnFullscreen.scale, 0.25, {x: btnFullscreen.currentScale * 1, y: btnFullscreen.currentScale * 1, ease: Back.easeIn});
             });
             
             btnFullscreen.on('pointerup', function () {
-                TweenMax.to(btnFullscreen.scale, 0.25, {x: 1, y: 1, ease: Back.easeIn});
+                TweenMax.to(btnFullscreen.scale, 0.25, {x: btnFullscreen.currentScale * 1, y: btnFullscreen.currentScale * 1, ease: Back.easeIn});
             });
             
             btnFullscreen.on('pointerupoutside', function () {
-                TweenMax.to(btnFullscreen.scale, 0.25, {x: 1, y: 1, ease: Back.easeIn});
+                TweenMax.to(btnFullscreen.scale, 0.25, {x: btnFullscreen.currentScale * 1, y: btnFullscreen.currentScale * 1, ease: Back.easeIn});
             });
             
-            button.on('pointerdown', function () {
-                TweenMax.to(button.scale, 0.25, {x: .9, y: .9, ease: Back.easeOut});
+            btnFullscreen.on('pointerdown', function () {
+                TweenMax.to(btnFullscreen.scale, 0.25, {x: btnFullscreen.currentScale * .9, y: btnFullscreen.currentScale * .9, ease: Back.easeOut});
             });
             
             dialog.container.addChild(button);
@@ -334,6 +336,9 @@ var UIManager = (function () {
                 dialog.resize();
                 btnFullscreen.x = stageManager.getDimension().width * .5;
                 btnFullscreen.y = stageManager.getDimension().height * .9;
+                btnFullscreen.scale.x = btnFullscreen.scale.y = 1;
+                btnFullscreen.scale.x = btnFullscreen.scale.y = stageManager.getDimension().calculateRatioBoth('width', btnFullscreen.width, btnFullscreen.height, .25, .1);
+                btnFullscreen.currentScale = btnFullscreen.scale.x;
             });
             
 //            var btnFullscreen = getElement('btnFullscreen');
