@@ -219,7 +219,7 @@ var UIManager = (function () {
             });
             
             button.on('pointerover', function () {
-                TweenMax.to(button.scale, 0.25, {x: 1.1, y: 1.1, ease: Back.easeOut});
+                TweenMax.to(button.scale, 0.25, {x: 1, y: 1, ease: Back.easeOut});
             });
             
             button.on('pointerout', function () {
@@ -268,7 +268,7 @@ var UIManager = (function () {
             btnFullscreen.PIXIText.text = 'Fullscreen';
             btnFullscreen.x = stageManager.getDimension().width * .5;
             btnFullscreen.y = stageManager.getDimension().height + btnFullscreen.height;
-            btnFullscreen.scale.x = btnFullscreen.scale.y = stageManager.getDimension().calculateRatioBoth('width', btnFullscreen.width, btnFullscreen.height, .25, .1);
+            btnFullscreen.scale.x = btnFullscreen.scale.y = stageManager.getDimension().calculateRatioBoth('height', btnFullscreen.width, btnFullscreen.height, .4, .1);
             btnFullscreen.currentScale = btnFullscreen.scale.x;
             function checkFullscreen()
             {
@@ -298,7 +298,7 @@ var UIManager = (function () {
             });
             
             btnFullscreen.on('pointerover', function () {
-                TweenMax.to(btnFullscreen.scale, 0.25, {x: btnFullscreen.currentScale * 1.1, y: btnFullscreen.currentScale * 1.1, ease: Back.easeOut});
+                TweenMax.to(btnFullscreen.scale, 0.25, {x: btnFullscreen.currentScale * 1, y: btnFullscreen.currentScale * 1, ease: Back.easeOut});
             });
             
             btnFullscreen.on('pointerout', function () {
@@ -337,7 +337,7 @@ var UIManager = (function () {
                 btnFullscreen.x = stageManager.getDimension().width * .5;
                 btnFullscreen.y = stageManager.getDimension().height * .9;
                 btnFullscreen.scale.x = btnFullscreen.scale.y = 1;
-                btnFullscreen.scale.x = btnFullscreen.scale.y = stageManager.getDimension().calculateRatioBoth('width', btnFullscreen.width, btnFullscreen.height, .25, .1);
+                btnFullscreen.scale.x = btnFullscreen.scale.y = stageManager.getDimension().calculateRatioBoth('height', btnFullscreen.width, btnFullscreen.height, .4, .1);
                 btnFullscreen.currentScale = btnFullscreen.scale.x;
             });
             
