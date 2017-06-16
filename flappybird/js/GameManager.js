@@ -34,6 +34,7 @@ var GameManager = (function () {
         assets.push(new Asset('gameover', 'images/gameover.png'));
         assets.push(new Asset('getready', 'images/getready.png'));
         assets.push(new Asset('scoreboard', 'images/scoreboard.png'));
+        assets.push(new Asset('new', 'images/new.png'));
         
         assets.push(new Asset('black', 'images/fadebg.png'));
         assets.push(new Asset('white', 'images/white.png'));
@@ -207,12 +208,6 @@ var GameManager = (function () {
                     soundManager.playSound('point', 0);
                     var scoreObj = getElement('score');
                     scoreObj.addScore(1);
-                    
-                    var currentScore = parseInt(scoreObj.text);
-                    if(currentScore > bestScore)
-                    {
-                        bestScore = currentScore;
-                    }
                 }
                 
                 if(checkCollision(pipeTop) || checkCollision(pipeBottom))
@@ -257,6 +252,53 @@ var GameManager = (function () {
                 }
                 
             }
+        }
+        
+        function createScoreBoard(id, imageRes, scale, posX, posY)
+        {
+            var image = new PIXI.Sprite(imageRes);
+            image.anchor.set(0.5);
+            image.scale.x = image.scale.y = stageManager.getDimension().calculateRatioByHeight(image.height, scale);
+            
+            image.position.x = posX;
+            image.position.y = posY;
+            
+            stageManager.getContainer().addChild(image);
+            
+            var scoreBoardScoreObj = createScore('scoreboard_score', image, 43, -8, 26); 
+            var scoreBoardBestObj = createScore('scoreboard_best', image, 43, 13, 26); 
+            
+           
+            var newBest = new PIXI.Sprite(res['new'].texture);
+            newBest.anchor.x = 1;
+            newBest.scale.x = 0.7;
+            newBest.scale.y = 0.7;
+            
+            newBest.position.x = 26;
+            newBest.position.y = 0;
+            
+            image.addChild(newBest);
+            
+            newBest.visible = false;
+            
+            function setScore(value)
+            {
+                scoreBoardScoreObj.setScore(value);
+                setBestScore(value > bestScore ? value : bestScore);
+            }
+            
+            function setBestScore(value)
+            {
+                newBest.visible = value <= bestScore ? false : true;
+                scoreBoardBestObj.setScore(value);
+                bestScore = value;
+            }
+            
+            this.image = image;
+            this.image.id = id;
+            this.image.setScore = setScore;
+            
+            return this.image;
         }
         
         function createImage(id, imageRes, scale, posX, posY)
@@ -307,7 +349,7 @@ var GameManager = (function () {
             
             function addScore(value)
             {
-                richText.text = parseInt(richText.text) + value;
+                richText.text = getScore() + value;
             }
             
             function setScore(value)
@@ -315,9 +357,14 @@ var GameManager = (function () {
                 richText.text = value;
             }
             
+            function getScore()
+            {
+                return parseInt(richText.text);
+            }
             
             this.richText = richText;
             this.richText.id = id;
+            this.richText.getScore = getScore;
             this.richText.setScore = setScore;
             this.richText.addScore = addScore;
             return this.richText;
@@ -375,13 +422,16 @@ var GameManager = (function () {
                         useGravity = false;
                         state = 'gameover';
                         
-                        getElement('scoreboard_score').setScore(getElement('score').text);
-                        getElement('scoreboard_best').setScore(bestScore);
+                        var scoreBoardObj = getElement('scoreboard');
+                        var gameOverObj = getElement('gameover');
+                        var scoreObj = getElement('score');
                         
-                        getElement('scoreboard').visible = true;
-                        getElement('gameover').visible = true;
-                        TweenMax.fromTo(getElement('gameover').position, 0.5, {y: 0}, {y: stageManager.getDimension().height * 0.25, ease: Power2.easeOut});
-                        TweenMax.fromTo(getElement('scoreboard').position, 0.5, {y: stageManager.getDimension().height}, {y: stageManager.getDimension().height * 0.5, ease: Power2.easeOut});
+                        scoreBoardObj.setScore(scoreObj.text);
+                        
+                        scoreBoardObj.visible = true;
+                        gameOverObj.visible = true;
+                        TweenMax.fromTo(gameOverObj.position, 0.5, {y: 0}, {y: stageManager.getDimension().height * 0.25, ease: Power2.easeOut});
+                        TweenMax.fromTo(scoreBoardObj.position, 0.5, {y: stageManager.getDimension().height}, {y: stageManager.getDimension().height * 0.5, ease: Power2.easeOut});
                     }
                 }
                 
@@ -456,7 +506,7 @@ var GameManager = (function () {
             var flyingBird = createBird('flyingBird', 0.1, stageManager.getDimension().width / 2, (stageManager.getDimension().height / 2) - 100);
             elements.push(flyingBird);
             
-            var scoreBoardObj = createImage('scoreboard', res['scoreboard'].texture, 0.2, stageManager.getDimension().width / 2, stageManager.getDimension().height * 0.5);
+            var scoreBoardObj = createScoreBoard('scoreboard', res['scoreboard'].texture, 0.2, stageManager.getDimension().width / 2, stageManager.getDimension().height * 0.5);
             scoreBoardObj.visible = false;
             elements.push(scoreBoardObj);
             
@@ -467,11 +517,7 @@ var GameManager = (function () {
             screenScoreObj.visible = false;
             elements.push(screenScoreObj);
             
-            var scoreBoardScoreObj = createScore('scoreboard_score', scoreBoardObj, 43, -8, 26); 
-            elements.push(scoreBoardScoreObj);
-            
-            var scoreBoardBestObj = createScore('scoreboard_best', scoreBoardObj, 43, 13, 26); 
-            elements.push(scoreBoardBestObj);
+
             
             pipeContainer = new PIXI.Container();
             stageManager.getContainer().addChildAt(pipeContainer, 2);
