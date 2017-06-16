@@ -8,6 +8,7 @@ var GameManager = (function () {
         // Singleton Init
         
         var stageManager = StageManager.getInstance();
+        var soundManager = SoundManager.getInstance();
         var res;
 
         var pipeContainer
@@ -47,14 +48,42 @@ var GameManager = (function () {
         
         function moveImage(image, speed, pos, loop)
         {
-            TweenMax.to(image.position, speed, {x: pos, y: image.y, ease: Linear.easeNone, repeat:loop ? -1 : 0, onComplete:completeHandler});
-            function completeHandler()
+//            TweenMax.to(image.position, speed, {x: pos, y: image.y, ease: Linear.easeNone, repeat:loop ? -1 : 0, onComplete:completeHandler});
+//            function completeHandler()
+//            {
+//                if(!loop)
+//                {
+//                    stageManager.getContainer().removeChild(image);
+//                    image.destroy();
+//                    console.log(stageManager.getContainer());
+//                }
+//            }
+            
+            var cancel = false;
+            var currentPos = image.position.x;
+            requestAnimationFrame(update);
+            function update()
             {
-                if(!loop)
+                if(!cancel && state != 'hit' && state != 'gameover')
                 {
-                    stageManager.getContainer().removeChild(image);
-                    image.destroy();
-                    console.log(stageManager.getContainer());
+                    image.position.x -= (0.1 * speed);
+                    
+                    if(image.position.x <= pos)
+                    {
+                        if(loop)
+                        {
+                            image.position.x = currentPos; 
+                            requestAnimationFrame(update);
+                        }
+                        else
+                        {
+                            cancel = true;
+                        }
+                    }
+                    else
+                    {
+                        requestAnimationFrame(update);
+                    }
                 }
             }
         }
@@ -123,12 +152,21 @@ var GameManager = (function () {
             var active = true;
             var pipeTop = new PIXI.Sprite(pipeTopRes);
             var pipeBottom = new PIXI.Sprite(pipeBottomRes);
+            var pipeClearance = new PIXI.Sprite(res[fadebg].texture);
             var floorObj = getElement(floor);
+            var flyingBird = getElement('flyingBird');
+            
             pipeTop.scale.x = pipeTop.scale.y = stageManager.getDimension().calculateRatioByHeight(pipeTop.height, .75);
             pipeBottom.scale.x = pipeBottom.scale.y = stageManager.getDimension().calculateRatioByHeight(pipeBottom.height, .75);
             
+            pipeClearance.width = 10;
+            pipeClearance.height = clearance;
+            pipeClearance.anchor.x = 0.5;
+            pipeClearance.alpha = 0;
+            
             pipeTop.position.x = stageManager.getDimension().width;
             pipeBottom.position.x = stageManager.getDimension().width;
+            pipeClearance.position.x = stageManager.getDimension().width + (pipeTop.width / 2);
             
             pipeTop.id = 'id'+num;
             pipeBottom.id = 'id'+num;
@@ -136,26 +174,40 @@ var GameManager = (function () {
             pipeTop.destroy = destroy;
             pipeBottom.destroy = destroy;
             
+            pipeClearance.hit = false;
+            
             var randomValue = Math.floor(Math.random() * (pipeBottom.height * .65)) + 50; 
 
             pipeBottom.position.y = stageManager.getDimension().height - floorObj.height - randomValue;
-            pipeTop.position.y = pipeBottom.position.y - clearance - pipeTop.height
+            pipeClearance.position.y = pipeBottom.position.y - pipeClearance.height;
+            pipeTop.position.y = pipeClearance.position.y - pipeTop.height
             
+            pipeContainer.addChild(pipeClearance);
             pipeContainer.addChild(pipeTop);
             pipeContainer.addChild(pipeBottom);
             
             moveImage(pipeTop, speed, -pipeTop.width, false);
             moveImage(pipeBottom, speed, -pipeBottom.width, false);
+            moveImage(pipeClearance, speed, -pipeClearance.width, false);
             
             requestAnimationFrame(update);
             function update()
             {
 //                console.log(pipeTop.id + ' : ' + checkCollision(pipeTop));
+                if(checkCollision(pipeClearance) && !pipeClearance.hit)
+                {
+                    pipeClearance.hit = true;
+                    soundManager.playSound('point', 0);
+                    var scoreObj = getElement('score');
+                    scoreObj.setScore(1);
+                }
+                
                 if(checkCollision(pipeTop) || checkCollision(pipeBottom))
                 {
+                    soundManager.playSound('hit', 0);
                     state = 'hit';
                     active = false;
-                    TweenMax.killAll();
+                    flyingBird.die();
                 }
                 
                 if(active)
@@ -173,7 +225,7 @@ var GameManager = (function () {
             
             function checkCollision(pipe)
             {
-                var a = getElement('flyingBird');
+                var a = flyingBird;
                 var b = pipe;
                 var ab = a.getBounds();
                 var bb = b.getBounds();
@@ -210,6 +262,44 @@ var GameManager = (function () {
             return this.image;
         }
         
+        function createScore(id)
+        {
+            var style = new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 26,
+                fontStyle: 'normal',
+                fontWeight: 'bold',
+                fill: ['#ffffff', '#ffffff'], // gradient
+                stroke: '#000000',
+                strokeThickness: 4,
+                dropShadow: false,
+                dropShadowColor: '#000000',
+                dropShadowBlur: 0,
+                dropShadowAngle: Math.PI / 6,
+                dropShadowDistance: 0,
+                wordWrap: false,
+                wordWrapWidth: 600
+            });
+
+            var richText = new PIXI.Text('0', style);
+            richText.anchor.set(0.5);
+            richText.x = stageManager.getDimension().width / 2;
+            richText.y = richText.height;
+            
+            stageManager.getContainer().addChild(richText);
+            
+            function setScore(value)
+            {
+                richText.text = parseInt(richText.text) + value;
+            }
+            
+            
+            this.richText = richText;
+            this.richText.id = id;
+            this.richText.setScore = setScore;
+            return this.richText;
+        }
+        
         function createBird(id, scale, posX, posY)
         {
             var frames = ['bird1', 'bird2', 'bird3', 'bird2'];
@@ -228,18 +318,22 @@ var GameManager = (function () {
             var speed = 12;
             var gravity = 0;
             var useGravity = false;
+            var useAnimation = true;
             
             function update()
             {
-                frame++;
-                image.texture = res[frames[num]].texture;
-                if(frame >= speed)
+                if(useAnimation)
                 {
-                    frame = 0;
-                    num++;
-                    if(num >= frames.length)
+                    frame++;
+                    image.texture = res[frames[num]].texture;
+                    if(frame >= speed)
                     {
-                        num = 0;
+                        frame = 0;
+                        num++;
+                        if(num >= frames.length)
+                        {
+                            num = 0;
+                        }
                     }
                 }
                 
@@ -248,25 +342,32 @@ var GameManager = (function () {
                     if(image.position.y < stageManager.getDimension().height - floorObj.height - (image.height / 2))
                     {
                         image.position.y = image.position.y - gravity;
+                        image.rotation = image.rotation < 1.5 ? image.rotation + 0.04 : 1.5;
                         gravity = gravity - 0.3;
                     }
                     else
                     {
+                        die();
                         useGravity = false;
                         state = 'gameover';
-                        TweenMax.killAll();
                     }
                 }
-                
-   
                 
                 requestAnimationFrame(update);
             }
             
+            function die()
+            {
+                soundManager.playSound('die', 0);
+                useAnimation = false;
+            }
+            
             function flap()
             {
+                soundManager.playSound('wing', 0);
                 useGravity = true;
-                gravity = 7;
+                image.rotation = -1;
+                gravity = 6.5;
             }
             
             requestAnimationFrame(update);
@@ -276,6 +377,7 @@ var GameManager = (function () {
             this.image = image;
             this.image.id = id;
             this.image.flap = flap;
+            this.image.die = die;
             
             return this.image;
         }
@@ -290,9 +392,9 @@ var GameManager = (function () {
             
             res =  AssetLoaderManager.getInstance().getRes();
 
-            var backgroundObj = createBackground(res[bg].texture, 15);
+            var backgroundObj = createBackground(res[bg].texture, 5);
             
-            var floorObj = createFloor(res[floor].texture, 5);
+            var floorObj = createFloor(res[floor].texture, 15);
             elements.push(floorObj);
             
             var screenBtn = createImage(fadebg, res[fadebg].texture, 1, stageManager.getDimension().width / 2, stageManager.getDimension().height / 2);
@@ -326,6 +428,9 @@ var GameManager = (function () {
                 }
                 
             });
+            
+            var scoreObj = createScore('score'); 
+            elements.push(scoreObj);
         }
         
         function startGame()
@@ -347,7 +452,7 @@ var GameManager = (function () {
                 if(count == 200)
                 {
                     count = 0;
-                    pipeArray.push(createPipe(pipeNum, res[pipetop].texture, res[pipebottom].texture, 6.31, 150));
+                    pipeArray.push(createPipe(pipeNum, res[pipetop].texture, res[pipebottom].texture, 15, 150));
                     pipeNum++;
                 }
                 
