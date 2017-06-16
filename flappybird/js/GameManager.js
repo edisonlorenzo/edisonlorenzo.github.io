@@ -21,6 +21,8 @@ var GameManager = (function () {
         var pipebottom = 'pipebottom';
         var tapstart = 'tapstart';
         
+        var bestScore = 0;
+        
         var assets = new Array();
         
         assets.push(new Asset(bg, 'images/bg.png'));
@@ -28,6 +30,10 @@ var GameManager = (function () {
         assets.push(new Asset(pipetop, 'images/pipetop.png'));
         assets.push(new Asset(pipebottom, 'images/pipebottom.png'));
         assets.push(new Asset(tapstart, 'images/tapstart.png'));
+        
+        assets.push(new Asset('gameover', 'images/gameover.png'));
+        assets.push(new Asset('getready', 'images/getready.png'));
+        assets.push(new Asset('scoreboard', 'images/scoreboard.png'));
         
         assets.push(new Asset('black', 'images/fadebg.png'));
         assets.push(new Asset('white', 'images/white.png'));
@@ -200,7 +206,13 @@ var GameManager = (function () {
                     pipeClearance.hit = true;
                     soundManager.playSound('point', 0);
                     var scoreObj = getElement('score');
-                    scoreObj.setScore(1);
+                    scoreObj.addScore(1);
+                    
+                    var currentScore = parseInt(scoreObj.text);
+                    if(currentScore > bestScore)
+                    {
+                        bestScore = currentScore;
+                    }
                 }
                 
                 if(checkCollision(pipeTop) || checkCollision(pipeBottom))
@@ -209,7 +221,7 @@ var GameManager = (function () {
                     soundManager.playSound('hit', 0);
                     state = 'hit';
                     active = false;
-                    flyingBird.die();
+                    flyingBird.stopAnimation();
                 }
                 
                 if(active)
@@ -264,11 +276,11 @@ var GameManager = (function () {
             return this.image;
         }
         
-        function createScore(id)
+        function createScore(id, container, posX, posY, fontSize)
         {
             var style = new PIXI.TextStyle({
                 fontFamily: 'Arial',
-                fontSize: 26,
+                fontSize: fontSize,
                 fontStyle: 'normal',
                 fontWeight: 'bold',
                 fill: ['#ffffff', '#ffffff'], // gradient
@@ -285,20 +297,29 @@ var GameManager = (function () {
 
             var richText = new PIXI.Text('0', style);
             richText.anchor.set(0.5);
-            richText.x = stageManager.getDimension().width / 2;
-            richText.y = richText.height;
+            richText.x = posX;
+            richText.y = posY;
+
+            container.addChild(richText);
             
-            stageManager.getContainer().addChild(richText);
+            richText.scale.x = richText.scale.x / container.scale.x;
+            richText.scale.y = richText.scale.y / container.scale.y;
+            
+            function addScore(value)
+            {
+                richText.text = parseInt(richText.text) + value;
+            }
             
             function setScore(value)
             {
-                richText.text = parseInt(richText.text) + value;
+                richText.text = value;
             }
             
             
             this.richText = richText;
             this.richText.id = id;
             this.richText.setScore = setScore;
+            this.richText.addScore = addScore;
             return this.richText;
         }
         
@@ -349,18 +370,26 @@ var GameManager = (function () {
                     }
                     else
                     {
-                        die();
+                        stopAnimation();
+                        soundManager.playSound('die', 0);
                         useGravity = false;
                         state = 'gameover';
+                        
+                        getElement('scoreboard_score').setScore(getElement('score').text);
+                        getElement('scoreboard_best').setScore(bestScore);
+                        
+                        getElement('scoreboard').visible = true;
+                        getElement('gameover').visible = true;
+                        TweenMax.fromTo(getElement('gameover').position, 0.5, {y: 0}, {y: stageManager.getDimension().height * 0.25, ease: Power2.easeOut});
+                        TweenMax.fromTo(getElement('scoreboard').position, 0.5, {y: stageManager.getDimension().height}, {y: stageManager.getDimension().height * 0.5, ease: Power2.easeOut});
                     }
                 }
                 
                 requestAnimationFrame(update);
             }
             
-            function die()
+            function stopAnimation()
             {
-                soundManager.playSound('die', 0);
                 useAnimation = false;
             }
             
@@ -379,7 +408,7 @@ var GameManager = (function () {
             this.image = image;
             this.image.id = id;
             this.image.flap = flap;
-            this.image.die = die;
+            this.image.stopAnimation = stopAnimation;
             
             return this.image;
         }
@@ -403,7 +432,6 @@ var GameManager = (function () {
         function setup()
         {
             elements = new Array();
-            pipeContainer = new PIXI.Container();
             pipeArray = new Array();
             
             state = 'menu';
@@ -416,13 +444,36 @@ var GameManager = (function () {
             elements.push(floorObj);
             
             var tapStartImage = createImage(tapstart, res[tapstart].texture, 0.2, stageManager.getDimension().width / 2, (stageManager.getDimension().height / 2) + 50);
-            var flyingBird = createBird('flyingBird', 0.1, stageManager.getDimension().width / 2, (stageManager.getDimension().height / 2) - 100);
-            var screenBtn = createImage('screen', res['white'].texture, 1, stageManager.getDimension().width / 2, stageManager.getDimension().height / 2);
-            
             elements.push(tapStartImage);
-            elements.push(screenBtn);
+            
+            var getReadyObj = createImage('getready', res['getready'].texture, 0.075, stageManager.getDimension().width / 2, stageManager.getDimension().height * 0.25);
+            elements.push(getReadyObj);
+            
+            var gameOverObj = createImage('gameover', res['gameover'].texture, 0.065, stageManager.getDimension().width / 2, stageManager.getDimension().height * 0.25);
+            gameOverObj.visible = false;
+            elements.push(gameOverObj);   
+            
+            var flyingBird = createBird('flyingBird', 0.1, stageManager.getDimension().width / 2, (stageManager.getDimension().height / 2) - 100);
             elements.push(flyingBird);
             
+            var scoreBoardObj = createImage('scoreboard', res['scoreboard'].texture, 0.2, stageManager.getDimension().width / 2, stageManager.getDimension().height * 0.5);
+            scoreBoardObj.visible = false;
+            elements.push(scoreBoardObj);
+            
+            var screenBtn = createImage('screen', res['white'].texture, 1, stageManager.getDimension().width / 2, stageManager.getDimension().height / 2);
+            elements.push(screenBtn);
+            
+            var screenScoreObj = createScore('score', stageManager.getContainer(), stageManager.getDimension().width * 0.5, stageManager.getDimension().height * 0.05, 36); 
+            screenScoreObj.visible = false;
+            elements.push(screenScoreObj);
+            
+            var scoreBoardScoreObj = createScore('scoreboard_score', scoreBoardObj, 43, -8, 26); 
+            elements.push(scoreBoardScoreObj);
+            
+            var scoreBoardBestObj = createScore('scoreboard_best', scoreBoardObj, 43, 13, 26); 
+            elements.push(scoreBoardBestObj);
+            
+            pipeContainer = new PIXI.Container();
             stageManager.getContainer().addChildAt(pipeContainer, 2);
             
             screenBtn.alpha = 0;
@@ -431,6 +482,7 @@ var GameManager = (function () {
                 switch(state)
                 {
                     case 'menu':
+                        getReadyObj.visible = false;
                         tapStartImage.visible = false;
                         startGame();
                         break;
@@ -446,8 +498,6 @@ var GameManager = (function () {
                 
             });
             
-            var scoreObj = createScore('score'); 
-            elements.push(scoreObj);
         }
         
         function startGame()
@@ -457,6 +507,7 @@ var GameManager = (function () {
             var flyingBird = getElement('flyingBird');
             flyingBird.flap();
             
+            getElement('score').visible = true;
             
             requestAnimationFrame(updatePipe);
             
