@@ -20,7 +20,6 @@ var GameManager = (function () {
         var pipetop = 'pipetop';
         var pipebottom = 'pipebottom';
         var tapstart = 'tapstart';
-        var fadebg = 'fadebg';
         
         var assets = new Array();
         
@@ -29,7 +28,9 @@ var GameManager = (function () {
         assets.push(new Asset(pipetop, 'images/pipetop.png'));
         assets.push(new Asset(pipebottom, 'images/pipebottom.png'));
         assets.push(new Asset(tapstart, 'images/tapstart.png'));
-        assets.push(new Asset(fadebg, 'images/fadebg.png'));
+        
+        assets.push(new Asset('black', 'images/fadebg.png'));
+        assets.push(new Asset('white', 'images/white.png'));
         
         assets.push(new Asset('bird1', 'images/bird1.png'));
         assets.push(new Asset('bird2', 'images/bird2.png'));
@@ -152,7 +153,7 @@ var GameManager = (function () {
             var active = true;
             var pipeTop = new PIXI.Sprite(pipeTopRes);
             var pipeBottom = new PIXI.Sprite(pipeBottomRes);
-            var pipeClearance = new PIXI.Sprite(res[fadebg].texture);
+            var pipeClearance = new PIXI.Sprite(res['black'].texture);
             var floorObj = getElement(floor);
             var flyingBird = getElement('flyingBird');
             
@@ -204,6 +205,7 @@ var GameManager = (function () {
                 
                 if(checkCollision(pipeTop) || checkCollision(pipeBottom))
                 {
+                    flashScreen();
                     soundManager.playSound('hit', 0);
                     state = 'hit';
                     active = false;
@@ -382,6 +384,22 @@ var GameManager = (function () {
             return this.image;
         }
         
+        function flashScreen()
+        {
+            var screenObj = getElement('screen');
+            screenObj.alpha = 1;
+            
+            requestAnimationFrame(update);
+            function update()
+            {
+                if(screenObj.alpha > 0)
+                {
+                    screenObj.alpha -= 0.1;
+                    requestAnimationFrame(update);
+                }
+            }
+        }
+        
         function setup()
         {
             elements = new Array();
@@ -397,10 +415,10 @@ var GameManager = (function () {
             var floorObj = createFloor(res[floor].texture, 15);
             elements.push(floorObj);
             
-            var screenBtn = createImage(fadebg, res[fadebg].texture, 1, stageManager.getDimension().width / 2, stageManager.getDimension().height / 2);
             var tapStartImage = createImage(tapstart, res[tapstart].texture, 0.2, stageManager.getDimension().width / 2, (stageManager.getDimension().height / 2) + 50);
             var flyingBird = createBird('flyingBird', 0.1, stageManager.getDimension().width / 2, (stageManager.getDimension().height / 2) - 100);
-
+            var screenBtn = createImage('screen', res['white'].texture, 1, stageManager.getDimension().width / 2, stageManager.getDimension().height / 2);
+            
             elements.push(tapStartImage);
             elements.push(screenBtn);
             elements.push(flyingBird);
@@ -422,7 +440,6 @@ var GameManager = (function () {
                     case 'gameover':
                         for (var i = pipeContainer.children.length - 1; i >= 0; i--) {pipeContainer.removeChild(pipeContainer.children[i]);};
                         for (var i = stageManager.getContainer().children.length - 1; i >= 0; i--) {stageManager.getContainer().removeChild(stageManager.getContainer().children[i]);};
-                        console.log(stageManager.getContainer());
                         setup();
                         break;
                 }
