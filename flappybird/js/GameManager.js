@@ -55,18 +55,7 @@ var GameManager = (function () {
         }
         
         function moveImage(image, speed, pos, loop)
-        {
-//            TweenMax.to(image.position, speed, {x: pos, y: image.y, ease: Linear.easeNone, repeat:loop ? -1 : 0, onComplete:completeHandler});
-//            function completeHandler()
-//            {
-//                if(!loop)
-//                {
-//                    stageManager.getContainer().removeChild(image);
-//                    image.destroy();
-//                    console.log(stageManager.getContainer());
-//                }
-//            }
-            
+        {   
             var cancel = false;
             var currentPos = image.position.x;
             requestAnimationFrame(update);
@@ -201,7 +190,6 @@ var GameManager = (function () {
             requestAnimationFrame(update);
             function update()
             {
-//                console.log(pipeTop.id + ' : ' + checkCollision(pipeTop));
                 if(checkCollision(pipeClearance) && !pipeClearance.hit)
                 {
                     pipeClearance.hit = true;
@@ -267,7 +255,6 @@ var GameManager = (function () {
             
             var scoreBoardScoreObj = createScore('scoreboard_score', image, 43, -8, 26); 
             var scoreBoardBestObj = createScore('scoreboard_best', image, 43, 13, 26); 
-            
            
             var newBest = new PIXI.Sprite(res['new'].texture);
             newBest.anchor.x = 1;
@@ -284,14 +271,14 @@ var GameManager = (function () {
             function setScore(value)
             {
                 scoreBoardScoreObj.setScore(value);
-                setBestScore(value > bestScore ? value : bestScore);
+                setBestScore(value);
             }
             
             function setBestScore(value)
             {
-                newBest.visible = value <= bestScore ? false : true;
-                scoreBoardBestObj.setScore(value);
-                bestScore = value;
+                newBest.visible = value > bestScore;
+                bestScore = value > bestScore ? value : bestScore;
+                scoreBoardBestObj.setScore(bestScore);
             }
             
             this.image = image;
@@ -422,16 +409,7 @@ var GameManager = (function () {
                         useGravity = false;
                         state = 'gameover';
                         
-                        var scoreBoardObj = getElement('scoreboard');
-                        var gameOverObj = getElement('gameover');
-                        var scoreObj = getElement('score');
-                        
-                        scoreBoardObj.setScore(scoreObj.text);
-                        
-                        scoreBoardObj.visible = true;
-                        gameOverObj.visible = true;
-                        TweenMax.fromTo(gameOverObj.position, 0.5, {y: 0}, {y: stageManager.getDimension().height * 0.25, ease: Power2.easeOut});
-                        TweenMax.fromTo(scoreBoardObj.position, 0.5, {y: stageManager.getDimension().height}, {y: stageManager.getDimension().height * 0.5, ease: Power2.easeOut});
+                        showScoreBoard();
                     }
                 }
                 
@@ -479,8 +457,23 @@ var GameManager = (function () {
             }
         }
         
+        function showScoreBoard()
+        {
+            var scoreBoardObj = getElement('scoreboard');
+            var gameOverObj = getElement('gameover');
+            var scoreObj = getElement('score');
+
+            scoreBoardObj.setScore(scoreObj.getScore());
+
+            scoreBoardObj.visible = true;
+            gameOverObj.visible = true;
+            TweenMax.fromTo(gameOverObj.position, 0.5, {y: 0}, {y: stageManager.getDimension().height * 0.25, ease: Power2.easeOut});
+            TweenMax.fromTo(scoreBoardObj.position, 0.5, {y: stageManager.getDimension().height}, {y: stageManager.getDimension().height * 0.5, ease: Power2.easeOut});
+        }
+        
         function setup()
         {
+            console.log('best score: '+bestScore);
             elements = new Array();
             pipeArray = new Array();
             
