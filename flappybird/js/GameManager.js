@@ -22,6 +22,8 @@ var GameManager = (function () {
         var tapstart = 'tapstart';
         
         var bestScore = 0;
+        var backgroundSpeed = 10;
+        var foregroundSpeed = 20;
         
         var assets = new Array();
         
@@ -42,6 +44,11 @@ var GameManager = (function () {
         assets.push(new Asset('bird1', 'images/bird1.png'));
         assets.push(new Asset('bird2', 'images/bird2.png'));
         assets.push(new Asset('bird3', 'images/bird3.png'));
+        
+        assets.push(new Asset('medal_tin', 'images/medal_tin.png'));
+        assets.push(new Asset('medal_bronze', 'images/medal_bronze.png'));
+        assets.push(new Asset('medal_silver', 'images/medal_silver.png'));
+        assets.push(new Asset('medal_gold', 'images/medal_gold.png'));
         
         function Asset(resName, resPath)
         {
@@ -264,14 +271,24 @@ var GameManager = (function () {
             newBest.position.x = 26;
             newBest.position.y = 0;
             
-            image.addChild(newBest);
+            var medal = new PIXI.Sprite(res['medal_tin'].texture);
+            medal.anchor.set(0.5);
             
+            medal.position.x = -32;
+            medal.position.y = 3;
+            
+            image.addChild(newBest);
+            image.addChild(medal);
+            
+            medal.visible = false;
             newBest.visible = false;
+            image.visible = false;
             
             function setScore(value)
             {
                 scoreBoardScoreObj.setScore(value);
                 setBestScore(value);
+                setMedal(value);
             }
             
             function setBestScore(value)
@@ -279,6 +296,35 @@ var GameManager = (function () {
                 newBest.visible = value > bestScore;
                 bestScore = value > bestScore ? value : bestScore;
                 scoreBoardBestObj.setScore(bestScore);
+            }
+            
+            function setMedal(value)
+            {
+                if(value < 10)
+                {
+                    medal.visible = false;
+                    return;
+                }
+                
+                if(value >= 80)
+                {
+                    medal.texture = res['medal_gold'].texture;
+                }
+                else if(value >= 40)
+                {
+                    medal.texture = res['medal_silver'].texture;
+                }
+                else if(value >= 20)
+                {
+                    medal.texture = res['medal_bronze'].texture;
+                }
+                else if(value >= 10)
+                {
+                    medal.texture = res['medal_tin'].texture;
+                }
+                
+                medal.visible = true;
+                
             }
             
             this.image = image;
@@ -473,7 +519,6 @@ var GameManager = (function () {
         
         function setup()
         {
-            console.log('best score: '+bestScore);
             elements = new Array();
             pipeArray = new Array();
             
@@ -481,9 +526,9 @@ var GameManager = (function () {
             
             res =  AssetLoaderManager.getInstance().getRes();
 
-            var backgroundObj = createBackground(res[bg].texture, 5);
+            var backgroundObj = createBackground(res[bg].texture, backgroundSpeed);
             
-            var floorObj = createFloor(res[floor].texture, 15);
+            var floorObj = createFloor(res[floor].texture, foregroundSpeed);
             elements.push(floorObj);
             
             var tapStartImage = createImage(tapstart, res[tapstart].texture, 0.2, stageManager.getDimension().width / 2, (stageManager.getDimension().height / 2) + 50);
@@ -500,7 +545,6 @@ var GameManager = (function () {
             elements.push(flyingBird);
             
             var scoreBoardObj = createScoreBoard('scoreboard', res['scoreboard'].texture, 0.2, stageManager.getDimension().width / 2, stageManager.getDimension().height * 0.5);
-            scoreBoardObj.visible = false;
             elements.push(scoreBoardObj);
             
             var screenBtn = createImage('screen', res['white'].texture, 1, stageManager.getDimension().width / 2, stageManager.getDimension().height / 2);
@@ -556,10 +600,10 @@ var GameManager = (function () {
             {
                 count++;
                 
-                if(count == 200)
+                if(count == 150)
                 {
                     count = 0;
-                    pipeArray.push(createPipe(pipeNum, res[pipetop].texture, res[pipebottom].texture, 15, 150));
+                    pipeArray.push(createPipe(pipeNum, res[pipetop].texture, res[pipebottom].texture, foregroundSpeed, 150));
                     pipeNum++;
                 }
                 
