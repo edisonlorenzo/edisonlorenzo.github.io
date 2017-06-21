@@ -346,7 +346,6 @@ var GameManager = (function () {
             
             stageManager.getContainer().addChild(image);
             
-            image.image = image;
             image.id = id;
             image.hasClicked = false;
             return image;
@@ -354,7 +353,6 @@ var GameManager = (function () {
         
         function createScore(id, container, posX, posY, fontSize)
         {
-            var content = {};
             var style = new PIXI.TextStyle({
                 fontFamily: 'Arial',
                 fontSize: fontSize,
@@ -397,12 +395,11 @@ var GameManager = (function () {
                 return parseInt(richText.text);
             }
             
-            content.richText = richText;
-            content.id = id;
-            content.getScore = getScore;
-            content.setScore = setScore;
-            content.addScore = addScore;
-            return content;
+            richText.id = id;
+            richText.getScore = getScore;
+            richText.setScore = setScore;
+            richText.addScore = addScore;
+            return richText;
         }
         
         function createBird(id, scale, posX, posY)
