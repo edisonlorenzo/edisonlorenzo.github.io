@@ -1,3 +1,4 @@
+"use strict";
 var AssetLoaderManager = (function () {
 
     // Instance stores a reference to the Singleton
@@ -6,8 +7,7 @@ var AssetLoaderManager = (function () {
     function init() {
 
         // Singleton Init
-        var stageManager = StageManager.getInstance();
-        
+
         var ticker = new PIXI.ticker.Ticker();
         var assetLoader = new PIXI.loaders.Loader();
         var resources;
@@ -15,6 +15,7 @@ var AssetLoaderManager = (function () {
 
         var progress = new function ()
         {
+            var stageManager;
             var style = new PIXI.TextStyle({
                 fontFamily: 'Arial',
                 fontSize: 36,
@@ -33,32 +34,33 @@ var AssetLoaderManager = (function () {
             });
 
             var richText = new PIXI.Text('Loading 0%', style);
-            richText.anchor.set(0.5);
-            richText.x = stageManager.getDimension().width / 2;
-            richText.y = stageManager.getDimension().height / 2;
-            
+                    richText.anchor.set(0.5);
             //richText.scale.x = richText.scale.y = stageManager.getDimension().calculateRatioBoth('height', richText.width, richText.height, .5, .1);
             
-            var requestId;
+            var requestId = undefined;
             function loop() {
                 if (requestId) {
                     richText.text = 'Loading ' + Math.floor(assetLoader.progress) + "%";
-                    window.requestAnimationFrame(loop);
+                    requestAnimationFrame(loop);
                 }
             }
 
             function start() {
-                if (!requestId) {
-                    requestId = window.requestAnimationFrame(loop);
-                    stageManager.getStage().addChild(richText);
+                if (requestId == undefined) {
+                    requestId = requestAnimationFrame(loop);
+                    
+                    stageManager = StageManager.getInstance();
+                    richText.x = stageManager.getDimension().width / 2;
+                    richText.y = stageManager.getDimension().height / 2;
+                    stageManager.getContainer().addChild(richText);
                 }
             }
 
             function stop() {
                 if (requestId) {
-                    window.cancelAnimationFrame(requestId);
+                    cancelAnimationFrame(requestId);
                     requestId = undefined;
-                    stageManager.getStage().removeChild(richText);
+                    stageManager.getContainer().removeChild(richText);
                 }
             }
             

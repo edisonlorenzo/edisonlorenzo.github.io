@@ -1,3 +1,4 @@
+"use strict";
 var SoundManager = (function () {
 
     // Instance stores a reference to the Singleton
@@ -6,9 +7,6 @@ var SoundManager = (function () {
     function init() {
 
         // Singleton Init
-
-        var stageManager = StageManager.getInstance();
-        var assetLoaderManager = AssetLoaderManager.getInstance();
 
         var assets = new Array();
         assets.push(new Asset('wing', 'sounds/sfx_wing.wav'));
@@ -32,7 +30,7 @@ var SoundManager = (function () {
 
         function playSound (soundName, delay)
         {
-            var res = assetLoaderManager.getRes();
+            var res = AssetLoaderManager.getInstance().getRes();
             
             setTimeout(play, delay*1000);
 

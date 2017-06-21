@@ -180,7 +180,7 @@ var UIManager = (function () {
         
         function getElement(id)
         {
-            return elements.find(item => item.id == id);
+            return elements.find(function(item){return item.id === id});
         }
         
         function setupUI(callback)

@@ -1,3 +1,4 @@
+"use strict";
 var StageManager = (function () {
 
     // Instance stores a reference to the Singleton
@@ -7,29 +8,14 @@ var StageManager = (function () {
 
         // Singleton Init
 
-        var renderer;
-        var stage;
-        var container;
-        
-//        var width = window.innerWidth;
-//        var height = window.innerHeight;
-        
-        //Create the renderer
-//		renderer = PIXI.autoDetectRenderer(width, height, {backgroundColor : "0x000000", resolution: window.devicePixelRatio});
-//		renderer.view.style.display = "block";
-//		renderer.view.style.width = "100%";
-//		renderer.view.style.height = "100%";
-
         var width = 480;
 		var height = 800;
         
         PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST; 
-        
-        renderer = PIXI.autoDetectRenderer(width, height, {backgroundColor : "0x1099bb", resolution: window.devicePixelRatio});
-        renderer.view.style.width = width + 'px';
-        renderer.view.style.height = height + 'px';
 
-        
+        var app = new PIXI.Application(width, height, {backgroundColor : 0x1099bb, resolution: window.devicePixelRatio});
+        app.view.style.width = width + 'px';
+        app.view.style.height = height + 'px';
         
 
         //Add style in document head
@@ -39,50 +25,28 @@ var StageManager = (function () {
         document.head.appendChild(newStyle);
 
         //Add the canvas to the HTML document
-        document.body.appendChild(renderer.view);
+        document.body.appendChild(app.view);
 
-        //Create a container object called the `stage`
-        stage = new PIXI.Container();
+        var container = new PIXI.Container();
+      
+		app.stage.addChild(container);
 
-        container = new PIXI.Container();
-		stage.addChild(container);
-
-        scaleToWindow(renderer.view);
+        scaleToWindow(app.view);
 
         window.addEventListener("resize", function (event) { 
-            scaleToWindow(renderer.view);
+            scaleToWindow(app.view);
         });
-        
-        requestAnimationFrame(update);
-
-        function update (){
-            //Loop this function 60 times per second
-            requestAnimationFrame(update);
-
-            //Render the stage
-            renderer.render(stage);
-        }
         
         function resize()
         {
             width = window.innerWidth;
             height = window.innerHeight;
-            renderer.resize(width, height);
+            app.view.resize(width, height);
         }
 
-        function getStage()
-        {
-            return stage;
-        }
-        
         function getContainer()
         {
             return container;
-        }
-        
-        function getRenderer()
-        {
-            return renderer;
         }
         
         function getDimension()
@@ -112,8 +76,6 @@ var StageManager = (function () {
         
         return {
             getDimension: getDimension,
-            getRenderer: getRenderer,
-            getStage: getStage,
             getContainer: getContainer,
             resize: resize
         };

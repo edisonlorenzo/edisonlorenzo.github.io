@@ -1,5 +1,6 @@
+"use strict";
 var GameManager = (function () {
-
+    
     // Instance stores a reference to the Singleton
     var instance;
 
@@ -7,8 +8,8 @@ var GameManager = (function () {
 
         // Singleton Init
         
-        var stageManager = StageManager.getInstance();
-        var soundManager = SoundManager.getInstance();
+        var stageManager;
+        var soundManager;
         var res;
 
         var pipeContainer
@@ -94,6 +95,7 @@ var GameManager = (function () {
         
         function createBackground(imageRes, speed)
         {
+            var content = {};
             var image1 = new PIXI.Sprite(imageRes);
             var image2 = new PIXI.Sprite(imageRes);
             
@@ -106,8 +108,6 @@ var GameManager = (function () {
             stageManager.getContainer().addChild(image1);
             stageManager.getContainer().addChild(image2);
             
-            this.play = play;
-            
             play();
             
             function play()
@@ -116,11 +116,12 @@ var GameManager = (function () {
                 moveImage(image2, speed, image2.position.x-image2.width, true);  
             }
             
-            return this;
+            return content;
         }
         
-        function createFloor(imageRes, speed)
+        function createFloor(id, imageRes, speed)
         {
+            var content = {};
             var image1 = new PIXI.Sprite(imageRes);
             var image2 = new PIXI.Sprite(imageRes);
             
@@ -136,9 +137,8 @@ var GameManager = (function () {
             stageManager.getContainer().addChild(image1);
             stageManager.getContainer().addChild(image2);
             
-            this.id = floor;
-            this.height = image1.height;
-            this.play = play;
+            content.id = id;
+            content.height = image1.height;
             
             play();
             
@@ -148,7 +148,7 @@ var GameManager = (function () {
                 moveImage(image2, speed, image2.position.x-image2.width, true); 
             }
             
-            return this;
+            return content;
         }
         
         function createPipe(num, pipeTopRes, pipeBottomRes, speed, clearance)
@@ -326,12 +326,11 @@ var GameManager = (function () {
                 medal.visible = true;
                 
             }
+
+            image.id = id;
+            image.setScore = setScore;
             
-            this.image = image;
-            this.image.id = id;
-            this.image.setScore = setScore;
-            
-            return this.image;
+            return image;
         }
         
         function createImage(id, imageRes, scale, posX, posY)
@@ -345,14 +344,15 @@ var GameManager = (function () {
             
             stageManager.getContainer().addChild(image);
             
-            this.image = image;
-            this.image.id = id;
-            this.image.hasClicked = false;
-            return this.image;
+            image.image = image;
+            image.id = id;
+            image.hasClicked = false;
+            return image;
         }
         
         function createScore(id, container, posX, posY, fontSize)
         {
+            var content = {};
             var style = new PIXI.TextStyle({
                 fontFamily: 'Arial',
                 fontSize: fontSize,
@@ -395,12 +395,12 @@ var GameManager = (function () {
                 return parseInt(richText.text);
             }
             
-            this.richText = richText;
-            this.richText.id = id;
-            this.richText.getScore = getScore;
-            this.richText.setScore = setScore;
-            this.richText.addScore = addScore;
-            return this.richText;
+            content.richText = richText;
+            content.id = id;
+            content.getScore = getScore;
+            content.setScore = setScore;
+            content.addScore = addScore;
+            return content;
         }
         
         function createBird(id, scale, posX, posY)
@@ -479,12 +479,11 @@ var GameManager = (function () {
             
             stageManager.getContainer().addChild(image);
             
-            this.image = image;
-            this.image.id = id;
-            this.image.flap = flap;
-            this.image.stopAnimation = stopAnimation;
+            image.id = id;
+            image.flap = flap;
+            image.stopAnimation = stopAnimation;
             
-            return this.image;
+            return image;
         }
         
         function flashScreen()
@@ -519,6 +518,9 @@ var GameManager = (function () {
         
         function setup()
         {
+            stageManager = StageManager.getInstance();
+            soundManager = SoundManager.getInstance();
+            
             elements = new Array();
             pipeArray = new Array();
             
@@ -528,7 +530,7 @@ var GameManager = (function () {
 
             var backgroundObj = createBackground(res[bg].texture, backgroundSpeed);
             
-            var floorObj = createFloor(res[floor].texture, foregroundSpeed);
+            var floorObj = createFloor(floor, res[floor].texture, foregroundSpeed);
             elements.push(floorObj);
             
             var tapStartImage = createImage(tapstart, res[tapstart].texture, 0.2, stageManager.getDimension().width / 2, (stageManager.getDimension().height / 2) + 50);
@@ -557,7 +559,7 @@ var GameManager = (function () {
 
             
             pipeContainer = new PIXI.Container();
-            stageManager.getContainer().addChildAt(pipeContainer, 2);
+            stageManager.getContainer().addChildAt(pipeContainer, 3);
             
             screenBtn.alpha = 0;
             screenBtn.interactive = true;
@@ -619,7 +621,7 @@ var GameManager = (function () {
         
         function getElement(id)
         {
-            return elements.find(item => item.id == id);
+            return elements.find(function(item){return item.id === id});
         }
         
         return {
