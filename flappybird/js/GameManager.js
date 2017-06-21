@@ -12,8 +12,10 @@ var GameManager = (function () {
         var soundManager;
         var res;
 
-        var pipeContainer
-        var pipeArray
+        var backgroundContainer;
+        var floorContainer;
+        var pipeContainer;
+        var pipeArray;
         var state;
         
         var floor = 'floor';
@@ -105,8 +107,8 @@ var GameManager = (function () {
             image1.position.x = 0;
             image2.position.x = image1.width;
             
-            stageManager.getContainer().addChild(image1);
-            stageManager.getContainer().addChild(image2);
+            backgroundContainer.addChild(image1);
+            backgroundContainer.addChild(image2);
             
             play();
             
@@ -134,8 +136,8 @@ var GameManager = (function () {
             image1.position.y = stageManager.getDimension().height - image1.height;
             image2.position.y = stageManager.getDimension().height - image2.height;
             
-            stageManager.getContainer().addChild(image1);
-            stageManager.getContainer().addChild(image2);
+            floorContainer.addChild(image1);
+            floorContainer.addChild(image2);
             
             content.id = id;
             content.height = image1.height;
@@ -524,6 +526,14 @@ var GameManager = (function () {
             elements = new Array();
             pipeArray = new Array();
             
+            backgroundContainer = new PIXI.Container();
+            floorContainer = new PIXI.Container();
+            pipeContainer = new PIXI.Container();
+            
+            stageManager.getContainer().addChild(backgroundContainer);
+            stageManager.getContainer().addChild(pipeContainer);
+            stageManager.getContainer().addChild(floorContainer);
+            
             state = 'menu';
             
             res =  AssetLoaderManager.getInstance().getRes();
@@ -556,11 +566,6 @@ var GameManager = (function () {
             screenScoreObj.visible = false;
             elements.push(screenScoreObj);
             
-
-            
-            pipeContainer = new PIXI.Container();
-            stageManager.getContainer().addChildAt(pipeContainer, 3);
-            
             screenBtn.alpha = 0;
             screenBtn.interactive = true;
             screenBtn.on('pointertap', function () {
@@ -575,7 +580,6 @@ var GameManager = (function () {
                         flyingBird.flap();
                         break;
                     case 'gameover':
-                        for (var i = pipeContainer.children.length - 1; i >= 0; i--) {pipeContainer.removeChild(pipeContainer.children[i]);};
                         for (var i = stageManager.getContainer().children.length - 1; i >= 0; i--) {stageManager.getContainer().removeChild(stageManager.getContainer().children[i]);};
                         setup();
                         break;
