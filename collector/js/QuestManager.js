@@ -7,6 +7,9 @@ var QuestManager = (function () {
     function init() {
 
         // Singleton Init
+        var jsonString;
+        var jsonObject;
+        var questId = 'toyconuk2017';
         
         var stageManager;
         var res;
@@ -60,8 +63,41 @@ var QuestManager = (function () {
             return content;
         }
         
+        function parseJsonString()
+        {
+            var json = jsonString, jsonObj = JSON && JSON.parse(json) || $.parseJSON(json);
+            console.log(jsonObj);
+            
+            jsonObject = new Array();
+            for(var key in jsonObj)
+            {
+                if (jsonObj.hasOwnProperty(key)) {
+                    if(jsonObj[key].quest_id == questId && jsonObj[key].type == 'item')
+                    {
+                        jsonObject.push(jsonObj[key]);
+                        console.log(jsonObj[key]); 
+                    }
+                }
+            }
+            
+            jsonObject.sort(function(a, b) {
+                return parseInt(a.order) - parseInt(b.order);
+            });
+            
+            console.log(jsonObject);
+        }
+        
+        function getJsonObject(sku)
+        {
+            return jsonObject.find(function(item){return item.sku === sku});
+        }
+        
         function setup()
         {
+            parseJsonString();
+            
+            console.log(getJsonObject('toyconuk2017quest_wego_custom_show'));
+            
             stageManager = StageManager.getInstance();
             
             elements = new Array();
@@ -107,7 +143,7 @@ var QuestManager = (function () {
             questContentObj.image.position.y = questHeaderSubTextObj.image.position.y + questHeaderSubTextObj.image.height + 10;
             questContentObj.image.position.x = 0;
             
-            for(var i=0; i < 9; i++)
+            for(var i=0; i < jsonObject.length; i++)
             {
                 var questBtn = createImage('mainQuest_questBtn'+i, questContentObj.image, res['q_medallion'].texture);
                 questBtn.image.anchor.x = 0.5;
@@ -115,12 +151,13 @@ var QuestManager = (function () {
                 questBtn.image.position.y = (Math.floor(i / 3) * 10) + 1;
                 questBtn.image.position.x = ((i % 3)-1) * 11;
                 questBtn.image.interactive = true;
-                
+                questBtn.sku = jsonObject[i].sku;
+      
                 questBtn.image.on('pointertap', function () {
                     if(!questBtn.hasClicked)
                     {
                         questBtn.hasClicked = true;
-                        showCard(function()
+                        showCard(questBtn.sku, function()
                         {
                             questBtn.hasClicked = false;
                         });
@@ -245,12 +282,14 @@ var QuestManager = (function () {
                 
             });
             
-            function showCard(callBack)
+            function showCard(sku, callBack)
             {
                 TweenMax.fromTo(cardObjContainer.position, 0.5, {y: stageManager.getDimension().height}, {y: 0, ease: Power2.easeOut, onComplete: onComplete});
                 TweenMax.fromTo(dialogBgObj.image, 0.5, {alpha: 0}, {alpha: 0.5, ease: Power2.easeOut});
                 dialogBgObj.image.visible = true;
                 cardObjContainer.visible = true;  
+                cardImageObj.image.texture = PIXI.Texture.fromImage(getJsonObject(sku).card_thumbnail_url);
+
                 function onComplete()
                 {
                     callBack();
@@ -295,7 +334,10 @@ var QuestManager = (function () {
             
         }
         
-        
+        function setJsonString(value)
+        {
+            jsonString = value;
+        }
         
         var elements;
         
@@ -306,6 +348,7 @@ var QuestManager = (function () {
         
         return {
             getAsset: getAsset,
+            setJsonString: setJsonString,
             setup: setup
         };
 

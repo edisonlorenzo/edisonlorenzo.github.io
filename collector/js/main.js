@@ -15,17 +15,77 @@ var order = 0;
 
 function init()
 {
+    var isAssetReady = false;
+    var isJsonReady = false;
+    var isDone = false;
+    
     var questManager = QuestManager.getInstance();
     var assetLoaderManager = AssetLoaderManager.getInstance();
-
-    assetLoaderManager.addAsset(questManager.getAsset());
-    assetLoaderManager.onReady(assetReady);
-    assetLoaderManager.load();
-
-    function assetReady()
+    
+    function loadAsset()
     {
-        questManager.setup();
-    } 
+        assetLoaderManager.addAsset(questManager.getAsset());
+        assetLoaderManager.onReady(assetReady);
+        assetLoaderManager.load();
+
+        function assetReady()
+        {
+            isAssetReady = true;
+        }
+    }
+    
+    function loadJson()
+    {
+        var theUrl = 'https://script.google.com/a/macros/flightdigitalmedia.com/s/AKfycbxq5IfxY3aSgL_qhKwH3R6b7zdaiEq-evzGQ4vZ7ZoTP3A5DTw/exec?sheetName=codes';
+        var xmlhttp;
+
+        if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp=new XMLHttpRequest();
+            xmlhttp.overrideMimeType('text/plain');
+        }
+        else
+        {// code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+                isJsonReady = true;
+                questManager.setJsonString(xmlhttp.responseText);
+//                console.log(xmlhttp.responseText);
+//                return xmlhttp.responseText;
+            }
+        }
+        xmlhttp.open("GET", theUrl, true );
+        xmlhttp.send();    
+    }
+    
+    loadJson();
+    loadAsset();
+    
+    requestAnimationFrame(checkInit);
+    
+    function checkInit()
+    {
+        if(!isDone)
+        {
+            if(isAssetReady && isJsonReady)
+            {
+                isDone = true;
+            }
+            requestAnimationFrame(checkInit);
+        }
+        else
+        {
+            console.log('loading complete');
+            assetLoaderManager.getProgress().done();
+            questManager.setup();
+        }
+    }
+    
+   
 }
 
 function loadScriptInOrder()

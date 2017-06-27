@@ -60,13 +60,21 @@ var AssetLoaderManager = (function () {
                 if (requestId) {
                     cancelAnimationFrame(requestId);
                     requestId = undefined;
-                    stageManager.getContainer().removeChild(richText);
+                    //stageManager.getContainer().removeChild(richText);
+                    richText.text = 'Please wait...';
                 }
+            }
+            
+            function done()
+            {
+                stageManager.getContainer().removeChild(richText);
+                
             }
             
             return {
                 start: start,
-                stop: stop
+                stop: stop,
+                done: done
             };
             
         };
@@ -91,6 +99,11 @@ var AssetLoaderManager = (function () {
             return resources;
         }
 
+        function getProgress()
+        {
+            return progress;    
+        }
+        
         function addAsset(assets)
         {
             for(var i = 0; i<assets.length; i++)
@@ -107,6 +120,7 @@ var AssetLoaderManager = (function () {
    
         return {
             getRes: getRes,
+            getProgress: getProgress,
             onReady: onReady,
             addAsset: addAsset,
             load: load
