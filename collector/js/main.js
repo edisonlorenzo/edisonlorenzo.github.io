@@ -38,31 +38,52 @@ function init()
     {
         var theUrl = 'https://script.google.com/a/macros/flightdigitalmedia.com/s/AKfycbxq5IfxY3aSgL_qhKwH3R6b7zdaiEq-evzGQ4vZ7ZoTP3A5DTw/exec?sheetName=codes';
         var xmlhttp;
-
+        
         if (window.XMLHttpRequest)
         {// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp=new XMLHttpRequest();
-            xmlhttp.overrideMimeType('text/plain');
+            xmlhttp = new XMLHttpRequest();
         }
         else
         {// code for IE6, IE5
-            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
-        xmlhttp.onreadystatechange=function()
+        
+        xmlhttp.onreadystatechange = function()
         {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
             {
                 isJsonReady = true;
                 questManager.setJsonString(xmlhttp.responseText);
-//                console.log(xmlhttp.responseText);
-//                return xmlhttp.responseText;
+                return xmlhttp.responseText;
             }
         }
-        xmlhttp.open("GET", theUrl, true );
+        xmlhttp.open("GET", theUrl, true);
         xmlhttp.send();    
     }
     
+    function loadJsonAjax()
+    {
+        console.log("using jQuery AJAX");
+        var theUrl = 'https://script.google.com/a/macros/flightdigitalmedia.com/s/AKfycbxq5IfxY3aSgL_qhKwH3R6b7zdaiEq-evzGQ4vZ7ZoTP3A5DTw/exec';
+        $.ajax(
+            {
+                url: theUrl,
+                type: "GET",
+                data: 'sheetName=codes',
+                dataType: "text",
+                crossOrigin: true,
+                success: function(result){
+                    console.log(result);
+                    isJsonReady = true;
+                    questManager.setJsonString(result);
+                }
+            }
+        );
+    }
+    
     loadJson();
+    //loadJsonAjax();
+    //isJsonReady = true;
     loadAsset();
     
     requestAnimationFrame(checkInit);
