@@ -64,25 +64,35 @@ function init()
     function loadJsonAjax()
     {
         console.log("using jQuery AJAX");
-        var theUrl = 'https://script.google.com/a/macros/flightdigitalmedia.com/s/AKfycbxq5IfxY3aSgL_qhKwH3R6b7zdaiEq-evzGQ4vZ7ZoTP3A5DTw/exec';
-        $.ajax(
-            {
-                url: theUrl,
-                type: "GET",
-                data: 'sheetName=codes',
-                dataType: "text",
-                crossOrigin: true,
-                success: function(result){
-                    console.log(result);
-                    isJsonReady = true;
-                    questManager.setJsonString(result);
-                }
-            }
-        );
+//        var theUrl = 'http://cors.io/?https://script.google.com/a/macros/flightdigitalmedia.com/s/AKfycbxq5IfxY3aSgL_qhKwH3R6b7zdaiEq-evzGQ4vZ7ZoTP3A5DTw/exec?sheetName=codes';
+//        $.ajax(
+//            {
+//                url: theUrl,
+//                type: "GET",
+//                dataType: "text",
+//                crossOrigin: true,
+//                success: function(result){
+//                    console.log(result);
+//                    isJsonReady = true;
+//                    questManager.setJsonString(result);
+//                }
+//            }
+//        );
+        
+//        var theUrl = 'https://script.google.com/a/macros/flightdigitalmedia.com/s/AKfycbxq5IfxY3aSgL_qhKwH3R6b7zdaiEq-evzGQ4vZ7ZoTP3A5DTw/exec?sheetName=codes&callback=myCallBack';
+//        var JSElement = document.createElement('script');
+//        JSElement.src = theUrl;
+//        JSElement.onload = callback;
+//        document.getElementsByTagName('body')[0].appendChild(JSElement);
+//
+//        function callback(){
+//            console.log(myCallBack);
+//        }
+        isJsonReady = true;
     }
     
-    loadJson();
-    //loadJsonAjax();
+    //loadJson();
+    loadJsonAjax();
     //isJsonReady = true;
     loadAsset();
     
