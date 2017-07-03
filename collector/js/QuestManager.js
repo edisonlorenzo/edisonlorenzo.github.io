@@ -165,12 +165,12 @@ var QuestManager = (function () {
             questContainer.addChild(questContentContainer);
             questContentContainer.scale.set(0.85);
             
-            var sc = new ScrollContainer(stageManager.getDimension().width, 500);
+            var sc = new ScrollContainer(stageManager.getDimension().width, 530);
             questContentContainer.addChild(sc.po);
             
             console.log(stageManager.getDimension().width);
             questContentContainer.position.x = (stageManager.getDimension().width * 0.5) - ((questObj.width * questContentContainer.scale.x) * 0.5);
-            questContentContainer.position.y = 255;
+            questContentContainer.position.y = 245;
             
             var questBtnContainer;
             var currentRow = -1;
@@ -195,7 +195,7 @@ var QuestManager = (function () {
                 questBtn.position.x = (i % 3) * (questBtn.width + 20);
                 questBtn.interactive = true;
                 
-                questBtnContainer.position.y = (row * (questBtn.height + 20)) + 10;
+                questBtnContainer.position.y = (row * (questBtn.height + 20)) + 20;
                 
                 sc.setItemHeight(questBtn.height + 20);
                 
@@ -476,17 +476,24 @@ var QuestManager = (function () {
                     var clientY = !e.data.originalEvent.touches ? e.data.originalEvent.clientY : e.data.originalEvent.touches[0].clientY;
 
                     if (mousedown) {
-                        isMoving = true;
-                        
+
                         lastDiff = clientY - lastPos.y;
-                        lastPos.y = clientY;
-
-                        if (-_this.scrollContainer.y < 0) {
-                        _this.scrollContainer.y += lastDiff/2;
-                        }else{
-                        _this.scrollContainer.y += lastDiff/2;
+                        if(Math.abs(lastDiff) > 10)
+                        {
+                            isMoving = true;
                         }
+                        
+                        if(isMoving)
+                        {
+                            lastPos.y = clientY;
 
+                            if (-_this.scrollContainer.y < 0) {
+                            _this.scrollContainer.y += lastDiff/2;
+                            }else{
+                            _this.scrollContainer.y += lastDiff/2;
+                            }
+                        }
+                        
                     }
                 }
 
