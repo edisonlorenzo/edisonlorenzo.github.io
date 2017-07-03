@@ -478,7 +478,7 @@ var QuestManager = (function () {
                     if (mousedown) {
 
                         lastDiff = clientY - lastPos.y;
-                        if(Math.abs(lastDiff) > 20 * window.devicePixelRatio)
+                        if(Math.abs(lastDiff) > 10 * window.devicePixelRatio)
                         {
                             isMoving = true;
                         }
