@@ -546,6 +546,7 @@ var QuestManager = (function () {
                 this.po.touchmove = onmousemove;
                 this.po.touchstart = onmousedown;
                 this.po.touchend = onmouseup;
+                this.po.touchleave = onmouseup;
                 this.po.mouseleave = onmouseup;
                 this.po.mouseout = onmouseup;
                 
