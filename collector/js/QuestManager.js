@@ -165,7 +165,7 @@ var QuestManager = (function () {
             questContainer.addChild(questContentContainer);
             questContentContainer.scale.set(0.85);
             
-            var sc = new ScrollContainer(500);
+            var sc = new ScrollContainer(stageManager.getDimension().width, 500);
             questContentContainer.addChild(sc.po);
             
             console.log(stageManager.getDimension().width);
@@ -431,7 +431,7 @@ var QuestManager = (function () {
                 }
             }
             
-            function ScrollContainer(height) 
+            function ScrollContainer(width, height) 
             {
                 this.po = new PIXI.DisplayObjectContainer();
                 this.scrollContainer = new PIXI.DisplayObjectContainer();
@@ -441,7 +441,7 @@ var QuestManager = (function () {
                 this.mask = new PIXI.Graphics();
                 this.mask
                 .beginFill(0xFFFFFF)
-                .drawRect(0,0,window.innerWidth, height)
+                .drawRect(0, 0, width, height)
                 .endFill();
 
                 this.po.addChild(this.mask);
@@ -482,9 +482,9 @@ var QuestManager = (function () {
                         lastPos.y = clientY;
 
                         if (-_this.scrollContainer.y < 0) {
-                        _this.scrollContainer.y += lastDiff/5;
+                        _this.scrollContainer.y += lastDiff/2;
                         }else{
-                        _this.scrollContainer.y += lastDiff/5;
+                        _this.scrollContainer.y += lastDiff/2;
                         }
 
                     }
@@ -519,11 +519,11 @@ var QuestManager = (function () {
                         }
 
                         if (_this.scrollContainer.y > 0) {
-                            time = 1 + _this.scrollContainer.y / 500;
+                            time = 1 + _this.scrollContainer.y / 5000;
                             ease = Elastic.easeOut;
                         }
                         if (_this.scrollContainer.y < -_this.items.length * itemHeight + height) {
-                            time = 1 + (_this.items.length * itemHeight + height + _this.scrollContainer.y) / 500;
+                            time = 1 + (_this.items.length * itemHeight + height + _this.scrollContainer.y) / 5000;
                             ease = Elastic.easeOut;
                         }
 
@@ -546,7 +546,9 @@ var QuestManager = (function () {
                 this.po.touchmove = onmousemove;
                 this.po.touchstart = onmousedown;
                 this.po.touchend = onmouseup;
-
+                this.po.mouseleave = onmouseup;
+                this.po.mouseout = onmouseup;
+                
                 this.hideOffscreenElements = function() {
                     var startIndex = Math.floor(-_this.scrollContainer.y / itemHeight);
                     var endIndex = Math.floor(startIndex + (height / itemHeight));
