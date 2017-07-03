@@ -160,20 +160,50 @@ var QuestManager = (function () {
             questContentObj.position.y = questHeaderSubTextObj.position.y + questHeaderSubTextObj.height + 10;
             questContentObj.position.x = 0;
             
+            
+            var questContentContainer = new PIXI.Container();
+            questContainer.addChild(questContentContainer);
+            questContentContainer.scale.set(0.85);
+            
+            var sc = new ScrollContainer(500);
+            questContentContainer.addChild(sc.po);
+            
+            console.log(stageManager.getDimension().width);
+            questContentContainer.position.x = (stageManager.getDimension().width * 0.5) - ((questObj.width * questContentContainer.scale.x) * 0.5);
+            questContentContainer.position.y = 255;
+            
+            var questBtnContainer;
+            var currentRow = -1;
             for(var i=0; i < jsonObject.length; i++)
             {
-                var questBtn = createImage('mainQuest_questBtn'+i, questContentObj, res['q_medallion'].texture);
-                questBtn.anchor.x = 0.5;
-                questBtn.scale.x = questBtn.scale.y = 0.05;
-                questBtn.position.y = (Math.floor(i / 3) * 10) + 1;
-                questBtn.position.x = ((i % 3)-1) * 11;
-                questBtn.interactive = true;
+                
+                
+                var row = Math.floor(i / 3);
+                console.log(row);
+                if(currentRow != row)
+                {
+                    currentRow = row;
+                    questBtnContainer = new PIXI.Container();
+                    
+                    sc.scrollContainer.addChild(questBtnContainer);
+                    sc.items.push(questBtnContainer);
+                    
+                }
 
+                var questBtn = createImage('mainQuest_questBtn'+i, questBtnContainer, res['q_medallion'].texture);
+                questBtn.scale.x = questBtn.scale.y = 0.8;
+                questBtn.position.x = (i % 3) * (questBtn.width + 20);
+                questBtn.interactive = true;
+                
+                questBtnContainer.position.y = (row * (questBtn.height + 20)) + 10;
+                
+                sc.setItemHeight(questBtn.height + 20);
+                
                 questBtn.content.sku = jsonObject[i].sku;
                 
                 questBtn.on('pointertap', function click() {
                     var content = this.content;
-                    if(!content.hasClicked)
+                    if(!content.hasClicked && !sc.isMoving())
                     {
                         content.hasClicked = true;
                         showCard(content.sku, function()
@@ -183,7 +213,6 @@ var QuestManager = (function () {
                     }
                 
                 });
-                
             }
             
             var footerObj = createImage('footer', footerContainer, res['q_footer'].texture);
@@ -400,6 +429,137 @@ var QuestManager = (function () {
                     helpObjContainer.visible = false;
                     callBack();
                 }
+            }
+            
+            function ScrollContainer(height) 
+            {
+                this.po = new PIXI.DisplayObjectContainer();
+                this.scrollContainer = new PIXI.DisplayObjectContainer();
+                this.po.addChild(this.scrollContainer);
+                this.items = [];
+
+                this.mask = new PIXI.Graphics();
+                this.mask
+                .beginFill(0xFFFFFF)
+                .drawRect(0,0,window.innerWidth, height)
+                .endFill();
+
+                this.po.addChild(this.mask);
+                this.scrollContainer.mask = this.mask;
+
+                var itemHeight = 1;
+                
+                var _this = this;
+
+                var mousedown = false;
+                var isMoving = false;
+                var lastPos = null;
+                var lastDiff = null;
+                var scrollTween = null;
+                var maxVel = 0;
+                
+                this.setItemHeight = setItemHeight;
+                this.isMoving = getScrollMovement;
+
+                function setItemHeight(value)
+                {
+                    itemHeight = value;
+                }
+                
+                function getScrollMovement()
+                {
+                    return isMoving;
+                }
+                
+                function onmousemove(e) 
+                {
+                    var clientY = !e.data.originalEvent.touches ? e.data.originalEvent.clientY : e.data.originalEvent.touches[0].clientY;
+
+                    if (mousedown) {
+                        isMoving = true;
+                        
+                        lastDiff = clientY - lastPos.y;
+                        lastPos.y = clientY;
+
+                        if (-_this.scrollContainer.y < 0) {
+                        _this.scrollContainer.y += lastDiff/5;
+                        }else{
+                        _this.scrollContainer.y += lastDiff/5;
+                        }
+
+                    }
+                }
+
+                function onmousedown(e) 
+                {
+                    var clientY = !e.data.originalEvent.touches ? e.data.originalEvent.clientY : e.data.originalEvent.touches[0].clientY;
+                    mousedown = true;
+                    if (scrollTween) scrollTween.kill();
+                    lastPos = {
+                        y: clientY
+                    }
+                }
+
+                function onmouseup(e) 
+                {
+                    if (lastDiff) {
+                        var goY = _this.scrollContainer.y + lastDiff * 10;
+                        var ease = Quad.easeOut;
+                        var time = Math.abs(lastDiff / 150);
+
+                        if (goY < -_this.items.length * itemHeight + height) {
+                            goY = -_this.items.length * itemHeight + height;
+                            ease = Back.easeOut;
+                            time = .1 + Math.abs(lastDiff / 150);
+                        }
+                        if (goY > 0)  {
+                            goY = 0;
+                            ease = Back.easeOut;
+                            time = .1 + Math.abs(lastDiff / 150);
+                        }
+
+                        if (_this.scrollContainer.y > 0) {
+                            time = 1 + _this.scrollContainer.y / 500;
+                            ease = Elastic.easeOut;
+                        }
+                        if (_this.scrollContainer.y < -_this.items.length * itemHeight + height) {
+                            time = 1 + (_this.items.length * itemHeight + height + _this.scrollContainer.y) / 500;
+                            ease = Elastic.easeOut;
+                        }
+
+                        scrollTween = TweenMax.to(_this.scrollContainer, time, {
+                            y: goY,
+                            ease: ease
+                        });
+                    }
+
+                    isMoving = false;
+                    mousedown = false;
+                    lastPos = null;
+                    lastDiff = null;
+                }
+
+                this.po.interactive = true;
+                this.po.mousemove = onmousemove;
+                this.po.mousedown = onmousedown;
+                this.po.mouseup = onmouseup;
+                this.po.touchmove = onmousemove;
+                this.po.touchstart = onmousedown;
+                this.po.touchend = onmouseup;
+
+                this.hideOffscreenElements = function() {
+                    var startIndex = Math.floor(-_this.scrollContainer.y / itemHeight);
+                    var endIndex = Math.floor(startIndex + (height / itemHeight));
+
+                    for (var i = 0; i < _this.items.length; i++) {
+                        var item = _this.items[i];
+                        item.visible = false;
+                        if (i >= startIndex && i <= endIndex + 1) {
+                            item.visible = true;
+                        }
+                    }
+                }
+                
             }
             
         }
