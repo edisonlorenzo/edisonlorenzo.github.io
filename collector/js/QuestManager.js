@@ -168,7 +168,6 @@ var QuestManager = (function () {
             var sc = new ScrollContainer(stageManager.getDimension().width, 530);
             questContentContainer.addChild(sc.po);
             
-            console.log(stageManager.getDimension().width);
             questContentContainer.position.x = (stageManager.getDimension().width * 0.5) - ((questObj.width * questContentContainer.scale.x) * 0.5);
             questContentContainer.position.y = 245;
             
@@ -179,7 +178,6 @@ var QuestManager = (function () {
                 
                 
                 var row = Math.floor(i / 3);
-                console.log(row);
                 if(currentRow != row)
                 {
                     currentRow = row;
