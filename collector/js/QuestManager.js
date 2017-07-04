@@ -476,7 +476,6 @@ var QuestManager = (function () {
                     var clientY = !e.data.originalEvent.touches ? e.data.originalEvent.clientY : e.data.originalEvent.touches[0].clientY;
 
                     if (mousedown) {
-
                         lastDiff = clientY - lastPos.y;
                         if(Math.abs(lastDiff) > 10 * window.devicePixelRatio)
                         {
@@ -509,41 +508,44 @@ var QuestManager = (function () {
 
                 function onmouseup(e) 
                 {
-                    if (lastDiff) {
-                        var goY = _this.scrollContainer.y + lastDiff * 10;
-                        var ease = Quad.easeOut;
-                        var time = Math.abs(lastDiff / 150);
+                    if(mousedown)
+                    {    
+                        if (lastDiff) {
+                            var goY = _this.scrollContainer.y + lastDiff * 10;
+                            var ease = Quad.easeOut;
+                            var time = Math.abs(lastDiff / 150);
 
-                        if (goY < -_this.items.length * itemHeight + height) {
-                            goY = -_this.items.length * itemHeight + height;
-                            ease = Back.easeOut;
-                            time = .1 + Math.abs(lastDiff / 150);
-                        }
-                        if (goY > 0)  {
-                            goY = 0;
-                            ease = Back.easeOut;
-                            time = .1 + Math.abs(lastDiff / 150);
+                            if (goY < -_this.items.length * itemHeight + height) {
+                                goY = -_this.items.length * itemHeight + height;
+                                ease = Back.easeOut;
+                                time = .1 + Math.abs(lastDiff / 150);
+                            }
+                            if (goY > 0)  {
+                                goY = 0;
+                                ease = Back.easeOut;
+                                time = .1 + Math.abs(lastDiff / 150);
+                            }
+
+                            if (_this.scrollContainer.y > 0) {
+                                time = 1 + _this.scrollContainer.y / 5000;
+                                ease = Elastic.easeOut;
+                            }
+                            if (_this.scrollContainer.y < -_this.items.length * itemHeight + height) {
+                                time = 1 + (_this.items.length * itemHeight + height + _this.scrollContainer.y) / 5000;
+                                ease = Elastic.easeOut;
+                            }
+
+                            scrollTween = TweenMax.to(_this.scrollContainer, time, {
+                                y: goY,
+                                ease: ease
+                            });
                         }
 
-                        if (_this.scrollContainer.y > 0) {
-                            time = 1 + _this.scrollContainer.y / 5000;
-                            ease = Elastic.easeOut;
-                        }
-                        if (_this.scrollContainer.y < -_this.items.length * itemHeight + height) {
-                            time = 1 + (_this.items.length * itemHeight + height + _this.scrollContainer.y) / 5000;
-                            ease = Elastic.easeOut;
-                        }
-
-                        scrollTween = TweenMax.to(_this.scrollContainer, time, {
-                            y: goY,
-                            ease: ease
-                        });
+                        isMoving = false;
+                        mousedown = false;
+                        lastPos = null;
+                        lastDiff = null;
                     }
-
-                    isMoving = false;
-                    mousedown = false;
-                    lastPos = null;
-                    lastDiff = null;
                 }
 
                 this.po.interactive = true;
@@ -553,7 +555,7 @@ var QuestManager = (function () {
                 this.po.touchmove = onmousemove;
                 this.po.touchstart = onmousedown;
                 this.po.touchend = onmouseup;
-                this.po.touchleave = onmouseup;
+                this.po.touchendoutside = onmouseup;
                 this.po.mouseleave = onmouseup;
                 this.po.mouseout = onmouseup;
                 
