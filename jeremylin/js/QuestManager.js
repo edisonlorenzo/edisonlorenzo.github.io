@@ -20,6 +20,7 @@ var QuestManager = (function () {
         assets.push(new Asset('images-white', 'images/white.png'));
         assets.push(new Asset('images-transparent', 'images/transparent.png'));
         assets.push(new Asset('images-bg', 'images/bg.png'));
+        assets.push(new Asset('images-header', 'images/header.png'));
 
         function Asset(resName, resPath)
         {
@@ -46,6 +47,21 @@ var QuestManager = (function () {
             elements.push(image);
 
             return image;
+        }
+
+        function createContainer(id, parent)
+        {
+            var container = new PIXI.Container();
+            parent.addChild(container);
+
+            var content = {};
+            content.id = id;
+
+            container.content = content;
+
+            elements.push(container);
+
+            return container;
         }
 
         // function parseJsonString()
@@ -83,29 +99,42 @@ var QuestManager = (function () {
 
             elements = new Array();
 
-            backgroundContainer = new PIXI.Container();
+            var canvasContainer = createContainer('mainContainer', stageManager.getContainer());
+            canvasContainer.content.setLayout = function () {
+                canvasContainer.scale.x = canvasContainer.scale.y = 1;
+                canvasContainer.position.x = stageManager.getDimension().canvasWidth * 0.5;
+                canvasContainer.position.y = stageManager.getDimension().canvasHeight * 0.5;
+            }
 
-
-            stageManager.getContainer().addChild(backgroundContainer);
+            stageManager.addCallBack(canvasContainer.content.setLayout);
 
             res =  AssetLoaderManager.getInstance().getRes();
 
-            var backgroundObj = createImage('mainbg', backgroundContainer, res['images-bg'].texture);
+            var backgroundObj = createImage('mainbg', canvasContainer, res['images-bg'].texture);
             backgroundObj.anchor.set(0.5);
-
+            backgroundObj.content.width = backgroundObj.width;
+            backgroundObj.content.height = backgroundObj.height;
             backgroundObj.content.setLayout = function () {
                 backgroundObj.scale.x = backgroundObj.scale.y = 1;
-                backgroundObj.scale.x = backgroundObj.scale.y = stageManager.getDimension().calculateRatioBoth('width', backgroundObj.width, backgroundObj.height, 1, 1);
-                backgroundObj.position.x = stageManager.getDimension().width * 0.5;
-                backgroundObj.position.y = stageManager.getDimension().height * 0.5;
+                backgroundObj.scale.x = backgroundObj.scale.y = stageManager.getDimension().calculateRatioBoth('height', backgroundObj.width, backgroundObj.height, 1, 1);
             }
-            
             stageManager.addCallBack(backgroundObj.content.setLayout);
 
-            // window.addEventListener("resize", function (event) {
-            //     backgroundObj.content.setLayout();
-            // });
 
+            backgroundContainer = createContainer('bgContainer', backgroundObj);
+            backgroundContainer.content.setLayout = function () {
+                backgroundContainer.scale.x = backgroundContainer.scale.y = 1;
+                backgroundContainer.position.x = backgroundObj.width * 0.5;
+                backgroundContainer.position.y = backgroundObj.height * 0.5;
+            }
+
+            var headerObj = createImage('header', backgroundContainer, res['images-header'].texture);
+            headerObj.anchor.set(0.5);
+            headerObj.content.setLayout = function () {
+                headerObj.scale.x = headerObj.scale.y = 1;
+                headerObj.position.y = -(backgroundObj.content.height * 0.5) + (headerObj.height * 0.5);
+            }
+            stageManager.addCallBack(headerObj.content.setLayout);
 
         }
 

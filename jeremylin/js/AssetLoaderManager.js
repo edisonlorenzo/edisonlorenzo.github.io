@@ -36,7 +36,7 @@ var AssetLoaderManager = (function () {
             var richText = new PIXI.Text('Loading 0%', style);
             richText.anchor.set(0.5);
             //richText.scale.x = richText.scale.y = stageManager.getDimension().calculateRatioBoth('height', richText.width, richText.height, .5, .1);
-            
+
             var requestId = undefined;
             function loop() {
                 if (requestId) {
@@ -48,10 +48,10 @@ var AssetLoaderManager = (function () {
             function start() {
                 if (requestId == undefined) {
                     requestId = requestAnimationFrame(loop);
-                    
+
                     stageManager = StageManager.getInstance();
-                    richText.x = stageManager.getDimension().width / 2;
-                    richText.y = stageManager.getDimension().height / 2;
+                    richText.x = stageManager.getDimension().canvasWidth * 0.5;
+                    richText.y = stageManager.getDimension().canvasHeight * 0.5;
                     stageManager.getContainer().addChild(richText);
                 }
             }
@@ -64,21 +64,21 @@ var AssetLoaderManager = (function () {
                     richText.text = 'Please wait...';
                 }
             }
-            
+
             function done()
             {
                 stageManager.getContainer().removeChild(richText);
-                
+
             }
-            
+
             return {
                 start: start,
                 stop: stop,
                 done: done
             };
-            
+
         };
-        
+
         function onReady(callback)
         {
             onReadyCallback = callback;
@@ -93,7 +93,7 @@ var AssetLoaderManager = (function () {
                 }, 200
             );
         }
-        
+
         function getRes()
         {
             return resources;
@@ -101,9 +101,9 @@ var AssetLoaderManager = (function () {
 
         function getProgress()
         {
-            return progress;    
+            return progress;
         }
-        
+
         function addAsset(assets)
         {
             for(var i = 0; i<assets.length; i++)
@@ -117,7 +117,7 @@ var AssetLoaderManager = (function () {
             progress.start();
             assetLoader.load(onAssetsLoaded);
         }
-   
+
         return {
             getRes: getRes,
             getProgress: getProgress,
@@ -144,4 +144,3 @@ var AssetLoaderManager = (function () {
     };
 
 })();
-
