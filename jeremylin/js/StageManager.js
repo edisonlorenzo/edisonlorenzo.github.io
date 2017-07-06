@@ -56,9 +56,7 @@ var StageManager = (function () {
             var getRatio = function(){
                 return canvasWidth > canvasHeight ? (canvasWidth / canvasHeight) : (canvasHeight / canvasWidth);
             }
-
-            console.log(getRatio());
-
+            
             width = canvasHeight;
     		height = canvasHeight;
         }

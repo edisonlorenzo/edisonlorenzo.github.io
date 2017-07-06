@@ -21,6 +21,7 @@ var QuestManager = (function () {
         assets.push(new Asset('images-transparent', 'images/transparent.png'));
         assets.push(new Asset('images-bg', 'images/bg.png'));
         assets.push(new Asset('images-header', 'images/header.png'));
+        assets.push(new Asset('images-icon-mohawk', 'images/icon_mohawk.png'));
 
         function Asset(resName, resPath)
         {
@@ -64,6 +65,42 @@ var QuestManager = (function () {
             return container;
         }
 
+        function createText(id, container, text, style)
+        {
+            var richText = new PIXI.Text(text, style);
+
+            container.addChild(richText);
+
+            var content = {};
+            content.id = id;
+
+            richText.content = content;
+
+            elements.push(richText);
+
+            return richText;
+        }
+
+        function createGraphic(id, container, width, height, color)
+        {
+            var graphic = new PIXI.Graphics();
+            graphic
+            .beginFill(color)
+            .drawRect(0, 0, width, height)
+            .endFill();
+
+            container.addChild(graphic);
+
+            var content = {};
+            content.id = id;
+
+            graphic.content = content;
+
+            elements.push(graphic);
+
+            return graphic;
+        }
+
         // function parseJsonString()
         // {
         //     var json = jsonString, jsonObj = JSON && JSON.parse(json) || $.parseJSON(json);
@@ -95,9 +132,10 @@ var QuestManager = (function () {
 
         function setup()
         {
-            stageManager = StageManager.getInstance();
-
             elements = new Array();
+
+            stageManager = StageManager.getInstance();
+            res =  AssetLoaderManager.getInstance().getRes();
 
             var canvasContainer = createContainer('mainContainer', stageManager.getContainer());
             canvasContainer.content.setLayout = function () {
@@ -105,36 +143,52 @@ var QuestManager = (function () {
                 canvasContainer.position.x = stageManager.getDimension().canvasWidth * 0.5;
                 canvasContainer.position.y = stageManager.getDimension().canvasHeight * 0.5;
             }
-
             stageManager.addCallBack(canvasContainer.content.setLayout);
-
-            res =  AssetLoaderManager.getInstance().getRes();
 
             var backgroundObj = createImage('mainbg', canvasContainer, res['images-bg'].texture);
             backgroundObj.anchor.set(0.5);
             backgroundObj.content.width = backgroundObj.width;
             backgroundObj.content.height = backgroundObj.height;
+
             backgroundObj.content.setLayout = function () {
                 backgroundObj.scale.x = backgroundObj.scale.y = 1;
                 backgroundObj.scale.x = backgroundObj.scale.y = stageManager.getDimension().calculateRatioBoth('height', backgroundObj.width, backgroundObj.height, 1, 1);
             }
             stageManager.addCallBack(backgroundObj.content.setLayout);
 
-
             backgroundContainer = createContainer('bgContainer', backgroundObj);
-            backgroundContainer.content.setLayout = function () {
-                backgroundContainer.scale.x = backgroundContainer.scale.y = 1;
-                backgroundContainer.position.x = backgroundObj.width * 0.5;
-                backgroundContainer.position.y = backgroundObj.height * 0.5;
-            }
 
             var headerObj = createImage('header', backgroundContainer, res['images-header'].texture);
             headerObj.anchor.set(0.5);
-            headerObj.content.setLayout = function () {
-                headerObj.scale.x = headerObj.scale.y = 1;
-                headerObj.position.y = -(backgroundObj.content.height * 0.5) + (headerObj.height * 0.5);
-            }
-            stageManager.addCallBack(headerObj.content.setLayout);
+            headerObj.position.y = -(backgroundObj.content.height * 0.5) + (headerObj.height * 0.5);
+
+            var footerObjBottom = createImage('footerBottom', backgroundContainer, res['images-white'].texture);
+            footerObjBottom.tint = 0x292929;
+            footerObjBottom.anchor.set(0.5);
+            footerObjBottom.width = backgroundObj.content.width;
+            footerObjBottom.height = 300;
+            footerObjBottom.position.y = (backgroundObj.content.height * 0.5) - (footerObjBottom.height * 0.5);
+
+            var footerObjTop = createImage('footerBottom', backgroundContainer, res['images-white'].texture);
+            footerObjTop.anchor.set(0.5);
+            footerObjTop.width = backgroundObj.content.width;
+            footerObjTop.height = 80;
+            footerObjTop.position.y = footerObjBottom.position.y - (footerObjBottom.height * 0.5) - (footerObjTop.height * 0.5);
+
+            var iconMohawkObj = createImage('iconMohawk', backgroundContainer, res['images-icon-mohawk'].texture);
+            iconMohawkObj.anchor.set(0.5);
+            iconMohawkObj.position.x = -300;
+            iconMohawkObj.position.y = footerObjTop.position.y;
+
+            var iconMohawkObjText = createText('iconMohawkText', backgroundContainer, 'Collect 5 Pins to Unlock the 6th!', new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 40,
+                fontStyle: 'normal',
+                fill: '#777777', // gradient
+            }));
+            iconMohawkObjText.anchor.set(0.5);
+            iconMohawkObjText.position.x = iconMohawkObj.width * 0.5;
+            iconMohawkObjText.position.y = iconMohawkObj.position.y;
 
         }
 
