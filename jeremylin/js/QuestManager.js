@@ -217,7 +217,7 @@ var QuestManager = (function () {
 
             var footerObjPoweredBy = createImage('footerPoweredBy', footerContainer, res['images-poweredby'].texture);
             footerObjPoweredBy.anchor.set(0.5);
-            footerObjPoweredBy.position.y = (backgroundObj.content.height * 0.5) - (footerObjPoweredBy.height * 0.5) - 20;
+            footerObjPoweredBy.position.y = (backgroundObj.content.height * 0.5) - (footerObjPoweredBy.height * 0.5) - 30;
 
             var iconMohawkObj = createImage('iconMohawk', footerContainer, res['images-icon-mohawk'].texture);
             iconMohawkObj.anchor.set(0.5);
@@ -264,10 +264,7 @@ var QuestManager = (function () {
             }
 
 
-
             console.log('User Interface Complete!');
-
-            console.log(activate.sku);
 
         }
 
