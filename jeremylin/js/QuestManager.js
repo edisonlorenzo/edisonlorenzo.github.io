@@ -11,11 +11,11 @@ var QuestManager = (function () {
         var res;
 
         var dataObject = [
-            {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-braid'},
-            {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-buzz'},
-            {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-logo'},
-            {sku: 'bun', spineName:'jlin', skinName:'bun', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-bun'},
-            {sku: 'slickback', spineName:'jlin', skinName:'slickback', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-slick'}
+            {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: false, scale: 1, iconName: 'images-icon-braid'},
+            {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: false, scale: 1, iconName: 'images-icon-buzz'},
+            {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: false, scale: 1, iconName: 'images-icon-logo'},
+            {sku: 'bun', spineName:'jlin', skinName:'bun', isActivated: false, scale: 1, iconName: 'images-icon-bun'},
+            {sku: 'slickback', spineName:'jlin', skinName:'slickback', isActivated: false, scale: 1, iconName: 'images-icon-slick'}
         ];
 
         var assets = new Array();
@@ -133,6 +133,11 @@ var QuestManager = (function () {
         function getSKU(sku)
         {
             return dataObject.find(function(item){return item.sku === sku});
+        }
+
+        function getSKUIndex(sku)
+        {
+            return dataObject.findIndex(function(item){return item.sku === sku});
         }
 
         // function parseJsonString()
@@ -316,8 +321,7 @@ var QuestManager = (function () {
                 // slotCharacterObj.content.spineCharacter.position.y = dataObject[i].position.y;
 
                 slotCharacterObj.content.iconCharacter = createImage('slotCharacterIcon' + i, slotCharacterObj.content.container, res[dataObject[i].iconName].texture);
-                slotCharacterObj.content.iconCharacter.anchor.x = 0.5;
-                slotCharacterObj.content.iconCharacter.position.y = dataObject[i].position.y;
+                slotCharacterObj.content.iconCharacter.anchor.set(0.5);
                 slotCharacterObj.content.iconCharacter.visible = dataObject[i].isActivated;
 
                 slotCharacterObj.content.iconQuestionMark = createText('slotQuestionMark' + i, slotCharacterObj.content.container, '?', new PIXI.TextStyle({
@@ -357,20 +361,46 @@ var QuestManager = (function () {
 
         function show()
         {
+            console.log(getSKUIndex(activate.sku));
+
+            // var characterSpine = getElement('characterSpine');
+            // characterSpine.scale.set(3);
+            // TweenMax.to(characterSpine.scale, 0.5, {x: 1, y: 1, ease: Linear.none}).delay(.1);
+            //
+            // var activatedContainer = getElement('activatedContainer');
+            // TweenMax.fromTo(activatedContainer.position, .5, {x: -(stageManager.getDimension().width)}, {x: 0, ease: Power2.easeOut}).delay(.6);
+            //
+            // var activateCodeObjText = getElement('activateCodeObjText');
+            // TweenMax.fromTo(activateCodeObjText, .5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut}).delay(1.5);
+            //
+            // var footerContainer = getElement('footerContainer');
+            // TweenMax.fromTo(footerContainer.position, .5, {y: 450}, {y: 0, ease: Power2.easeOut}).delay(1);
+            //
+            // var characterIcon = getElement('slotCharacterIcon' + getSKUIndex(activate.sku));
+            // characterIcon.scale.set(3);
+            // TweenMax.to(characterIcon.scale, 0.5, {x: 1, y: 1, ease: Power2.easeOut}).delay(2);
+
+            var tl = new TimelineMax();
+
             var characterSpine = getElement('characterSpine');
-            characterSpine.scale.set(3);
-            // characterSpine.position.y = 330;
-            TweenMax.to(characterSpine.scale, 0.5, {x: 1, y: 1, ease: Linear.none}).delay(.1);
-            // TweenMax.to(characterSpine.position, 0.5, {y: 0, ease: Linear.none}).delay(.1);
+            tl.from(characterSpine.scale, 0.5, {x: 3, y: 3, ease: Linear.none})
 
             var activatedContainer = getElement('activatedContainer');
-            TweenMax.fromTo(activatedContainer.position, .5, {x: -(stageManager.getDimension().width)}, {x: 0, ease: Power2.easeOut}).delay(.6);
-
-            var activateCodeObjText = getElement('activateCodeObjText');
-            TweenMax.fromTo(activateCodeObjText, .5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut}).delay(1.5);
+            tl.from(activatedContainer.position, 0.5, {x: -(stageManager.getDimension().width), ease: Power2.easeOut});
 
             var footerContainer = getElement('footerContainer');
-            TweenMax.fromTo(footerContainer.position, .5, {y: 450}, {y: 0, ease: Power2.easeOut}).delay(1);
+            tl.from(footerContainer.position, 0.5, {y: 450, ease: Power2.easeOut});
+
+            var iconMohawkObjText = getElement('iconMohawkText');
+            tl.from(iconMohawkObjText, 0.5, {alpha: 0, ease: Power2.easeOut});
+
+            var activateCodeObjText = getElement('activateCodeObjText');
+            tl.from(activateCodeObjText, 0.5, {alpha: 0, ease: Power2.easeOut}, "-=0.25");
+
+            var characterIcon = getElement('slotCharacterIcon' + getSKUIndex(activate.sku));
+            tl.from(characterIcon, 0.5, {alpha: 0, ease: Power2.easeOut}, "-=0.25");
+            tl.from(characterIcon.scale, 0.5, {x: 3, y: 3, ease: Power2.easeOut}, "-=0.5");
+
         }
 
         function setJsonString(value)
