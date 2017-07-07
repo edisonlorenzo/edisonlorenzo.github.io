@@ -50,10 +50,9 @@ var AssetLoaderManager = (function () {
                     requestId = requestAnimationFrame(loop);
 
                     stageManager = StageManager.getInstance();
-                    
+
                     var canvasContainer = function()
                     {
-                        console.log('test');
                         var container = new PIXI.Container();
                         container.content = {};
                         return container;
