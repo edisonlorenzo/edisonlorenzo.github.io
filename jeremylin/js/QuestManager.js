@@ -21,6 +21,7 @@ var QuestManager = (function () {
         assets.push(new Asset('images-transparent', 'images/transparent.png'));
         assets.push(new Asset('images-bg', 'images/bg.png'));
         assets.push(new Asset('images-header', 'images/header.png'));
+        assets.push(new Asset('images-poweredby', 'images/poweredby.png'));
         assets.push(new Asset('images-icon-mohawk', 'images/icon_mohawk.png'));
 
         function Asset(resName, resPath)
@@ -187,16 +188,20 @@ var QuestManager = (function () {
             footerObjBottom.height = 300;
             footerObjBottom.position.y = (backgroundObj.content.height * 0.5) - (footerObjBottom.height * 0.5);
 
-            var footerObjTop = createImage('footerBottom', backgroundContainer, res['images-white'].texture);
+            var footerObjTop = createImage('footerTop', backgroundContainer, res['images-white'].texture);
             footerObjTop.anchor.set(0.5);
             footerObjTop.width = backgroundObj.content.width;
             footerObjTop.height = 80;
             footerObjTop.position.y = footerObjBottom.position.y - (footerObjBottom.height * 0.5) - (footerObjTop.height * 0.5);
 
+            var footerObjPoweredBy = createImage('footerPoweredBy', backgroundContainer, res['images-poweredby'].texture);
+            footerObjPoweredBy.anchor.set(0.5);
+            footerObjPoweredBy.position.y = (backgroundObj.content.height * 0.5) - (footerObjPoweredBy.height * 0.5) - 20;
+
             var iconMohawkObj = createImage('iconMohawk', backgroundContainer, res['images-icon-mohawk'].texture);
             iconMohawkObj.anchor.set(0.5);
             iconMohawkObj.position.x = -300;
-            iconMohawkObj.position.y = footerObjTop.position.y;
+            iconMohawkObj.position.y = footerObjTop.position.y - 30;
 
             var iconMohawkObjText = createText('iconMohawkText', backgroundContainer, 'Collect 5 Pins to Unlock the 6th!', new PIXI.TextStyle({
                 fontFamily: 'Arial',
@@ -206,7 +211,7 @@ var QuestManager = (function () {
             }));
             iconMohawkObjText.anchor.set(0.5);
             iconMohawkObjText.position.x = iconMohawkObj.width * 0.5;
-            iconMohawkObjText.position.y = iconMohawkObj.position.y;
+            iconMohawkObjText.position.y = footerObjTop.position.y;
 
         }
 
