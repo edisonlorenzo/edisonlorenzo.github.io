@@ -11,11 +11,11 @@ var QuestManager = (function () {
         var res;
 
         var dataObject = [
-            {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: true, scale: 1, position: {y: -95}, iconName: 'images-icon-braid'},
-            {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: true, scale: 1, position: {y: -95}, iconName: 'images-icon-buzz'},
-            {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: true, scale: 0.3, position: {y: -95}, iconName: 'images-icon-logo'},
-            {sku: 'bun', spineName:'jlin', skinName:'bun', isActivated: true, scale: 1, position: {y: -95}, iconName: 'images-icon-bun'},
-            {sku: 'slickback', spineName:'jlin', skinName:'slickback', isActivated: true, scale: 1, position: {y: -95}, iconName: 'images-icon-slick'}
+            {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-braid'},
+            {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-buzz'},
+            {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: false, scale: 0.3, position: {y: -95}, iconName: 'images-icon-logo'},
+            {sku: 'bun', spineName:'jlin', skinName:'bun', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-bun'},
+            {sku: 'slickback', spineName:'jlin', skinName:'slickback', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-slick'}
         ];
 
         var assets = new Array();
@@ -23,6 +23,8 @@ var QuestManager = (function () {
         assets.push(new Asset('images-white', 'images/white.png'));
         assets.push(new Asset('images-transparent', 'images/transparent.png'));
         assets.push(new Asset('images-bg', 'images/bg.png'));
+        assets.push(new Asset('images-gradient-black', 'images/gradient_black.png'));
+        assets.push(new Asset('images-gradient-gold', 'images/gradient_gold.png'));
         assets.push(new Asset('images-header', 'images/header.png'));
         assets.push(new Asset('images-poweredby', 'images/poweredby.png'));
         assets.push(new Asset('images-icon-mohawk', 'images/icon_mohawk.png'));
@@ -261,11 +263,27 @@ var QuestManager = (function () {
                 slotCharacterObj.content.iconCharacter = createImage('slotCharacterIcon' + i, slotCharacterObj.content.container, res[dataObject[i].iconName].texture);
                 slotCharacterObj.content.iconCharacter.anchor.x = 0.5;
                 slotCharacterObj.content.iconCharacter.position.y = dataObject[i].position.y;
+                slotCharacterObj.content.iconCharacter.visible = dataObject[i].isActivated;
+
             }
 
 
             console.log('User Interface Complete!');
 
+            show();
+
+        }
+
+        function show()
+        {
+            var characterSpine = getElement('characterSpine');
+            characterSpine.scale.set(3);
+            characterSpine.position.y = 330;
+            TweenMax.to(characterSpine.scale, 0.5, {x: 1, y: 1, ease: Linear.none}).delay(.1);
+            TweenMax.to(characterSpine.position, 0.5, {y: 0, ease: Linear.none}).delay(.1);
+
+            var footerContainer = getElement('footerContainer');
+            TweenMax.fromTo(footerContainer.position, .5, {y: 450}, {y: 0, ease: Power2.easeOut}).delay(1);
         }
 
         function setJsonString(value)
