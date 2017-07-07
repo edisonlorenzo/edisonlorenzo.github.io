@@ -24,31 +24,31 @@ var SpineManager = (function () {
 
 
 
-        function createSpine (spineName, skinName, x, y, scale)
+        function createSpine (spineJsonData)
         {
             var assetLoaderManager = AssetLoaderManager.getInstance();
 
             var spineRes = assetLoaderManager.getRes();
-            var spine = new PIXI.spine.Spine(spineRes[spineName].spineData);
+            var spine = new PIXI.spine.Spine(spineRes[spineJsonData.spineName].spineData);
 
             spine.interactive = true;
             spine.buttonMode = true;
 
             // set current skin
-            spine.skeleton.setSkinByName(skinName);
+            spine.skeleton.setSkinByName(spineJsonData.skinName);
             spine.skeleton.setSlotsToSetupPose();
 
             // set the position
-            spine.x = x;
-            spine.y = y;
+            spine.x = spineJsonData.position.x;
+            spine.y = spineJsonData.position.y;
 
-            spine.scale.set(scale);
+            spine.scale.set(spineJsonData.scale);
 
             // play animation
-            spine.state.setAnimation(0, 'summon_appear', false);
+            spine.state.setAnimation(0, spineJsonData.animationName, spineJsonData.loop);
 
             spine.on('pointertap', function() {
-                spine.state.setAnimation(0, 'summon_appear', false);
+                spine.state.setAnimation(0, spineJsonData.animationName, spineJsonData.loop);
             });
 
             return spine;

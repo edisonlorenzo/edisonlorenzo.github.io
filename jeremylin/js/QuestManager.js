@@ -10,10 +10,13 @@ var QuestManager = (function () {
         var stageManager;
         var res;
 
-        var backgroundContainer;
-        var footerContainer;
-        var questContainer;
-        var dialogContainer;
+        var dataObject = [
+            {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: true, scale: 1, position: {y: -95}, iconName: 'images-icon-braid'},
+            {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: true, scale: 1, position: {y: -95}, iconName: 'images-icon-buzz'},
+            {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: true, scale: 0.3, position: {y: -95}, iconName: 'images-icon-logo'},
+            {sku: 'bun', spineName:'jlin', skinName:'bun', isActivated: true, scale: 1, position: {y: -95}, iconName: 'images-icon-bun'},
+            {sku: 'slickback', spineName:'jlin', skinName:'slickback', isActivated: true, scale: 1, position: {y: -95}, iconName: 'images-icon-slick'}
+        ];
 
         var assets = new Array();
 
@@ -23,6 +26,13 @@ var QuestManager = (function () {
         assets.push(new Asset('images-header', 'images/header.png'));
         assets.push(new Asset('images-poweredby', 'images/poweredby.png'));
         assets.push(new Asset('images-icon-mohawk', 'images/icon_mohawk.png'));
+        assets.push(new Asset('images-slot', 'images/slot.png'));
+        assets.push(new Asset('images-slot-mask', 'images/slot_mask.png'));
+        assets.push(new Asset('images-icon-braid', 'images/icon_braid.png'));
+        assets.push(new Asset('images-icon-buzz', 'images/icon_buzz.png'));
+        assets.push(new Asset('images-icon-bun', 'images/icon_bun.png'));
+        assets.push(new Asset('images-icon-slick', 'images/icon_slick.png'));
+        assets.push(new Asset('images-icon-logo', 'images/icon_logo.png'));
 
         function Asset(resName, resPath)
         {
@@ -51,10 +61,10 @@ var QuestManager = (function () {
             return image;
         }
 
-        function createSpine(id, container, spineName, skinName, x, y, scale)
+        function createSpine(id, container, spineJsonData)
         {
             var spineManager = SpineManager.getInstance();
-            var spine = spineManager.createSpine(spineName, skinName, x, y, scale);
+            var spine = spineManager.createSpine(spineJsonData);
             container.addChild(spine);
 
             var content = {};
@@ -118,6 +128,11 @@ var QuestManager = (function () {
             return graphic;
         }
 
+        function getSKU(sku)
+        {
+            return dataObject.find(function(item){return item.sku === sku});
+        }
+
         // function parseJsonString()
         // {
         //     var json = jsonString, jsonObj = JSON && JSON.parse(json) || $.parseJSON(json);
@@ -149,6 +164,7 @@ var QuestManager = (function () {
 
         function setup()
         {
+            console.log('Setting up User Interface...');
             elements = new Array();
 
             stageManager = StageManager.getInstance();
@@ -173,37 +189,42 @@ var QuestManager = (function () {
             }
             stageManager.addCallBack(backgroundObj.content.setLayout);
 
-            backgroundContainer = createContainer('bgContainer', backgroundObj);
+            var backgroundContainer = createContainer('bgContainer', backgroundObj);
 
-            var spineCharacterObj = createSpine('characterSpine', backgroundContainer, 'jlin', 'braid', 0, 0, 1);
+
+            var characterData = getSKU(activate.sku);
+            var spineJsonData = {spineName: characterData.spineName, skinName: characterData.skinName, position:{x: 0, y:0}, scale: 1, animationName: 'summon_appear', loop: false};
+            var spineCharacterObj = createSpine('characterSpine', backgroundContainer, spineJsonData);
 
             var headerObj = createImage('header', backgroundContainer, res['images-header'].texture);
             headerObj.anchor.set(0.5);
             headerObj.position.y = -(backgroundObj.content.height * 0.5) + (headerObj.height * 0.5);
 
-            var footerObjBottom = createImage('footerBottom', backgroundContainer, res['images-white'].texture);
+            var footerContainer = createContainer('footerContainer', backgroundObj);
+
+            var footerObjBottom = createImage('footerBottom', footerContainer, res['images-white'].texture);
             footerObjBottom.tint = 0x292929;
             footerObjBottom.anchor.set(0.5);
             footerObjBottom.width = backgroundObj.content.width;
             footerObjBottom.height = 300;
             footerObjBottom.position.y = (backgroundObj.content.height * 0.5) - (footerObjBottom.height * 0.5);
 
-            var footerObjTop = createImage('footerTop', backgroundContainer, res['images-white'].texture);
+            var footerObjTop = createImage('footerTop', footerContainer, res['images-white'].texture);
             footerObjTop.anchor.set(0.5);
             footerObjTop.width = backgroundObj.content.width;
             footerObjTop.height = 80;
             footerObjTop.position.y = footerObjBottom.position.y - (footerObjBottom.height * 0.5) - (footerObjTop.height * 0.5);
 
-            var footerObjPoweredBy = createImage('footerPoweredBy', backgroundContainer, res['images-poweredby'].texture);
+            var footerObjPoweredBy = createImage('footerPoweredBy', footerContainer, res['images-poweredby'].texture);
             footerObjPoweredBy.anchor.set(0.5);
             footerObjPoweredBy.position.y = (backgroundObj.content.height * 0.5) - (footerObjPoweredBy.height * 0.5) - 20;
 
-            var iconMohawkObj = createImage('iconMohawk', backgroundContainer, res['images-icon-mohawk'].texture);
+            var iconMohawkObj = createImage('iconMohawk', footerContainer, res['images-icon-mohawk'].texture);
             iconMohawkObj.anchor.set(0.5);
             iconMohawkObj.position.x = -300;
             iconMohawkObj.position.y = footerObjTop.position.y - 30;
 
-            var iconMohawkObjText = createText('iconMohawkText', backgroundContainer, 'Collect 5 Pins to Unlock the 6th!', new PIXI.TextStyle({
+            var iconMohawkObjText = createText('iconMohawkText', footerContainer, 'Collect 5 Pins to Unlock the 6th!', new PIXI.TextStyle({
                 fontFamily: 'Arial',
                 fontSize: 40,
                 fontStyle: 'normal',
@@ -212,6 +233,41 @@ var QuestManager = (function () {
             iconMohawkObjText.anchor.set(0.5);
             iconMohawkObjText.position.x = iconMohawkObj.width * 0.5;
             iconMohawkObjText.position.y = footerObjTop.position.y;
+
+            for(var i = 0; i < dataObject.length; i++)
+            {
+                var slotCharacterObj = createImage('slotCharacter' + i, footerContainer, res['images-slot'].texture);
+                slotCharacterObj.anchor.set(0.5);
+                slotCharacterObj.scale.set(0.69);
+                slotCharacterObj.position.x = -285 + ((slotCharacterObj.width + 5) * i);
+                slotCharacterObj.position.y = footerObjBottom.position.y - 30;
+
+                slotCharacterObj.content.container = new PIXI.Container();
+
+                slotCharacterObj.content.container.width = slotCharacterObj.width;
+                slotCharacterObj.content.container.height = slotCharacterObj.height;
+
+                slotCharacterObj.content.textureMask = new PIXI.Sprite(res['images-slot-mask'].texture);
+                slotCharacterObj.content.textureMask.anchor.set(0.5);
+
+                slotCharacterObj.content.container.addChild(slotCharacterObj.content.textureMask);
+
+                slotCharacterObj.content.container.mask = slotCharacterObj.content.textureMask;
+                slotCharacterObj.addChild(slotCharacterObj.content.container);
+
+                // slotCharacterObj.content.spineCharacter = createSpine('slotCharacterSpine' + i, slotCharacterObj.content.container, dataObject[i].skinData, dataObject[i].skinName, 0, 0, dataObject[i].scale);
+                // slotCharacterObj.content.spineCharacter.position.y = dataObject[i].position.y;
+
+                slotCharacterObj.content.iconCharacter = createImage('slotCharacterIcon' + i, slotCharacterObj.content.container, res[dataObject[i].iconName].texture);
+                slotCharacterObj.content.iconCharacter.anchor.x = 0.5;
+                slotCharacterObj.content.iconCharacter.position.y = dataObject[i].position.y;
+            }
+
+
+
+            console.log('User Interface Complete!');
+
+            console.log(activate.sku);
 
         }
 
