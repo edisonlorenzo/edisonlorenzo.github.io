@@ -7,10 +7,11 @@ var scriptMap = [
     // "js/pixi/pixi-sound.js",
     // "js/gsap/TweenMax.min.js",
     // "js/scaleToWindow.js",
-    "js/StageManager.js",
-    "js/AssetLoaderManager.js",
-    "js/SpineManager.js",
-    "js/QuestManager.js"];
+    // "js/StageManager.js",
+    // "js/AssetLoaderManager.js",
+    // "js/SpineManager.js",
+    // "js/QuestManager.js"
+];
 
 var order = 0;
 
