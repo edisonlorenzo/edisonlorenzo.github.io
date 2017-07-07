@@ -386,7 +386,7 @@ var QuestManager = (function () {
             tl.from(characterSpine.scale, 0.5, {x: 3, y: 3, ease: Linear.none})
 
             var activatedContainer = getElement('activatedContainer');
-            tl.from(activatedContainer.position, 0.5, {x: -(stageManager.getDimension().width), ease: Power2.easeOut});
+            tl.from(activatedContainer.position, 0.5, {x: -(stageManager.getDimension().canvasWidth + (activatedContainer.width * 0.5)), ease: Power2.easeOut});
 
             var footerContainer = getElement('footerContainer');
             tl.from(footerContainer.position, 0.5, {y: 450, ease: Power2.easeOut});
