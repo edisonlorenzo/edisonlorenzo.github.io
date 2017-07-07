@@ -1,12 +1,12 @@
 "use strict";
 
 var scriptMap = [
-    "js/pixi/pixi.min.js",
-    "js/pixi/pixi-spine.js",
-    "js/pixi/pixi-particles.min.js",
-    "js/pixi/pixi-sound.js",
-    "js/gsap/TweenMax.min.js",
-    "js/scaleToWindow.js",
+    // "js/pixi/pixi.min.js",
+    // "js/pixi/pixi-spine.js",
+    // "js/pixi/pixi-particles.min.js",
+    // "js/pixi/pixi-sound.js",
+    // "js/gsap/TweenMax.min.js",
+    // "js/scaleToWindow.js",
     "js/StageManager.js",
     "js/AssetLoaderManager.js",
     "js/SpineManager.js",
