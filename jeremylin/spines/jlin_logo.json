@@ -2856,6 +2856,17 @@
 					{ "time": 0.3333, "name": "hip" }
 				]
 			},
+			"logo": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.3333, "color": "ffffff00" },
+					{ "time": 0.4667, "color": "fffffffe" }
+				],
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 0.3333, "name": "default/logo" }
+				]
+			},
 			"leg_L": {
 				"color": [
 					{ "time": 0, "color": "ffffff00", "curve": "stepped" },

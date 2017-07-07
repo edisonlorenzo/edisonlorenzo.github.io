@@ -13,7 +13,7 @@ var QuestManager = (function () {
         var dataObject = [
             {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-braid'},
             {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-buzz'},
-            {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: false, scale: 0.3, position: {y: -95}, iconName: 'images-icon-logo'},
+            {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-logo'},
             {sku: 'bun', spineName:'jlin', skinName:'bun', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-bun'},
             {sku: 'slickback', spineName:'jlin', skinName:'slickback', isActivated: false, scale: 1, position: {y: -95}, iconName: 'images-icon-slick'}
         ];
@@ -205,6 +205,9 @@ var QuestManager = (function () {
             backgroundContainer.mask = backgroundContainerMask;
 
             var characterData = getSKU(activate.sku);
+
+            characterData.isActivated = true;
+
             var spineJsonData = {spineName: characterData.spineName, skinName: characterData.skinName, position:{x: 0, y:0}, scale: 1, animationName: 'summon_appear', loop: false};
             var spineCharacterObj = createSpine('characterSpine', backgroundContainer, spineJsonData);
 
@@ -317,6 +320,16 @@ var QuestManager = (function () {
                 slotCharacterObj.content.iconCharacter.position.y = dataObject[i].position.y;
                 slotCharacterObj.content.iconCharacter.visible = dataObject[i].isActivated;
 
+                slotCharacterObj.content.iconQuestionMark = createText('slotQuestionMark' + i, slotCharacterObj.content.container, '?', new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 150,
+                    fontStyle: 'normal',
+                    fontWeight: 'bold',
+                    fill: '#777777'
+                }));
+                slotCharacterObj.content.iconQuestionMark.anchor.set(0.5);
+                slotCharacterObj.content.iconQuestionMark.visible = !dataObject[i].isActivated;
+
             }
         }
 
@@ -346,9 +359,9 @@ var QuestManager = (function () {
         {
             var characterSpine = getElement('characterSpine');
             characterSpine.scale.set(3);
-            characterSpine.position.y = 330;
+            // characterSpine.position.y = 330;
             TweenMax.to(characterSpine.scale, 0.5, {x: 1, y: 1, ease: Linear.none}).delay(.1);
-            TweenMax.to(characterSpine.position, 0.5, {y: 0, ease: Linear.none}).delay(.1);
+            // TweenMax.to(characterSpine.position, 0.5, {y: 0, ease: Linear.none}).delay(.1);
 
             var activatedContainer = getElement('activatedContainer');
             TweenMax.fromTo(activatedContainer.position, .5, {x: -(stageManager.getDimension().width)}, {x: 0, ease: Power2.easeOut}).delay(.6);

@@ -24,7 +24,10 @@
     <body>
 
         <script>
-            var activate = {sku: 'buzz'};
+            var listObject = [{sku: 'buzz'}, {sku: 'bun'}, {sku: 'logo'}, {sku: 'slickback'}, {sku: 'braid'}];
+            var randomValue = Math.floor(Math.random() * listObject.length);
+            var activate = {sku: listObject[randomValue].sku};
+            //var activate = {sku: 'logo'};
         </script>
 
         <script src="js/StageManager.js"></script>
