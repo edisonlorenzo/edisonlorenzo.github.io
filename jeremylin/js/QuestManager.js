@@ -164,23 +164,22 @@ var QuestManager = (function () {
         //     return jsonObject.find(function(item){return item.sku === sku});
         // }
 
-        function setup()
+        function initMainCanvas()
         {
-            console.log('Setting up User Interface...');
-            elements = new Array();
-
             stageManager = StageManager.getInstance();
-            res =  AssetLoaderManager.getInstance().getRes();
-
-            var canvasContainer = createContainer('mainContainer', stageManager.getContainer());
+            var canvasContainer = createContainer('canvasContainer', stageManager.getContainer());
             canvasContainer.content.setLayout = function () {
                 canvasContainer.scale.x = canvasContainer.scale.y = 1;
                 canvasContainer.position.x = stageManager.getDimension().canvasWidth * 0.5;
                 canvasContainer.position.y = stageManager.getDimension().canvasHeight * 0.5;
             }
             stageManager.addCallBack(canvasContainer.content.setLayout);
+        }
 
-            var backgroundObj = createImage('mainbg', canvasContainer, res['images-bg'].texture);
+        function initBackground()
+        {
+            var canvasContainer = getElement('canvasContainer');
+            var backgroundObj = createImage('backgroundObj', canvasContainer, res['images-bg'].texture);
             backgroundObj.anchor.set(0.5);
             backgroundObj.content.width = backgroundObj.width;
             backgroundObj.content.height = backgroundObj.height;
@@ -190,17 +189,70 @@ var QuestManager = (function () {
                 backgroundObj.scale.x = backgroundObj.scale.y = stageManager.getDimension().calculateRatioBoth('height', backgroundObj.width, backgroundObj.height, 1, 1);
             }
             stageManager.addCallBack(backgroundObj.content.setLayout);
+        }
 
-            var backgroundContainer = createContainer('bgContainer', backgroundObj);
+        function initMainContent()
+        {
+            var backgroundObj = getElement('backgroundObj');
+            var backgroundContainer = createContainer('backgroundContainer', backgroundObj);
 
+            var backgroundContainerMask = new PIXI.Graphics();
+            backgroundContainerMask
+            .beginFill(0xFFFFFF)
+            .drawRect(-(backgroundObj.content.width * 0.5), -(backgroundObj.content.height * 0.5), backgroundObj.content.width + 1, backgroundObj.content.height + 1)
+            .endFill();
+            backgroundContainer.addChild(backgroundContainerMask);
+            backgroundContainer.mask = backgroundContainerMask;
 
             var characterData = getSKU(activate.sku);
             var spineJsonData = {spineName: characterData.spineName, skinName: characterData.skinName, position:{x: 0, y:0}, scale: 1, animationName: 'summon_appear', loop: false};
             var spineCharacterObj = createSpine('characterSpine', backgroundContainer, spineJsonData);
 
+            var activatedContainer = createContainer('activatedContainer', backgroundContainer);
+            var unlockedContainer = createContainer('unlockedContainer', backgroundContainer);
+
+            var activatedObj = createImage('activatedObj', activatedContainer, res['images-gradient-black'].texture);
+            activatedObj.anchor.set(0.5);
+
+            var unlockedObj = createImage('unlockedObj', unlockedContainer, res['images-gradient-gold'].texture);
+            unlockedObj.anchor.set(0.5);
+
+            activatedContainer.visible = true;
+            unlockedContainer.visible = false;
+
+            var activateTitleObjText = createText('activateTitleObjText', activatedObj, ' ' + 'Activated' + ' ', new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 60,
+                fontStyle: 'italic',
+                fontWeight: 'bold',
+                fill: '#ffffff'
+            }));
+            activateTitleObjText.anchor.set(0.5);
+            activateTitleObjText.position.y = -20;
+
+            var activateCodeObjText = createText('activateCodeObjText', activatedObj, 'Serial Code', new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 40,
+                fontStyle: 'normal',
+                fill: '#ffffff'
+            }));
+            activateCodeObjText.anchor.set(0.5);
+            activateCodeObjText.position.y = 30;
+        }
+
+        function initHeader()
+        {
+            var backgroundObj = getElement('backgroundObj');
+            var backgroundContainer = getElement('backgroundContainer');
+
             var headerObj = createImage('header', backgroundContainer, res['images-header'].texture);
             headerObj.anchor.set(0.5);
             headerObj.position.y = -(backgroundObj.content.height * 0.5) + (headerObj.height * 0.5);
+        }
+
+        function initFooter()
+        {
+            var backgroundObj = getElement('backgroundObj');
 
             var footerContainer = createContainer('footerContainer', backgroundObj);
 
@@ -230,7 +282,7 @@ var QuestManager = (function () {
                 fontFamily: 'Arial',
                 fontSize: 40,
                 fontStyle: 'normal',
-                fill: '#777777', // gradient
+                fill: '#777777'
             }));
             iconMohawkObjText.anchor.set(0.5);
             iconMohawkObjText.position.x = iconMohawkObj.width * 0.5;
@@ -266,12 +318,28 @@ var QuestManager = (function () {
                 slotCharacterObj.content.iconCharacter.visible = dataObject[i].isActivated;
 
             }
+        }
 
+        function setup()
+        {
+            console.log('Setting up User Interface...');
+            elements = new Array();
+
+            res =  AssetLoaderManager.getInstance().getRes();
+
+            initMainCanvas();
+
+            initBackground();
+
+            initMainContent();
+
+            initHeader();
+
+            initFooter();
 
             console.log('User Interface Complete!');
 
             show();
-
         }
 
         function show()
@@ -281,6 +349,12 @@ var QuestManager = (function () {
             characterSpine.position.y = 330;
             TweenMax.to(characterSpine.scale, 0.5, {x: 1, y: 1, ease: Linear.none}).delay(.1);
             TweenMax.to(characterSpine.position, 0.5, {y: 0, ease: Linear.none}).delay(.1);
+
+            var activatedContainer = getElement('activatedContainer');
+            TweenMax.fromTo(activatedContainer.position, .5, {x: -(stageManager.getDimension().width)}, {x: 0, ease: Power2.easeOut}).delay(.6);
+
+            var activateCodeObjText = getElement('activateCodeObjText');
+            TweenMax.fromTo(activateCodeObjText, .5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut}).delay(1.5);
 
             var footerContainer = getElement('footerContainer');
             TweenMax.fromTo(footerContainer.position, .5, {y: 450}, {y: 0, ease: Power2.easeOut}).delay(1);
