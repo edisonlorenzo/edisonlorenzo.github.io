@@ -9,6 +9,7 @@ var scriptMap = [
     "js/scaleToWindow.js",
     "js/StageManager.js",
     "js/AssetLoaderManager.js",
+    "js/SpineManager.js",
     "js/QuestManager.js"];
 
 var order = 0;
@@ -18,11 +19,13 @@ function init()
     var isAssetReady = false;
     var isDone = false;
 
+    var spineManager = SpineManager.getInstance();
     var questManager = QuestManager.getInstance();
     var assetLoaderManager = AssetLoaderManager.getInstance();
 
     function loadAsset()
     {
+        assetLoaderManager.addAsset(spineManager.getAsset());
         assetLoaderManager.addAsset(questManager.getAsset());
         assetLoaderManager.onReady(assetReady);
         assetLoaderManager.load();

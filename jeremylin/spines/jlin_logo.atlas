@@ -1,0 +1,62 @@
+
+jlin_logo.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+default/logo
+  rotate: false
+  xy: 2, 28
+  size: 307, 226
+  orig: 307, 226
+  offset: 0, 0
+  index: -1
+default/logo_white
+  rotate: false
+  xy: 581, 2
+  size: 154, 113
+  orig: 154, 113
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB01
+  rotate: false
+  xy: 311, 6
+  size: 169, 84
+  orig: 169, 84
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB02
+  rotate: false
+  xy: 464, 92
+  size: 115, 162
+  orig: 115, 162
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB03
+  rotate: false
+  xy: 311, 92
+  size: 151, 162
+  orig: 151, 162
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB04
+  rotate: false
+  xy: 721, 123
+  size: 132, 131
+  orig: 132, 131
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB05
+  rotate: false
+  xy: 581, 117
+  size: 138, 137
+  orig: 138, 137
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 855, 242
+  size: 34, 12
+  orig: 34, 12
+  offset: 0, 0
+  index: -1

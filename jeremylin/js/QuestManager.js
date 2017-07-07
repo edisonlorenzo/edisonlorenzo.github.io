@@ -50,6 +50,22 @@ var QuestManager = (function () {
             return image;
         }
 
+        function createSpine(id, container, spineName, skinName, x, y, scale)
+        {
+            var spineManager = SpineManager.getInstance();
+            var spine = spineManager.createSpine(spineName, skinName, x, y, scale);
+            container.addChild(spine);
+
+            var content = {};
+            content.id = id;
+
+            spine.content = content;
+
+            elements.push(spine);
+
+            return spine;
+        }
+
         function createContainer(id, parent)
         {
             var container = new PIXI.Container();
@@ -157,6 +173,8 @@ var QuestManager = (function () {
             stageManager.addCallBack(backgroundObj.content.setLayout);
 
             backgroundContainer = createContainer('bgContainer', backgroundObj);
+
+            var spineCharacterObj = createSpine('characterSpine', backgroundContainer, 'jlin', 'braid', 0, 0, 1);
 
             var headerObj = createImage('header', backgroundContainer, res['images-header'].texture);
             headerObj.anchor.set(0.5);

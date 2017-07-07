@@ -1,0 +1,188 @@
+
+jlin.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+default/arm_left
+  rotate: false
+  xy: 787, 241
+  size: 43, 68
+  orig: 43, 68
+  offset: 0, 0
+  index: -1
+default/arm_right
+  rotate: false
+  xy: 552, 99
+  size: 48, 62
+  orig: 48, 62
+  offset: 0, 0
+  index: -1
+default/ball
+  rotate: false
+  xy: 581, 223
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+default/body
+  rotate: false
+  xy: 454, 86
+  size: 96, 141
+  orig: 96, 141
+  offset: 0, 0
+  index: -1
+default/foot_left
+  rotate: false
+  xy: 727, 245
+  size: 58, 64
+  orig: 58, 64
+  offset: 0, 0
+  index: -1
+default/foot_right
+  rotate: false
+  xy: 667, 236
+  size: 58, 73
+  orig: 58, 73
+  offset: 0, 0
+  index: -1
+default/hand_left
+  rotate: false
+  xy: 616, 160
+  size: 47, 61
+  orig: 47, 61
+  offset: 0, 0
+  index: -1
+default/hand_right
+  rotate: true
+  xy: 454, 39
+  size: 45, 71
+  orig: 45, 71
+  offset: 0, 0
+  index: -1
+default/head_braid
+  rotate: true
+  xy: 149, 200
+  size: 136, 157
+  orig: 136, 157
+  offset: 0, 0
+  index: -1
+default/head_bun
+  rotate: true
+  xy: 476, 364
+  size: 136, 166
+  orig: 136, 166
+  offset: 0, 0
+  index: -1
+default/head_buzz
+  rotate: true
+  xy: 302, 363
+  size: 137, 172
+  orig: 137, 172
+  offset: 0, 0
+  index: -1
+default/head_mohawk
+  rotate: false
+  xy: 2, 291
+  size: 145, 209
+  orig: 145, 209
+  offset: 0, 0
+  index: -1
+default/head_slickback
+  rotate: false
+  xy: 2, 119
+  size: 144, 170
+  orig: 144, 170
+  offset: 0, 0
+  index: -1
+default/leg_left
+  rotate: true
+  xy: 581, 309
+  size: 53, 61
+  orig: 53, 61
+  offset: 0, 0
+  index: -1
+default/leg_right
+  rotate: false
+  xy: 552, 163
+  size: 62, 58
+  orig: 62, 58
+  offset: 0, 0
+  index: -1
+default/white
+  rotate: true
+  xy: 644, 407
+  size: 93, 205
+  orig: 93, 205
+  offset: 0, 0
+  index: -1
+default/white_braid
+  rotate: false
+  xy: 358, 43
+  size: 94, 179
+  orig: 94, 179
+  offset: 0, 0
+  index: -1
+default/white_bun
+  rotate: false
+  xy: 262, 14
+  size: 94, 184
+  orig: 94, 184
+  offset: 0, 0
+  index: -1
+default/white_buzz
+  rotate: true
+  xy: 644, 311
+  size: 94, 187
+  orig: 94, 187
+  offset: 0, 0
+  index: -1
+default/white_slick
+  rotate: false
+  xy: 166, 12
+  size: 94, 186
+  orig: 94, 186
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB01
+  rotate: false
+  xy: 851, 416
+  size: 169, 84
+  orig: 169, 84
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB02
+  rotate: true
+  xy: 2, 2
+  size: 115, 162
+  orig: 115, 162
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB03
+  rotate: false
+  xy: 149, 338
+  size: 151, 162
+  orig: 151, 162
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB04
+  rotate: true
+  xy: 448, 229
+  size: 132, 131
+  orig: 132, 131
+  offset: 0, 0
+  index: -1
+effects/melee-FX2DB05
+  rotate: false
+  xy: 308, 224
+  size: 138, 137
+  orig: 138, 137
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: true
+  xy: 602, 127
+  size: 34, 12
+  orig: 34, 12
+  offset: 0, 0
+  index: -1
