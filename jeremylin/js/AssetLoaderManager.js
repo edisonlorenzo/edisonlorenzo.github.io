@@ -50,9 +50,13 @@ var AssetLoaderManager = (function () {
                     requestId = requestAnimationFrame(loop);
 
                     stageManager = StageManager.getInstance();
-                    richText.x = stageManager.getDimension().canvasWidth * 0.5;
-                    richText.y = stageManager.getDimension().canvasHeight * 0.5;
-                    stageManager.getContainer().addChild(richText);
+                    var canvasContainer = new PIXI.Container();
+                    canvasContainer.scale.x = canvasContainer.scale.y = 1;
+                    canvasContainer.position.x = stageManager.getDimension().canvasWidth * 0.5;
+                    canvasContainer.position.y = stageManager.getDimension().canvasHeight * 0.5;
+                    stageManager.getContainer().addChild(canvasContainer);
+
+                    canvasContainer.addChild(richText);
                 }
             }
 
@@ -68,7 +72,6 @@ var AssetLoaderManager = (function () {
             function done()
             {
                 stageManager.getContainer().removeChild(richText);
-
             }
 
             return {

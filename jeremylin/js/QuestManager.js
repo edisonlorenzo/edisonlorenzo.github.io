@@ -361,8 +361,6 @@ var QuestManager = (function () {
 
         function show()
         {
-            console.log(getSKUIndex(activate.sku));
-
             // var characterSpine = getElement('characterSpine');
             // characterSpine.scale.set(3);
             // TweenMax.to(characterSpine.scale, 0.5, {x: 1, y: 1, ease: Linear.none}).delay(.1);
