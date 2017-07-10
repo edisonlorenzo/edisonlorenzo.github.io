@@ -11,6 +11,18 @@ var QuestManager = (function () {
         var res;
         var tl;
 
+        var translationObject = [
+            {language: 'chinese', activatedTitleString: '激活成功!', collectString: '集齐五枚胸章即可解锁隐藏版胸章!', unlockedTitleString: '解锁成功', secretPinString: '隐藏版胸章', unlockedString: '隐藏版胸章由此去'},
+            {language: 'english', activatedTitleString: 'Activated!', collectString: 'Collect 5 Pins to Unlock the 6th!', unlockedTitleString: 'You\'ve Unlocked', secretPinString: 'the Secret Pin', unlockedString: 'Get Your Secret Pin'}
+        ];
+
+        var languageObject = [
+            {tags: ['zh', 'zh-cn', 'zh-hk', 'zh-sg', 'zh-tw'], language: 'chinese'},
+            {tags: ['default'], language: 'english'}
+        ];
+
+        var languageData;
+
         var dataObject = [
             {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: true, scale: 1, iconName: 'images-icon-braid'},
             {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: true, scale: 1, iconName: 'images-icon-buzz'},
@@ -144,6 +156,36 @@ var QuestManager = (function () {
             return dataObject.findIndex(function(item){return item.sku === sku});
         }
 
+        function getLanguage(code)
+        {
+            var translationData = function(){
+                return languageObject.find(
+                    function(language){
+                        var item = language.tags.find(
+                            function(tag){
+                                return tag == code;
+                            }
+                        );
+                        if(item == undefined)
+                        {
+                            item = language.tags.find(
+                                function(tag){
+                                    return tag == 'default';
+                                }
+                            );
+                        }
+                        return item;
+                    }
+                );
+            }();
+
+            return translationObject.find(
+                function(item){
+                    return item.language === translationData.language;
+                }
+            );
+        }
+
         // function parseJsonString()
         // {
         //     var json = jsonString, jsonObj = JSON && JSON.parse(json) || $.parseJSON(json);
@@ -257,7 +299,7 @@ var QuestManager = (function () {
             activatedContainer.visible = false;
             unlockedContainer.visible = false;
 
-            var activatedTitleObjText = createText('activatedTitleObjText', activatedObj, ' ' + 'Activated' + ' ', new PIXI.TextStyle({
+            var activatedTitleObjText = createText('activatedTitleObjText', activatedObj, ' ' + languageData.activatedTitleString + ' ', new PIXI.TextStyle({
                 fontFamily: 'Arial',
                 fontSize: 60,
                 fontStyle: 'italic',
@@ -277,7 +319,7 @@ var QuestManager = (function () {
             activatedCodeObjText.anchor.set(0.5);
             activatedCodeObjText.position.y = 30;
 
-            var unlockedTitleObjText = createText('unlockedTitleObjText', unlockedObj, ' ' + 'You\'ve Unlocked' + ' ', new PIXI.TextStyle({
+            var unlockedTitleObjText = createText('unlockedTitleObjText', unlockedObj, ' ' + languageData.unlockedTitleString + ' ', new PIXI.TextStyle({
                 fontFamily: 'Arial',
                 fontSize: 60,
                 fontStyle: 'italic',
@@ -287,7 +329,7 @@ var QuestManager = (function () {
             unlockedTitleObjText.anchor.set(0.5);
             unlockedTitleObjText.position.y = -20;
 
-            var unlockedCodeObjText = createText('unlockedCodeObjText', unlockedObj, 'The Secret Pin!', new PIXI.TextStyle({
+            var unlockedCodeObjText = createText('unlockedCodeObjText', unlockedObj, languageData.secretPinString, new PIXI.TextStyle({
                 fontFamily: 'Arial',
                 fontSize: 40,
                 fontStyle: 'normal',
@@ -391,7 +433,7 @@ var QuestManager = (function () {
             iconMohawkObj.position.x = -300;
             iconMohawkObj.position.y = footerObjTop.position.y - 30;
 
-            var footerTopCollectText = createText('footerTopCollectText', footerContainer, 'Collect 5 Pins to Unlock the 6th!', new PIXI.TextStyle({
+            var footerTopCollectText = createText('footerTopCollectText', footerContainer, languageData.collectString, new PIXI.TextStyle({
                 fontFamily: 'Arial',
                 fontSize: 36,
                 fontStyle: 'normal',
@@ -425,7 +467,7 @@ var QuestManager = (function () {
                 TweenMax.fromTo(this.position, 0.5, {y: footerObjTop.position.y + 20}, {y: footerObjTop.position.y, ease: Power2.easeOut});
             }).bind(btnClaimObj);
 
-            var footerTopClaimText = createText('footerTopClaimText', footerContainer, 'Get Your Secret Pin' + ' >>', new PIXI.TextStyle({
+            var footerTopClaimText = createText('footerTopClaimText', footerContainer, languageData.unlockedString + ' >>', new PIXI.TextStyle({
                 fontFamily: 'Arial',
                 fontSize: 36,
                 fontStyle: 'normal',
@@ -523,6 +565,17 @@ var QuestManager = (function () {
 
         function setup()
         {
+            var languageCode;
+            if(navigator.language !== undefined)
+            {
+                languageCode = navigator.language;
+            } else {
+                languageCode = navigator.browserLanguage;
+            }
+
+            console.log('Language Detected: ' + languageCode);
+            languageData = getLanguage(languageCode);
+
             console.log('Setting up User Interface...');
             elements = new Array();
 
