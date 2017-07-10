@@ -186,35 +186,6 @@ var QuestManager = (function () {
             );
         }
 
-        // function parseJsonString()
-        // {
-        //     var json = jsonString, jsonObj = JSON && JSON.parse(json) || $.parseJSON(json);
-        //     console.log(jsonObj);
-        //
-        //     jsonObject = new Array();
-        //     for(var key in jsonObj)
-        //     {
-        //         if (jsonObj.hasOwnProperty(key)) {
-        //             if(jsonObj[key].quest_id == questId && jsonObj[key].type == 'item')
-        //             {
-        //                 jsonObject.push(jsonObj[key]);
-        //                 console.log(jsonObj[key]);
-        //             }
-        //         }
-        //     }
-        //
-        //     jsonObject.sort(function(a, b) {
-        //         return parseInt(a.order) - parseInt(b.order);
-        //     });
-        //
-        //     console.log(jsonObject);
-        // }
-        //
-        // function getJsonObject(sku)
-        // {
-        //     return jsonObject.find(function(item){return item.sku === sku});
-        // }
-
         function initMainCanvas()
         {
             stageManager = StageManager.getInstance();
@@ -619,7 +590,6 @@ var QuestManager = (function () {
             tl.add(slotCharacterIcon.content.show, "+=0.25");
 
             var iconNewContainer = getElement('iconNewContainer' + getSKUIndex(activate.sku));
-            iconNewContainer.visible = false;
             tl.add(iconNewContainer.content.show, "+=0.5");
 
             var isAllActivated = slotObject.every(function(item){return item.isActivated == true});
@@ -657,11 +627,6 @@ var QuestManager = (function () {
 
             var btnClaimObj = getElement('btnClaimObj');
             tl.add(btnClaimObj.content.show, "+=0.25");
-        }
-
-        function setJsonString(value)
-        {
-            //jsonString = value;
         }
 
         var elements;
