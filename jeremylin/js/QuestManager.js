@@ -94,7 +94,6 @@ var QuestManager = (function () {
                         {sku: 'slickback', spineName:'jlin', skinName:'slickback', isActivated: false, scale: 1, iconName: 'images-icon-slick'}
                     ];
                 }
-                console.log(slotObject);
             } else {
                 console.log('no Local Storage');
             }
