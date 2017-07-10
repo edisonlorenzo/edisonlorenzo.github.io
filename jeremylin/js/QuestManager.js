@@ -23,13 +23,15 @@ var QuestManager = (function () {
 
         var languageData;
 
-        var slotObject = [
-            {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: true, scale: 1, iconName: 'images-icon-braid'},
-            {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: true, scale: 1, iconName: 'images-icon-buzz'},
-            {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: true, scale: 1, iconName: 'images-icon-logo'},
-            {sku: 'bun', spineName:'jlin', skinName:'bun', isActivated: false, scale: 1, iconName: 'images-icon-bun'},
-            {sku: 'slickback', spineName:'jlin', skinName:'slickback', isActivated: true, scale: 1, iconName: 'images-icon-slick'}
-        ];
+        var slotObject = new Array();
+
+        // var slotObject = [
+        //     {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: true, scale: 1, iconName: 'images-icon-braid'},
+        //     {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: true, scale: 1, iconName: 'images-icon-buzz'},
+        //     {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: true, scale: 1, iconName: 'images-icon-logo'},
+        //     {sku: 'bun', spineName:'jlin', skinName:'bun', isActivated: false, scale: 1, iconName: 'images-icon-bun'},
+        //     {sku: 'slickback', spineName:'jlin', skinName:'slickback', isActivated: true, scale: 1, iconName: 'images-icon-slick'}
+        // ];
 
         var finalPin = {sku: 'mohawk', spineName:'jlin', skinName:'mohawk', scale: 1};
 
@@ -61,6 +63,39 @@ var QuestManager = (function () {
         function getAsset()
         {
             return assets;
+        }
+
+        function saveSlotData()
+        {
+            if (typeof(Storage) !== undefined) {
+                localStorage.setItem("slotData-" + activate.saveId, JSON.stringify(slotObject));
+            }
+        }
+
+        function getSlotData()
+        {
+            if (typeof(Storage) !== undefined) {
+                console.log('has Local Storage');
+                var slotData = (localStorage.getItem("slotData-" + activate.saveId));
+                if(slotData !== null)
+                {
+                    console.log('getting data: '+ slotData);
+                    slotObject = JSON.parse(slotData);
+                } else {
+                    console.log('setting data');
+                    slotObject = [
+                        {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: false, scale: 1, iconName: 'images-icon-braid'},
+                        {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: false, scale: 1, iconName: 'images-icon-buzz'},
+                        {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: false, scale: 1, iconName: 'images-icon-logo'},
+                        {sku: 'bun', spineName:'jlin', skinName:'bun', isActivated: false, scale: 1, iconName: 'images-icon-bun'},
+                        {sku: 'slickback', spineName:'jlin', skinName:'slickback', isActivated: false, scale: 1, iconName: 'images-icon-slick'}
+                    ];
+                }
+                console.log(slotObject);
+            } else {
+                console.log('no Local Storage');
+            }
+
         }
 
         function createImage(id, container, imageRes)
@@ -148,12 +183,12 @@ var QuestManager = (function () {
 
         function getSKU(sku)
         {
-            return slotObject.find(function(item){return item.sku === sku});
+            return slotObject.find(function(item){return item.sku === sku;});
         }
 
         function getSKUIndex(sku)
         {
-            return slotObject.findIndex(function(item){return item.sku === sku});
+            return slotObject.findIndex(function(item){return item.sku === sku;});
         }
 
         function getLanguage(code)
@@ -536,6 +571,8 @@ var QuestManager = (function () {
 
         function setup()
         {
+            getSlotData();
+
             var languageCode;
             if(navigator.language !== undefined)
             {
@@ -566,6 +603,8 @@ var QuestManager = (function () {
 
             tl = new TimelineMax();
             showActivate();
+
+            saveSlotData();
         }
 
         function showActivate()
