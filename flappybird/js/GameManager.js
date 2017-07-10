@@ -77,6 +77,8 @@ var GameManager = (function () {
                 if(localStorage.bestScore !== "undefined")
                 {
                     bestScore = localStorage.bestScore;
+                } else {
+                    bestScore = 0;
                 }
             }
 
