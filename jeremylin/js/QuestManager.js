@@ -22,6 +22,7 @@ var QuestManager = (function () {
         ];
 
         var languageData;
+        var characterData;
 
         var slotObject = new Array();
 
@@ -263,26 +264,28 @@ var QuestManager = (function () {
             backgroundContainer.addChild(backgroundContainerMask);
             backgroundContainer.mask = backgroundContainerMask;
 
-            var characterData = getSKU(activate.sku);
-            characterData.isActivated = true;
+            if(characterData !== undefined)
+            {
+                characterData.isActivated = true;
 
-            var activatedSpineJsonData = {spineName: characterData.spineName, skinName: characterData.skinName, position:{x: 0, y:0}, scale: 1, animationName: 'summon_appear', loop: false};
-            var spineActivatedCharacterObj = createSpine('activatedCharacterSpine', backgroundContainer, activatedSpineJsonData);
-            spineActivatedCharacterObj.visible = false;
-            spineActivatedCharacterObj.content.spineJsonData = activatedSpineJsonData;
+                var activatedSpineJsonData = {spineName: characterData.spineName, skinName: characterData.skinName, position:{x: 0, y:0}, scale: 1, animationName: 'summon_appear', loop: false};
+                var spineActivatedCharacterObj = createSpine('activatedCharacterSpine', backgroundContainer, activatedSpineJsonData);
+                spineActivatedCharacterObj.visible = false;
+                spineActivatedCharacterObj.content.spineJsonData = activatedSpineJsonData;
 
-            spineActivatedCharacterObj.content.show = (function() {
-                this.visible = true;
-                this.state.setAnimation(0, this.content.spineJsonData.animationName, this.content.spineJsonData.loop);
-                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                TweenMax.fromTo(this.scale, 0.5, {x: 3, y: 3}, {x: 1, y: 1, ease: Linear.none});
-            }).bind(spineActivatedCharacterObj);
+                spineActivatedCharacterObj.content.show = (function() {
+                    this.visible = true;
+                    this.state.setAnimation(0, this.content.spineJsonData.animationName, this.content.spineJsonData.loop);
+                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    TweenMax.fromTo(this.scale, 0.5, {x: 3, y: 3}, {x: 1, y: 1, ease: Linear.none});
+                }).bind(spineActivatedCharacterObj);
 
-            spineActivatedCharacterObj.content.hide = (function() {
-                this.visible = true;
-                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false;}});
-                TweenMax.fromTo(this.scale, 0.5, {x: 1, y: 1}, {x: 0.8, y: 0.8, ease: Power2.easeOut});
-            }).bind(spineActivatedCharacterObj);
+                spineActivatedCharacterObj.content.hide = (function() {
+                    this.visible = true;
+                    TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false;}});
+                    TweenMax.fromTo(this.scale, 0.5, {x: 1, y: 1}, {x: 0.8, y: 0.8, ease: Power2.easeOut});
+                }).bind(spineActivatedCharacterObj);
+            }
 
             var unlockedSpineJsonData = {spineName: finalPin.spineName, skinName: finalPin.skinName, position:{x: 0, y:0}, scale: 1, animationName: 'summon_appear', loop: false};
             var unlockedCharacterSpineObj = createSpine('unlockedCharacterSpine', backgroundContainer, unlockedSpineJsonData);
@@ -315,7 +318,12 @@ var QuestManager = (function () {
                 fill: '#ffffff'
             }));
             activatedTitleObjText.anchor.set(0.5);
-            activatedTitleObjText.position.y = -20;
+            if(characterData == undefined)
+            {
+                activatedTitleObjText.text = 'Invalid Data'
+            } else {
+                activatedTitleObjText.position.y = -20;
+            }
 
             var activatedCodeObjText = createText('activatedCodeObjText', activatedObj, 'Serial Code', new PIXI.TextStyle({
                 fontFamily: 'Arial',
@@ -573,6 +581,7 @@ var QuestManager = (function () {
 
         function setup()
         {
+
             getSlotData();
 
             var languageCode;
@@ -589,7 +598,10 @@ var QuestManager = (function () {
             console.log('Setting up User Interface...');
             elements = new Array();
 
+
             res =  AssetLoaderManager.getInstance().getRes();
+
+            characterData = getSKU(activate.sku);
 
             initMainCanvas();
 
@@ -607,12 +619,16 @@ var QuestManager = (function () {
             showActivate();
 
             saveSlotData();
+
         }
 
         function showActivate()
         {
-            var activatedCharacterSpine = getElement('activatedCharacterSpine');
-            tl.add(activatedCharacterSpine.content.show, "+=0");
+            if(characterData !== undefined)
+            {
+                var activatedCharacterSpine = getElement('activatedCharacterSpine');
+                tl.add(activatedCharacterSpine.content.show, "+=0");
+            }
 
             var activatedContainer = getElement('activatedContainer');
             tl.add(activatedContainer.content.show, "+=0.75");
@@ -623,15 +639,18 @@ var QuestManager = (function () {
             var footerTopCollectText = getElement('footerTopCollectText');
             tl.add(footerTopCollectText.content.show, "+=0.5");
 
-            var activatedCodeObjText = getElement('activatedCodeObjText');
-            tl.add(activatedCodeObjText.content.show, "+=0.1");
+            if(characterData !== undefined)
+            {
+                var activatedCodeObjText = getElement('activatedCodeObjText');
+                tl.add(activatedCodeObjText.content.show, "+=0.1");
 
-            var slotCharacterIcon = getElement('slotCharacterIcon' + getSKUIndex(activate.sku));
-            slotCharacterIcon.visible = false;
-            tl.add(slotCharacterIcon.content.show, "+=0.25");
+                var slotCharacterIcon = getElement('slotCharacterIcon' + getSKUIndex(activate.sku));
+                slotCharacterIcon.visible = false;
+                tl.add(slotCharacterIcon.content.show, "+=0.25");
 
-            var iconNewContainer = getElement('iconNewContainer' + getSKUIndex(activate.sku));
-            tl.add(iconNewContainer.content.show, "+=0.5");
+                var iconNewContainer = getElement('iconNewContainer' + getSKUIndex(activate.sku));
+                tl.add(iconNewContainer.content.show, "+=0.5");
+            }
 
             var isAllActivated = slotObject.every(function(item){return item.isActivated == true});
             if(isAllActivated)
@@ -642,8 +661,11 @@ var QuestManager = (function () {
 
         function showUnlocked()
         {
-            var activatedCharacterSpine = getElement('activatedCharacterSpine');
-            tl.add(activatedCharacterSpine.content.hide, "+=1");
+            if(characterData !== undefined)
+            {
+                var activatedCharacterSpine = getElement('activatedCharacterSpine');
+                tl.add(activatedCharacterSpine.content.hide, "+=1");
+            }
 
             var unlockedCharacterSpine = getElement('unlockedCharacterSpine');
             tl.add(unlockedCharacterSpine.content.show, "+=0");
