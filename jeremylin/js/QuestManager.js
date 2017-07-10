@@ -213,19 +213,6 @@ var QuestManager = (function () {
             backgroundContainer.addChild(backgroundContainerMask);
             backgroundContainer.mask = backgroundContainerMask;
 
-
-
-            var unlockedSpineJsonData = {spineName: finalPin.spineName, skinName: finalPin.skinName, position:{x: 0, y:0}, scale: 1, animationName: 'summon_appear', loop: false};
-            var unlockedCharacterSpineObj = createSpine('unlockedCharacterSpine', backgroundContainer, unlockedSpineJsonData);
-            unlockedCharacterSpineObj.visible = false;
-            unlockedCharacterSpineObj.content.spineJsonData = unlockedSpineJsonData;
-            unlockedCharacterSpineObj.content.show = (function() {
-                this.visible = true;
-                this.state.setAnimation(0, this.content.spineJsonData.animationName, this.content.spineJsonData.loop);
-                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                TweenMax.fromTo(this.scale, 0.5, {x: 3, y: 3}, {x: 1, y: 1, ease: Linear.none});
-            }).bind(unlockedCharacterSpineObj);
-
             var characterData = getSKU(activate.sku);
             characterData.isActivated = true;
 
@@ -243,9 +230,20 @@ var QuestManager = (function () {
 
             spineActivatedCharacterObj.content.hide = (function() {
                 this.visible = true;
-                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false}});
+                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false;}});
                 TweenMax.fromTo(this.scale, 0.5, {x: 1, y: 1}, {x: 0.8, y: 0.8, ease: Power2.easeOut});
             }).bind(spineActivatedCharacterObj);
+
+            var unlockedSpineJsonData = {spineName: finalPin.spineName, skinName: finalPin.skinName, position:{x: 0, y:0}, scale: 1, animationName: 'summon_appear', loop: false};
+            var unlockedCharacterSpineObj = createSpine('unlockedCharacterSpine', backgroundContainer, unlockedSpineJsonData);
+            unlockedCharacterSpineObj.visible = false;
+            unlockedCharacterSpineObj.content.spineJsonData = unlockedSpineJsonData;
+            unlockedCharacterSpineObj.content.show = (function() {
+                this.visible = true;
+                this.state.setAnimation(0, this.content.spineJsonData.animationName, this.content.spineJsonData.loop);
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                TweenMax.fromTo(this.scale, 0.5, {x: 3, y: 3}, {x: 1, y: 1, ease: Linear.none});
+            }).bind(unlockedCharacterSpineObj);
 
             var activatedContainer = createContainer('activatedContainer', backgroundContainer);
             var unlockedContainer = createContainer('unlockedContainer', backgroundContainer);
@@ -307,7 +305,7 @@ var QuestManager = (function () {
 
             activatedContainer.content.hide = (function() {
                 this.visible = true;
-                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false}});
+                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false;}});
                 TweenMax.fromTo(this.position, 0.25, {x: 0}, {x: stageManager.getDimension().canvasWidth + (activatedContainer.width * 0.5), ease: Power2.easeOut});
             }).bind(activatedContainer);
 
@@ -324,7 +322,7 @@ var QuestManager = (function () {
 
             unlockedContainer.content.hide = (function() {
                 this.visible = true;
-                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false}});
+                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false;}});
                 TweenMax.fromTo(this.position, 0.25, {x: 0}, {x: stageManager.getDimension().canvasWidth + (unlockedContainer.width * 0.5), ease: Power2.easeOut});
             }).bind(unlockedContainer);
 
@@ -411,7 +409,7 @@ var QuestManager = (function () {
 
             footerTopCollectText.content.hide = (function() {
                 this.visible = true;
-                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false}});
+                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false;}});
             }).bind(footerTopCollectText);
 
             var btnClaimObj = createImage('btnClaimObj', footerContainer, res['images-btn-claim'].texture);
@@ -447,6 +445,9 @@ var QuestManager = (function () {
             {
                 var slotCharacterObj = createImage('slotCharacter' + i, footerContainer, res['images-slot'].texture);
                 slotCharacterObj.anchor.set(0.5);
+                slotCharacterObj.content.width = slotCharacterObj.width;
+                slotCharacterObj.content.height = slotCharacterObj.height;
+
                 slotCharacterObj.scale.set(0.69);
                 slotCharacterObj.position.x = -285 + ((slotCharacterObj.width + 5) * i);
                 slotCharacterObj.position.y = footerObjBottom.position.y - 30;
@@ -467,6 +468,12 @@ var QuestManager = (function () {
                 iconCharacter.anchor.set(0.5);
                 iconCharacter.visible = dataObject[i].isActivated;
 
+                iconCharacter.content.show = (function() {
+                    this.visible = true;
+                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    TweenMax.fromTo(this.scale, 0.5, {x: 3, y: 3}, {x: 1, y: 1, ease: Power2.easeOut});
+                }).bind(iconCharacter);
+
                 var iconQuestionMark = createText('slotQuestionMark' + i, container, '?', new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 150,
@@ -474,15 +481,37 @@ var QuestManager = (function () {
                     fontWeight: 'bold',
                     fill: '#777777'
                 }));
-
                 iconQuestionMark.anchor.set(0.5);
                 iconQuestionMark.visible = !dataObject[i].isActivated;
 
-                iconCharacter.content.show = (function() {
+                var iconNewContainer = createContainer('iconNewContainer' + i, container);
+                iconNewContainer.visible = false;
+
+                iconNewContainer.content.show = (function() {
                     this.visible = true;
                     TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                    TweenMax.fromTo(this.scale, 0.5, {x: 3, y: 3}, {x: 1, y: 1, ease: Power2.easeOut});
-                }).bind(iconCharacter);
+                    TweenMax.fromTo(this.position, 0.5, {y: 20}, {y: 0, ease: Power2.easeOut});
+                }).bind(iconNewContainer);
+
+                iconCharacter.addChild(iconNewContainer);
+
+                var iconNew = createImage('iconNew' + i, iconNewContainer, res['images-white'].texture);
+                iconNew.anchor.set(0.5);
+                iconNew.tint = 0x3d9eff;
+                iconNew.alpha = 0.85;
+                iconNew.width = slotCharacterObj.content.width;
+                iconNew.height = slotCharacterObj.content.height * 0.2;
+                iconNew.position.y = (slotCharacterObj.content.height * 0.5) - (iconNew.height * 0.5);
+
+                var iconNewText = createText('iconNewText' + i, iconNewContainer, 'New!', new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 32,
+                    fontStyle: 'normal',
+                    fontWeight: 'bold',
+                    fill: '#ffffff'
+                }));
+                iconNewText.anchor.set(0.5);
+                iconNewText.position.y = (slotCharacterObj.content.height * 0.5) - (iconNewText.height * 0.5) - 3;
 
                 slotCharacterObj.content.container = container;
                 slotCharacterObj.content.textureMask = textureMask;
@@ -535,6 +564,10 @@ var QuestManager = (function () {
             var slotCharacterIcon = getElement('slotCharacterIcon' + getSKUIndex(activate.sku));
             slotCharacterIcon.visible = false;
             tl.add(slotCharacterIcon.content.show, "+=0.25");
+
+            var iconNewContainer = getElement('iconNewContainer' + getSKUIndex(activate.sku));
+            iconNewContainer.visible = false;
+            tl.add(iconNewContainer.content.show, "+=0.5");
 
             var isAllActivated = dataObject.every(function(item){return item.isActivated == true});
             if(isAllActivated)
