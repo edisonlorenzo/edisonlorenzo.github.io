@@ -347,8 +347,9 @@ var QuestManager = (function () {
         function initFooter()
         {
             var backgroundObj = getElement('backgroundObj');
+            var backgroundContainer = getElement('backgroundContainer');
 
-            var footerContainer = createContainer('footerContainer', backgroundObj);
+            var footerContainer = createContainer('footerContainer', backgroundContainer);
             footerContainer.visible = false;
             footerContainer.content.show = (function() {
                 this.visible = true;
