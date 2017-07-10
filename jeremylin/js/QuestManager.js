@@ -68,7 +68,10 @@ var QuestManager = (function () {
         function saveSlotData()
         {
             if (typeof(Storage) !== undefined) {
+                console.log('saving data...');
                 localStorage.setItem("slotData-" + activate.saveId, JSON.stringify(slotObject));
+            } else {
+                console.log('saving data failed...');
             }
         }
 
@@ -79,10 +82,10 @@ var QuestManager = (function () {
                 var slotData = (localStorage.getItem("slotData-" + activate.saveId));
                 if(slotData !== null)
                 {
-                    console.log('getting data: '+ slotData);
+                    console.log('getting data...');
                     slotObject = JSON.parse(slotData);
                 } else {
-                    console.log('setting data');
+                    console.log('setting data...');
                     slotObject = [
                         {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: false, scale: 1, iconName: 'images-icon-braid'},
                         {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: false, scale: 1, iconName: 'images-icon-buzz'},
