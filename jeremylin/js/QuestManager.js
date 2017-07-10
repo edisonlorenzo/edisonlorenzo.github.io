@@ -9,14 +9,17 @@ var QuestManager = (function () {
         // Singleton Init
         var stageManager;
         var res;
+        var tl;
 
         var dataObject = [
-            {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: false, scale: 1, iconName: 'images-icon-braid'},
-            {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: false, scale: 1, iconName: 'images-icon-buzz'},
-            {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: false, scale: 1, iconName: 'images-icon-logo'},
+            {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: true, scale: 1, iconName: 'images-icon-braid'},
+            {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: true, scale: 1, iconName: 'images-icon-buzz'},
+            {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: true, scale: 1, iconName: 'images-icon-logo'},
             {sku: 'bun', spineName:'jlin', skinName:'bun', isActivated: false, scale: 1, iconName: 'images-icon-bun'},
-            {sku: 'slickback', spineName:'jlin', skinName:'slickback', isActivated: false, scale: 1, iconName: 'images-icon-slick'}
+            {sku: 'slickback', spineName:'jlin', skinName:'slickback', isActivated: true, scale: 1, iconName: 'images-icon-slick'}
         ];
+
+        var finalPin = {sku: 'mohawk', spineName:'jlin', skinName:'mohawk', scale: 1};
 
         var assets = new Array();
 
@@ -35,6 +38,7 @@ var QuestManager = (function () {
         assets.push(new Asset('images-icon-bun', 'images/icon_bun.png'));
         assets.push(new Asset('images-icon-slick', 'images/icon_slick.png'));
         assets.push(new Asset('images-icon-logo', 'images/icon_logo.png'));
+        assets.push(new Asset('images-btn-claim', 'images/btn_claim.png'));
 
         function Asset(resName, resPath)
         {
@@ -209,12 +213,39 @@ var QuestManager = (function () {
             backgroundContainer.addChild(backgroundContainerMask);
             backgroundContainer.mask = backgroundContainerMask;
 
-            var characterData = getSKU(activate.sku);
 
+
+            var unlockedSpineJsonData = {spineName: finalPin.spineName, skinName: finalPin.skinName, position:{x: 0, y:0}, scale: 1, animationName: 'summon_appear', loop: false};
+            var unlockedCharacterSpineObj = createSpine('unlockedCharacterSpine', backgroundContainer, unlockedSpineJsonData);
+            unlockedCharacterSpineObj.visible = false;
+            unlockedCharacterSpineObj.content.spineJsonData = unlockedSpineJsonData;
+            unlockedCharacterSpineObj.content.show = (function() {
+                this.visible = true;
+                this.state.setAnimation(0, this.content.spineJsonData.animationName, this.content.spineJsonData.loop);
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                TweenMax.fromTo(this.scale, 0.5, {x: 3, y: 3}, {x: 1, y: 1, ease: Linear.none});
+            }).bind(unlockedCharacterSpineObj);
+
+            var characterData = getSKU(activate.sku);
             characterData.isActivated = true;
 
-            var spineJsonData = {spineName: characterData.spineName, skinName: characterData.skinName, position:{x: 0, y:0}, scale: 1, animationName: 'summon_appear', loop: false};
-            var spineCharacterObj = createSpine('characterSpine', backgroundContainer, spineJsonData);
+            var activatedSpineJsonData = {spineName: characterData.spineName, skinName: characterData.skinName, position:{x: 0, y:0}, scale: 1, animationName: 'summon_appear', loop: false};
+            var spineActivatedCharacterObj = createSpine('activatedCharacterSpine', backgroundContainer, activatedSpineJsonData);
+            spineActivatedCharacterObj.visible = false;
+            spineActivatedCharacterObj.content.spineJsonData = activatedSpineJsonData;
+
+            spineActivatedCharacterObj.content.show = (function() {
+                this.visible = true;
+                this.state.setAnimation(0, this.content.spineJsonData.animationName, this.content.spineJsonData.loop);
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                TweenMax.fromTo(this.scale, 0.5, {x: 3, y: 3}, {x: 1, y: 1, ease: Linear.none});
+            }).bind(spineActivatedCharacterObj);
+
+            spineActivatedCharacterObj.content.hide = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false}});
+                TweenMax.fromTo(this.scale, 0.5, {x: 1, y: 1}, {x: 0.8, y: 0.8, ease: Power2.easeOut});
+            }).bind(spineActivatedCharacterObj);
 
             var activatedContainer = createContainer('activatedContainer', backgroundContainer);
             var unlockedContainer = createContainer('unlockedContainer', backgroundContainer);
@@ -225,27 +256,82 @@ var QuestManager = (function () {
             var unlockedObj = createImage('unlockedObj', unlockedContainer, res['images-gradient-gold'].texture);
             unlockedObj.anchor.set(0.5);
 
-            activatedContainer.visible = true;
+            activatedContainer.visible = false;
             unlockedContainer.visible = false;
 
-            var activateTitleObjText = createText('activateTitleObjText', activatedObj, ' ' + 'Activated' + ' ', new PIXI.TextStyle({
+            var activatedTitleObjText = createText('activatedTitleObjText', activatedObj, ' ' + 'Activated' + ' ', new PIXI.TextStyle({
                 fontFamily: 'Arial',
                 fontSize: 60,
                 fontStyle: 'italic',
                 fontWeight: 'bold',
                 fill: '#ffffff'
             }));
-            activateTitleObjText.anchor.set(0.5);
-            activateTitleObjText.position.y = -20;
+            activatedTitleObjText.anchor.set(0.5);
+            activatedTitleObjText.position.y = -20;
 
-            var activateCodeObjText = createText('activateCodeObjText', activatedObj, 'Serial Code', new PIXI.TextStyle({
+            var activatedCodeObjText = createText('activatedCodeObjText', activatedObj, 'Serial Code', new PIXI.TextStyle({
                 fontFamily: 'Arial',
                 fontSize: 40,
                 fontStyle: 'normal',
                 fill: '#ffffff'
             }));
-            activateCodeObjText.anchor.set(0.5);
-            activateCodeObjText.position.y = 30;
+            activatedCodeObjText.visible = false;
+            activatedCodeObjText.anchor.set(0.5);
+            activatedCodeObjText.position.y = 30;
+
+            var unlockedTitleObjText = createText('unlockedTitleObjText', unlockedObj, ' ' + 'You\'ve Unlocked' + ' ', new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 60,
+                fontStyle: 'italic',
+                fontWeight: 'bold',
+                fill: '#ffffff'
+            }));
+            unlockedTitleObjText.anchor.set(0.5);
+            unlockedTitleObjText.position.y = -20;
+
+            var unlockedCodeObjText = createText('unlockedCodeObjText', unlockedObj, 'The Secret Pin!', new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 40,
+                fontStyle: 'normal',
+                fill: '#ffffff'
+            }));
+            unlockedCodeObjText.visible = false;
+            unlockedCodeObjText.anchor.set(0.5);
+            unlockedCodeObjText.position.y = 30;
+
+            activatedContainer.content.show = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                TweenMax.fromTo(this.position, 0.25, {x: -(stageManager.getDimension().canvasWidth + (activatedContainer.width * 0.5))}, {x: 0, ease: Power2.easeOut});
+            }).bind(activatedContainer);
+
+            activatedContainer.content.hide = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false}});
+                TweenMax.fromTo(this.position, 0.25, {x: 0}, {x: stageManager.getDimension().canvasWidth + (activatedContainer.width * 0.5), ease: Power2.easeOut});
+            }).bind(activatedContainer);
+
+            activatedCodeObjText.content.show = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+            }).bind(activatedCodeObjText);
+
+            unlockedContainer.content.show = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                TweenMax.fromTo(this.position, 0.25, {x: -(stageManager.getDimension().canvasWidth + (unlockedContainer.width * 0.5))}, {x: 0, ease: Power2.easeOut});
+            }).bind(unlockedContainer);
+
+            unlockedContainer.content.hide = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false}});
+                TweenMax.fromTo(this.position, 0.25, {x: 0}, {x: stageManager.getDimension().canvasWidth + (unlockedContainer.width * 0.5), ease: Power2.easeOut});
+            }).bind(unlockedContainer);
+
+            unlockedCodeObjText.content.show = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+            }).bind(unlockedCodeObjText);
         }
 
         function initHeader()
@@ -263,6 +349,12 @@ var QuestManager = (function () {
             var backgroundObj = getElement('backgroundObj');
 
             var footerContainer = createContainer('footerContainer', backgroundObj);
+            footerContainer.visible = false;
+            footerContainer.content.show = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                TweenMax.fromTo(this.position, 0.5, {y: 450}, {y: 0, ease: Power2.easeOut});
+            }).bind(footerContainer);
 
             var footerObjBottom = createImage('footerBottom', footerContainer, res['images-white'].texture);
             footerObjBottom.tint = 0x292929;
@@ -277,24 +369,78 @@ var QuestManager = (function () {
             footerObjTop.height = 80;
             footerObjTop.position.y = footerObjBottom.position.y - (footerObjBottom.height * 0.5) - (footerObjTop.height * 0.5);
 
+            var footerObjTopClaim = createImage('footerTopClaim', footerContainer, res['images-white'].texture);
+            footerObjTopClaim.visible = false;
+            footerObjTopClaim.tint = 0xfc9e19;
+            footerObjTopClaim.anchor.set(0.5);
+            footerObjTopClaim.width = backgroundObj.content.width;
+            footerObjTopClaim.height = 80;
+            footerObjTopClaim.position.y = footerObjBottom.position.y - (footerObjBottom.height * 0.5) - (footerObjTopClaim.height * 0.5);
+
+            footerObjTopClaim.content.show = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                TweenMax.fromTo(this.position, 0.5, {x: -(backgroundObj.content.width)}, {x: 0, ease: Power2.easeOut});
+            }).bind(footerObjTopClaim);
+
             var footerObjPoweredBy = createImage('footerPoweredBy', footerContainer, res['images-poweredby'].texture);
             footerObjPoweredBy.anchor.set(0.5);
             footerObjPoweredBy.position.y = (backgroundObj.content.height * 0.5) - (footerObjPoweredBy.height * 0.5) - 30;
 
-            var iconMohawkObj = createImage('iconMohawk', footerContainer, res['images-icon-mohawk'].texture);
+            var iconMohawkObj = createImage('iconMohawkObj', footerContainer, res['images-icon-mohawk'].texture);
             iconMohawkObj.anchor.set(0.5);
             iconMohawkObj.position.x = -300;
             iconMohawkObj.position.y = footerObjTop.position.y - 30;
 
-            var iconMohawkObjText = createText('iconMohawkText', footerContainer, 'Collect 5 Pins to Unlock the 6th!', new PIXI.TextStyle({
+            var footerTopCollectText = createText('footerTopCollectText', footerContainer, 'Collect 5 Pins to Unlock the 6th!', new PIXI.TextStyle({
                 fontFamily: 'Arial',
-                fontSize: 40,
+                fontSize: 36,
                 fontStyle: 'normal',
                 fill: '#777777'
             }));
-            iconMohawkObjText.anchor.set(0.5);
-            iconMohawkObjText.position.x = iconMohawkObj.width * 0.5;
-            iconMohawkObjText.position.y = footerObjTop.position.y;
+            footerTopCollectText.visible = false;
+            footerTopCollectText.anchor.y = 0.5;
+            footerTopCollectText.position.x = -230;
+            footerTopCollectText.position.y = footerObjTop.position.y;
+
+            footerTopCollectText.content.show = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+            }).bind(footerTopCollectText);
+
+            footerTopCollectText.content.hide = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false}});
+            }).bind(footerTopCollectText);
+
+            var btnClaimObj = createImage('btnClaimObj', footerContainer, res['images-btn-claim'].texture);
+            btnClaimObj.visible = false;
+            btnClaimObj.anchor.set(0.5);
+            btnClaimObj.scale.set(0.8);
+            btnClaimObj.position.x = 255;
+            btnClaimObj.position.y = footerObjTop.position.y;
+
+            btnClaimObj.content.show = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                TweenMax.fromTo(this.position, 0.5, {y: footerObjTop.position.y + 20}, {y: footerObjTop.position.y, ease: Power2.easeOut});
+            }).bind(btnClaimObj);
+
+            var footerTopClaimText = createText('footerTopClaimText', footerContainer, 'Get Your Secret Pin' + ' >>', new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 36,
+                fontStyle: 'normal',
+                fill: '#ffffff'
+            }));
+            footerTopClaimText.visible = false;
+            footerTopClaimText.anchor.y = 0.5;
+            footerTopClaimText.position.x = -230;
+            footerTopClaimText.position.y = footerObjTop.position.y;
+
+            footerTopClaimText.content.show = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+            }).bind(footerTopClaimText);
 
             for(var i = 0; i < dataObject.length; i++)
             {
@@ -304,35 +450,43 @@ var QuestManager = (function () {
                 slotCharacterObj.position.x = -285 + ((slotCharacterObj.width + 5) * i);
                 slotCharacterObj.position.y = footerObjBottom.position.y - 30;
 
-                slotCharacterObj.content.container = new PIXI.Container();
+                var container = new PIXI.Container();
+                container.width = slotCharacterObj.width;
+                container.height = slotCharacterObj.height;
 
-                slotCharacterObj.content.container.width = slotCharacterObj.width;
-                slotCharacterObj.content.container.height = slotCharacterObj.height;
+                var textureMask = new PIXI.Sprite(res['images-slot-mask'].texture);
+                textureMask.anchor.set(0.5);
 
-                slotCharacterObj.content.textureMask = new PIXI.Sprite(res['images-slot-mask'].texture);
-                slotCharacterObj.content.textureMask.anchor.set(0.5);
+                container.addChild(textureMask);
 
-                slotCharacterObj.content.container.addChild(slotCharacterObj.content.textureMask);
+                container.mask = textureMask;
+                slotCharacterObj.addChild(container);
 
-                slotCharacterObj.content.container.mask = slotCharacterObj.content.textureMask;
-                slotCharacterObj.addChild(slotCharacterObj.content.container);
+                var iconCharacter = createImage('slotCharacterIcon' + i, container, res[dataObject[i].iconName].texture);
+                iconCharacter.anchor.set(0.5);
+                iconCharacter.visible = dataObject[i].isActivated;
 
-                // slotCharacterObj.content.spineCharacter = createSpine('slotCharacterSpine' + i, slotCharacterObj.content.container, dataObject[i].skinData, dataObject[i].skinName, 0, 0, dataObject[i].scale);
-                // slotCharacterObj.content.spineCharacter.position.y = dataObject[i].position.y;
-
-                slotCharacterObj.content.iconCharacter = createImage('slotCharacterIcon' + i, slotCharacterObj.content.container, res[dataObject[i].iconName].texture);
-                slotCharacterObj.content.iconCharacter.anchor.set(0.5);
-                slotCharacterObj.content.iconCharacter.visible = dataObject[i].isActivated;
-
-                slotCharacterObj.content.iconQuestionMark = createText('slotQuestionMark' + i, slotCharacterObj.content.container, '?', new PIXI.TextStyle({
+                var iconQuestionMark = createText('slotQuestionMark' + i, container, '?', new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 150,
                     fontStyle: 'normal',
                     fontWeight: 'bold',
                     fill: '#777777'
                 }));
-                slotCharacterObj.content.iconQuestionMark.anchor.set(0.5);
-                slotCharacterObj.content.iconQuestionMark.visible = !dataObject[i].isActivated;
+
+                iconQuestionMark.anchor.set(0.5);
+                iconQuestionMark.visible = !dataObject[i].isActivated;
+
+                iconCharacter.content.show = (function() {
+                    this.visible = true;
+                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    TweenMax.fromTo(this.scale, 0.5, {x: 3, y: 3}, {x: 1, y: 1, ease: Power2.easeOut});
+                }).bind(iconCharacter);
+
+                slotCharacterObj.content.container = container;
+                slotCharacterObj.content.textureMask = textureMask;
+                slotCharacterObj.content.iconCharacter = iconCharacter;
+                slotCharacterObj.content.iconQuestionMark = iconQuestionMark;
 
             }
         }
@@ -356,49 +510,66 @@ var QuestManager = (function () {
 
             console.log('User Interface Complete!');
 
-            show();
+            tl = new TimelineMax();
+            showActivate();
         }
 
-        function show()
+        function showActivate()
         {
-            // var characterSpine = getElement('characterSpine');
-            // characterSpine.scale.set(3);
-            // TweenMax.to(characterSpine.scale, 0.5, {x: 1, y: 1, ease: Linear.none}).delay(.1);
-            //
-            // var activatedContainer = getElement('activatedContainer');
-            // TweenMax.fromTo(activatedContainer.position, .5, {x: -(stageManager.getDimension().width)}, {x: 0, ease: Power2.easeOut}).delay(.6);
-            //
-            // var activateCodeObjText = getElement('activateCodeObjText');
-            // TweenMax.fromTo(activateCodeObjText, .5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut}).delay(1.5);
-            //
-            // var footerContainer = getElement('footerContainer');
-            // TweenMax.fromTo(footerContainer.position, .5, {y: 450}, {y: 0, ease: Power2.easeOut}).delay(1);
-            //
-            // var characterIcon = getElement('slotCharacterIcon' + getSKUIndex(activate.sku));
-            // characterIcon.scale.set(3);
-            // TweenMax.to(characterIcon.scale, 0.5, {x: 1, y: 1, ease: Power2.easeOut}).delay(2);
-
-            var tl = new TimelineMax();
-
-            var characterSpine = getElement('characterSpine');
-            tl.from(characterSpine.scale, 0.5, {x: 3, y: 3, ease: Linear.none})
+            var activatedCharacterSpine = getElement('activatedCharacterSpine');
+            tl.add(activatedCharacterSpine.content.show, "+=0");
 
             var activatedContainer = getElement('activatedContainer');
-            tl.from(activatedContainer.position, 0.25, {x: -(stageManager.getDimension().canvasWidth + (activatedContainer.width * 0.5)), ease: Power2.easeOut});
+            tl.add(activatedContainer.content.show, "+=0.75");
 
             var footerContainer = getElement('footerContainer');
-            tl.from(footerContainer.position, 0.5, {y: 450, ease: Power2.easeOut});
+            tl.add(footerContainer.content.show, "+=0.25");
 
-            var iconMohawkObjText = getElement('iconMohawkText');
-            tl.from(iconMohawkObjText, 0.5, {alpha: 0, ease: Power2.easeOut});
+            var footerTopCollectText = getElement('footerTopCollectText');
+            tl.add(footerTopCollectText.content.show, "+=0.5");
 
-            var activateCodeObjText = getElement('activateCodeObjText');
-            tl.from(activateCodeObjText, 0.5, {alpha: 0, ease: Power2.easeOut}, "-=0.25");
+            var activatedCodeObjText = getElement('activatedCodeObjText');
+            tl.add(activatedCodeObjText.content.show, "+=0.1");
 
-            var characterIcon = getElement('slotCharacterIcon' + getSKUIndex(activate.sku));
-            tl.from(characterIcon, 0.5, {alpha: 0, ease: Power2.easeOut}, "-=0.25");
-            tl.from(characterIcon.scale, 0.5, {x: 3, y: 3, ease: Power2.easeOut}, "-=0.5");
+            var slotCharacterIcon = getElement('slotCharacterIcon' + getSKUIndex(activate.sku));
+            slotCharacterIcon.visible = false;
+            tl.add(slotCharacterIcon.content.show, "+=0.25");
 
+            var isAllActivated = dataObject.every(function(item){return item.isActivated == true});
+            if(isAllActivated)
+            {
+                showUnlocked();
+            }
+        }
+
+        function showUnlocked()
+        {
+            var activatedCharacterSpine = getElement('activatedCharacterSpine');
+            tl.add(activatedCharacterSpine.content.hide, "+=1");
+
+            var unlockedCharacterSpine = getElement('unlockedCharacterSpine');
+            tl.add(unlockedCharacterSpine.content.show, "+=0");
+
+            var activatedContainer = getElement('activatedContainer');
+            tl.add(activatedContainer.content.hide, "+=0");
+
+            var unlockedContainer = getElement('unlockedContainer');
+            tl.add(unlockedContainer.content.show, "+=0.75");
+
+            var footerTopCollectText = getElement('footerTopCollectText');
+            tl.add(footerTopCollectText.content.hide, "+=0.5");
+
+            var unlockedCodeObjText = getElement('unlockedCodeObjText');
+            tl.add(unlockedCodeObjText.content.show, "+=0");
+
+            var footerTopClaimText = getElement('footerTopClaimText');
+            tl.add(footerTopClaimText.content.show, "+=0");
+
+            var footerTopClaim = getElement('footerTopClaim');
+            tl.add(footerTopClaim.content.show, "+=0");
+
+            var btnClaimObj = getElement('btnClaimObj');
+            tl.add(btnClaimObj.content.show, "+=0.25");
         }
 
         function setJsonString(value)

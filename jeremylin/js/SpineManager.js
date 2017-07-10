@@ -45,7 +45,7 @@ var SpineManager = (function () {
             spine.scale.set(spineJsonData.scale);
 
             // play animation
-            spine.state.setAnimation(0, spineJsonData.animationName, spineJsonData.loop);
+            // spine.state.setAnimation(0, spineJsonData.animationName, spineJsonData.loop);
 
             spine.on('pointertap', function() {
                 spine.state.setAnimation(0, spineJsonData.animationName, spineJsonData.loop);
