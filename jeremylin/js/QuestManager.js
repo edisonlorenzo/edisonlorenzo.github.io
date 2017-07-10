@@ -638,7 +638,6 @@ var QuestManager = (function () {
 
         return {
             getAsset: getAsset,
-            setJsonString: setJsonString,
             setup: setup
         };
 
