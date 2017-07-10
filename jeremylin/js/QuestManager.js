@@ -23,7 +23,7 @@ var QuestManager = (function () {
 
         var languageData;
 
-        var dataObject = [
+        var slotObject = [
             {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: true, scale: 1, iconName: 'images-icon-braid'},
             {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: true, scale: 1, iconName: 'images-icon-buzz'},
             {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: true, scale: 1, iconName: 'images-icon-logo'},
@@ -148,12 +148,12 @@ var QuestManager = (function () {
 
         function getSKU(sku)
         {
-            return dataObject.find(function(item){return item.sku === sku});
+            return slotObject.find(function(item){return item.sku === sku});
         }
 
         function getSKUIndex(sku)
         {
-            return dataObject.findIndex(function(item){return item.sku === sku});
+            return slotObject.findIndex(function(item){return item.sku === sku});
         }
 
         function getLanguage(code)
@@ -483,7 +483,7 @@ var QuestManager = (function () {
                 TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
             }).bind(footerTopClaimText);
 
-            for(var i = 0; i < dataObject.length; i++)
+            for(var i = 0; i < slotObject.length; i++)
             {
                 var slotCharacterObj = createImage('slotCharacter' + i, footerContainer, res['images-slot'].texture);
                 slotCharacterObj.anchor.set(0.5);
@@ -506,9 +506,9 @@ var QuestManager = (function () {
                 container.mask = textureMask;
                 slotCharacterObj.addChild(container);
 
-                var iconCharacter = createImage('slotCharacterIcon' + i, container, res[dataObject[i].iconName].texture);
+                var iconCharacter = createImage('slotCharacterIcon' + i, container, res[slotObject[i].iconName].texture);
                 iconCharacter.anchor.set(0.5);
-                iconCharacter.visible = dataObject[i].isActivated;
+                iconCharacter.visible = slotObject[i].isActivated;
 
                 iconCharacter.content.show = (function() {
                     this.visible = true;
@@ -524,7 +524,7 @@ var QuestManager = (function () {
                     fill: '#777777'
                 }));
                 iconQuestionMark.anchor.set(0.5);
-                iconQuestionMark.visible = !dataObject[i].isActivated;
+                iconQuestionMark.visible = !slotObject[i].isActivated;
 
                 var iconNewContainer = createContainer('iconNewContainer' + i, container);
                 iconNewContainer.visible = false;
@@ -622,7 +622,7 @@ var QuestManager = (function () {
             iconNewContainer.visible = false;
             tl.add(iconNewContainer.content.show, "+=0.5");
 
-            var isAllActivated = dataObject.every(function(item){return item.isActivated == true});
+            var isAllActivated = slotObject.every(function(item){return item.isActivated == true});
             if(isAllActivated)
             {
                 showUnlocked();
