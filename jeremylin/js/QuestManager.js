@@ -24,6 +24,7 @@ var QuestManager = (function () {
 
         var languageData;
         var characterData;
+        var isNewActivation = false;
 
         var slotObject = new Array();
 
@@ -647,6 +648,8 @@ var QuestManager = (function () {
 
             elements = new Array();
             characterData = getSKU(activate.sku);
+            isNewActivation = !characterData.isActivated;
+
         }
 
         function setup()
@@ -707,8 +710,11 @@ var QuestManager = (function () {
                 slotCharacterIcon.visible = false;
                 tl.add(slotCharacterIcon.content.show, "+=0.25");
 
-                var iconNewContainer = getElement('iconNewContainer' + getSKUIndex(activate.sku));
-                tl.add(iconNewContainer.content.show, "+=0.5");
+                if(isNewActivation)
+                {
+                    var iconNewContainer = getElement('iconNewContainer' + getSKUIndex(activate.sku));
+                    tl.add(iconNewContainer.content.show, "+=0.5");
+                }
             }
 
             var isAllActivated = slotObject.every(function(item){return item.isActivated == true});
