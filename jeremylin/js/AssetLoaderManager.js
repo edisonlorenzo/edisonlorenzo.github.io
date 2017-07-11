@@ -35,7 +35,6 @@ var AssetLoaderManager = (function () {
 
             var richText = new PIXI.Text('Loading 0%', style);
             richText.anchor.set(0.5);
-            //richText.scale.x = richText.scale.y = stageManager.getDimension().calculateRatioBoth('height', richText.width, richText.height, .5, .1);
 
             var requestId = undefined;
             function loop() {
@@ -75,7 +74,6 @@ var AssetLoaderManager = (function () {
                 if (requestId) {
                     cancelAnimationFrame(requestId);
                     requestId = undefined;
-                    //stageManager.getContainer().removeChild(richText);
                     richText.text = 'Please wait...';
                 }
             }
