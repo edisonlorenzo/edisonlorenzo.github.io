@@ -188,12 +188,20 @@ var QuestManager = (function () {
 
         function getSKU(sku)
         {
-            return slotObject.find(function(item){return item.sku === sku;});
+            return slotObject.find(
+                function(item){
+                    return compareStrings(item.sku, sku, true, false);
+                }
+            );
         }
 
         function getSKUIndex(sku)
         {
-            return slotObject.findIndex(function(item){return item.sku === sku;});
+            return slotObject.findIndex(
+                function(item){
+                    return compareStrings(item.sku, sku, true, false);
+                }
+            );
         }
 
         function getLanguage(code)
@@ -203,7 +211,8 @@ var QuestManager = (function () {
                     function(language){
                         var item = language.tags.find(
                             function(tag){
-                                return tag == code;
+                                //return tag == code;
+                                return compareStrings(tag, code, true, true);
                             }
                         );
                         if(item == undefined)
@@ -641,6 +650,7 @@ var QuestManager = (function () {
             getSlotData();
 
             initLanguage();
+            languageData = getLanguage(activate.languageCode);
 
             initManagers();
 
@@ -747,6 +757,21 @@ var QuestManager = (function () {
         function getElement(id)
         {
             return elements.find(function(item){return item.content.id === id});
+        }
+
+        function compareStrings (string1, string2, ignoreCase, useLocale) {
+            if (ignoreCase) {
+                if (useLocale) {
+                    string1 = string1.toLocaleLowerCase();
+                    string2 = string2.toLocaleLowerCase();
+                }
+                else {
+                    string1 = string1.toLowerCase();
+                    string2 = string2.toLowerCase();
+                }
+            }
+
+            return string1 === string2;
         }
 
         return {

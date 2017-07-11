@@ -27,9 +27,12 @@
         <script>
 
             /* this was only used for generating random activation test */
-            var listObject = [{sku: 'buzz'}, {sku: 'bun'}, {sku: 'logo'}, {sku: 'slickback'}, {sku: 'braid'}];
-            var randomValue = Math.floor(Math.random() * listObject.length);
-            var activate = {sku: listObject[randomValue].sku, saveId: 'test1'};
+            var listSKU = [{sku: 'buzz'}, {sku: 'bun'}, {sku: 'logo'}, {sku: 'slickback'}, {sku: 'braid'}];
+            var randomSKUValue = Math.floor(Math.random() * listSKU.length);
+            var listLanguageCode = [{code: 'zh-CN'}, {code: 'en-US'}];
+            var randomCodeValue = Math.floor(Math.random() * listLanguageCode.length);
+
+            var activate = {sku: listSKU[randomSKUValue].sku, saveId: 'test1', languageCode: listLanguageCode[randomCodeValue].code};
 
             /* sku = the sku of the pin; saveId = any string that will be used as uniqueId for local storage; */
             //var activate = {sku: 'buzz', saveId: 'jeremylin'};
