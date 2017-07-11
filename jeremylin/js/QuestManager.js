@@ -267,12 +267,11 @@ var QuestManager = (function () {
             var backgroundObj = getElement('backgroundObj');
             var backgroundContainer = createContainer('backgroundContainer', backgroundObj);
 
-            var backgroundContainerMask = new PIXI.Graphics();
-            backgroundContainerMask
-            .beginFill(0xFFFFFF)
-            .drawRect(-(backgroundObj.content.width * 0.5), -(backgroundObj.content.height * 0.5), backgroundObj.content.width + 1, backgroundObj.content.height + 1)
-            .endFill();
-            backgroundContainer.addChild(backgroundContainerMask);
+            var backgroundContainerMask = createImage('backgroundContainerMask', backgroundContainer, res['images-white'].texture);
+            backgroundContainerMask.anchor.set(0.5);
+            backgroundContainerMask.width = backgroundObj.content.width;
+            backgroundContainerMask.height = backgroundObj.content.height;
+
             backgroundContainer.mask = backgroundContainerMask;
 
             if(characterData !== undefined)
