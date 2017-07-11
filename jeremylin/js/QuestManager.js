@@ -619,7 +619,13 @@ var QuestManager = (function () {
                 languageCode = navigator.browserLanguage;
             }
 
+            if(activate.languageCode != undefined)
+            {
+                languageCode = activate.languageCode;
+            }
+
             console.log('Language Detected: ' + languageCode);
+
             languageData = getLanguage(languageCode);
         }
 
@@ -650,7 +656,6 @@ var QuestManager = (function () {
             getSlotData();
 
             initLanguage();
-            languageData = getLanguage(activate.languageCode);
 
             initManagers();
 
