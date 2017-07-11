@@ -8,12 +8,13 @@ var QuestManager = (function () {
 
         // Singleton Init
         var stageManager;
+        var soundManager;
         var res;
         var tl;
 
         var translationObject = [
-            {language: 'chinese', activatedTitleString: '激活成功!', collectString: '集齐五枚胸章即可解锁隐藏版胸章!', unlockedTitleString: '解锁成功', secretPinString: '隐藏版胸章', unlockedString: '隐藏版胸章由此去'},
-            {language: 'english', activatedTitleString: 'Activated!', collectString: 'Collect 5 Pins to Unlock the 6th!', unlockedTitleString: 'You\'ve Unlocked', secretPinString: 'the Secret Pin', unlockedString: 'Get Your Secret Pin'}
+            {language: 'chinese', activatedTitleString: '激活成功!', collectString: '集齐五枚胸章即可解锁隐藏版胸章!', unlockedTitleString: '解锁成功', secretPinString: '隐藏版胸章', unlockedString: '隐藏版胸章由此去', newString: '新入手!'},
+            {language: 'english', activatedTitleString: 'Activated!', collectString: 'Collect 5 Pins to Unlock the 6th!', unlockedTitleString: 'You\'ve Unlocked', secretPinString: 'the Secret Pin', unlockedString: 'Get Your Secret Pin', newString: 'New!'}
         ];
 
         var languageObject = [
@@ -78,6 +79,7 @@ var QuestManager = (function () {
 
         function getSlotData()
         {
+            console.log('Checking Storage...');
             if (typeof(Storage) !== undefined) {
                 console.log('has Local Storage');
                 var slotData = (localStorage.getItem("slotData-" + activate.saveId));
@@ -226,7 +228,6 @@ var QuestManager = (function () {
 
         function initMainCanvas()
         {
-            stageManager = StageManager.getInstance();
             var canvasContainer = createContainer('canvasContainer', stageManager.getContainer());
             canvasContainer.content.setLayout = function () {
                 canvasContainer.scale.x = canvasContainer.scale.y = 1;
@@ -561,7 +562,7 @@ var QuestManager = (function () {
                 iconNew.height = slotCharacterObj.content.height * 0.2;
                 iconNew.position.y = (slotCharacterObj.content.height * 0.5) - (iconNew.height * 0.5);
 
-                var iconNewText = createText('iconNewText' + i, iconNewContainer, 'New!', new PIXI.TextStyle({
+                var iconNewText = createText('iconNewText' + i, iconNewContainer, languageData.newString, new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 32,
                     fontStyle: 'normal',
@@ -579,11 +580,9 @@ var QuestManager = (function () {
             }
         }
 
-        function setup()
+        function initLanguage()
         {
-
-            getSlotData();
-
+            console.log('Initializing Language...');
             var languageCode;
             if(navigator.language !== undefined)
             {
@@ -594,14 +593,39 @@ var QuestManager = (function () {
 
             console.log('Language Detected: ' + languageCode);
             languageData = getLanguage(languageCode);
+        }
 
-            console.log('Setting up User Interface...');
-            elements = new Array();
+        function initTimeLinedTween()
+        {
+            tl = new TimelineMax();
+        }
 
+        function initManagers()
+        {
+            console.log('Initializing Managers...');
+            stageManager = StageManager.getInstance();
+            soundManager = SoundManager.getInstance();
+        }
 
+        function initResourceData()
+        {
             res =  AssetLoaderManager.getInstance().getRes();
 
+            elements = new Array();
             characterData = getSKU(activate.sku);
+        }
+
+        function setup()
+        {
+            console.log('Setting up User Interface...');
+
+            getSlotData();
+
+            initLanguage();
+
+            initManagers();
+
+            initResourceData();
 
             initMainCanvas();
 
@@ -613,13 +637,13 @@ var QuestManager = (function () {
 
             initFooter();
 
-            console.log('User Interface Complete!');
+            initTimeLinedTween();
 
-            tl = new TimelineMax();
             showActivate();
 
             saveSlotData();
 
+            console.log('User Interface Complete!');
         }
 
         function showActivate()
@@ -628,6 +652,7 @@ var QuestManager = (function () {
             {
                 var activatedCharacterSpine = getElement('activatedCharacterSpine');
                 tl.add(activatedCharacterSpine.content.show, "+=0");
+                tl.add(playActivated, "+=0");
             }
 
             var activatedContainer = getElement('activatedContainer');
@@ -667,8 +692,10 @@ var QuestManager = (function () {
                 tl.add(activatedCharacterSpine.content.hide, "+=1");
             }
 
+
             var unlockedCharacterSpine = getElement('unlockedCharacterSpine');
             tl.add(unlockedCharacterSpine.content.show, "+=0");
+            tl.add(playActivated, "+=0");
 
             var activatedContainer = getElement('activatedContainer');
             tl.add(activatedContainer.content.hide, "+=0");
@@ -690,6 +717,11 @@ var QuestManager = (function () {
 
             var btnClaimObj = getElement('btnClaimObj');
             tl.add(btnClaimObj.content.show, "+=0.25");
+        }
+
+        function playActivated()
+        {
+            soundManager.playSound('sfx-activated', 0);
         }
 
         var elements;

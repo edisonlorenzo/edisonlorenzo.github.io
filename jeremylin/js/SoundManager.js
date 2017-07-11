@@ -9,13 +9,7 @@ var SoundManager = (function () {
         // Singleton Init
 
         var assets = new Array();
-        assets.push(new Asset('wing', 'sounds/sfx_wing.wav'));
-        assets.push(new Asset('die', 'sounds/sfx_die.wav'));
-        assets.push(new Asset('hit', 'sounds/sfx_hit.wav'));
-        assets.push(new Asset('point', 'sounds/sfx_point.wav'));
-        assets.push(new Asset('swoosh', 'sounds/sfx_swooshing.wav'));
-
-        
+        assets.push(new Asset('sfx-activated', 'sounds/sfx_activated.mp3'));
 
         function Asset(resName, resPath)
         {
@@ -31,7 +25,7 @@ var SoundManager = (function () {
         function playSound (soundName, delay)
         {
             var res = AssetLoaderManager.getInstance().getRes();
-            
+
             setTimeout(play, delay*1000);
 
             function play() {
@@ -62,4 +56,3 @@ var SoundManager = (function () {
     };
 
 })();
-

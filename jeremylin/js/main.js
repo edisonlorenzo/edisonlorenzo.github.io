@@ -7,6 +7,7 @@ function init()
     var isDone = false;
 
     var spineManager = SpineManager.getInstance();
+    var soundManager = SoundManager.getInstance();
     var questManager = QuestManager.getInstance();
     var assetLoaderManager = AssetLoaderManager.getInstance();
 
@@ -14,6 +15,7 @@ function init()
     {
         console.log('Loading...');
         assetLoaderManager.addAsset(spineManager.getAsset());
+        assetLoaderManager.addAsset(soundManager.getAsset());
         assetLoaderManager.addAsset(questManager.getAsset());
         assetLoaderManager.onReady(assetReady);
         assetLoaderManager.load();
