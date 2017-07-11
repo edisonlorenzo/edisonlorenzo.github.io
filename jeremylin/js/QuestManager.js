@@ -13,8 +13,8 @@ var QuestManager = (function () {
         var tl;
 
         var translationObject = [
-            {language: 'chinese', activatedTitleString: '激活成功!', collectString: '集齐五枚胸章即可解锁隐藏版胸章!', unlockedTitleString: '解锁成功', secretPinString: '隐藏版胸章', unlockedString: '隐藏版胸章由此去', newString: '新入手!'},
-            {language: 'english', activatedTitleString: 'Activated!', collectString: 'Collect 5 Pins to Unlock the 6th!', unlockedTitleString: 'You\'ve Unlocked', secretPinString: 'the Secret Pin', unlockedString: 'Get Your Secret Pin', newString: 'New!'}
+            {language: 'chinese', activatedTitleString: '激活成功!', collectString: '集齐五枚胸章即可解锁隐藏版胸章!', unlockedTitleString: '解锁成功', secretPinString: '隐藏版胸章', unlockedString: '隐藏版胸章由此去', newString: '新入手!', claimNowString: '立即获取!'},
+            {language: 'english', activatedTitleString: 'Activated!', collectString: 'Collect 5 Pins to Unlock the 6th!', unlockedTitleString: 'You\'ve Unlocked', secretPinString: 'the Secret Pin', unlockedString: 'Get Your Secret Pin', newString: 'New!', claimNowString: 'CLAIM\nNOW'}
         ];
 
         var languageObject = [
@@ -54,7 +54,7 @@ var QuestManager = (function () {
         assets.push(new Asset('images-icon-bun', 'images/icon_bun.png'));
         assets.push(new Asset('images-icon-slick', 'images/icon_slick.png'));
         assets.push(new Asset('images-icon-logo', 'images/icon_logo.png'));
-        assets.push(new Asset('images-btn-claim', 'images/btn_claim.png'));
+        assets.push(new Asset('images-btn-claim-blank', 'images/btn_claim_blank.png'));
 
         function Asset(resName, resPath)
         {
@@ -471,7 +471,7 @@ var QuestManager = (function () {
                 TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false;}});
             }).bind(footerTopCollectText);
 
-            var btnClaimObj = createImage('btnClaimObj', footerContainer, res['images-btn-claim'].texture);
+            var btnClaimObj = createImage('btnClaimObj', footerContainer, res['images-btn-claim-blank'].texture);
             btnClaimObj.visible = false;
             btnClaimObj.anchor.set(0.5);
             btnClaimObj.scale.set(0.8);
@@ -483,6 +483,25 @@ var QuestManager = (function () {
                 TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                 TweenMax.fromTo(this.position, 0.5, {y: footerObjTop.position.y + 20}, {y: footerObjTop.position.y, ease: Power2.easeOut});
             }).bind(btnClaimObj);
+
+            var btnClaimContainer = createContainer('btnClaimContainer', btnClaimObj);
+
+            var btnClaimTextObj = createText('btnClaimTextObj', btnClaimContainer, languageData.claimNowString, new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 46,
+                fontStyle: 'normal',
+                fontWeight: 'bold',
+                align: 'center',
+                dropShadow: true,
+                dropShadowAlpha: 0.75,
+                dropShadowColor: '#ffffff',
+                dropShadowDistance: 3,
+                dropShadowBlur: 10,
+                dropShadowAngle: Math.PI/2,
+                fill: '#000000'
+            }));
+            btnClaimTextObj.anchor.set(0.5);
+
 
             var footerTopClaimText = createText('footerTopClaimText', footerContainer, languageData.unlockedString + ' >>', new PIXI.TextStyle({
                 fontFamily: 'Arial',
@@ -691,7 +710,6 @@ var QuestManager = (function () {
                 var activatedCharacterSpine = getElement('activatedCharacterSpine');
                 tl.add(activatedCharacterSpine.content.hide, "+=1");
             }
-
 
             var unlockedCharacterSpine = getElement('unlockedCharacterSpine');
             tl.add(unlockedCharacterSpine.content.show, "+=0");
