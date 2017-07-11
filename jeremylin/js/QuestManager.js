@@ -82,7 +82,7 @@ var QuestManager = (function () {
         {
             console.log('Checking Storage...');
             if (typeof(Storage) !== undefined) {
-                console.log('has Local Storage');
+                console.log('Has Local Storage');
                 var slotData = (localStorage.getItem("slotData-" + activate.saveId));
                 if(slotData !== null)
                 {
