@@ -352,6 +352,7 @@ var QuestManager = (function () {
                 fontWeight: 'bold',
                 fill: '#ffffff'
             }));
+            unlockedTitleObjText.visible = false;
             unlockedTitleObjText.anchor.set(0.5);
             unlockedTitleObjText.position.y = -20;
 
@@ -385,7 +386,8 @@ var QuestManager = (function () {
             unlockedContainer.content.show = (function() {
                 this.visible = true;
                 TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                TweenMax.fromTo(this.position, 0.25, {x: -(stageManager.getDimension().canvasWidth + (unlockedContainer.width * 0.5))}, {x: 0, ease: Power2.easeOut});
+                TweenMax.fromTo(this.scale, 0.5, {x: 1.5, y: 1.5}, {x: 1, y: 1, ease: Power2.easeOut});
+                //TweenMax.fromTo(this.position, 0.25, {x: -(stageManager.getDimension().canvasWidth + (unlockedContainer.width * 0.5))}, {x: 0, ease: Power2.easeOut});
             }).bind(unlockedContainer);
 
             unlockedContainer.content.hide = (function() {
@@ -393,6 +395,12 @@ var QuestManager = (function () {
                 TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: function(){this.visible = false;}});
                 TweenMax.fromTo(this.position, 0.25, {x: 0}, {x: stageManager.getDimension().canvasWidth + (unlockedContainer.width * 0.5), ease: Power2.easeOut});
             }).bind(unlockedContainer);
+
+            unlockedTitleObjText.content.show = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                TweenMax.fromTo(this.scale, 0.5, {x: 3, y: 3}, {x: 1, y: 1, ease: Power2.easeOut});
+            }).bind(unlockedTitleObjText);
 
             unlockedCodeObjText.content.show = (function() {
                 this.visible = true;
@@ -739,7 +747,10 @@ var QuestManager = (function () {
             tl.add(activatedContainer.content.hide, "+=0");
 
             var unlockedContainer = getElement('unlockedContainer');
-            tl.add(unlockedContainer.content.show, "+=0.75");
+            tl.add(unlockedContainer.content.show, "+=0.25");
+
+            var unlockedTitleObjText = getElement('unlockedTitleObjText');
+            tl.add(unlockedTitleObjText.content.show, "+=0.25");
 
             var footerTopCollectText = getElement('footerTopCollectText');
             tl.add(footerTopCollectText.content.hide, "+=0.5");
