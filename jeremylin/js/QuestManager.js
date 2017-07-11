@@ -71,10 +71,10 @@ var QuestManager = (function () {
         function saveSlotData()
         {
             if (typeof(Storage) !== undefined) {
-                console.log('saving data...');
+                console.log('Saving data...');
                 localStorage.setItem("slotData-" + activate.saveId, JSON.stringify(slotObject));
             } else {
-                console.log('saving data failed...');
+                console.log('Saving data failed...');
             }
         }
 
@@ -86,10 +86,10 @@ var QuestManager = (function () {
                 var slotData = (localStorage.getItem("slotData-" + activate.saveId));
                 if(slotData !== null)
                 {
-                    console.log('getting data...');
+                    console.log('Getting data...');
                     slotObject = JSON.parse(slotData);
                 } else {
-                    console.log('setting data...');
+                    console.log('Setting data...');
                     slotObject = [
                         {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: false, scale: 1, iconName: 'images-icon-braid'},
                         {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: false, scale: 1, iconName: 'images-icon-buzz'},
@@ -99,7 +99,7 @@ var QuestManager = (function () {
                     ];
                 }
             } else {
-                console.log('no Local Storage');
+                console.log('No Local Storage!');
             }
 
         }
