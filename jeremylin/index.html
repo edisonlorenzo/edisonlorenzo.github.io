@@ -32,9 +32,10 @@
             var listLanguageCode = [{code: 'zh-CN'}, {code: 'en-US'}];
             var randomCodeValue = Math.floor(Math.random() * listLanguageCode.length);
 
+            /* added random language code */
             var activate = {sku: listSKU[randomSKUValue].sku, saveId: 'test1', languageCode: listLanguageCode[randomCodeValue].code};
 
-            /* sku = the sku of the pin; saveId = any string that will be used as uniqueId for local storage; */
+            /* sku = the sku of the pin; saveId = any string that will be used as uniqueId for local storage; languageCode (optional) is autoDetect*/
             //var activate = {sku: 'buzz', saveId: 'jeremylin'};
 
         </script>

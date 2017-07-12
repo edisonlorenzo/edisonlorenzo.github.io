@@ -598,7 +598,7 @@ var QuestManager = (function () {
                 iconNew.height = slotCharacterObj.content.height * 0.2;
                 iconNew.position.y = (slotCharacterObj.content.height * 0.5) - (iconNew.height * 0.5);
 
-                var iconNewText = createText('iconNewText' + i, iconNewContainer, languageData.newString, new PIXI.TextStyle({
+                var iconNewText = createText('iconNewText' + i, iconNewContainer, "New!", new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 32,
                     fontStyle: 'normal',
