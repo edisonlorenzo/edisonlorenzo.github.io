@@ -20,6 +20,7 @@
         <script src="js/gsap/TimelineMax.min.js"></script>
         <script src="js/screenfull.js"></script>
         <script src="js/scaleToWindow.js"></script>
+        <script src="js/clipboard.min.js"></script>
 
     </head>
     <body>
@@ -33,7 +34,7 @@
             var randomCodeValue = Math.floor(Math.random() * listLanguageCode.length);
 
             /* added random language code */
-            var activate = {sku: listSKU[randomSKUValue].sku, saveId: 'test1', languageCode: 'zh-CN'};
+            var activate = {sku: listSKU[randomSKUValue].sku, saveId: 'test1', languageCode: 'zh-CN', unlockedCode: '12345678901'};
 
             /* sku = the sku of the pin; saveId = any string that will be used as uniqueId for local storage; languageCode (optional) is autoDetect*/
             //var activate = {sku: 'buzz', saveId: 'jeremylin'};
