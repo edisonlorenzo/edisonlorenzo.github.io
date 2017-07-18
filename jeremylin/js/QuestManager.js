@@ -780,7 +780,7 @@ var QuestManager = (function () {
             var fadeBgObj = createImage('fadeBgObj', backgroundContainer, res['images-white'].texture);
             fadeBgObj.visible = false;
             fadeBgObj.tint = 0x000000;
-            fadeBgObj.alpha = 0.5;
+            fadeBgObj.alpha = 0.75;
             fadeBgObj.anchor.set(0.5);
             fadeBgObj.interactive = true;
             fadeBgObj.width = backgroundObj.content.width;
@@ -788,11 +788,11 @@ var QuestManager = (function () {
 
             fadeBgObj.content.show = (function() {
                 this.visible = true;
-                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 0.5, ease: Power2.easeOut});
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 0.75, ease: Power2.easeOut});
             }).bind(fadeBgObj);
 
             fadeBgObj.content.hide = (function() {
-                TweenMax.fromTo(this, 0.5, {alpha: 0.5}, {alpha: 0, ease: Power2.easeOut, onComplete: (function(){this.visible = false;}).bind(this)});
+                TweenMax.fromTo(this, 0.5, {alpha: 0.75}, {alpha: 0, ease: Power2.easeOut, onComplete: (function(){this.visible = false;}).bind(this)});
             }).bind(fadeBgObj);
         }
 
@@ -981,13 +981,13 @@ var QuestManager = (function () {
 
             initMainContent();
 
-            initHeader();
-
             initFooter();
 
             initFadeBackground();
 
             initHelpContent();
+
+            initHeader();
 
             initTimeLinedTween();
 
