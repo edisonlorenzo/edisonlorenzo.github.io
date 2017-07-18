@@ -24,8 +24,9 @@ var QuestManager = (function () {
                 helpText2: '点击左下键盘\n输入代码',
                 unlockedString: '隐藏版胸章由此去',
                 newString: '新入手!',
-                copyTextString: 'COPY',
-                claimNowString: '立即获取!'
+                codeTextString: '代码',
+                copyTextString: '复制',
+                claimNowString: '微信公众帐号'
             },
             {
                 language: 'english',
@@ -38,8 +39,9 @@ var QuestManager = (function () {
                 helpText2: 'Click the keyboard\nat the lower left\nand enter the code',
                 unlockedString: 'Get Your Secret Pin',
                 newString: 'New!',
+                codeTextString: 'Codes',
                 copyTextString: 'COPY',
-                claimNowString: 'CLAIM\nNOW'
+                claimNowString: 'WeChat'
             }
         ];
 
@@ -577,9 +579,14 @@ var QuestManager = (function () {
 
             var btnClaimContainer = createContainer('btnClaimContainer', btnClaimObj);
 
+            var btnClaimIconObj = createImage('btnClaimIconObj', btnClaimContainer, res['images-icon-logo'].texture);
+            btnClaimIconObj.anchor.set(0.5);
+            btnClaimIconObj.scale.set(0.5);
+            btnClaimIconObj.position.y = -30;
+
             var btnClaimTextObj = createText('btnClaimTextObj', btnClaimContainer, languageData.claimNowString, new PIXI.TextStyle({
                 fontFamily: 'Arial',
-                fontSize: 46,
+                fontSize: 40,
                 fontStyle: 'normal',
                 fontWeight: 'bold',
                 align: 'center',
@@ -592,6 +599,7 @@ var QuestManager = (function () {
                 fill: '#000000'
             }));
             btnClaimTextObj.anchor.set(0.5);
+            btnClaimTextObj.position.y = 40;
 
 
             // var footerTopClaimText = createText('footerTopClaimText', footerContainer, languageData.unlockedString + ' >>', new PIXI.TextStyle({
@@ -626,7 +634,7 @@ var QuestManager = (function () {
                 footerTopUnlockedCodeBgObj.anchor.set(0.5);
                 footerTopUnlockedCodeBgObj.scale.set(0.70);
 
-                var footerTopUnlockedCodeTitleObj = createText('footerTopUnlockedCodeTitleObj', footerTopUnlockedCodeContainer, 'Code' + ':', new PIXI.TextStyle({
+                var footerTopUnlockedCodeTitleObj = createText('footerTopUnlockedCodeTitleObj', footerTopUnlockedCodeContainer, languageData.codeTextString + ':', new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
