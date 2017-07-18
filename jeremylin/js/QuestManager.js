@@ -91,6 +91,7 @@ var QuestManager = (function () {
         assets.push(new Asset('images-gradient-half-circle', 'images/gradient_half_circle.png'));
         assets.push(new Asset('images-bracket-black', 'images/bracket_black.png'));
         assets.push(new Asset('images-btn-copy-blank', 'images/btn_copy_blank.png'));
+        assets.push(new Asset('images-arrow', 'images/arrow.png'));
 
         function Asset(resName, resPath)
         {
@@ -419,6 +420,19 @@ var QuestManager = (function () {
             unlockedInfoObjText.visible = false;
             unlockedInfoObjText.anchor.set(0.5);
             unlockedInfoObjText.position.y = -50;
+
+            var unlockedInfoArrowObj = createImage('unlockedInfoArrowObj', unlockedInfoObj, res['images-arrow'].texture);
+            unlockedInfoArrowObj.visible = false;
+            unlockedInfoArrowObj.anchor.set(0.5);
+            unlockedInfoArrowObj.scale.set(0.8);
+            unlockedInfoArrowObj.position.y = unlockedInfoObjText.position.y + (unlockedInfoObjText.height * 0.5) + (unlockedInfoArrowObj.height * 0.5) + 20;
+            unlockedInfoArrowObj.content.y = unlockedInfoArrowObj.position.y;
+
+            unlockedInfoArrowObj.content.show = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                TweenMax.fromTo(this.position, 0.5, {y: this.content.y - 20}, {y: this.content.y, ease: Power2.easeOut});
+            }).bind(unlockedInfoArrowObj);
 
             activatedContainer.content.show = (function() {
                 this.visible = true;
@@ -1071,6 +1085,9 @@ var QuestManager = (function () {
 
             var unlockedInfoObjText = getElement('unlockedInfoObjText');
             tl.add(unlockedInfoObjText.content.show, "+=0.25");
+
+            var unlockedInfoArrowObj = getElement('unlockedInfoArrowObj');
+            tl.add(unlockedInfoArrowObj.content.show, "+=0.25");
 
             var footerTopClaim = getElement('footerTopClaim');
             tl.add(footerTopClaim.content.show, "+=0");
