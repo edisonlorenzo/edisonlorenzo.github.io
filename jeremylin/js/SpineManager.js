@@ -47,9 +47,9 @@ var SpineManager = (function () {
             // play animation
             // spine.state.setAnimation(0, spineJsonData.animationName, spineJsonData.loop);
 
-            spine.on('pointertap', function() {
-                spine.state.setAnimation(0, spineJsonData.animationName, spineJsonData.loop);
-            });
+            // spine.on('pointertap', function() {
+            //     spine.state.setAnimation(0, spineJsonData.animationName, spineJsonData.loop);
+            // });
 
             return spine;
         }

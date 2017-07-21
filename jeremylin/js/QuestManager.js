@@ -56,14 +56,6 @@ var QuestManager = (function () {
 
         var slotObject = new Array();
 
-        // var slotObject = [
-        //     {sku: 'braid', spineName:'jlin', skinName:'braid', isActivated: true, scale: 1, iconName: 'images-icon-braid'},
-        //     {sku: 'buzz', spineName:'jlin', skinName:'buzz', isActivated: true, scale: 1, iconName: 'images-icon-buzz'},
-        //     {sku: 'logo', spineName:'jlin-logo', skinName:'logo', isActivated: true, scale: 1, iconName: 'images-icon-logo'},
-        //     {sku: 'bun', spineName:'jlin', skinName:'bun', isActivated: false, scale: 1, iconName: 'images-icon-bun'},
-        //     {sku: 'slickback', spineName:'jlin', skinName:'slickback', isActivated: true, scale: 1, iconName: 'images-icon-slick'}
-        // ];
-
         var finalPin = {sku: 'mohawk', spineName:'jlin', skinName:'mohawk', scale: 1};
 
         var assets = new Array();
@@ -615,23 +607,6 @@ var QuestManager = (function () {
             btnClaimTextObj.anchor.set(0.5);
             btnClaimTextObj.position.y = 40;
 
-
-            // var footerTopClaimText = createText('footerTopClaimText', footerContainer, languageData.unlockedString + ' >>', new PIXI.TextStyle({
-            //     fontFamily: 'Arial',
-            //     fontSize: 36,
-            //     fontStyle: 'normal',
-            //     fill: '#ffffff'
-            // }));
-            // footerTopClaimText.visible = false;
-            // footerTopClaimText.anchor.y = 0.5;
-            // footerTopClaimText.position.x = -230;
-            // footerTopClaimText.position.y = footerObjTop.position.y;
-            //
-            // footerTopClaimText.content.show = (function() {
-            //     this.visible = true;
-            //     TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-            // }).bind(footerTopClaimText);
-
             if(activate.unlockedCode != undefined)
             {
                 var footerTopUnlockedCodeContainer = createContainer('footerTopUnlockedCodeContainer', footerContainer);
@@ -682,9 +657,6 @@ var QuestManager = (function () {
 
                 btnCopyObj.on('pointertap', (function(){
                     copyTextToClipboard(activate.unlockedCode);
-                    //e.data.originalEvent.clipboardData.setData("text/plain", '9999999999');
-
-                    //e.preventDefault();
                 }).bind(btnCopyObj.content));
 
                 var btnCopyContainer = createContainer('btnCopyContainer', btnCopyObj);
