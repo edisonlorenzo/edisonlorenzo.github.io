@@ -15,6 +15,11 @@ var LibraryManager = (function () {
             return elements.find(function(item){return item.content.id === id});
         }
 
+        function removeElement(id)
+        {
+            elements = elements.filter(function(item){return item.content.id !== id});
+        }
+
         function compareStrings (string1, string2, ignoreCase, useLocale) {
             if (ignoreCase) {
                 if (useLocale) {
@@ -147,6 +152,7 @@ var LibraryManager = (function () {
         return {
             compareStrings: compareStrings,
             getElement: getElement,
+            removeElement: removeElement,
             createImage: createImage,
             createContainer: createContainer,
             createText: createText,

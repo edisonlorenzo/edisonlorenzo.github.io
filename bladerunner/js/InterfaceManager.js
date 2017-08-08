@@ -125,6 +125,8 @@ var InterfaceManager = (function () {
             var bodyContainer = libraryManager.createContainer('bodyContainer', backgroundContainer);
             var bodyBackgroundObj = libraryManager.createImage('bodyBackgroundObj', bodyContainer, res['img_white'].texture);
 
+            var contentContainer = libraryManager.createContainer('contentContainer', bodyContainer);
+
             var headerObj = libraryManager.getElement('headerObj');
             var footerObj = libraryManager.getElement('footerObj');
 
@@ -133,8 +135,101 @@ var InterfaceManager = (function () {
             bodyBackgroundObj.height = backgroundObj.content.height - headerObj.height - (footerObj.height * 0.4);
             bodyContainer.position.y = 45;
 
+            // var rowPos = -(bodyBackgroundObj.height * 0.5);
+            // var rowHeight;
+            // for (var row = 0; row < missionDataObj.length; row++)
+            // {
+            //     for (var i = 0; i < missionDataObj[row].data.length; i++)
+            //     {
+            //         var typeObj = getTypeDataObj(missionDataObj[row].data[i].type);
+            //         if(typeObj)
+            //         {
+            //             var cellBlock = libraryManager.createImage(missionDataObj[row].data[i].type + '_' + row + '_' + i, bodyContainer, res[typeObj.imageRes].texture);
+            //             cellBlock.visible = false;
+            //             rowHeight = cellBlock.height;
+            //
+            //             if(missionDataObj[row].data[i].type == 'divider')
+            //             {
+            //                 cellBlock.content.posX = 0;
+            //             } else {
+            //                 cellBlock.content.posX = ((i * cellBlock.width) + ((i+1)*8)) - (bodyBackgroundObj.width * 0.5) + (cellBlock.width * 0.5);
+            //                 var contentImage = libraryManager.createImage('contentImage', cellBlock, res[missionDataObj[row].data[i].imageRes].texture);
+            //                 contentImage.visible = false;
+            //                 contentImage.content.show = (function() {
+            //                     this.visible = true;
+            //                     TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+            //                 }).bind(contentImage);
+            //                 cellBlock.content.contentImage = contentImage;
+            //
+            //                 if(missionDataObj[row].data[i].iconRes)
+            //                 {
+            //                     var contentIcon = libraryManager.createImage('contentIcon', cellBlock, res[missionDataObj[row].data[i].iconRes].texture);
+            //                     contentIcon.position.x = (contentImage.width * 0.5) - (contentIcon.width * 0.5) - 5;
+            //                     contentIcon.position.y = -(contentImage.height * 0.5) + (contentIcon.height * 0.5) + 5;
+            //                     contentIcon.visible = false;
+            //                     contentIcon.content.show = (function() {
+            //                         this.visible = true;
+            //                         TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+            //                     }).bind(contentIcon);
+            //                     cellBlock.content.contentIcon = contentIcon;
+            //                 }
+            //
+            //                 if(missionDataObj[row].data[i].hasStartButton)
+            //                 {
+            //                     var contentStart = libraryManager.createImageButton('contentStart', cellBlock, res['btn_start'].texture);
+            //                     contentStart.position.x = (contentImage.width * 0.5) - (contentStart.width * 0.5) - 10;
+            //                     contentStart.position.y = (contentImage.height * 0.5) - (contentStart.height * 0.5) - 24;
+            //                     contentStart.visible = false;
+            //                     contentStart.content.show = (function() {
+            //                         this.visible = true;
+            //                         TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+            //                     }).bind(contentStart);
+            //                     cellBlock.content.contentStart = contentStart;
+            //                 }
+            //             }
+            //
+            //             cellBlock.content.posY = rowPos + (rowHeight * 0.5) + 15;
+            //             cellBlock.position.x = cellBlock.content.posX;
+            //             cellBlock.position.y = cellBlock.content.posY;
+            //             cellBlock.content.load = (function() {
+            //                 this.visible = true;
+            //                 TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+            //                 TweenMax.fromTo(this.position, 0.5, {y: this.content.posY - 10}, {y: this.content.posY, ease: Power2.easeOut});
+            //             }).bind(cellBlock);
+            //
+            //             cellBlock.content.show = (function() {
+            //                 var cellTimeLine = new TimelineMax();
+            //                 if(this.contentImage)
+            //                 {
+            //                     cellTimeLine.add(this.contentImage.content.show, "+=0.5");
+            //                 }
+            //
+            //                 if(this.contentIcon)
+            //                 {
+            //                     cellTimeLine.add(this.contentIcon.content.show, "+=1");
+            //                 }
+            //
+            //                 if(this.contentStart)
+            //                 {
+            //                     cellTimeLine.add(this.contentStart.content.show, "+=0");
+            //                 }
+            //             }).bind(cellBlock.content);
+            //         }
+            //     }
+            //     rowPos = rowPos + rowHeight + 15;
+            // }
+
+
+        }
+
+        function initMissions()
+        {
+
+            var contentContainer = libraryManager.getElement('contentContainer');
+            var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
+
             var rowPos = -(bodyBackgroundObj.height * 0.5);
-            var rowHeight;
+            var rowHeight = 0;
             for (var row = 0; row < missionDataObj.length; row++)
             {
                 for (var i = 0; i < missionDataObj[row].data.length; i++)
@@ -142,7 +237,7 @@ var InterfaceManager = (function () {
                     var typeObj = getTypeDataObj(missionDataObj[row].data[i].type);
                     if(typeObj)
                     {
-                        var cellBlock = libraryManager.createImage(missionDataObj[row].data[i].type + '_' + row + '_' + i, bodyContainer, res[typeObj.imageRes].texture);
+                        var cellBlock = libraryManager.createImage(missionDataObj[row].data[i].type + '_' + row + '_' + i, contentContainer, res[typeObj.imageRes].texture);
                         cellBlock.visible = false;
                         rowHeight = cellBlock.height;
 
@@ -216,7 +311,6 @@ var InterfaceManager = (function () {
                 }
                 rowPos = rowPos + rowHeight + 15;
             }
-
 
         }
 
@@ -306,19 +400,19 @@ var InterfaceManager = (function () {
             });
 
             profileButtonObj.on('pointertap', function() {
-                setButtonSelected(this);
+                showProfile();
             });
 
             missionsButtonObj.on('pointertap', function() {
-                setButtonSelected(this);
+                showMission();
             });
 
             cluesButtonObj.on('pointertap', function() {
-                setButtonSelected(this);
+                showClues();
             });
 
             archiveButtonObj.on('pointertap', function() {
-                setButtonSelected(this);
+                showArchive();
             });
 
         }
@@ -341,8 +435,12 @@ var InterfaceManager = (function () {
 
         function showMission()
         {
-            var missionsButtonObj = libraryManager.getElement('missionsButtonObj');
-            setButtonSelected(missionsButtonObj);
+            var buttonObj = libraryManager.getElement('missionsButtonObj');
+            setButtonSelected(buttonObj);
+
+            clearContent();
+
+            initMissions();
 
             for (var row = 0; row < missionDataObj.length; row++)
             {
@@ -362,6 +460,43 @@ var InterfaceManager = (function () {
                 }
             }
 
+        }
+
+        function showProfile()
+        {
+            var buttonObj = libraryManager.getElement('profileButtonObj');
+            setButtonSelected(buttonObj);
+
+            clearContent();
+
+        }
+
+        function showClues()
+        {
+            var buttonObj = libraryManager.getElement('cluesButtonObj');
+            setButtonSelected(buttonObj);
+
+            clearContent();
+
+        }
+
+        function showArchive()
+        {
+            var buttonObj = libraryManager.getElement('archiveButtonObj');
+            setButtonSelected(buttonObj);
+
+            clearContent();
+
+        }
+
+        function clearContent()
+        {
+            var contentContainer = libraryManager.getElement('contentContainer');
+            for(var i = contentContainer.children.length - 1; i >= 0; i--)
+            {
+                libraryManager.removeElement(contentContainer.children[i].content.id);
+                contentContainer.removeChild(contentContainer.children[i]);
+            }
         }
 
 
