@@ -71,20 +71,6 @@ var InterfaceManager = (function () {
                     {type: 'onecell', imageRes: 'img_mission02', iconRes: 'icon_book'},
                     {type: 'onecell', imageRes: 'img_mission03', iconRes: 'icon_game'}
                 ]
-            },
-            {
-                data:
-                [
-                    {type: 'divider'}
-                ]
-            },
-            {
-                data:
-                [
-                    {type: 'onecell', imageRes: 'img_mission01', iconRes: 'icon_video'},
-                    {type: 'onecell', imageRes: 'img_mission02', iconRes: 'icon_book'},
-                    {type: 'onecell', imageRes: 'img_mission03', iconRes: 'icon_game'}
-                ]
             }
         ];
         var typeDataObj =
