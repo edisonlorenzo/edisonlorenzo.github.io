@@ -51,37 +51,40 @@ var LibraryManager = (function () {
         function createImageButton(id, container, imageResDefault, imageResHighlight)
         {
             var image = new PIXI.Sprite(imageResDefault);
-            var imageHighlight = new PIXI.Sprite(imageResHighlight);
-
             container.addChild(image);
-            image.addChild(imageHighlight);
-
             image.anchor.set(0.5);
-            imageHighlight.anchor.set(0.5);
-
-            imageHighlight.alpha = 0;
-            imageHighlight.visible = false;
-            image
 
             image.interactive = true;
             image.buttonMode = true;
 
             var content = {};
             content.id = id;
-            content.isSelected = false;
             content.hasClicked = false;
-            content.imageHighlight = imageHighlight;
 
-            content.setSelected = (function(value){
-                this.isSelected = value;
-                if(value)
-                {
-                    this.imageHighlight.visible = true;
-                    TweenMax.to(this.imageHighlight, 0.5, {alpha: 1, ease: Power2.easeOut});
-                } else {
-                    TweenMax.to(this.imageHighlight, 0.5, {alpha: 0, ease: Power2.easeOut, onComplete: (function(){this.imageHighlight.visible = false;}).bind(this)});
-                }
-            }).bind(content);
+            if(imageResHighlight)
+            {
+                var imageHighlight = new PIXI.Sprite(imageResHighlight);
+                image.addChild(imageHighlight);
+
+                imageHighlight.anchor.set(0.5);
+
+                imageHighlight.alpha = 0;
+                imageHighlight.visible = false;
+
+                content.isSelected = false;
+                content.imageHighlight = imageHighlight;
+
+                content.setSelected = (function(value){
+                    this.isSelected = value;
+                    if(value)
+                    {
+                        this.imageHighlight.visible = true;
+                        TweenMax.to(this.imageHighlight, 0.5, {alpha: 1, ease: Power2.easeOut});
+                    } else {
+                        TweenMax.to(this.imageHighlight, 0.5, {alpha: 0, ease: Power2.easeOut, onComplete: (function(){this.imageHighlight.visible = false;}).bind(this)});
+                    }
+                }).bind(content);
+            }
 
             image.content = content;
 

@@ -22,6 +22,7 @@ var SceneManager = (function () {
         assets.push(new Asset('img_bg', 'images/img_bg.png'));
         assets.push(new Asset('img_white', 'images/img_white.png'));
         assets.push(new Asset('img_loading_police', 'images/img_loading_police.png'));
+        assets.push(new Asset('img_loading_mask', 'images/img_loading_mask.png'));
         assets.push(new Asset('txt_loading', 'images/txt_loading.png'));
 
         function Asset(resName, resPath)
@@ -76,13 +77,12 @@ var SceneManager = (function () {
                 initResourceData();
 
                 interfaceManager.setup();
-                // interfaceManager.showHeader();
-                // interfaceManager.showFooter();
 
                 tl.add(scenes.loadingScene.hide, "+=1");
                 tl.add(interfaceManager.showHeader, "+=0");
                 tl.add(interfaceManager.showFooter, "+=0");
-                tl.add(interfaceManager.showMission, "+=0.25");
+                tl.add(interfaceManager.showHeaderStatus, "+=0.5");
+                tl.add(interfaceManager.showMission, "+=0.5");
             }
 
         }
@@ -156,46 +156,46 @@ var SceneManager = (function () {
             scenes.loadingScene = {};
             var backgroundContainer = libraryManager.getElement('backgroundContainer');
 
-            var loadingImage = libraryManager.createImage('loadingImage', backgroundContainer, res['img_loading_police'].texture);
-            loadingImage.visible = false;
+            var loadingSceneContainer = libraryManager.createContainer('loadingSceneContainer', backgroundContainer);
+            loadingSceneContainer.visible = false;
+
+            var loadingImage = libraryManager.createImage('loadingImage', loadingSceneContainer, res['img_loading_police'].texture);
             loadingImage.position.y = -70;
 
-            loadingImage.content.show = (function() {
+            var loadingText = libraryManager.createImage('loadingText', loadingSceneContainer, res['txt_loading'].texture);
+            loadingText.position.y = 70;
+
+            var loadingImageMask = libraryManager.createImage('loadingImageMask', loadingSceneContainer, res['img_loading_mask'].texture);
+            loadingImageMask.position.y = -(loadingImageMask.height * 0.85);
+
+            loadingSceneContainer.content.loadingImageMask = loadingImageMask;
+
+            loadingSceneContainer.content.show = (function() {
                 this.visible = true;
                 TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-            }).bind(loadingImage);
+            }).bind(loadingSceneContainer);
 
-            loadingImage.content.hide = (function() {
+            loadingSceneContainer.content.hide = (function() {
                 this.visible = true;
-                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: (function(){this.visible = false;}).bind(this)});
-            }).bind(loadingImage);
-
-            var loadingText = libraryManager.createImage('loadingText', backgroundContainer, res['txt_loading'].texture);
-            loadingText.visible = false;
-            loadingText.position.y = 70;
+                TweenMax.fromTo(this.content.loadingImageMask.position, 1, {y: -(this.content.loadingImageMask.height * 0.85)}, {y: (this.content.loadingImageMask.height * 0.15), ease: Power2.easeOut, onComplete: (function(){this.visible = false;}).bind(this)});
+            }).bind(loadingSceneContainer);
 
             loadingText.content.show = (function() {
                 this.visible = true;
                 TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut, repeat: -1, yoyo: true});
             }).bind(loadingText);
 
-            loadingText.content.hide = (function() {
-                this.visible = true;
-                TweenMax.fromTo(this, 0.5, {alpha: 1}, {alpha: 0, ease: Power2.easeOut, onComplete: (function(){this.visible = false;}).bind(this)});
-            }).bind(loadingText);
-
             var objects = {};
-            objects.loadingImage = loadingImage;
+            objects.loadingSceneContainer = loadingSceneContainer;
             objects.loadingText = loadingText;
 
             scenes.loadingScene.show = (function () {
-                this.loadingImage.content.show();
+                this.loadingSceneContainer.content.show();
                 this.loadingText.content.show();
             }).bind(objects);
 
             scenes.loadingScene.hide = (function () {
-                this.loadingImage.content.hide();
-                this.loadingText.content.hide();
+                this.loadingSceneContainer.content.hide();
             }).bind(objects);
 
         }
