@@ -35,6 +35,8 @@ var InterfaceManager = (function () {
         assets.push(new Asset('img_header_base_left', 'images/img_header_base_left.png'));
         assets.push(new Asset('img_header_base_right', 'images/img_header_base_right.png'));
         assets.push(new Asset('img_bar_neutrality', 'images/img_bar_neutrality.png'));
+        assets.push(new Asset('img_red_highlight', 'images/img_red_highlight.png'));
+        assets.push(new Asset('img_header_bar_green', 'images/img_header_bar_green.png'));
         assets.push(new Asset('img_block01', 'images/img_block01.png'));
         assets.push(new Asset('img_block02', 'images/img_block02.png'));
         assets.push(new Asset('img_divider', 'images/img_divider.png'));
@@ -158,6 +160,7 @@ var InterfaceManager = (function () {
 
                         if(missionDataObj[row].data[i].type == 'divider')
                         {
+
                             cellBlock.content.posX = 0;
                             var cellMask = libraryManager.createImage('cellMask', cellBlock, res['img_white'].texture);
                             cellMask.width = 0;
@@ -173,7 +176,9 @@ var InterfaceManager = (function () {
                                 TweenMax.to(this, 0.5, {width: this.content.width , ease: Power2.easeOut});
                             }).bind(cellMask);
                             cellBlock.content.cellMask = cellMask;
+
                         } else {
+
                             cellBlock.content.posX = ((i * cellBlock.width) + ((i+1)*8)) - (bodyBackgroundObj.width * 0.5) + (cellBlock.width * 0.5);
                             var contentImage = libraryManager.createImage('contentImage', cellBlock, res[missionDataObj[row].data[i].imageRes].texture);
                             contentImage.visible = false;
@@ -182,6 +187,24 @@ var InterfaceManager = (function () {
                                 TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                             }).bind(contentImage);
                             cellBlock.content.contentImage = contentImage;
+
+                            var contentImageHighlight = libraryManager.createImage('contentImageHighlight', cellBlock, res['img_red_highlight'].texture);
+                            if(missionDataObj[row].data[i].type == 'twocell')
+                            {
+                                contentImageHighlight.position.y = 62;
+                            } else {
+                                contentImageHighlight.position.y = 77;
+                            }
+
+                            contentImageHighlight.visible = false;
+                            contentImageHighlight.content.baseWidth = contentImage.width;
+                            contentImageHighlight.content.show = (function() {
+                                this.visible = true;
+                                //TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                                TweenMax.fromTo(this, 0.5, {width: 0}, {width: this.content.baseWidth, ease: Quad.easeInOut, repeat: 1, yoyo: true});
+                                TweenMax.fromTo(this.position, 1, {x: -(this.content.baseWidth * 0.5)}, {x: (this.content.baseWidth * 0.5), ease: Quad.easeInOut});
+                            }).bind(contentImageHighlight);
+                            cellBlock.content.contentImageHighlight = contentImageHighlight;
 
                             if(missionDataObj[row].data[i].iconRes)
                             {
@@ -208,6 +231,7 @@ var InterfaceManager = (function () {
                                 }).bind(contentStart);
                                 cellBlock.content.contentStart = contentStart;
                             }
+
                         }
 
                         cellBlock.content.posY = rowPos + (rowHeight * 0.5) + 15;
@@ -224,6 +248,11 @@ var InterfaceManager = (function () {
                             if(this.contentImage)
                             {
                                 cellTimeLine.add(this.contentImage.content.show, "+=0.5");
+                            }
+
+                            if(this.contentImageHighlight)
+                            {
+                                cellTimeLine.add(this.contentImageHighlight.content.show, "+=1");
                             }
 
                             if(this.contentIcon)
