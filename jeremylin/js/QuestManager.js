@@ -932,21 +932,73 @@ var QuestManager = (function () {
         }
 
         function copyTextToClipboard(text) {
-            function handler (event){
-                event.clipboardData.setData('text/plain', text);
-                event.preventDefault();
-                document.removeEventListener('copy', handler, true);
+
+            var contentHolder = document.createElement('div');
+            contentHolder.style.fontSize = '12pt'; // Prevent zooming on iOS
+            // Reset box model
+            contentHolder.style.border = '0';
+            contentHolder.style.padding = '0';
+            contentHolder.style.margin = '0';
+            // Move element out of screen
+            contentHolder.style.position = 'fixed';
+            contentHolder.style['right'] = '-9999px';
+            contentHolder.style.top = (window.pageYOffset || document.documentElement.scrollTop) + 'px';
+            // more hiding
+            contentHolder.setAttribute('readonly', '');
+            contentHolder.style.opacity = 0;
+            contentHolder.style.pointerEvents = 'none';
+            contentHolder.style.zIndex = -1;
+            contentHolder.setAttribute('tabindex', '0'); // so it can be focused
+            contentHolder.innerHTML = text;
+
+            // add the element
+            document.body.appendChild(contentHolder);
+
+            function copySelection(area) {
+
+                // We will need a range object and a selection.
+                var range = document.createRange(),
+                    selection = window.getSelection(),
+                    success = false;
+
+                // Clear selection from any previous data.
+                selection.removeAllRanges();
+
+                // Make the range select the entire content of the contentHolder paragraph.
+                range.selectNodeContents(area);
+
+                // Add that range to the selection.
+                selection.addRange(range);
+
+                // Copy the selection to clipboard.
+                if(document.execCommand('copy'))
+                {
+                    success = true;
+                }
+
+                // Clear selection if you want to.
+                selection.removeAllRanges();
+
+                return success;
+
             }
 
-            document.addEventListener('copy', handler, true);
-            //document.execCommand('copy');
+            // function handler (event){
+            //     event.preventDefault();
+            //     event.clipboardData.setData('text/plain', text);
+            //     document.removeEventListener('copy', handler, true);
+            // }
+            //
+            // document.addEventListener('copy', handler, true);
 
-            var successful = document.execCommand('copy');
+            var successful = copySelection(contentHolder);
             var msg = successful ? 'successful' : 'unsuccessful';
             if(msg == 'unsuccessful')
             {
                 window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
             }
+
+            document.body.removeChild(contentHolder);
         }
 
         function setup()

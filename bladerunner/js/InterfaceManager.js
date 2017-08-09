@@ -135,91 +135,6 @@ var InterfaceManager = (function () {
             bodyBackgroundObj.height = backgroundObj.content.height - headerObj.height - (footerObj.height * 0.4);
             bodyContainer.position.y = 45;
 
-            // var rowPos = -(bodyBackgroundObj.height * 0.5);
-            // var rowHeight;
-            // for (var row = 0; row < missionDataObj.length; row++)
-            // {
-            //     for (var i = 0; i < missionDataObj[row].data.length; i++)
-            //     {
-            //         var typeObj = getTypeDataObj(missionDataObj[row].data[i].type);
-            //         if(typeObj)
-            //         {
-            //             var cellBlock = libraryManager.createImage(missionDataObj[row].data[i].type + '_' + row + '_' + i, bodyContainer, res[typeObj.imageRes].texture);
-            //             cellBlock.visible = false;
-            //             rowHeight = cellBlock.height;
-            //
-            //             if(missionDataObj[row].data[i].type == 'divider')
-            //             {
-            //                 cellBlock.content.posX = 0;
-            //             } else {
-            //                 cellBlock.content.posX = ((i * cellBlock.width) + ((i+1)*8)) - (bodyBackgroundObj.width * 0.5) + (cellBlock.width * 0.5);
-            //                 var contentImage = libraryManager.createImage('contentImage', cellBlock, res[missionDataObj[row].data[i].imageRes].texture);
-            //                 contentImage.visible = false;
-            //                 contentImage.content.show = (function() {
-            //                     this.visible = true;
-            //                     TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-            //                 }).bind(contentImage);
-            //                 cellBlock.content.contentImage = contentImage;
-            //
-            //                 if(missionDataObj[row].data[i].iconRes)
-            //                 {
-            //                     var contentIcon = libraryManager.createImage('contentIcon', cellBlock, res[missionDataObj[row].data[i].iconRes].texture);
-            //                     contentIcon.position.x = (contentImage.width * 0.5) - (contentIcon.width * 0.5) - 5;
-            //                     contentIcon.position.y = -(contentImage.height * 0.5) + (contentIcon.height * 0.5) + 5;
-            //                     contentIcon.visible = false;
-            //                     contentIcon.content.show = (function() {
-            //                         this.visible = true;
-            //                         TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-            //                     }).bind(contentIcon);
-            //                     cellBlock.content.contentIcon = contentIcon;
-            //                 }
-            //
-            //                 if(missionDataObj[row].data[i].hasStartButton)
-            //                 {
-            //                     var contentStart = libraryManager.createImageButton('contentStart', cellBlock, res['btn_start'].texture);
-            //                     contentStart.position.x = (contentImage.width * 0.5) - (contentStart.width * 0.5) - 10;
-            //                     contentStart.position.y = (contentImage.height * 0.5) - (contentStart.height * 0.5) - 24;
-            //                     contentStart.visible = false;
-            //                     contentStart.content.show = (function() {
-            //                         this.visible = true;
-            //                         TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-            //                     }).bind(contentStart);
-            //                     cellBlock.content.contentStart = contentStart;
-            //                 }
-            //             }
-            //
-            //             cellBlock.content.posY = rowPos + (rowHeight * 0.5) + 15;
-            //             cellBlock.position.x = cellBlock.content.posX;
-            //             cellBlock.position.y = cellBlock.content.posY;
-            //             cellBlock.content.load = (function() {
-            //                 this.visible = true;
-            //                 TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-            //                 TweenMax.fromTo(this.position, 0.5, {y: this.content.posY - 10}, {y: this.content.posY, ease: Power2.easeOut});
-            //             }).bind(cellBlock);
-            //
-            //             cellBlock.content.show = (function() {
-            //                 var cellTimeLine = new TimelineMax();
-            //                 if(this.contentImage)
-            //                 {
-            //                     cellTimeLine.add(this.contentImage.content.show, "+=0.5");
-            //                 }
-            //
-            //                 if(this.contentIcon)
-            //                 {
-            //                     cellTimeLine.add(this.contentIcon.content.show, "+=1");
-            //                 }
-            //
-            //                 if(this.contentStart)
-            //                 {
-            //                     cellTimeLine.add(this.contentStart.content.show, "+=0");
-            //                 }
-            //             }).bind(cellBlock.content);
-            //         }
-            //     }
-            //     rowPos = rowPos + rowHeight + 15;
-            // }
-
-
         }
 
         function initMissions()
@@ -244,6 +159,20 @@ var InterfaceManager = (function () {
                         if(missionDataObj[row].data[i].type == 'divider')
                         {
                             cellBlock.content.posX = 0;
+                            var cellMask = libraryManager.createImage('cellMask', cellBlock, res['img_white'].texture);
+                            cellMask.width = 0;
+                            cellMask.height = 50;
+                            cellBlock.mask = cellMask;
+                            cellMask.content.width = cellBlock.width;
+
+                            cellMask.content.load = (function() {
+                                TweenMax.to(this, 1, {width: 50 , ease: Back.easeOut});
+                            }).bind(cellMask);
+
+                            cellMask.content.show = (function() {
+                                TweenMax.to(this, 0.5, {width: this.content.width , ease: Power2.easeOut});
+                            }).bind(cellMask);
+                            cellBlock.content.cellMask = cellMask;
                         } else {
                             cellBlock.content.posX = ((i * cellBlock.width) + ((i+1)*8)) - (bodyBackgroundObj.width * 0.5) + (cellBlock.width * 0.5);
                             var contentImage = libraryManager.createImage('contentImage', cellBlock, res[missionDataObj[row].data[i].imageRes].texture);
@@ -442,23 +371,55 @@ var InterfaceManager = (function () {
 
             initMissions();
 
-            for (var row = 0; row < missionDataObj.length; row++)
-            {
-                for (var i = 0; i < missionDataObj[row].data.length; i++)
+            var animateBlock = (function(){
+                var tl = new TimelineMax();
+                for (var row = 0; row < missionDataObj.length; row++)
                 {
-                    var cellBlock = libraryManager.getElement(missionDataObj[row].data[i].type + '_' + row + '_' + i);
-                    tl.add(cellBlock.content.load, "+=0.05");
+                    for (var i = 0; i < missionDataObj[row].data.length; i++)
+                    {
+                        var cellBlock = libraryManager.getElement(missionDataObj[row].data[i].type + '_' + row + '_' + i);
+                        if(missionDataObj[row].data[i].type == 'divider')
+                        {
+                            var cellMask = cellBlock.content.cellMask;
+                            tl.add(cellMask.content.load, "+=0.075");
+                        }
+                        tl.add(cellBlock.content.load, "+=0.075");
+                    }
                 }
-            }
+            });
 
-            for (var row = 0; row < missionDataObj.length; row++)
-            {
-                for (var i = 0; i < missionDataObj[row].data.length; i++)
+            var animateDivider = (function(){
+                var tl = new TimelineMax();
+                for (var row = 0; row < missionDataObj.length; row++)
                 {
-                    var cellBlock = libraryManager.getElement(missionDataObj[row].data[i].type + '_' + row + '_' + i);
-                    tl.add(cellBlock.content.show, "+=0");
+                    for (var i = 0; i < missionDataObj[row].data.length; i++)
+                    {
+                        var cellBlock = libraryManager.getElement(missionDataObj[row].data[i].type + '_' + row + '_' + i);
+                        if(missionDataObj[row].data[i].type == 'divider')
+                        {
+                            var cellMask = cellBlock.content.cellMask;
+                            tl.add(cellMask.content.show, "+=0");
+                        }
+
+                    }
                 }
-            }
+            });
+
+            var showBlockContent = (function(){
+                var tl = new TimelineMax();
+                for (var row = 0; row < missionDataObj.length; row++)
+                {
+                    for (var i = 0; i < missionDataObj[row].data.length; i++)
+                    {
+                        var cellBlock = libraryManager.getElement(missionDataObj[row].data[i].type + '_' + row + '_' + i);
+                        tl.add(cellBlock.content.show, "+=0");
+                    }
+                }
+            });
+
+            tl.add(animateBlock, "+=0");
+            tl.add(animateDivider, "+=1");
+            tl.add(showBlockContent, "+=0");
 
         }
 
@@ -491,6 +452,7 @@ var InterfaceManager = (function () {
 
         function clearContent()
         {
+            tl.clear();
             var contentContainer = libraryManager.getElement('contentContainer');
             for(var i = contentContainer.children.length - 1; i >= 0; i--)
             {
