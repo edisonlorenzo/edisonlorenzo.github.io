@@ -298,7 +298,6 @@ var InterfaceManager = (function () {
 
             var headerStatusLeftObjContainer = libraryManager.createContainer('headerStatusLeftObjContainer', headerStatusLeftObj);
             var headerStatusLeftImage = libraryManager.createImage('headerStatusLeftImage', headerStatusLeftObjContainer, res['img_header_bar_green'].texture);
-            //headerStatusLeftImage.visible = false;
             headerStatusLeftImage.anchor.x = 0;
             headerStatusLeftImage.position.x = -86;
             headerStatusLeftImage.position.y = 14;
@@ -312,14 +311,35 @@ var InterfaceManager = (function () {
             var cluesValue = 3837856, cluesMax = 9999999;
             var widthValue = headerStatusLeftImage.width + 2;
             var finalWidthValue = Math.ceil(widthValue * (cluesValue / cluesMax));
-            console.log('widthValue:'+widthValue+' finalWidthValue:'+finalWidthValue);
 
             headerStatusLeftImageMask.content.finalWidthValue = finalWidthValue;
             headerStatusLeftImage.content.show = (function() {
                 this.visible = true;
-                TweenMax.to(this, 1, {width: this.content.finalWidthValue, ease: Power2.easeOut});
+                TweenMax.to(this, 1, {width: this.content.finalWidthValue, ease: Back.easeOut});
             }).bind(headerStatusLeftImageMask);
 
+            var headerStatusCluesValueText = libraryManager.createText('headerStatusCluesValueText', headerStatusLeftObjContainer, 0, new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 18,
+                fontStyle: 'normal',
+                fill: '#4cb54a'
+            }));
+            headerStatusCluesValueText.anchor.x = 0;
+            headerStatusCluesValueText.position.x = 15;
+            headerStatusCluesValueText.position.y = -19;
+
+            function setText()
+            {
+                headerStatusCluesValueText.text = cluesValueObj.value;
+            }
+
+            var cluesValueObj = {value: 0, cluesValue: cluesValue, setText: setText};
+            headerStatusCluesValueText.content.show = (function() {
+                TweenMax.to(this, 1, {value: "+="+this.cluesValue, roundProps:"value", ease: Back.easeOut, onUpdate: this.setText});
+            }).bind(cluesValueObj);
+
+            headerStatusLeftObjContainer.content.headerStatusLeftImage = headerStatusLeftImage;
+            headerStatusLeftObjContainer.content.headerStatusCluesValueText = headerStatusCluesValueText;
 
             var headerStatusRightObjContainer = libraryManager.createContainer('headerStatusRightObjContainer', headerStatusRightObj);
             var headerStatusRightImage = libraryManager.createImage('headerStatusRightImage', headerStatusRightObjContainer, res['img_bar_neutrality'].texture);
@@ -333,6 +353,17 @@ var InterfaceManager = (function () {
                 this.visible = true;
                 TweenMax.fromTo(this.scale, 1, {x: 0}, {x: 1, ease: Power2.easeOut});
             }).bind(headerStatusRightImage);
+
+            headerStatusRightObjContainer.content.headerStatusRightImage = headerStatusRightImage;
+
+            headerStatusLeftObjContainer.content.show = (function() {
+                this.headerStatusLeftImage.content.show();
+                this.headerStatusCluesValueText.content.show();
+            }).bind(headerStatusLeftObjContainer.content);
+
+            headerStatusRightObjContainer.content.show = (function() {
+                this.headerStatusRightImage.content.show();
+            }).bind(headerStatusRightObjContainer.content);
 
         }
 
@@ -549,11 +580,11 @@ var InterfaceManager = (function () {
 
         function showHeaderStatus()
         {
-            var headerStatusLeftImage = libraryManager.getElement('headerStatusLeftImage');
-            headerStatusLeftImage.content.show();
+            var headerStatusLeftObjContainer = libraryManager.getElement('headerStatusLeftObjContainer');
+            headerStatusLeftObjContainer.content.show();
 
-            var headerStatusRightImage = libraryManager.getElement('headerStatusRightImage');
-            headerStatusRightImage.content.show();
+            var headerStatusRightObjContainer = libraryManager.getElement('headerStatusRightObjContainer');
+            headerStatusRightObjContainer.content.show();
         }
 
         return {
