@@ -296,6 +296,30 @@ var InterfaceManager = (function () {
             headerStatusRightObj.position.x = (headerObj.width * 0.5) - (headerStatusRightObj.width * 0.5);
             headerStatusRightObj.position.y = (headerObj.height * 0.5) - (headerStatusRightObj.height * 0.5) - 2;
 
+            var headerStatusLeftObjContainer = libraryManager.createContainer('headerStatusLeftObjContainer', headerStatusLeftObj);
+            var headerStatusLeftImage = libraryManager.createImage('headerStatusLeftImage', headerStatusLeftObjContainer, res['img_header_bar_green'].texture);
+            //headerStatusLeftImage.visible = false;
+            headerStatusLeftImage.anchor.x = 0;
+            headerStatusLeftImage.position.x = -86;
+            headerStatusLeftImage.position.y = 14;
+
+            var headerStatusLeftImageMask = libraryManager.createImage('headerStatusLeftImageMask', headerStatusLeftImage, res['img_white'].texture);
+            headerStatusLeftImageMask.anchor.x = 0;
+            headerStatusLeftImageMask.position.x = -5;
+            headerStatusLeftImageMask.width = 0;
+
+            headerStatusLeftImage.mask = headerStatusLeftImageMask;
+            var cluesValue = 326385535, cluesMax = 999999999;
+            var widthValue = headerStatusLeftImage.width;
+            var finalWidthValue = widthValue * (cluesValue / cluesMax);
+
+            headerStatusLeftImageMask.content.finalWidthValue = finalWidthValue;
+            headerStatusLeftImage.content.show = (function() {
+                this.visible = true;
+                TweenMax.to(this, 0.5, {width: this.content.finalWidthValue, ease: Power2.easeOut});
+            }).bind(headerStatusLeftImageMask);
+
+
             var headerStatusRightObjContainer = libraryManager.createContainer('headerStatusRightObjContainer', headerStatusRightObj);
             var headerStatusRightImage = libraryManager.createImage('headerStatusRightImage', headerStatusRightObjContainer, res['img_bar_neutrality'].texture);
             headerStatusRightImage.visible = false;
@@ -524,6 +548,9 @@ var InterfaceManager = (function () {
 
         function showHeaderStatus()
         {
+            var headerStatusLeftImage = libraryManager.getElement('headerStatusLeftImage');
+            headerStatusLeftImage.content.show();
+
             var headerStatusRightImage = libraryManager.getElement('headerStatusRightImage');
             headerStatusRightImage.content.show();
         }
