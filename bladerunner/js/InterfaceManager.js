@@ -305,18 +305,19 @@ var InterfaceManager = (function () {
 
             var headerStatusLeftImageMask = libraryManager.createImage('headerStatusLeftImageMask', headerStatusLeftImage, res['img_white'].texture);
             headerStatusLeftImageMask.anchor.x = 0;
-            headerStatusLeftImageMask.position.x = -5;
+            headerStatusLeftImageMask.position.x = -2;
             headerStatusLeftImageMask.width = 0;
 
             headerStatusLeftImage.mask = headerStatusLeftImageMask;
-            var cluesValue = 326385535, cluesMax = 999999999;
-            var widthValue = headerStatusLeftImage.width;
-            var finalWidthValue = widthValue * (cluesValue / cluesMax);
+            var cluesValue = 3837856, cluesMax = 9999999;
+            var widthValue = headerStatusLeftImage.width + 2;
+            var finalWidthValue = Math.ceil(widthValue * (cluesValue / cluesMax));
+            console.log('widthValue:'+widthValue+' finalWidthValue:'+finalWidthValue);
 
             headerStatusLeftImageMask.content.finalWidthValue = finalWidthValue;
             headerStatusLeftImage.content.show = (function() {
                 this.visible = true;
-                TweenMax.to(this, 0.5, {width: this.content.finalWidthValue, ease: Power2.easeOut});
+                TweenMax.to(this, 1, {width: this.content.finalWidthValue, ease: Power2.easeOut});
             }).bind(headerStatusLeftImageMask);
 
 
@@ -330,7 +331,7 @@ var InterfaceManager = (function () {
 
             headerStatusRightImage.content.show = (function() {
                 this.visible = true;
-                TweenMax.fromTo(this.scale, 0.5, {x: 0}, {x: 1, ease: Power2.easeOut});
+                TweenMax.fromTo(this.scale, 1, {x: 0}, {x: 1, ease: Power2.easeOut});
             }).bind(headerStatusRightImage);
 
         }
