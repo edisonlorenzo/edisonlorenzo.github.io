@@ -166,7 +166,8 @@ var SceneManager = (function () {
             loadingText.position.y = 70;
 
             var loadingImageMask = libraryManager.createImage('loadingImageMask', loadingSceneContainer, res['img_loading_mask'].texture);
-            loadingImageMask.position.y = -(loadingImageMask.height * 0.85);
+            loadingImageMask.position.y = -320;
+            loadingSceneContainer.mask = loadingImageMask;
 
             loadingSceneContainer.content.loadingImageMask = loadingImageMask;
 
@@ -177,7 +178,7 @@ var SceneManager = (function () {
 
             loadingSceneContainer.content.hide = (function() {
                 this.visible = true;
-                TweenMax.fromTo(this.content.loadingImageMask.position, 1, {y: -(this.content.loadingImageMask.height * 0.85)}, {y: (this.content.loadingImageMask.height * 0.15), ease: Power2.easeOut, onComplete: (function(){this.visible = false;}).bind(this)});
+                TweenMax.fromTo(this.content.loadingImageMask.position, 1, {y: -320}, {y: 320, ease: Power2.easeOut, onComplete: (function(){this.visible = false;}).bind(this)});
             }).bind(loadingSceneContainer);
 
             loadingText.content.show = (function() {
