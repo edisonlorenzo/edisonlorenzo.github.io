@@ -82,8 +82,8 @@ var SceneManager = (function () {
                 tl.add(interfaceManager.showHeader, "+=0");
                 tl.add(interfaceManager.showFooter, "+=0");
                 tl.add(interfaceManager.showHeaderStatus, "+=0.5");
-                tl.add(interfaceManager.showHeaderFlicker, "+=0.5");
                 tl.add(interfaceManager.showMission, "+=0");
+                tl.add(interfaceManager.showHeaderFlicker, "+=1");
             }
 
         }
