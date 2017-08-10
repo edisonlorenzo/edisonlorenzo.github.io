@@ -48,6 +48,7 @@ var LibraryManager = (function () {
 
             image.content = content;
 
+            removeElement(id);
             elements.push(image);
 
             return image;
@@ -93,6 +94,7 @@ var LibraryManager = (function () {
 
             image.content = content;
 
+            removeElement(id);
             elements.push(image);
 
             return image;
@@ -108,6 +110,7 @@ var LibraryManager = (function () {
 
             container.content = content;
 
+            removeElement(id);
             elements.push(container);
 
             return container;
@@ -124,6 +127,7 @@ var LibraryManager = (function () {
 
             richText.content = content;
 
+            removeElement(id);
             elements.push(richText);
 
             return richText;
@@ -144,6 +148,7 @@ var LibraryManager = (function () {
 
             graphic.content = content;
 
+            removeElement(id);
             elements.push(graphic);
 
             return graphic;
