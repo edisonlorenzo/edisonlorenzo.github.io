@@ -419,12 +419,12 @@ var InterfaceManager = (function () {
 
             var cluesButtonObj = libraryManager.createImageButton('cluesButtonObj', footerButtonContainer, res['btn_clues_default'].texture, res['btn_clues_highlight'].texture);
             footerButtonObjList.push(cluesButtonObj);
-            cluesButtonObj.position.x = (footerObj.width * 0.5) - (cluesButtonObj.width * 0.5) - 20;
+            cluesButtonObj.position.x = (footerObj.width * 0.25) - 20;
             cluesButtonObj.position.y = (footerObj.height * 0.5) - (cluesButtonObj.height * 0.5) - 20;
 
             var archiveButtonObj = libraryManager.createImageButton('archiveButtonObj', footerButtonContainer, res['btn_archive_default'].texture, res['btn_archive_highlight'].texture);
             footerButtonObjList.push(archiveButtonObj);
-            archiveButtonObj.position.x = (footerObj.width * 0.25) - 20;
+            archiveButtonObj.position.x = (footerObj.width * 0.5) - (archiveButtonObj.width * 0.5) - 20;
             archiveButtonObj.position.y = (footerObj.height * 0.5) - (archiveButtonObj.height * 0.5) - 20;
 
             activateButtonObj.on('pointertap', function() {
