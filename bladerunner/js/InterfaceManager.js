@@ -21,6 +21,7 @@ var InterfaceManager = (function () {
         var assets = new Array();
 
         assets.push(new Asset('img_header', 'images/img_header.png'));
+        assets.push(new Asset('img_header_neon', 'images/img_header_neon.png'));
         assets.push(new Asset('img_footer', 'images/img_footer.png'));
         assets.push(new Asset('btn_activate_default', 'images/btn_activate_default.png'));
         assets.push(new Asset('btn_activate_highlight', 'images/btn_activate_highlight.png'));
@@ -284,6 +285,23 @@ var InterfaceManager = (function () {
 
             var headerObj = libraryManager.createImage('headerObj', headerContainer, res['img_header'].texture);
             headerObj.position.y = -(backgroundObj.content.height * 0.5) + (headerObj.height * 0.5);
+
+            var headerNeonObj = libraryManager.createImage('headerNeonObj', headerContainer, res['img_header_neon'].texture);
+            headerNeonObj.position.y = -(backgroundObj.content.height * 0.5) + (headerNeonObj.height * 0.5);
+            headerNeonObj.visible = false;
+            headerNeonObj.content.show = (function() {
+                this.visible = true;
+                var intensity;
+                var isFlick;
+                var flick = (function()
+                {
+                    intensity = isFlick ? Math.random() * 0.8 + 0.2 : 0;
+                    this.alpha = isFlick ? 1 : 0;
+                    isFlick = !isFlick;
+                    TweenMax.to(this, Math.random() * 2, {alpha: intensity, ease:RoughEase.ease.config({template: Power4.easeOut, points:20, strength:3, randomize: true, clamp:true}), onComplete: flick});
+                }).bind(this);
+                flick();
+            }).bind(headerNeonObj);
 
             var headerStatusContainer = libraryManager.createContainer('headerStatusContainer', headerContainer);
             headerStatusContainer.position.y = headerObj.position.y;
@@ -587,13 +605,20 @@ var InterfaceManager = (function () {
             headerStatusRightObjContainer.content.show();
         }
 
+        function showHeaderFlicker()
+        {
+            var headerNeonObj = libraryManager.getElement('headerNeonObj');
+            headerNeonObj.content.show();
+        }
+
         return {
             getAsset: getAsset,
             setup: setup,
             showHeader: showHeader,
             showFooter: showFooter,
             showMission: showMission,
-            showHeaderStatus: showHeaderStatus
+            showHeaderStatus: showHeaderStatus,
+            showHeaderFlicker: showHeaderFlicker
         };
 
     };
