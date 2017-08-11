@@ -154,6 +154,24 @@ var LibraryManager = (function () {
             return graphic;
         }
 
+        function createVideo(id, container, videoTexture)
+        {
+            var image = new PIXI.Sprite(videoTexture);
+            container.addChild(image);
+
+            image.anchor.set(0.5);
+
+            var content = {};
+            content.id = id;
+
+            image.content = content;
+
+            removeElement(id);
+            elements.push(image);
+
+            return image;
+        }
+
         return {
             compareStrings: compareStrings,
             getElement: getElement,
@@ -162,7 +180,8 @@ var LibraryManager = (function () {
             createContainer: createContainer,
             createText: createText,
             createGraphic: createGraphic,
-            createImageButton: createImageButton
+            createImageButton: createImageButton,
+            createVideo: createVideo
         };
 
     };

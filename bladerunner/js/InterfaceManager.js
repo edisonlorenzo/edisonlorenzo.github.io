@@ -9,7 +9,9 @@ var InterfaceManager = (function () {
         // Singleton Init
         var assetLoaderManager;
         var libraryManager;
+        var stageManager;
 
+        var camera;
         var backgroundObj;
         var backgroundContainer;
         var foregroundContainer;
@@ -120,6 +122,7 @@ var InterfaceManager = (function () {
         {
             assetLoaderManager = AssetLoaderManager.getInstance();
             libraryManager = LibraryManager.getInstance();
+            stageManager = StageManager.getInstance();
         }
 
         function initBody()
@@ -270,6 +273,122 @@ var InterfaceManager = (function () {
                 }
                 rowPos = rowPos + rowHeight + 15;
             }
+
+        }
+
+        function initCamera()
+        {
+
+            var contentContainer = libraryManager.getElement('contentContainer');
+            var backgroundObj = libraryManager.getElement('backgroundObj');
+
+            camera = function ()
+            {
+                var videoElement;
+                var isPlaying;
+                var videoTexture;
+
+                function initVideoStream () {
+                    videoElement = document.getElementById('camera');
+
+                    var currentDeviceId;
+
+                    var config = {
+                        audio: false,
+                        video: {}
+                    };
+                    config.video = currentDeviceId ? {deviceId: currentDeviceId} : {facingMode: "environment"};
+
+                    if(navigator.mediaDevices)
+                    {
+                        navigator.mediaDevices.enumerateDevices()
+                        .then(function(devices) {
+                            devices = devices.filter(function (device) {
+                                return device.kind === 'videoinput';
+                            });
+
+                            if (devices.length > 1) {
+                                currentDeviceId = devices[0].deviceId;
+                            }
+                        });
+
+                        navigator.mediaDevices.getUserMedia(config).then(function (stream) {
+
+                            if (stream) {
+
+                                videoElement.srcObject = stream;
+                                isPlaying = true;
+
+                                videoTexture = PIXI.Texture.fromVideo(videoElement);
+
+                                var cameraSprite = libraryManager.createVideo('cameraSprite', contentContainer, null);
+                                cameraSprite.visible = false;
+
+                                videoElement.oncanplay = function() {
+                                    if(isPlaying)
+                                    {
+                                        cameraSprite.texture = videoTexture;
+                                        cameraSprite.scale.x = cameraSprite.scale.y = 1;
+                                        cameraSprite.scale.x = cameraSprite.scale.y = stageManager.getDimension().calculateRatioByHeight(cameraSprite.height, 1);
+                                        cameraSprite.visible = true;
+                                    }
+                                }
+
+                            }
+
+
+
+                        }).catch(function (error) {
+                            alert(error.name + ": " + error.message);
+                        });
+
+                    } else {
+                        console.log('Camera Feature is not supported by your browser');
+                    }
+
+                }
+
+                function stopStream() {
+
+                    if (isPlaying) {
+                        console.log('Turning Camera Off');
+
+                        videoElement.pause();
+                        videoElement.src = "";
+
+                        let tracks = videoElement.srcObject.getTracks();
+                        tracks.forEach(function(track) {
+
+                            track.stop();
+                        });
+
+                        isPlaying = false;
+                        videoTexture.destroy(true);
+                        libraryManager.removeElement('cameraSprite');
+
+                    }
+                }
+
+                function startStream() {
+                    if(!isPlaying)
+                    {
+                        console.log('Turning Camera On');
+                        initVideoStream();
+                    }
+
+
+                }
+
+
+
+
+                return {
+                    initVideoStream: initVideoStream,
+                    stopStream: stopStream,
+                    startStream: startStream
+                }
+
+            }();
 
         }
 
@@ -428,7 +547,7 @@ var InterfaceManager = (function () {
             archiveButtonObj.position.y = (footerObj.height * 0.5) - (archiveButtonObj.height * 0.5) - 20;
 
             activateButtonObj.on('pointertap', function() {
-                setButtonSelected(this);
+                showActivate();
             });
 
             profileButtonObj.on('pointertap', function() {
@@ -553,13 +672,29 @@ var InterfaceManager = (function () {
 
         }
 
+        function showActivate()
+        {
+            var buttonObj = libraryManager.getElement('activateButtonObj');
+            setButtonSelected(buttonObj);
+
+            clearContent();
+
+            camera.startStream();
+
+        }
+
         function clearContent()
         {
+            camera.stopStream();
+
             tl.clear();
             var contentContainer = libraryManager.getElement('contentContainer');
             for(var i = contentContainer.children.length - 1; i >= 0; i--)
             {
-                libraryManager.removeElement(contentContainer.children[i].content.id);
+                if(contentContainer.children[i].content)
+                {
+                    libraryManager.removeElement(contentContainer.children[i].content.id);
+                }
                 contentContainer.removeChild(contentContainer.children[i]);
             }
         }
@@ -579,6 +714,8 @@ var InterfaceManager = (function () {
             initFooter();
 
             initBody();
+
+            initCamera();
 
             initTimeLinedTween();
 
