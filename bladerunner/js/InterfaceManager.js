@@ -280,7 +280,7 @@ var InterfaceManager = (function () {
         {
 
             var contentContainer = libraryManager.getElement('contentContainer');
-            var backgroundObj = libraryManager.getElement('backgroundObj');
+            var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
 
             camera = function ()
             {
@@ -328,9 +328,14 @@ var InterfaceManager = (function () {
                                     if(isPlaying)
                                     {
                                         cameraSprite.texture = videoTexture;
-                                        cameraSprite.scale.x = cameraSprite.scale.y = 1;
-                                        cameraSprite.scale.x = cameraSprite.scale.y = stageManager.getDimension().calculateRatioByHeight(cameraSprite.height, 1);
+                                        cameraSprite.scale.set(1);
+                                        console.log(stageManager.getDimension().canvasHeight);
+                                        var height = cameraSprite.height;
+                                        var ratio = (height > bodyBackgroundObj.height) ? (height / bodyBackgroundObj.height) : (bodyBackgroundObj.height / height);
+                                        cameraSprite.scale.set(ratio);
                                         cameraSprite.visible = true;
+                                        console.log(ratio);
+                                        console.log(cameraSprite.height);
                                     }
                                 }
 
