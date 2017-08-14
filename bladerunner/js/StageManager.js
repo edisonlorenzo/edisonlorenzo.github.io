@@ -72,6 +72,11 @@ var StageManager = (function () {
             return container;
         }
 
+        function getRenderer()
+        {
+            return app.renderer;
+        }
+
         function getDimension()
         {
             this.canvasWidth = canvasWidth;
@@ -100,6 +105,7 @@ var StageManager = (function () {
         }
 
         return {
+            getRenderer: getRenderer,
             getDimension: getDimension,
             getContainer: getContainer,
             addCallBack: addCallBack

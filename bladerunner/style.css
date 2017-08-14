@@ -1,15 +1,7 @@
 #camera {
-    /*position: fixed;
-    top: 50%;
-    left: 50%;
+    display: none;
+}
 
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-
-    z-index: 100;
-
-    transform: translateX(-50%) translateY(-50%);*/
+#snapshot {
     display: none;
 }

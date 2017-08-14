@@ -286,9 +286,61 @@ var InterfaceManager = (function () {
             var contentContainer = libraryManager.getElement('contentContainer');
             var backgroundObj = libraryManager.getElement('backgroundObj');
 
+            var cameraContainer;
+            var videoElement;
+            var snapshotSquare;
+
+            const snapshotCanvas = document.getElementById('snapshot');
+            const snapshotContext = snapshotCanvas.getContext('2d');
+
+            const qrcodeWorker = new Worker("js/qrcode_worker.js");
+            qrcodeWorker.postMessage({cmd: 'init'});
+            qrcodeWorker.addEventListener('message', showResult);
+
+
+            function calculateSquare() {
+                var snapshotSize = 150;
+                snapshotSquare = {
+                    'x': ~~((videoElement.videoWidth - snapshotSize)/2),
+                    'y': ~~((videoElement.videoHeight - snapshotSize)/2),
+                    'size': ~~(snapshotSize)
+                };
+
+                snapshotCanvas.width = snapshotSquare.size;
+                snapshotCanvas.height = snapshotSquare.size;
+            }
+
+            function showResult (e) {
+                const resultData = e.data;
+                if (resultData !== false) {
+                    navigator.vibrate(200);
+                    showActivateResult(resultData);
+                } else {
+                    scanCode();
+                }
+            }
+
+            function scanCode(wasSuccess) {
+                setTimeout(function() {
+                    if(cameraContainer != null)
+                    {
+                        snapshotContext.drawImage(videoElement, snapshotSquare.x, snapshotSquare.y, snapshotSquare.size, snapshotSquare.size, 0, 0, snapshotSquare.size, snapshotSquare.size);
+                        const imageData = snapshotContext.getImageData(0, 0, snapshotSquare.size, snapshotSquare.size);
+
+                        qrcodeWorker.postMessage({
+                            cmd: 'process',
+                            width: snapshotSquare.size,
+                            height: snapshotSquare.size,
+                            imageData: imageData
+                        });
+                    }
+                }, wasSuccess ? 2000 : 120);
+            }
+
+
+
             camera = function ()
             {
-                var videoElement;
                 var isPlaying;
                 var videoTexture;
 
@@ -335,7 +387,8 @@ var InterfaceManager = (function () {
 
                             if (stream) {
 
-                                var cameraContainer = libraryManager.createContainer('cameraContainer', contentContainer);
+                                cameraContainer = libraryManager.createContainer('cameraContainer', contentContainer);
+
                                 var markerMaskContainer = libraryManager.createContainer('markerMaskContainer', contentContainer);
                                 var markerContainer = libraryManager.createContainer('markerContainer', contentContainer);
 
@@ -345,6 +398,7 @@ var InterfaceManager = (function () {
                                 videoElement.oncanplay = function() {
                                     if(isPlaying)
                                     {
+
                                         console.log('QR Code Scanning...');
                                         cameraStatusText.visible = false;
 
@@ -371,7 +425,9 @@ var InterfaceManager = (function () {
                                         cameraSprite.scale.set(ratio);
                                         cameraSprite.visible = true;
 
-                                        // headerContainer.content.hide();
+                                        calculateSquare();
+                                        scanCode();
+
                                     }
                                 }
 
@@ -399,6 +455,7 @@ var InterfaceManager = (function () {
 
                 function stopStream() {
                     if (isPlaying) {
+
                         console.log('Turning Camera Off');
 
                         videoElement.pause();
@@ -411,9 +468,11 @@ var InterfaceManager = (function () {
                         });
 
                         isPlaying = false;
-                        videoTexture.destroy(true);
-                        //libraryManager.removeElement('cameraSprite');
-
+                        if(videoTexture)
+                        {
+                            videoTexture.destroy(true);
+                        }
+                        cameraContainer = null;
                     }
                 }
 
@@ -426,8 +485,6 @@ var InterfaceManager = (function () {
 
 
                 }
-
-
 
 
                 return {
@@ -632,7 +689,7 @@ var InterfaceManager = (function () {
                 }
             }
 
-            if(!selectedButtonObj.content.isSelected)
+            if(selectedButtonObj != null && !selectedButtonObj.content.isSelected)
             {
                 selectedButtonObj.content.setSelected(true);
             }
@@ -735,6 +792,24 @@ var InterfaceManager = (function () {
 
             camera.startStream();
 
+        }
+
+        function showActivateResult(resultData)
+        {
+            setButtonSelected(null);
+
+            clearContent();
+
+            var contentContainer = libraryManager.getElement('contentContainer');
+
+            var cameraStatusText = libraryManager.createText('cameraStatusText', contentContainer, 0, new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 28,
+                fontStyle: 'normal',
+                fill: '#4cb54a'
+            }));
+
+            cameraStatusText.text = resultData;
         }
 
         function clearContent()

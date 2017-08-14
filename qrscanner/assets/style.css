@@ -57,7 +57,7 @@ body {
 }
 
 #snapshot {
-    display: none;
+    /*display: none;*/
 }
 
 #loading {
