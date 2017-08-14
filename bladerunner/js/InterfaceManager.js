@@ -53,6 +53,8 @@ var InterfaceManager = (function () {
         assets.push(new Asset('img_mission01', 'images/img_mission01.png'));
         assets.push(new Asset('img_mission02', 'images/img_mission02.png'));
         assets.push(new Asset('img_mission03', 'images/img_mission03.png'));
+        assets.push(new Asset('img_camerabg_mask', 'images/img_camerabg_mask.png'));
+        assets.push(new Asset('img_cameramarker', 'images/img_cameramarker.png'));
 
         var missionDataObj =
         [
@@ -139,12 +141,14 @@ var InterfaceManager = (function () {
             bodyBackgroundObj.alpha = 0;
             bodyBackgroundObj.width = 768;
             bodyBackgroundObj.height = backgroundObj.content.height - headerObj.height - (footerObj.height * 0.4);
-            bodyContainer.position.y = 45;
+            //bodyContainer.position.y = 45;
 
         }
 
         function initMissions()
         {
+            var bodyContainer = libraryManager.getElement('bodyContainer');
+            bodyContainer.position.y = 45;
 
             var contentContainer = libraryManager.getElement('contentContainer');
             var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
@@ -280,7 +284,7 @@ var InterfaceManager = (function () {
         {
 
             var contentContainer = libraryManager.getElement('contentContainer');
-            var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
+            var backgroundObj = libraryManager.getElement('backgroundObj');
 
             camera = function ()
             {
@@ -289,6 +293,10 @@ var InterfaceManager = (function () {
                 var videoTexture;
 
                 function initVideoStream () {
+
+                    var bodyContainer = libraryManager.getElement('bodyContainer');
+                    bodyContainer.position.y = 0;
+
                     videoElement = document.getElementById('camera');
 
                     var currentDeviceId;
@@ -301,6 +309,17 @@ var InterfaceManager = (function () {
 
                     if(navigator.mediaDevices)
                     {
+
+                        var cameraMessage = 'Initializing Camera';
+                        console.log(cameraMessage);
+                        var cameraStatusText = libraryManager.createText('cameraStatusText', contentContainer, 0, new PIXI.TextStyle({
+                            fontFamily: 'Arial',
+                            fontSize: 28,
+                            fontStyle: 'normal',
+                            fill: '#4cb54a'
+                        }));
+                        cameraStatusText.text = cameraMessage;
+
                         navigator.mediaDevices.enumerateDevices()
                         .then(function(devices) {
                             devices = devices.filter(function (device) {
@@ -316,26 +335,43 @@ var InterfaceManager = (function () {
 
                             if (stream) {
 
+                                var cameraContainer = libraryManager.createContainer('cameraContainer', contentContainer);
+                                var markerMaskContainer = libraryManager.createContainer('markerMaskContainer', contentContainer);
+                                var markerContainer = libraryManager.createContainer('markerContainer', contentContainer);
+
                                 videoElement.srcObject = stream;
                                 isPlaying = true;
-
-                                videoTexture = PIXI.Texture.fromVideo(videoElement);
-
-                                var cameraSprite = libraryManager.createVideo('cameraSprite', contentContainer, null);
-                                cameraSprite.visible = false;
 
                                 videoElement.oncanplay = function() {
                                     if(isPlaying)
                                     {
+                                        console.log('QR Code Scanning...');
+                                        cameraStatusText.visible = false;
+
+                                        var markerBG = libraryManager.createImage('markerBG', markerMaskContainer, res['img_white'].texture);
+                                        markerBG.tint = 0x000000;
+                                        markerBG.alpha = 0.65;
+                                        markerBG.width = backgroundObj.content.width;
+                                        markerBG.height = backgroundObj.content.height;
+
+                                        var markerMask = libraryManager.createImage('markerMask', markerMaskContainer, res['img_camerabg_mask'].texture);
+                                        markerMaskContainer.mask = markerMask;
+
+                                        var cameraMarker = libraryManager.createImage('cameraMarker', markerContainer, res['img_cameramarker'].texture);
+
+                                        videoTexture = PIXI.Texture.fromVideo(videoElement);
+
+                                        var cameraSprite = libraryManager.createVideo('cameraSprite', cameraContainer, null);
+                                        cameraSprite.visible = false;
+
                                         cameraSprite.texture = videoTexture;
                                         cameraSprite.scale.set(1);
-                                        console.log(stageManager.getDimension().canvasHeight);
                                         var height = cameraSprite.height;
-                                        var ratio = (height > bodyBackgroundObj.height) ? (height / bodyBackgroundObj.height) : (bodyBackgroundObj.height / height);
+                                        var ratio = (height > backgroundObj.content.height) ? (height / backgroundObj.content.height) : (backgroundObj.content.height / height);
                                         cameraSprite.scale.set(ratio);
                                         cameraSprite.visible = true;
-                                        console.log(ratio);
-                                        console.log(cameraSprite.height);
+
+                                        // headerContainer.content.hide();
                                     }
                                 }
 
@@ -348,13 +384,20 @@ var InterfaceManager = (function () {
                         });
 
                     } else {
-                        console.log('Camera Feature is not supported by your browser');
+                        var cameraMessage = 'Camera Feature is not supported by your browser';
+                        console.log(cameraMessage);
+                        var cameraStatusText = libraryManager.createText('cameraStatusText', contentContainer, 0, new PIXI.TextStyle({
+                            fontFamily: 'Arial',
+                            fontSize: 28,
+                            fontStyle: 'normal',
+                            fill: '#4cb54a'
+                        }));
+                        cameraStatusText.text = cameraMessage;
                     }
 
                 }
 
                 function stopStream() {
-
                     if (isPlaying) {
                         console.log('Turning Camera Off');
 
@@ -369,7 +412,7 @@ var InterfaceManager = (function () {
 
                         isPlaying = false;
                         videoTexture.destroy(true);
-                        libraryManager.removeElement('cameraSprite');
+                        //libraryManager.removeElement('cameraSprite');
 
                     }
                 }
@@ -405,6 +448,12 @@ var InterfaceManager = (function () {
                 this.visible = true;
                 TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                 TweenMax.fromTo(this.position, 0.5, {y: -450}, {y: 0, ease: Power2.easeOut});
+            }).bind(headerContainer);
+
+            headerContainer.content.hide = (function() {
+                this.visible = true;
+                TweenMax.to(this, 0.5, {alpha: 0, ease: Power2.easeOut});
+                TweenMax.to(this.position, 0.5, {y: -450, ease: Power2.easeOut, onComplete: (function(){this.visible = false;}).bind(this)});
             }).bind(headerContainer);
 
             var headerObj = libraryManager.createImage('headerObj', headerContainer, res['img_header'].texture);
@@ -468,7 +517,7 @@ var InterfaceManager = (function () {
             }));
             headerStatusCluesValueText.anchor.x = 0;
             headerStatusCluesValueText.position.x = 15;
-            headerStatusCluesValueText.position.y = -19;
+            headerStatusCluesValueText.position.y = -9;
 
             function setText()
             {

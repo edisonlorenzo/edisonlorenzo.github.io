@@ -119,6 +119,7 @@ var LibraryManager = (function () {
         function createText(id, container, text, style)
         {
             var richText = new PIXI.Text(text, style);
+            richText.anchor.set(0.5);
 
             container.addChild(richText);
 
