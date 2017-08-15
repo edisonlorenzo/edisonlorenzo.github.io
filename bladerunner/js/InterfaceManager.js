@@ -497,7 +497,15 @@ var InterfaceManager = (function () {
                     }
                 });
 
-                window.addEventListener("optimizedResize", calculateSquare);
+                window.addEventListener("optimizedResize", function() {
+
+                    var activateButtonObj = libraryManager.getElement('activateButtonObj');
+
+                    if(activateButtonObj.content.isSelected && isPlaying)
+                    {
+                        calculateSquare();
+                    }
+                });
 
                 (function() {
                     let throttle = function(type, name, obj) {
