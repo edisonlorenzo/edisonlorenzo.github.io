@@ -16,7 +16,7 @@ var StageManager = (function () {
 
         setSize();
         //var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor : 0x4fa7ff, resolution: window.devicePixelRatio});
-        var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor: 0x000000});
+        var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor: 0x000000, resolution: window.devicePixelRatio});
         app.view.style.display = "block";
         app.view.style.width = "100%";
         app.view.style.height = "100%";
@@ -53,10 +53,6 @@ var StageManager = (function () {
         {
             canvasWidth = window.innerWidth;
             canvasHeight = window.innerHeight;
-
-            var getRatio = function(){
-                return canvasWidth > canvasHeight ? (canvasWidth / canvasHeight) : (canvasHeight / canvasWidth);
-            }
 
             width = canvasHeight;
     		height = canvasHeight;
