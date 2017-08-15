@@ -286,61 +286,19 @@ var InterfaceManager = (function () {
             var contentContainer = libraryManager.getElement('contentContainer');
             var backgroundObj = libraryManager.getElement('backgroundObj');
 
-            var cameraContainer;
-            var videoElement;
-            var snapshotSquare;
-
-            const snapshotCanvas = document.getElementById('snapshot');
-            const snapshotContext = snapshotCanvas.getContext('2d');
-
-            const qrcodeWorker = new Worker("js/qrcode_worker.js");
-            qrcodeWorker.postMessage({cmd: 'init'});
-            qrcodeWorker.addEventListener('message', showResult);
-
-
-            function calculateSquare() {
-                var snapshotSize = 150;
-                snapshotSquare = {
-                    'x': ~~((videoElement.videoWidth - snapshotSize)/2),
-                    'y': ~~((videoElement.videoHeight - snapshotSize)/2),
-                    'size': ~~(snapshotSize)
-                };
-
-                snapshotCanvas.width = snapshotSquare.size;
-                snapshotCanvas.height = snapshotSquare.size;
-            }
-
-            function showResult (e) {
-                const resultData = e.data;
-                if (resultData !== false) {
-                    navigator.vibrate(200);
-                    showActivateResult(resultData);
-                } else {
-                    scanCode();
-                }
-            }
-
-            function scanCode(wasSuccess) {
-                setTimeout(function() {
-                    if(cameraContainer != null)
-                    {
-                        snapshotContext.drawImage(videoElement, snapshotSquare.x, snapshotSquare.y, snapshotSquare.size, snapshotSquare.size, 0, 0, snapshotSquare.size, snapshotSquare.size);
-                        const imageData = snapshotContext.getImageData(0, 0, snapshotSquare.size, snapshotSquare.size);
-
-                        qrcodeWorker.postMessage({
-                            cmd: 'process',
-                            width: snapshotSquare.size,
-                            height: snapshotSquare.size,
-                            imageData: imageData
-                        });
-                    }
-                }, wasSuccess ? 2000 : 120);
-            }
-
-
-
             camera = function ()
             {
+                var cameraContainer;
+                var videoElement;
+                var snapshotSquare;
+
+                const snapshotCanvas = document.getElementById('snapshot');
+                const snapshotContext = snapshotCanvas.getContext('2d');
+
+                const qrcodeWorker = new Worker("js/qrcode_worker.js");
+                qrcodeWorker.postMessage({cmd: 'init'});
+                qrcodeWorker.addEventListener('message', showResult);
+
                 var isPlaying;
                 var videoTexture;
 
@@ -486,6 +444,52 @@ var InterfaceManager = (function () {
 
                 }
 
+                function calculateSquare() {
+                    var snapshotSize = 160;
+                    snapshotSquare = {
+                        'x': ~~((videoElement.videoWidth - snapshotSize)/2),
+                        'y': ~~((videoElement.videoHeight - snapshotSize)/2),
+                        'size': ~~(snapshotSize)
+                    };
+
+                    snapshotCanvas.width = snapshotSquare.size;
+                    snapshotCanvas.height = snapshotSquare.size;
+                }
+
+                function showResult (e) {
+                    const resultData = e.data;
+                    if (resultData !== false) {
+                        navigator.vibrate(200);
+                        showActivateResult(resultData);
+                    } else {
+                        scanCode();
+                    }
+                }
+
+                function scanCode() {
+                    setTimeout(function() {
+                        if(cameraContainer != null)
+                        {
+                            snapshotContext.drawImage(videoElement, snapshotSquare.x, snapshotSquare.y - 15, snapshotSquare.size, snapshotSquare.size, 0, 0, snapshotSquare.size, snapshotSquare.size);
+                            const imageData = snapshotContext.getImageData(0, 0, snapshotSquare.size, snapshotSquare.size);
+
+                            qrcodeWorker.postMessage({
+                                cmd: 'process',
+                                width: snapshotSquare.size,
+                                height: snapshotSquare.size,
+                                imageData: imageData
+                            });
+                        }
+                    }, 120);
+                }
+
+                document.addEventListener("visibilitychange", function() {
+                    if (document.hidden) {
+                        stopStream();
+                    } else {
+                        startStream();
+                    }
+                });
 
                 return {
                     initVideoStream: initVideoStream,
