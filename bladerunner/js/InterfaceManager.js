@@ -497,7 +497,7 @@ var InterfaceManager = (function () {
 
                 window.addEventListener("optimizedResize", function() {
                     console.log('optimizedResize');
-                    stopStream();
+                    videoElement.pause();
                 });
 
                 (function() {
@@ -516,7 +516,7 @@ var InterfaceManager = (function () {
                     };
 
                     /* init - you can init any event */
-                    //throttle("resize", "optimizedResize");
+                    throttle("resize", "optimizedResize");
                     //throttle("resize", "runAllCallbacks")
                 })();
 
