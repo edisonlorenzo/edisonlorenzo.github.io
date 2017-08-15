@@ -498,7 +498,7 @@ var InterfaceManager = (function () {
                 });
 
                 window.addEventListener("optimizedResize", function() {
-
+                    console.log('optimizedResize');
                     var activateButtonObj = libraryManager.getElement('activateButtonObj');
 
                     if(activateButtonObj.content.isSelected && isPlaying)
@@ -524,6 +524,7 @@ var InterfaceManager = (function () {
 
                     /* init - you can init any event */
                     throttle("resize", "optimizedResize");
+                    throttle("resize", "resizeContainer")
                 })();
 
                 return {
