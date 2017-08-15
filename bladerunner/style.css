@@ -3,9 +3,5 @@
 }
 
 #snapshot {
-    /*display: none;*/
-    position: absolute;
-    z-index: 2;
-    background-color: red;
-
+    display: none;
 }

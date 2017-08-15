@@ -470,7 +470,7 @@ var InterfaceManager = (function () {
                     setTimeout(function() {
                         if(cameraContainer != null)
                         {
-                            snapshotContext.drawImage(videoElement, snapshotSquare.x, snapshotSquare.y - 15, snapshotSquare.size, snapshotSquare.size, 0, 0, snapshotSquare.size, snapshotSquare.size);
+                            snapshotContext.drawImage(videoElement, snapshotSquare.x, snapshotSquare.y, snapshotSquare.size, snapshotSquare.size, 0, 0, snapshotSquare.size, snapshotSquare.size);
                             const imageData = snapshotContext.getImageData(0, 0, snapshotSquare.size, snapshotSquare.size);
 
                             qrcodeWorker.postMessage({
@@ -484,10 +484,16 @@ var InterfaceManager = (function () {
                 }
 
                 document.addEventListener("visibilitychange", function() {
-                    if (document.hidden) {
-                        stopStream();
-                    } else {
-                        startStream();
+
+                    var activateButtonObj = libraryManager.getElement('activateButtonObj');
+
+                    if(activateButtonObj.content.isSelected)
+                    {
+                        if (document.hidden) {
+                            stopStream();
+                        } else {
+                            startStream();
+                        }
                     }
                 });
 
