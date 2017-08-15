@@ -14,7 +14,8 @@ var StageManager = (function () {
 		var height;
         var callBackArray = new Array();
 
-        setSize();
+
+        //setSize();
         //var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor : 0x4fa7ff, resolution: window.devicePixelRatio});
         var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor : 0x000000, resolution: window.devicePixelRatio});
         app.view.style.display = "block";
@@ -35,6 +36,8 @@ var StageManager = (function () {
 		app.stage.addChild(container);
 
         callBackArray.push(resize);
+
+        resize();
 
         window.addEventListener("resizeContainer", function () {
             console.log('resizeContainer');
