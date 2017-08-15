@@ -524,8 +524,8 @@ var InterfaceManager = (function () {
                     };
 
                     /* init - you can init any event */
-                    throttle("resize", "optimizedResize");
-                    //throttle("resize", "resizeContainer")
+                    //throttle("resize", "optimizedResize");
+                    throttle("resize", "resizeContainer")
                 })();
 
                 return {
