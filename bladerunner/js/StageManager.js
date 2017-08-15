@@ -36,12 +36,12 @@ var StageManager = (function () {
 
         callBackArray.push(resize);
 
-        window.addEventListener("resize", resize);
+        window.addEventListener("resize", runAllCallbacks);
 
         function runAllCallbacks() {
             console.log('resizeContainer');
             for (var i = 0; i < callBackArray.length; i++) {
-                //callBackArray[i]();
+                callBackArray[i]();
             }
         }
 
