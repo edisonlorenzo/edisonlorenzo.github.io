@@ -38,7 +38,6 @@ var StageManager = (function () {
         window.addEventListener("resize", runAllCallbacks);
 
         function runAllCallbacks() {
-            console.log('resizeContainer');
             for (var i = 0; i < callBackArray.length; i++) {
                 callBackArray[i]();
             }
