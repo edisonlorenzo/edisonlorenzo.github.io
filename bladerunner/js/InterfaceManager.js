@@ -441,7 +441,6 @@ var InterfaceManager = (function () {
                         initVideoStream();
                     }
 
-
                 }
 
                 function calculateSquare() {
@@ -503,7 +502,9 @@ var InterfaceManager = (function () {
 
                     if(activateButtonObj.content.isSelected && isPlaying)
                     {
-                        calculateSquare();
+                        tl.add(stopStream, "+=0");
+                        tl.add(startStream, "+=2");
+                        //calculateSquare();
                     }
                 });
 
