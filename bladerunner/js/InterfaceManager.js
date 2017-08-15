@@ -421,7 +421,6 @@ var InterfaceManager = (function () {
 
                         let tracks = videoElement.srcObject.getTracks();
                         tracks.forEach(function(track) {
-
                             track.stop();
                         });
 
@@ -498,14 +497,7 @@ var InterfaceManager = (function () {
 
                 window.addEventListener("optimizedResize", function() {
                     console.log('optimizedResize');
-                    var activateButtonObj = libraryManager.getElement('activateButtonObj');
-
-                    if(activateButtonObj.content.isSelected && isPlaying)
-                    {
-                        tl.add(stopStream, "+=0");
-                        tl.add(startStream, "+=2");
-                        //calculateSquare();
-                    }
+                    stopStream();
                 });
 
                 (function() {
@@ -525,7 +517,7 @@ var InterfaceManager = (function () {
 
                     /* init - you can init any event */
                     //throttle("resize", "optimizedResize");
-                    // throttle("resize", "resizeContainer")
+                    //throttle("resize", "runAllCallbacks")
                 })();
 
                 return {

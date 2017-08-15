@@ -36,12 +36,12 @@ var StageManager = (function () {
 
         callBackArray.push(resize);
 
-        window.addEventListener("resize", runAllCallbacks);
+        window.addEventListener("resize", resize);
 
         function runAllCallbacks() {
             console.log('resizeContainer');
             for (var i = 0; i < callBackArray.length; i++) {
-                callBackArray[i]();
+                //callBackArray[i]();
             }
         }
 
@@ -54,7 +54,7 @@ var StageManager = (function () {
 
         function setSize()
         {
-            
+
             canvasWidth = window.innerWidth <= 0 ? 768 : window.innerWidth;
             canvasHeight = window.innerHeight <= 0 ? 1350 : window.innerHeight;
 
