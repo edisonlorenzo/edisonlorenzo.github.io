@@ -141,7 +141,6 @@ var InterfaceManager = (function () {
             bodyBackgroundObj.alpha = 0;
             bodyBackgroundObj.width = 768;
             bodyBackgroundObj.height = backgroundObj.content.height - headerObj.height - (footerObj.height * 0.4);
-            //bodyContainer.position.y = 45;
 
         }
 
@@ -495,30 +494,30 @@ var InterfaceManager = (function () {
                     }
                 });
 
-                window.addEventListener("optimizedResize", function() {
-                    console.log('optimizedResize');
-                    videoElement.pause();
-                });
-
-                (function() {
-                    let throttle = function(type, name, obj) {
-                        obj = obj || window;
-                        let running = false;
-                        let func = function() {
-                            if (running) { return; }
-                            running = true;
-                            requestAnimationFrame(function() {
-                                obj.dispatchEvent(new CustomEvent(name));
-                                running = false;
-                            });
-                        };
-                        obj.addEventListener(type, func);
-                    };
-
-                    /* init - you can init any event */
-                    throttle("resize", "optimizedResize");
-                    //throttle("resize", "runAllCallbacks")
-                })();
+                // window.addEventListener("optimizedResize", function() {
+                //     console.log('optimizedResize');
+                //     videoElement.pause();
+                // });
+                //
+                // (function() {
+                //     let throttle = function(type, name, obj) {
+                //         obj = obj || window;
+                //         let running = false;
+                //         let func = function() {
+                //             if (running) { return; }
+                //             running = true;
+                //             requestAnimationFrame(function() {
+                //                 obj.dispatchEvent(new CustomEvent(name));
+                //                 running = false;
+                //             });
+                //         };
+                //         obj.addEventListener(type, func);
+                //     };
+                //
+                //     /* init - you can init any event */
+                //     throttle("resize", "optimizedResize");
+                //     //throttle("resize", "runAllCallbacks")
+                // })();
 
                 return {
                     initVideoStream: initVideoStream,

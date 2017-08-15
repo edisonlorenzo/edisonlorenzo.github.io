@@ -15,7 +15,6 @@ var StageManager = (function () {
         var callBackArray = new Array();
 
         setSize();
-        //var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor : 0x4fa7ff, resolution: window.devicePixelRatio});
         var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor: 0x000000, resolution: window.devicePixelRatio});
         app.view.style.display = "block";
         app.view.style.width = "100%";
