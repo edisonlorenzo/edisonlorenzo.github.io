@@ -36,12 +36,14 @@ var StageManager = (function () {
 
         callBackArray.push(resize);
 
-        window.addEventListener("resizeContainer", function () {
+        window.addEventListener("resize", runAllCallbacks);
+
+        function runAllCallbacks() {
             console.log('resizeContainer');
             for (var i = 0; i < callBackArray.length; i++) {
                 callBackArray[i]();
             }
-        });
+        }
 
         function resize()
         {
@@ -49,13 +51,16 @@ var StageManager = (function () {
             app.renderer.resize(canvasWidth, canvasHeight);
         }
 
+
         function setSize()
         {
-            canvasWidth = window.innerWidth;
-            canvasHeight = window.innerHeight;
+            
+            canvasWidth = window.innerWidth <= 0 ? 768 : window.innerWidth;
+            canvasHeight = window.innerHeight <= 0 ? 1350 : window.innerHeight;
 
             width = canvasHeight;
     		height = canvasHeight;
+
         }
 
         function addCallBack(value)
