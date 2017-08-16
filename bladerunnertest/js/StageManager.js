@@ -13,7 +13,7 @@ var StageManager = (function () {
         var callBackArray = new Array();
 
         // var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor: 0x000000, resolution: window.devicePixelRatio});
-        var app = new PIXI.Application(logicalWidth, logicalHeight, {forceCanvas: true, backgroundColor: 0x000000, resolution: window.devicePixelRatio});
+        var app = new PIXI.Application(logicalWidth, logicalHeight, {legacy: true, backgroundColor: 0x000000, resolution: window.devicePixelRatio});
         app.view.id = 'pixi-canvas';
 
         //Add style in document head

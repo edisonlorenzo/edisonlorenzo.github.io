@@ -129,7 +129,6 @@ var SceneManager = (function () {
             var canvasContainer = libraryManager.getElement('canvasContainer');
             var backgroundObj = libraryManager.createImage('backgroundObj', canvasContainer, res['img_bg'].texture);
             backgroundObj.tint = 0x000000;
-            backgroundObj.alpha = 0;
             backgroundObj.content.width = backgroundObj.width;
             backgroundObj.content.height = backgroundObj.height;
 
@@ -142,15 +141,15 @@ var SceneManager = (function () {
 
         function initMainContent()
         {
-            var backgroundObj = libraryManager.getElement('canvasContainer');
+            var backgroundObj = libraryManager.getElement('backgroundObj');
             var backgroundContainer = libraryManager.createContainer('backgroundContainer', backgroundObj);
             var foregroundContainer = libraryManager.createContainer('foregroundContainer', backgroundObj);
 
-            // var backgroundContainerMask = libraryManager.createImage('backgroundContainerMask', backgroundContainer, res['img_white'].texture);
-            // backgroundContainerMask.width = backgroundObj.content.width;
-            // backgroundContainerMask.height = backgroundObj.content.height;
-            //
-            // backgroundContainer.mask = backgroundContainerMask;
+            var backgroundContainerMask = libraryManager.createImage('backgroundContainerMask', backgroundContainer, res['img_white'].texture);
+            backgroundContainerMask.width = backgroundObj.content.width;
+            backgroundContainerMask.height = backgroundObj.content.height;
+
+            backgroundContainer.mask = backgroundContainerMask;
         }
 
         function initLoadingScene()

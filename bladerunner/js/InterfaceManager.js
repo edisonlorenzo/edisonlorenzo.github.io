@@ -291,7 +291,7 @@ var InterfaceManager = (function () {
                 var videoElement;
                 var snapshotSquare;
 
-                const snapshotCanvas = document.getElementById('snapshot');
+                const snapshotCanvas = document.createElement('canvas');
                 const snapshotContext = snapshotCanvas.getContext('2d');
 
                 const qrcodeWorker = new Worker("js/qrcode_worker.js");
@@ -306,7 +306,7 @@ var InterfaceManager = (function () {
                     var bodyContainer = libraryManager.getElement('bodyContainer');
                     bodyContainer.position.y = 0;
 
-                    videoElement = document.getElementById('camera');
+                    videoElement = document.createElement('video');
 
                     var currentDeviceId;
 
