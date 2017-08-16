@@ -375,11 +375,7 @@ var InterfaceManager = (function () {
                                         var cameraSprite = libraryManager.createVideo('cameraSprite', cameraContainer, null);
                                         cameraSprite.visible = false;
 
-                                        var sprite = new PIXI.Sprite(videoTexture);
-
-                                        cameraContainer.addChild(sprite);
-
-                                        //cameraSprite.texture = videoTexture;
+                                        cameraSprite.texture = videoTexture;
                                         cameraSprite.scale.set(1);
                                         var height = cameraSprite.height;
                                         var ratio = (height > backgroundObj.content.height) ? (height / backgroundObj.content.height) : (backgroundObj.content.height / height);

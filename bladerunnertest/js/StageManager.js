@@ -13,10 +13,7 @@ var StageManager = (function () {
         var callBackArray = new Array();
 
         // var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor: 0x000000, resolution: window.devicePixelRatio});
-        var camera = new PIXI.Application(logicalWidth, logicalHeight, {forceCanvas: true, backgroundColor: 0x000000, resolution: window.devicePixelRatio});
-        camera.view.id = 'pixi-canvas-camera';
-
-        var app = new PIXI.Application(logicalWidth, logicalHeight, {forceCanvas: true, transparent: true, resolution: window.devicePixelRatio});
+        var app = new PIXI.Application(logicalWidth, logicalHeight, {forceCanvas: true, backgroundColor: 0x000000, resolution: window.devicePixelRatio});
         app.view.id = 'pixi-canvas';
 
         //Add style in document head
@@ -26,7 +23,6 @@ var StageManager = (function () {
         document.head.appendChild(newStyle);
 
         //Add the canvas to the HTML document
-        document.body.appendChild(camera.view);
         document.body.appendChild(app.view);
 
         var container = new PIXI.Container();
@@ -40,10 +36,6 @@ var StageManager = (function () {
             );
             const newWidth = Math.ceil(logicalWidth * scaleFactor);
             const newHeight = Math.ceil(logicalHeight * scaleFactor);
-
-            camera.view.style.width = `${newWidth}px`;
-            camera.view.style.height = `${newHeight}px`;
-            camera.renderer.resize(newWidth, newHeight);
 
             app.view.style.width = `${newWidth}px`;
             app.view.style.height = `${newHeight}px`;
@@ -67,11 +59,6 @@ var StageManager = (function () {
         {
             value();
             callBackArray.push(value);
-        }
-
-        function getCameraCanvas()
-        {
-            return camera;
         }
 
         function getContainer()
@@ -111,7 +98,6 @@ var StageManager = (function () {
         }
 
         return {
-            getCameraCanvas: getCameraCanvas,
             getRenderer: getRenderer,
             getDimension: getDimension,
             getContainer: getContainer,
