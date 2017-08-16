@@ -8,15 +8,16 @@ var StageManager = (function () {
 
         // Singleton Init
 
-        var width = 480;
-		var height = 800;
-        
-        PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST; 
+        const logicalWidth = 480;
+        const logicalHeight = 800;
 
-        var app = new PIXI.Application(width, height, {backgroundColor : 0x1099bb, resolution: window.devicePixelRatio});
-        app.view.style.width = width + 'px';
-        app.view.style.height = height + 'px';
-        
+        PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+
+        var app = new PIXI.Application(logicalWidth, logicalHeight, {backgroundColor : 0x1099bb, resolution: window.devicePixelRatio});
+        app.view.id = 'pixi-canvas';
+        // app.view.style.width = width + 'px';
+        // app.view.style.height = height + 'px';
+
 
         //Add style in document head
         var newStyle = document.createElement("style");
@@ -28,56 +29,63 @@ var StageManager = (function () {
         document.body.appendChild(app.view);
 
         var container = new PIXI.Container();
-      
+
 		app.stage.addChild(container);
 
-        scaleToWindow(app.view);
+        const resizeHandler = () => {
+          const scaleFactor = Math.min(
+            window.innerWidth / logicalWidth,
+            window.innerHeight / logicalHeight
+          );
+          const newWidth = Math.ceil(logicalWidth * scaleFactor);
+          const newHeight = Math.ceil(logicalHeight * scaleFactor);
 
-        window.addEventListener("resize", function (event) { 
-            scaleToWindow(app.view);
+          app.view.style.width = `${newWidth}px`;
+          app.view.style.height = `${newHeight}px`;
+
+          app.renderer.resize(newWidth, newHeight);
+          container.scale.set(scaleFactor);
+        };
+
+        resizeHandler();
+
+        window.addEventListener("resize", function (event) {
+            resizeHandler();
         });
-        
-        function resize()
-        {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            app.view.resize(width, height);
-        }
 
         function getContainer()
         {
             return container;
         }
-        
+
         function getDimension()
         {
-            this.width = width;
-            this.height = height;
+            this.width = logicalWidth;
+            this.height = logicalHeight;
             this.calculateRatioByWidth = function(value, multiplier){
-                return (multiplier * width) / value;
+                return (multiplier * this.width) / value;
             };
             this.calculateRatioByHeight = function(value, multiplier){
-                return (multiplier * height) / value;
+                return (multiplier * this.height) / value;
             };
             this.calculateRatioBoth = function(_match, _width, _height, _multiplierWidth, _multiplierHeight){
-                var ratioByWidth = (_multiplierWidth * width) / _width;
-                var ratioByHeight = (_multiplierHeight * height) / _height;
+                var ratioByWidth = (_multiplierWidth * this.width) / _width;
+                var ratioByHeight = (_multiplierHeight * this.height) / _height;
                 if(_match == 'width')
                 {
-                    return width > height ? ratioByWidth : ratioByHeight;
+                    return this.width > this.height ? ratioByWidth : ratioByHeight;
                 }
                 else
                 {
-                    return width < height ? ratioByWidth : ratioByHeight;
+                    return this.width < this.height ? ratioByWidth : ratioByHeight;
                 }
             };
             return this;
         }
-        
+
         return {
             getDimension: getDimension,
-            getContainer: getContainer,
-            resize: resize
+            getContainer: getContainer
         };
 
     };
@@ -98,4 +106,3 @@ var StageManager = (function () {
     };
 
 })();
-

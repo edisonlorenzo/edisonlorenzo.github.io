@@ -8,17 +8,22 @@ var StageManager = (function () {
 
         // Singleton Init
 
-        var canvasWidth;
-        var canvasHeight;
-        var width;
-		var height;
+        const logicalWidth = 768;
+        const logicalHeight = 1350;
+
+        // var canvasWidth;
+        // var canvasHeight;
+        // var width;
+		// var height;
         var callBackArray = new Array();
 
-        setSize();
-        var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor: 0x000000, resolution: window.devicePixelRatio});
-        app.view.style.display = "block";
-        app.view.style.width = "100%";
-        app.view.style.height = "100%";
+        // setSize();
+        // var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor: 0x000000, resolution: window.devicePixelRatio});
+        var app = new PIXI.Application(logicalWidth, logicalHeight, {backgroundColor : 0x000000, resolution: window.devicePixelRatio});
+        app.view.id = 'pixi-canvas';
+        // app.view.style.display = "block";
+        // app.view.style.width = "100%";
+        // app.view.style.height = "100%";
 
         //Add style in document head
         var newStyle = document.createElement("style");
@@ -33,33 +38,50 @@ var StageManager = (function () {
 
 		app.stage.addChild(container);
 
-        callBackArray.push(resize);
+        const resizeHandler = function () {
+            const scaleFactor = Math.min(
+                window.innerWidth / logicalWidth,
+                window.innerHeight / logicalHeight
+            );
+            const newWidth = Math.ceil(logicalWidth * scaleFactor);
+            const newHeight = Math.ceil(logicalHeight * scaleFactor);
+            app.view.style.width = `${newWidth}px`;
+            app.view.style.height = `${newHeight}px`;
+            app.renderer.resize(newWidth, newHeight);
+            container.scale.set(scaleFactor);
+        };
 
-        window.addEventListener("resize", runAllCallbacks);
+        // resizeHandler();
 
-        function runAllCallbacks() {
+        callBackArray.push(resizeHandler);
+
+        const runAllCallbacks = function () {
             for (var i = 0; i < callBackArray.length; i++) {
                 callBackArray[i]();
             }
-        }
+        };
 
-        function resize()
-        {
-            setSize();
-            app.renderer.resize(canvasWidth, canvasHeight);
-        }
+        window.addEventListener("resize", runAllCallbacks);
+
+        runAllCallbacks();
+
+        // function resize()
+        // {
+        //     setSize();
+        //     app.renderer.resize(canvasWidth, canvasHeight);
+        // }
 
 
-        function setSize()
-        {
-
-            canvasWidth = window.innerWidth <= 0 ? 768 : window.innerWidth;
-            canvasHeight = window.innerHeight <= 0 ? 1350 : window.innerHeight;
-
-            width = canvasHeight;
-    		height = canvasHeight;
-
-        }
+        // function setSize()
+        // {
+        //
+        //     canvasWidth = window.innerWidth <= 0 ? 768 : window.innerWidth;
+        //     canvasHeight = window.innerHeight <= 0 ? 1350 : window.innerHeight;
+        //
+        //     width = canvasHeight;
+    	// 	height = canvasHeight;
+        //
+        // }
 
         function addCallBack(value)
         {
@@ -79,26 +101,31 @@ var StageManager = (function () {
 
         function getDimension()
         {
-            this.canvasWidth = canvasWidth;
-            this.canvasHeight = canvasHeight;
-            this.width = width;
-            this.height = height;
+            // this.canvasWidth = canvasWidth;
+            // this.canvasHeight = canvasHeight;
+            // this.width = width;
+            // this.height = height;
+            // this.canvasWidth = logicalWidth;
+            // this.canvasHeight = logicalHeight;
+            this.width = logicalWidth;
+            this.height = logicalHeight;
+
             this.calculateRatioByWidth = function(value, multiplier){
-                return (multiplier * width) / value;
+                return (multiplier * this.width) / value;
             };
             this.calculateRatioByHeight = function(value, multiplier){
-                return (multiplier * height) / value;
+                return (multiplier * this.height) / value;
             };
             this.calculateRatioBoth = function(_match, _width, _height, _multiplierWidth, _multiplierHeight){
-                var ratioByWidth = (_multiplierWidth * width) / _width;
-                var ratioByHeight = (_multiplierHeight * height) / _height;
+                var ratioByWidth = (_multiplierWidth * this.width) / _width;
+                var ratioByHeight = (_multiplierHeight * this.height) / _height;
                 if(_match == 'width')
                 {
-                    return width > height ? ratioByWidth : ratioByHeight;
+                    return this.width > this.height ? ratioByWidth : ratioByHeight;
                 }
                 else
                 {
-                    return width < height ? ratioByWidth : ratioByHeight;
+                    return this.width < this.height ? ratioByWidth : ratioByHeight;
                 }
             };
             return this;
