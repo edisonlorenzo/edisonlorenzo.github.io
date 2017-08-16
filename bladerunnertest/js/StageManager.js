@@ -13,10 +13,10 @@ var StageManager = (function () {
         var callBackArray = new Array();
 
         // var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor: 0x000000, resolution: window.devicePixelRatio});
-        var camera = new PIXI.Application(logicalWidth, logicalHeight, {backgroundColor: 0x000000, resolution: window.devicePixelRatio});
+        var camera = new PIXI.Application(logicalWidth, logicalHeight, {forceCanvas: true, backgroundColor: 0x000000, resolution: window.devicePixelRatio});
         camera.view.id = 'pixi-canvas-camera';
 
-        var app = new PIXI.Application(logicalWidth, logicalHeight, {transparent: true, resolution: window.devicePixelRatio});
+        var app = new PIXI.Application(logicalWidth, logicalHeight, {forceCanvas: true, transparent: true, resolution: window.devicePixelRatio});
         app.view.id = 'pixi-canvas';
 
         //Add style in document head
