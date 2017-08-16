@@ -10,10 +10,13 @@ var StageManager = (function () {
 
         const logicalWidth = 768;
         const logicalHeight = 1350;
-
         var callBackArray = new Array();
 
-        var app = new PIXI.Application(logicalWidth, logicalHeight, {backgroundColor : 0x000000, resolution: window.devicePixelRatio});
+        // var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor: 0x000000, resolution: window.devicePixelRatio});
+        var camera = new PIXI.Application(logicalWidth, logicalHeight, {backgroundColor: 0x000000, resolution: window.devicePixelRatio});
+        camera.view.id = 'pixi-canvas-camera';
+
+        var app = new PIXI.Application(logicalWidth, logicalHeight, {transparent: true, resolution: window.devicePixelRatio});
         app.view.id = 'pixi-canvas';
 
         //Add style in document head
@@ -23,6 +26,7 @@ var StageManager = (function () {
         document.head.appendChild(newStyle);
 
         //Add the canvas to the HTML document
+        document.body.appendChild(camera.view);
         document.body.appendChild(app.view);
 
         var container = new PIXI.Container();
@@ -36,6 +40,11 @@ var StageManager = (function () {
             );
             const newWidth = Math.ceil(logicalWidth * scaleFactor);
             const newHeight = Math.ceil(logicalHeight * scaleFactor);
+
+            camera.view.style.width = `${newWidth}px`;
+            camera.view.style.height = `${newHeight}px`;
+            camera.renderer.resize(newWidth, newHeight);
+
             app.view.style.width = `${newWidth}px`;
             app.view.style.height = `${newHeight}px`;
             app.renderer.resize(newWidth, newHeight);
@@ -60,6 +69,11 @@ var StageManager = (function () {
             callBackArray.push(value);
         }
 
+        function getCameraCanvas()
+        {
+            return camera.view;
+        }
+
         function getContainer()
         {
             return container;
@@ -72,7 +86,6 @@ var StageManager = (function () {
 
         function getDimension()
         {
-
             this.width = logicalWidth;
             this.height = logicalHeight;
 
@@ -98,6 +111,7 @@ var StageManager = (function () {
         }
 
         return {
+            getCameraCanvas: getCameraCanvas,
             getRenderer: getRenderer,
             getDimension: getDimension,
             getContainer: getContainer,
