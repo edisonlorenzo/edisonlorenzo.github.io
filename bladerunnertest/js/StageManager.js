@@ -71,7 +71,7 @@ var StageManager = (function () {
 
         function getCameraCanvas()
         {
-            return camera.view;
+            return camera;
         }
 
         function getContainer()
