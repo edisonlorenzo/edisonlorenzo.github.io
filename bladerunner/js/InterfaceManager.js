@@ -77,68 +77,72 @@ var InterfaceManager = (function () {
         assets.push(new Asset('img_achievement08_inactive', 'images/achievements/img_achievement08_inactive.png'));
 
         var missionDataObj =
-        [
-            {
-                data:
-                [
-                    {type: 'twocell', imageRes: 'img_event01', iconRes: 'icon_event', hasStartButton: true},
-                    {type: 'twocell', imageRes: 'img_event02', iconRes: 'icon_game', hasStartButton: true}
-                ]
-            },
-            {
-                data:
-                [
-                    {type: 'divider'}
-                ]
-            },
-            {
-                data:
-                [
-                    {type: 'onecell', imageRes: 'img_mission01', iconRes: 'icon_video'},
-                    {type: 'onecell', imageRes: 'img_mission02', iconRes: 'icon_book'},
-                    {type: 'onecell', imageRes: 'img_mission03', iconRes: 'icon_game'}
-                ]
-            }
-        ];
-
-        var profileInfoDataObj =
-        [
-            {title: 'Player Name', value: 'Default'},
-            {title: 'Gender', value: 'Default'},
-            {title: 'Occupation', value: 'Default'},
-            {title: 'Department', value: 'Default'}
-        ];
-
-        var profileStatusDataObj =
-        [
-            {title: 'Status', value: 'Default'},
-            {title: 'Mission Completed', value: 12345},
-            {title: 'Clue Collected', value: 12345},
-            {title: 'Reward Unlocked', value: 123242424}
-        ];
-
-        var achievementDataObj =
-        [
-            {imageRes: 'img_achievement01', isActive: false, title: 'An Acquired Taste', desc: 'Become an elite agent'},
-            {imageRes: 'img_achievement02', isActive: false, title: 'Agent on the Move', desc: 'Complete 5 event missions'},
-            {imageRes: 'img_achievement03', isActive: true, title: 'Speed Runner', desc: 'Complete a mission in 24 hours'},
-            {imageRes: 'img_achievement04', isActive: false, title: 'An Eye for Success', desc: 'Complete 20 investigation cases'},
-            {imageRes: 'img_achievement05', isActive: false, title: 'Peacemaker', desc: 'Make peace with the replicants'},
-            {imageRes: 'img_achievement06', isActive: true, title: 'Collector', desc: 'Unlock 99 clues'},
-            {imageRes: 'img_achievement07', isActive: false, title: 'Doll House', desc: 'Find all 20 dolls'},
-            {imageRes: 'img_achievement08', isActive: false, title: 'False Prophecy', desc: 'Complete chapter 5'}
-        ];
-
-        var typeDataObj =
-        [
-            {type: 'divider', imageRes: 'img_divider'},
-            {type: 'onecell', imageRes: 'img_block02'},
-            {type: 'twocell', imageRes: 'img_block01'}
-        ];
-
-        function getTypeDataObj(type)
         {
-            return typeDataObj.find(function(item){return item.type === type});
+            missionList :
+            [
+                {
+                    data:
+                    [
+                        {type: 'twocell', imageRes: 'img_event01', iconRes: 'icon_event', hasStartButton: true},
+                        {type: 'twocell', imageRes: 'img_event02', iconRes: 'icon_game', hasStartButton: true}
+                    ]
+                },
+                {
+                    data:
+                    [
+                        {type: 'divider'}
+                    ]
+                },
+                {
+                    data:
+                    [
+                        {type: 'onecell', imageRes: 'img_mission01', iconRes: 'icon_video'},
+                        {type: 'onecell', imageRes: 'img_mission02', iconRes: 'icon_book'},
+                        {type: 'onecell', imageRes: 'img_mission03', iconRes: 'icon_game'}
+                    ]
+                }
+            ],
+            missionType :
+            [
+                {type: 'divider', imageRes: 'img_divider'},
+                {type: 'onecell', imageRes: 'img_block02'},
+                {type: 'twocell', imageRes: 'img_block01'}
+            ]
+        }
+
+        var profileDataObj =
+        {
+            rank : 'Agent Trainee',
+            playerInfo :
+            [
+                {title: 'Player Name', value: 'Default'},
+                {title: 'Gender', value: 'Default'},
+                {title: 'Occupation', value: 'Default'},
+                {title: 'Department', value: 'Default'}
+            ],
+            playerStatus :
+            [
+                {title: 'Status', value: 'Default'},
+                {title: 'Mission Completed', value: 12345},
+                {title: 'Clue Collected', value: 12345},
+                {title: 'Reward Unlocked', value: 123242424}
+            ],
+            achievementList :
+            [
+                {imageRes: 'img_achievement01', isActive: false, title: 'An Acquired Taste', desc: 'Become an elite agent'},
+                {imageRes: 'img_achievement02', isActive: false, title: 'Agent on the Move', desc: 'Complete 5 event missions'},
+                {imageRes: 'img_achievement03', isActive: true, title: 'Speed Runner', desc: 'Complete a mission in 24 hours'},
+                {imageRes: 'img_achievement04', isActive: false, title: 'An Eye for Success', desc: 'Complete 20 investigation cases'},
+                {imageRes: 'img_achievement05', isActive: false, title: 'Peacemaker', desc: 'Make peace with the replicants'},
+                {imageRes: 'img_achievement06', isActive: true, title: 'Collector', desc: 'Unlock 99 clues'},
+                {imageRes: 'img_achievement07', isActive: false, title: 'Doll House', desc: 'Find all 20 dolls'},
+                {imageRes: 'img_achievement08', isActive: false, title: 'False Prophecy', desc: 'Complete chapter 5'}
+            ]
+        }
+
+        function getElementFromList(list, ref, value)
+        {
+            return list.find(function(item){return item[ref] === value});
         }
 
         function Asset(resName, resPath)
@@ -224,16 +228,25 @@ var InterfaceManager = (function () {
             var profileCard = libraryManager.createImage('profileCard', profileContainer, res['img_profile_card'].texture);
             profileCard.position.x = -(profileBG.width * 0.5) + (profileCard.width * 0.5) - 2;
 
-            var profileAvatar = libraryManager.createImage('profileAvatar', profileContainer, res['img_profile_avatar'].texture);
-            profileAvatar.position.x = -(profileBG.width * 0.5) + (profileAvatar.width * 0.5) + 18;
-            profileAvatar.position.y = (profileBG.height * 0.5) - (profileAvatar.height * 0.5) - 20;
+            var profileTextRank = libraryManager.createText('profileTextRank', profileCard, 0, new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 18,
+                fontStyle: 'bold',
+                fill: '#000000'
+            }));
+            profileTextRank.text = profileDataObj.rank;
+            profileTextRank.position.y = -45;
+
+            var profileAvatar = libraryManager.createImage('profileAvatar', profileCard, res['img_profile_avatar'].texture);
+            profileAvatar.position.x = -(profileCard.width * 0.5) + (profileAvatar.width * 0.5) + 20;
+            profileAvatar.position.y = (profileCard.height * 0.5) - (profileAvatar.height * 0.5) - 20;
 
             var profileInfoContainer =  libraryManager.createContainer('profileInfoContainer', profileContainer);
             profileInfoContainer.position.y = -(profileBG.height * 0.5);
             rowPos = 25;
             rowHeight = 0;
 
-            for (var i = 0; i < profileInfoDataObj.length; i++)
+            for (var i = 0; i < profileDataObj.playerInfo.length; i++)
             {
                 var profileTextInfoTitle = libraryManager.createText('profileTextInfoTitle_' + i, profileInfoContainer, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
@@ -242,7 +255,7 @@ var InterfaceManager = (function () {
                     fill: '#000000'
                 }));
                 profileTextInfoTitle.anchor.x = 0;
-                profileTextInfoTitle.text = profileInfoDataObj[i].title + ": ";
+                profileTextInfoTitle.text = profileDataObj.playerInfo[i].title + ": ";
                 profileTextInfoTitle.position.x = profileCard.position.x + (profileCard.width * 0.5) + 25;
                 profileTextInfoTitle.position.y = (profileTextInfoTitle.height * 0.5) + rowPos;
 
@@ -253,7 +266,7 @@ var InterfaceManager = (function () {
                     fill: '#000000'
                 }));
                 profileTextInfoValue.anchor.x = 0;
-                profileTextInfoValue.text = profileInfoDataObj[i].value;
+                profileTextInfoValue.text = profileDataObj.playerInfo[i].value;
                 profileTextInfoValue.position.x = profileTextInfoTitle.position.x + profileTextInfoTitle.width;
                 profileTextInfoValue.position.y = (profileTextInfoValue.height * 0.5) + rowPos;
 
@@ -264,7 +277,7 @@ var InterfaceManager = (function () {
 
             rowPos = rowPos + 100;
 
-            for (var i = 0; i < profileStatusDataObj.length; i++)
+            for (var i = 0; i < profileDataObj.playerStatus.length; i++)
             {
                 var profileTextInfoTitle = libraryManager.createText('profileTextInfoTitle_' + i, profileInfoContainer, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
@@ -273,7 +286,7 @@ var InterfaceManager = (function () {
                     fill: '#000000'
                 }));
                 profileTextInfoTitle.anchor.x = 0;
-                profileTextInfoTitle.text = profileStatusDataObj[i].title + ": ";
+                profileTextInfoTitle.text = profileDataObj.playerStatus[i].title + ": ";
                 profileTextInfoTitle.position.x = profileCard.position.x + (profileCard.width * 0.5) + 25;
                 profileTextInfoTitle.position.y = (profileTextInfoTitle.height * 0.5) + rowPos;
 
@@ -284,7 +297,7 @@ var InterfaceManager = (function () {
                     fill: '#000000'
                 }));
                 profileTextInfoValue.anchor.x = 0;
-                profileTextInfoValue.text = profileStatusDataObj[i].value;
+                profileTextInfoValue.text = profileDataObj.playerStatus[i].value;
                 profileTextInfoValue.position.x = profileTextInfoTitle.position.x + profileTextInfoTitle.width;
                 profileTextInfoValue.position.y = (profileTextInfoValue.height * 0.5) + rowPos;
 
@@ -322,9 +335,9 @@ var InterfaceManager = (function () {
             rowPos = achievementTitle.height + 10;
             rowHeight = 0;
 
-            for (var i = 0; i < achievementDataObj.length; i++)
+            for (var i = 0; i < profileDataObj.achievementList.length; i++)
             {
-                var imageResTag = achievementDataObj[i].isActive ? '_active' : '_inactive'
+                var imageResTag = profileDataObj.achievementList[i].isActive ? '_active' : '_inactive'
                 var achievementBG = libraryManager.createImage('achievementBG_' + i, achievementContainer, res['img_bg_achievement'].texture);
                 achievementBG.visible = false;
                 achievementBG.content.show = (function() {
@@ -333,7 +346,7 @@ var InterfaceManager = (function () {
                     TweenMax.fromTo(this.position, 0.5, {y: this.content.posY - 15}, {y: this.content.posY, ease: Power2.easeOut});
                 }).bind(achievementBG);
 
-                var achievementItemIcon = libraryManager.createImage('achievementItemIcon_' + i, achievementBG, res[achievementDataObj[i].imageRes + imageResTag].texture);
+                var achievementItemIcon = libraryManager.createImage('achievementItemIcon_' + i, achievementBG, res[profileDataObj.achievementList[i].imageRes + imageResTag].texture);
                 achievementItemIcon.position.x = -(achievementBG.width * 0.5) + (achievementItemIcon.width * 0.5);
 
                 var achievementItemTitle = libraryManager.createText('achievementItemTitle_' + i, achievementBG, 0, new PIXI.TextStyle({
@@ -342,7 +355,7 @@ var InterfaceManager = (function () {
                     fontStyle: 'normal',
                     fill: '#ffffff'
                 }));
-                achievementItemTitle.text = achievementDataObj[i].title;
+                achievementItemTitle.text = profileDataObj.achievementList[i].title;
                 achievementItemTitle.position.x = achievementItemIcon.position.x + (achievementItemIcon.width * 0.5) + (achievementItemTitle.width * 0.5) + 15;
                 achievementItemTitle.position.y = -(achievementItemTitle.height * 0.5);
 
@@ -352,7 +365,7 @@ var InterfaceManager = (function () {
                     fontStyle: 'normal',
                     fill: '#777777'
                 }));
-                achievementItemDesc.text = achievementDataObj[i].desc;
+                achievementItemDesc.text = profileDataObj.achievementList[i].desc;
                 achievementItemDesc.position.x = achievementItemIcon.position.x + (achievementItemIcon.width * 0.5) + (achievementItemDesc.width * 0.5) + 15;
                 achievementItemDesc.position.y = (achievementItemDesc.height * 0.5);
 
@@ -380,18 +393,19 @@ var InterfaceManager = (function () {
 
             var rowPos = -(bodyBackgroundObj.height * 0.5);
             var rowHeight = 0;
-            for (var row = 0; row < missionDataObj.length; row++)
+            for (var row = 0; row < missionDataObj.missionList.length; row++)
             {
-                for (var i = 0; i < missionDataObj[row].data.length; i++)
+                for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
                 {
-                    var typeObj = getTypeDataObj(missionDataObj[row].data[i].type);
-                    if(typeObj)
+                    var missionItem = missionDataObj.missionList[row].data[i];
+                    var missionType = getElementFromList(missionDataObj.missionType, 'type', missionItem.type);
+                    if(missionType)
                     {
-                        var cellBlock = libraryManager.createImage(missionDataObj[row].data[i].type + '_' + row + '_' + i, contentContainer, res[typeObj.imageRes].texture);
+                        var cellBlock = libraryManager.createImage(missionItem.type + '_' + row + '_' + i, contentContainer, res[missionType.imageRes].texture);
                         cellBlock.visible = false;
                         rowHeight = cellBlock.height;
 
-                        if(missionDataObj[row].data[i].type == 'divider')
+                        if(missionType.type == 'divider')
                         {
 
                             cellBlock.content.posX = 0;
@@ -413,7 +427,7 @@ var InterfaceManager = (function () {
                         } else {
 
                             cellBlock.content.posX = ((i * cellBlock.width) + ((i+1)*8)) - (bodyBackgroundObj.width * 0.5) + (cellBlock.width * 0.5);
-                            var contentImage = libraryManager.createImage('contentImage', cellBlock, res[missionDataObj[row].data[i].imageRes].texture);
+                            var contentImage = libraryManager.createImage('contentImage', cellBlock, res[missionItem.imageRes].texture);
                             contentImage.visible = false;
                             contentImage.content.show = (function() {
                                 this.visible = true;
@@ -422,7 +436,7 @@ var InterfaceManager = (function () {
                             cellBlock.content.contentImage = contentImage;
 
                             var contentImageHighlight = libraryManager.createImage('contentImageHighlight', cellBlock, res['img_red_highlight'].texture);
-                            if(missionDataObj[row].data[i].type == 'twocell')
+                            if(missionItem.type == 'twocell')
                             {
                                 contentImageHighlight.position.y = 62;
                             } else {
@@ -439,9 +453,9 @@ var InterfaceManager = (function () {
                             }).bind(contentImageHighlight);
                             cellBlock.content.contentImageHighlight = contentImageHighlight;
 
-                            if(missionDataObj[row].data[i].iconRes)
+                            if(missionItem.iconRes)
                             {
-                                var contentIcon = libraryManager.createImage('contentIcon', cellBlock, res[missionDataObj[row].data[i].iconRes].texture);
+                                var contentIcon = libraryManager.createImage('contentIcon', cellBlock, res[missionItem.iconRes].texture);
                                 contentIcon.position.x = (contentImage.width * 0.5) - (contentIcon.width * 0.5) - 5;
                                 contentIcon.position.y = -(contentImage.height * 0.5) + (contentIcon.height * 0.5) + 5;
                                 contentIcon.visible = false;
@@ -452,7 +466,7 @@ var InterfaceManager = (function () {
                                 cellBlock.content.contentIcon = contentIcon;
                             }
 
-                            if(missionDataObj[row].data[i].hasStartButton)
+                            if(missionItem.hasStartButton)
                             {
                                 var contentStart = libraryManager.createImageButton('contentStart', cellBlock, res['btn_start'].texture);
                                 contentStart.position.x = (contentImage.width * 0.5) - (contentStart.width * 0.5) - 10;
@@ -720,31 +734,6 @@ var InterfaceManager = (function () {
                     }
                 });
 
-                // window.addEventListener("optimizedResize", function() {
-                //     console.log('optimizedResize');
-                //     videoElement.pause();
-                // });
-                //
-                // (function() {
-                //     let throttle = function(type, name, obj) {
-                //         obj = obj || window;
-                //         let running = false;
-                //         let func = function() {
-                //             if (running) { return; }
-                //             running = true;
-                //             requestAnimationFrame(function() {
-                //                 obj.dispatchEvent(new CustomEvent(name));
-                //                 running = false;
-                //             });
-                //         };
-                //         obj.addEventListener(type, func);
-                //     };
-                //
-                //     /* init - you can init any event */
-                //     throttle("resize", "optimizedResize");
-                //     //throttle("resize", "runAllCallbacks")
-                // })();
-
                 return {
                     initVideoStream: initVideoStream,
                     stopStream: stopStream,
@@ -964,12 +953,13 @@ var InterfaceManager = (function () {
 
             var animateBlock = (function(){
                 var tl = new TimelineMax();
-                for (var row = 0; row < missionDataObj.length; row++)
+                for (var row = 0; row < missionDataObj.missionList.length; row++)
                 {
-                    for (var i = 0; i < missionDataObj[row].data.length; i++)
+                    for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
                     {
-                        var cellBlock = libraryManager.getElement(missionDataObj[row].data[i].type + '_' + row + '_' + i);
-                        if(missionDataObj[row].data[i].type == 'divider')
+                        var missionItem = missionDataObj.missionList[row].data[i];
+                        var cellBlock = libraryManager.getElement(missionItem.type + '_' + row + '_' + i);
+                        if(missionItem.type == 'divider')
                         {
                             var cellMask = cellBlock.content.cellMask;
                             tl.add(cellMask.content.load, "+=0.075");
@@ -981,12 +971,13 @@ var InterfaceManager = (function () {
 
             var animateDivider = (function(){
                 var tl = new TimelineMax();
-                for (var row = 0; row < missionDataObj.length; row++)
+                for (var row = 0; row < missionDataObj.missionList.length; row++)
                 {
-                    for (var i = 0; i < missionDataObj[row].data.length; i++)
+                    for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
                     {
-                        var cellBlock = libraryManager.getElement(missionDataObj[row].data[i].type + '_' + row + '_' + i);
-                        if(missionDataObj[row].data[i].type == 'divider')
+                        var missionItem = missionDataObj.missionList[row].data[i];
+                        var cellBlock = libraryManager.getElement(missionItem.type + '_' + row + '_' + i);
+                        if(missionItem.type == 'divider')
                         {
                             var cellMask = cellBlock.content.cellMask;
                             tl.add(cellMask.content.show, "+=0");
@@ -998,11 +989,12 @@ var InterfaceManager = (function () {
 
             var showBlockContent = (function(){
                 var tl = new TimelineMax();
-                for (var row = 0; row < missionDataObj.length; row++)
+                for (var row = 0; row < missionDataObj.missionList.length; row++)
                 {
-                    for (var i = 0; i < missionDataObj[row].data.length; i++)
+                    for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
                     {
-                        var cellBlock = libraryManager.getElement(missionDataObj[row].data[i].type + '_' + row + '_' + i);
+                        var missionItem = missionDataObj.missionList[row].data[i];
+                        var cellBlock = libraryManager.getElement(missionItem.type + '_' + row + '_' + i);
                         tl.add(cellBlock.content.show, "+=0");
                     }
                 }
@@ -1033,7 +1025,7 @@ var InterfaceManager = (function () {
                 var tl = new TimelineMax();
                 var achievementTitle = libraryManager.getElement('achievementTitle');
                 tl.add(achievementTitle.content.show, "+=0.075");
-                for (var i = 0; i < achievementDataObj.length; i++)
+                for (var i = 0; i < profileDataObj.achievementList.length; i++)
                 {
                     var achievementBG = libraryManager.getElement('achievementBG_' + i);
                     tl.add(achievementBG.content.show, "+=0.075");
