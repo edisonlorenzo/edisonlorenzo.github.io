@@ -275,7 +275,18 @@ var InterfaceManager = (function () {
 
             }
 
-            rowPos = rowPos + 100;
+            rowPos = rowPos + 75;
+
+            var profileInfoDivider = libraryManager.createImage('profileInfoDivider', profileInfoContainer, res['img_white'].texture);
+            profileInfoDivider.tint = 0x000000;
+            profileInfoDivider.anchor.x = 0;
+            profileInfoDivider.width = 450;
+            profileInfoDivider.height = 2;
+            profileInfoDivider.position.x = profileCard.position.x + (profileCard.width * 0.5) + 25;
+            profileInfoDivider.position.y = rowPos;
+
+
+            rowPos = rowPos + 25;
 
             for (var i = 0; i < profileDataObj.playerStatus.length; i++)
             {
