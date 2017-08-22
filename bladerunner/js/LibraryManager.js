@@ -20,6 +20,16 @@ var LibraryManager = (function () {
             elements = elements.filter(function(item){return item.content.id !== id});
         }
 
+        function getElementFromList(list, ref, value)
+        {
+            return list.find(function(item){return item[ref] === value});
+        }
+
+        function getElementCountFromList(list, ref, value)
+        {
+            return list.filter(function(item){return item[ref] === value}).length;
+        }
+
         function compareStrings (string1, string2, ignoreCase, useLocale) {
             if (ignoreCase) {
                 if (useLocale) {
@@ -175,6 +185,8 @@ var LibraryManager = (function () {
 
         return {
             compareStrings: compareStrings,
+            getElementCountFromList: getElementCountFromList,
+            getElementFromList: getElementFromList,
             getElement: getElement,
             removeElement: removeElement,
             createImage: createImage,

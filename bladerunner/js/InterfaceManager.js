@@ -7,9 +7,14 @@ var InterfaceManager = (function () {
     function init() {
 
         // Singleton Init
+
         var assetLoaderManager;
         var libraryManager;
         var stageManager;
+
+        var contentProfile;
+        var contentMission;
+        var contentClues;
 
         var camera;
         var backgroundObj;
@@ -40,110 +45,8 @@ var InterfaceManager = (function () {
         assets.push(new Asset('img_bar_neutrality', 'images/img_bar_neutrality.png'));
         assets.push(new Asset('img_red_highlight', 'images/img_red_highlight.png'));
         assets.push(new Asset('img_header_bar_green', 'images/img_header_bar_green.png'));
-        assets.push(new Asset('img_block01', 'images/img_block01.png'));
-        assets.push(new Asset('img_block02', 'images/img_block02.png'));
-        assets.push(new Asset('img_divider', 'images/img_divider.png'));
-        assets.push(new Asset('btn_start', 'images/btn_start.png'));
-        assets.push(new Asset('icon_book', 'images/icon_book.png'));
-        assets.push(new Asset('icon_event', 'images/icon_event.png'));
-        assets.push(new Asset('icon_game', 'images/icon_game.png'));
-        assets.push(new Asset('icon_video', 'images/icon_video.png'));
-        assets.push(new Asset('img_event01', 'images/img_event01.png'));
-        assets.push(new Asset('img_event02', 'images/img_event02.png'));
-        assets.push(new Asset('img_mission01', 'images/img_mission01.png'));
-        assets.push(new Asset('img_mission02', 'images/img_mission02.png'));
-        assets.push(new Asset('img_mission03', 'images/img_mission03.png'));
         assets.push(new Asset('img_camerabg_mask', 'images/img_camerabg_mask.png'));
         assets.push(new Asset('img_cameramarker', 'images/img_cameramarker.png'));
-        assets.push(new Asset('img_bg_profile', 'images/img_bg_profile.png'));
-        assets.push(new Asset('img_profile_card', 'images/img_profile_card.png'));
-        assets.push(new Asset('img_profile_avatar', 'images/img_profile_avatar.png'));
-        assets.push(new Asset('img_bg_achievement', 'images/img_bg_achievement.png'));
-        assets.push(new Asset('img_achievement01_active', 'images/achievements/img_achievement01_active.png'));
-        assets.push(new Asset('img_achievement02_active', 'images/achievements/img_achievement02_active.png'));
-        assets.push(new Asset('img_achievement03_active', 'images/achievements/img_achievement03_active.png'));
-        assets.push(new Asset('img_achievement04_active', 'images/achievements/img_achievement04_active.png'));
-        assets.push(new Asset('img_achievement05_active', 'images/achievements/img_achievement05_active.png'));
-        assets.push(new Asset('img_achievement06_active', 'images/achievements/img_achievement06_active.png'));
-        assets.push(new Asset('img_achievement07_active', 'images/achievements/img_achievement07_active.png'));
-        assets.push(new Asset('img_achievement08_active', 'images/achievements/img_achievement08_active.png'));
-        assets.push(new Asset('img_achievement01_inactive', 'images/achievements/img_achievement01_inactive.png'));
-        assets.push(new Asset('img_achievement02_inactive', 'images/achievements/img_achievement02_inactive.png'));
-        assets.push(new Asset('img_achievement03_inactive', 'images/achievements/img_achievement03_inactive.png'));
-        assets.push(new Asset('img_achievement04_inactive', 'images/achievements/img_achievement04_inactive.png'));
-        assets.push(new Asset('img_achievement05_inactive', 'images/achievements/img_achievement05_inactive.png'));
-        assets.push(new Asset('img_achievement06_inactive', 'images/achievements/img_achievement06_inactive.png'));
-        assets.push(new Asset('img_achievement07_inactive', 'images/achievements/img_achievement07_inactive.png'));
-        assets.push(new Asset('img_achievement08_inactive', 'images/achievements/img_achievement08_inactive.png'));
-
-        var missionDataObj =
-        {
-            missionList :
-            [
-                {
-                    data:
-                    [
-                        {type: 'twocell', imageRes: 'img_event01', iconRes: 'icon_event', hasStartButton: true},
-                        {type: 'twocell', imageRes: 'img_event02', iconRes: 'icon_game', hasStartButton: true}
-                    ]
-                },
-                {
-                    data:
-                    [
-                        {type: 'divider'}
-                    ]
-                },
-                {
-                    data:
-                    [
-                        {type: 'onecell', imageRes: 'img_mission01', iconRes: 'icon_video'},
-                        {type: 'onecell', imageRes: 'img_mission02', iconRes: 'icon_book'},
-                        {type: 'onecell', imageRes: 'img_mission03', iconRes: 'icon_game'}
-                    ]
-                }
-            ],
-            missionType :
-            [
-                {type: 'divider', imageRes: 'img_divider'},
-                {type: 'onecell', imageRes: 'img_block02'},
-                {type: 'twocell', imageRes: 'img_block01'}
-            ]
-        }
-
-        var profileDataObj =
-        {
-            rank : 'Agent Trainee',
-            playerInfo :
-            [
-                {title: 'Player Name', value: 'Default'},
-                {title: 'Gender', value: 'Default'},
-                {title: 'Occupation', value: 'Default'},
-                {title: 'Department', value: 'Default'}
-            ],
-            playerStatus :
-            [
-                {title: 'Status', value: 'Default'},
-                {title: 'Mission Completed', value: 12345},
-                {title: 'Clue Collected', value: 12345},
-                {title: 'Reward Unlocked', value: 123242424}
-            ],
-            achievementList :
-            [
-                {imageRes: 'img_achievement01', isActive: false, title: 'An Acquired Taste', desc: 'Become an elite agent'},
-                {imageRes: 'img_achievement02', isActive: false, title: 'Agent on the Move', desc: 'Complete 5 event missions'},
-                {imageRes: 'img_achievement03', isActive: true, title: 'Speed Runner', desc: 'Complete a mission in 24 hours'},
-                {imageRes: 'img_achievement04', isActive: false, title: 'An Eye for Success', desc: 'Complete 20 investigation cases'},
-                {imageRes: 'img_achievement05', isActive: false, title: 'Peacemaker', desc: 'Make peace with the replicants'},
-                {imageRes: 'img_achievement06', isActive: true, title: 'Collector', desc: 'Unlock 99 clues'},
-                {imageRes: 'img_achievement07', isActive: false, title: 'Doll House', desc: 'Find all 20 dolls'},
-                {imageRes: 'img_achievement08', isActive: false, title: 'False Prophecy', desc: 'Complete chapter 5'}
-            ]
-        }
-
-        function getElementFromList(list, ref, value)
-        {
-            return list.find(function(item){return item[ref] === value});
-        }
 
         function Asset(resName, resPath)
         {
@@ -180,6 +83,13 @@ var InterfaceManager = (function () {
             stageManager = StageManager.getInstance();
         }
 
+        function initContents()
+        {
+            contentProfile = ContentProfile.getInstance();
+            contentMission = ContentMission.getInstance();
+            contentClues = ContentClues.getInstance();
+        }
+
         function initBody()
         {
 
@@ -194,339 +104,6 @@ var InterfaceManager = (function () {
             bodyBackgroundObj.alpha = 0;
             bodyBackgroundObj.width = 768;
             bodyBackgroundObj.height = backgroundObj.content.height - headerObj.height - (footerObj.height * 0.4);
-
-        }
-
-        function initProfile()
-        {
-            var rowPos, rowHeight;
-
-            var bodyContainer = libraryManager.getElement('bodyContainer');
-            bodyContainer.position.y = 45;
-
-            var contentContainer = libraryManager.getElement('contentContainer');
-            var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
-
-            var profileBGContainer =  libraryManager.createContainer('profileBGContainer', contentContainer);
-            var profileBG = libraryManager.createImage('profileBG', profileBGContainer, res['img_bg_profile'].texture);
-            profileBGContainer.position.y = -(bodyBackgroundObj.height * 0.5) + (profileBG.height * 0.5) + 15;
-
-            profileBG.visible = false;
-            profileBG.content.show = (function() {
-                this.visible = true;
-                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                TweenMax.fromTo(this.position, 0.5, {y: -25}, {y: 0, ease: Power2.easeOut});
-            }).bind(profileBG);
-
-            var profileContainer =  libraryManager.createContainer('profileContainer', profileBG);
-            profileContainer.visible = false;
-            profileContainer.content.show = (function() {
-                this.visible = true;
-                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-            }).bind(profileContainer);
-
-            var profileCard = libraryManager.createImage('profileCard', profileContainer, res['img_profile_card'].texture);
-            profileCard.position.x = -(profileBG.width * 0.5) + (profileCard.width * 0.5) - 2;
-
-            var profileTextRank = libraryManager.createText('profileTextRank', profileCard, 0, new PIXI.TextStyle({
-                fontFamily: 'Arial',
-                fontSize: 18,
-                fontStyle: 'bold',
-                fill: '#000000'
-            }));
-            profileTextRank.text = profileDataObj.rank;
-            profileTextRank.position.y = -45;
-
-            var profileAvatar = libraryManager.createImage('profileAvatar', profileCard, res['img_profile_avatar'].texture);
-            profileAvatar.position.x = -(profileCard.width * 0.5) + (profileAvatar.width * 0.5) + 20;
-            profileAvatar.position.y = (profileCard.height * 0.5) - (profileAvatar.height * 0.5) - 20;
-
-            var profileInfoContainer =  libraryManager.createContainer('profileInfoContainer', profileContainer);
-            profileInfoContainer.position.y = -(profileBG.height * 0.5);
-            rowPos = 25;
-            rowHeight = 0;
-
-            for (var i = 0; i < profileDataObj.playerInfo.length; i++)
-            {
-                var profileTextInfoTitle = libraryManager.createText('profileTextInfoTitle_' + i, profileInfoContainer, 0, new PIXI.TextStyle({
-                    fontFamily: 'Arial',
-                    fontSize: 18,
-                    fontStyle: 'bold',
-                    fill: '#000000'
-                }));
-                profileTextInfoTitle.anchor.x = 0;
-                profileTextInfoTitle.text = profileDataObj.playerInfo[i].title + ": ";
-                profileTextInfoTitle.position.x = profileCard.position.x + (profileCard.width * 0.5) + 25;
-                profileTextInfoTitle.position.y = (profileTextInfoTitle.height * 0.5) + rowPos;
-
-                var profileTextInfoValue = libraryManager.createText('profileTextInfoValue_' + i, profileInfoContainer, 0, new PIXI.TextStyle({
-                    fontFamily: 'Arial',
-                    fontSize: 18,
-                    fontStyle: 'normal',
-                    fill: '#000000'
-                }));
-                profileTextInfoValue.anchor.x = 0;
-                profileTextInfoValue.text = profileDataObj.playerInfo[i].value;
-                profileTextInfoValue.position.x = profileTextInfoTitle.position.x + profileTextInfoTitle.width;
-                profileTextInfoValue.position.y = (profileTextInfoValue.height * 0.5) + rowPos;
-
-                rowHeight = profileTextInfoTitle.height;
-                rowPos = rowPos + rowHeight + 5;
-
-            }
-
-            rowPos = rowPos + 75;
-
-            var profileInfoDivider = libraryManager.createImage('profileInfoDivider', profileInfoContainer, res['img_white'].texture);
-            profileInfoDivider.tint = 0x000000;
-            profileInfoDivider.anchor.x = 0;
-            profileInfoDivider.width = 450;
-            profileInfoDivider.height = 2;
-            profileInfoDivider.position.x = profileCard.position.x + (profileCard.width * 0.5) + 25;
-            profileInfoDivider.position.y = rowPos;
-
-
-            rowPos = rowPos + 25;
-
-            for (var i = 0; i < profileDataObj.playerStatus.length; i++)
-            {
-                var profileTextInfoTitle = libraryManager.createText('profileTextInfoTitle_' + i, profileInfoContainer, 0, new PIXI.TextStyle({
-                    fontFamily: 'Arial',
-                    fontSize: 18,
-                    fontStyle: 'bold',
-                    fill: '#000000'
-                }));
-                profileTextInfoTitle.anchor.x = 0;
-                profileTextInfoTitle.text = profileDataObj.playerStatus[i].title + ": ";
-                profileTextInfoTitle.position.x = profileCard.position.x + (profileCard.width * 0.5) + 25;
-                profileTextInfoTitle.position.y = (profileTextInfoTitle.height * 0.5) + rowPos;
-
-                var profileTextInfoValue = libraryManager.createText('profileTextInfoValue_' + i, profileInfoContainer, 0, new PIXI.TextStyle({
-                    fontFamily: 'Arial',
-                    fontSize: 18,
-                    fontStyle: 'normal',
-                    fill: '#000000'
-                }));
-                profileTextInfoValue.anchor.x = 0;
-                profileTextInfoValue.text = profileDataObj.playerStatus[i].value;
-                profileTextInfoValue.position.x = profileTextInfoTitle.position.x + profileTextInfoTitle.width;
-                profileTextInfoValue.position.y = (profileTextInfoValue.height * 0.5) + rowPos;
-
-                rowHeight = profileTextInfoTitle.height;
-                rowPos = rowPos + rowHeight + 5;
-
-            }
-
-
-            profileBGContainer.content.profileBG = profileBG;
-            profileBGContainer.content.profileContainer = profileContainer;
-
-            profileBGContainer.content.load = (function() {
-                var tl = new TimelineMax();
-                tl.add(this.profileBG.content.show, "+=0");
-                tl.add(this.profileContainer.content.show, "+=0.5");
-            }).bind(profileBGContainer.content);
-
-            var achievementContainer =  libraryManager.createContainer('achievementContainer', contentContainer);
-            achievementContainer.position.y = -50;
-
-            var achievementTitle = libraryManager.createText('achievementTitle', achievementContainer, 0, new PIXI.TextStyle({
-                fontFamily: 'Arial',
-                fontSize: 18,
-                fontStyle: 'normal',
-                fill: '#ffffff'
-            }));
-            achievementTitle.text = 'Achievements';
-            achievementTitle.visible = false;
-            achievementTitle.content.show = (function() {
-                this.visible = true;
-                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-            }).bind(achievementTitle);
-
-            rowPos = achievementTitle.height + 10;
-            rowHeight = 0;
-
-            for (var i = 0; i < profileDataObj.achievementList.length; i++)
-            {
-                var imageResTag = profileDataObj.achievementList[i].isActive ? '_active' : '_inactive'
-                var achievementBG = libraryManager.createImage('achievementBG_' + i, achievementContainer, res['img_bg_achievement'].texture);
-                achievementBG.visible = false;
-                achievementBG.content.show = (function() {
-                    this.visible = true;
-                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                    TweenMax.fromTo(this.position, 0.5, {y: this.content.posY - 15}, {y: this.content.posY, ease: Power2.easeOut});
-                }).bind(achievementBG);
-
-                var achievementItemIcon = libraryManager.createImage('achievementItemIcon_' + i, achievementBG, res[profileDataObj.achievementList[i].imageRes + imageResTag].texture);
-                achievementItemIcon.position.x = -(achievementBG.width * 0.5) + (achievementItemIcon.width * 0.5);
-
-                var achievementItemTitle = libraryManager.createText('achievementItemTitle_' + i, achievementBG, 0, new PIXI.TextStyle({
-                    fontFamily: 'Arial',
-                    fontSize: 18,
-                    fontStyle: 'normal',
-                    fill: '#ffffff'
-                }));
-                achievementItemTitle.text = profileDataObj.achievementList[i].title;
-                achievementItemTitle.position.x = achievementItemIcon.position.x + (achievementItemIcon.width * 0.5) + (achievementItemTitle.width * 0.5) + 15;
-                achievementItemTitle.position.y = -(achievementItemTitle.height * 0.5);
-
-                var achievementItemDesc = libraryManager.createText('achievementItemDesc_' + i, achievementBG, 0, new PIXI.TextStyle({
-                    fontFamily: 'Arial',
-                    fontSize: 18,
-                    fontStyle: 'normal',
-                    fill: '#777777'
-                }));
-                achievementItemDesc.text = profileDataObj.achievementList[i].desc;
-                achievementItemDesc.position.x = achievementItemIcon.position.x + (achievementItemIcon.width * 0.5) + (achievementItemDesc.width * 0.5) + 15;
-                achievementItemDesc.position.y = (achievementItemDesc.height * 0.5);
-
-                rowHeight = achievementBG.height;
-                achievementBG.content.posX = (i % 2) == 0 ? -(bodyBackgroundObj.width * 0.5) + (achievementBG.width * 0.5) : (bodyBackgroundObj.width * 0.5) - (achievementBG.width * 0.5) ;
-                achievementBG.content.posY = rowPos + (rowHeight * 0.5) + 15;
-                achievementBG.position.x = achievementBG.content.posX;
-                achievementBG.position.y = achievementBG.content.posY;
-
-                rowPos = (i % 2) == 0 ? rowPos : rowPos + rowHeight + 15;
-
-
-            }
-
-
-        }
-
-        function initMissions()
-        {
-            var bodyContainer = libraryManager.getElement('bodyContainer');
-            bodyContainer.position.y = 45;
-
-            var contentContainer = libraryManager.getElement('contentContainer');
-            var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
-
-            var rowPos = -(bodyBackgroundObj.height * 0.5);
-            var rowHeight = 0;
-            for (var row = 0; row < missionDataObj.missionList.length; row++)
-            {
-                for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
-                {
-                    var missionItem = missionDataObj.missionList[row].data[i];
-                    var missionType = getElementFromList(missionDataObj.missionType, 'type', missionItem.type);
-                    if(missionType)
-                    {
-                        var cellBlock = libraryManager.createImage(missionItem.type + '_' + row + '_' + i, contentContainer, res[missionType.imageRes].texture);
-                        cellBlock.visible = false;
-                        rowHeight = cellBlock.height;
-
-                        if(missionType.type == 'divider')
-                        {
-
-                            cellBlock.content.posX = 0;
-                            var cellMask = libraryManager.createImage('cellMask', cellBlock, res['img_white'].texture);
-                            cellMask.width = 0;
-                            cellMask.height = 50;
-                            cellBlock.mask = cellMask;
-                            cellMask.content.width = cellBlock.width;
-
-                            cellMask.content.load = (function() {
-                                TweenMax.to(this, 1, {width: 50 , ease: Back.easeOut});
-                            }).bind(cellMask);
-
-                            cellMask.content.show = (function() {
-                                TweenMax.to(this, 0.5, {width: this.content.width , ease: Power2.easeOut});
-                            }).bind(cellMask);
-                            cellBlock.content.cellMask = cellMask;
-
-                        } else {
-
-                            cellBlock.content.posX = ((i * cellBlock.width) + ((i+1)*8)) - (bodyBackgroundObj.width * 0.5) + (cellBlock.width * 0.5);
-                            var contentImage = libraryManager.createImage('contentImage', cellBlock, res[missionItem.imageRes].texture);
-                            contentImage.visible = false;
-                            contentImage.content.show = (function() {
-                                this.visible = true;
-                                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                            }).bind(contentImage);
-                            cellBlock.content.contentImage = contentImage;
-
-                            var contentImageHighlight = libraryManager.createImage('contentImageHighlight', cellBlock, res['img_red_highlight'].texture);
-                            if(missionItem.type == 'twocell')
-                            {
-                                contentImageHighlight.position.y = 62;
-                            } else {
-                                contentImageHighlight.position.y = 77;
-                            }
-
-                            contentImageHighlight.visible = false;
-                            contentImageHighlight.content.baseWidth = contentImage.width;
-                            contentImageHighlight.content.show = (function() {
-                                this.visible = true;
-                                //TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                                TweenMax.fromTo(this, 0.5, {width: 0}, {width: this.content.baseWidth, ease: Quad.easeInOut, repeat: 1, yoyo: true});
-                                TweenMax.fromTo(this.position, 1, {x: -(this.content.baseWidth * 0.5)}, {x: (this.content.baseWidth * 0.5), ease: Quad.easeInOut});
-                            }).bind(contentImageHighlight);
-                            cellBlock.content.contentImageHighlight = contentImageHighlight;
-
-                            if(missionItem.iconRes)
-                            {
-                                var contentIcon = libraryManager.createImage('contentIcon', cellBlock, res[missionItem.iconRes].texture);
-                                contentIcon.position.x = (contentImage.width * 0.5) - (contentIcon.width * 0.5) - 5;
-                                contentIcon.position.y = -(contentImage.height * 0.5) + (contentIcon.height * 0.5) + 5;
-                                contentIcon.visible = false;
-                                contentIcon.content.show = (function() {
-                                    this.visible = true;
-                                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                                }).bind(contentIcon);
-                                cellBlock.content.contentIcon = contentIcon;
-                            }
-
-                            if(missionItem.hasStartButton)
-                            {
-                                var contentStart = libraryManager.createImageButton('contentStart', cellBlock, res['btn_start'].texture);
-                                contentStart.position.x = (contentImage.width * 0.5) - (contentStart.width * 0.5) - 10;
-                                contentStart.position.y = (contentImage.height * 0.5) - (contentStart.height * 0.5) - 24;
-                                contentStart.visible = false;
-                                contentStart.content.show = (function() {
-                                    this.visible = true;
-                                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                                }).bind(contentStart);
-                                cellBlock.content.contentStart = contentStart;
-                            }
-
-                        }
-
-                        cellBlock.content.posY = rowPos + (rowHeight * 0.5) + 15;
-                        cellBlock.position.x = cellBlock.content.posX;
-                        cellBlock.position.y = cellBlock.content.posY;
-                        cellBlock.content.load = (function() {
-                            this.visible = true;
-                            TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                            TweenMax.fromTo(this.position, 0.5, {y: this.content.posY - 10}, {y: this.content.posY, ease: Power2.easeOut});
-                        }).bind(cellBlock);
-
-                        cellBlock.content.show = (function() {
-                            var tl = new TimelineMax();
-                            if(this.contentImage)
-                            {
-                                tl.add(this.contentImage.content.show, "+=0.5");
-                            }
-
-                            if(this.contentImageHighlight)
-                            {
-                                tl.add(this.contentImageHighlight.content.show, "+=1");
-                            }
-
-                            if(this.contentIcon)
-                            {
-                                tl.add(this.contentIcon.content.show, "+=1");
-                            }
-
-                            if(this.contentStart)
-                            {
-                                tl.add(this.contentStart.content.show, "+=0");
-                            }
-                        }).bind(cellBlock.content);
-                    }
-                }
-                rowPos = rowPos + rowHeight + 15;
-            }
 
         }
 
@@ -960,61 +537,64 @@ var InterfaceManager = (function () {
 
             clearContent();
 
-            initMissions();
+            var missionDataObj = contentMission.getObjData();
+            if(missionDataObj)
+            {
+                contentMission.loadContent();
 
-            var animateBlock = (function(){
-                var tl = new TimelineMax();
-                for (var row = 0; row < missionDataObj.missionList.length; row++)
-                {
-                    for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
+                var animateBlock = (function(){
+                    var tl = new TimelineMax();
+                    for (var row = 0; row < missionDataObj.missionList.length; row++)
                     {
-                        var missionItem = missionDataObj.missionList[row].data[i];
-                        var cellBlock = libraryManager.getElement(missionItem.type + '_' + row + '_' + i);
-                        if(missionItem.type == 'divider')
+                        for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
                         {
-                            var cellMask = cellBlock.content.cellMask;
-                            tl.add(cellMask.content.load, "+=0.075");
+                            var missionItem = missionDataObj.missionList[row].data[i];
+                            var cellBlock = libraryManager.getElement(missionItem.type + '_' + row + '_' + i);
+                            if(missionItem.type == 'divider')
+                            {
+                                var cellMask = cellBlock.content.cellMask;
+                                tl.add(cellMask.content.load, "+=0.075");
+                            }
+                            tl.add(cellBlock.content.load, "+=0.075");
                         }
-                        tl.add(cellBlock.content.load, "+=0.075");
                     }
-                }
-            });
+                });
 
-            var animateDivider = (function(){
-                var tl = new TimelineMax();
-                for (var row = 0; row < missionDataObj.missionList.length; row++)
-                {
-                    for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
+                var animateDivider = (function(){
+                    var tl = new TimelineMax();
+                    for (var row = 0; row < missionDataObj.missionList.length; row++)
                     {
-                        var missionItem = missionDataObj.missionList[row].data[i];
-                        var cellBlock = libraryManager.getElement(missionItem.type + '_' + row + '_' + i);
-                        if(missionItem.type == 'divider')
+                        for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
                         {
-                            var cellMask = cellBlock.content.cellMask;
-                            tl.add(cellMask.content.show, "+=0");
+                            var missionItem = missionDataObj.missionList[row].data[i];
+                            var cellBlock = libraryManager.getElement(missionItem.type + '_' + row + '_' + i);
+                            if(missionItem.type == 'divider')
+                            {
+                                var cellMask = cellBlock.content.cellMask;
+                                tl.add(cellMask.content.show, "+=0");
+                            }
+
                         }
-
                     }
-                }
-            });
+                });
 
-            var showBlockContent = (function(){
-                var tl = new TimelineMax();
-                for (var row = 0; row < missionDataObj.missionList.length; row++)
-                {
-                    for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
+                var showBlockContent = (function(){
+                    var tl = new TimelineMax();
+                    for (var row = 0; row < missionDataObj.missionList.length; row++)
                     {
-                        var missionItem = missionDataObj.missionList[row].data[i];
-                        var cellBlock = libraryManager.getElement(missionItem.type + '_' + row + '_' + i);
-                        tl.add(cellBlock.content.show, "+=0");
+                        for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
+                        {
+                            var missionItem = missionDataObj.missionList[row].data[i];
+                            var cellBlock = libraryManager.getElement(missionItem.type + '_' + row + '_' + i);
+                            tl.add(cellBlock.content.show, "+=0");
+                        }
                     }
-                }
-            });
+                });
 
-            tl.add(animateBlock, "+=0.1");
-            tl.add(animateDivider, "+=1");
-            tl.add(showBlockContent, "+=0");
-
+                tl.add(animateBlock, "+=0.1");
+                tl.add(animateDivider, "+=1");
+                tl.add(showBlockContent, "+=0");
+            }
         }
 
         function showProfile()
@@ -1024,27 +604,31 @@ var InterfaceManager = (function () {
 
             clearContent();
 
-            initProfile();
+            var profileDataObj = contentProfile.getObjData();
+            if(profileDataObj)
+            {
+                contentProfile.loadContent();
 
-            var animateProfile = (function(){
-                var tl = new TimelineMax();
-                var profileBGContainer =  libraryManager.getElement('profileBGContainer');
-                tl.add(profileBGContainer.content.load, "+=0");
-            });
+                var animateProfile = (function(){
+                    var tl = new TimelineMax();
+                    var profileBGContainer =  libraryManager.getElement('profileBGContainer');
+                    tl.add(profileBGContainer.content.load, "+=0");
+                });
 
-            var animateAchievement = (function(){
-                var tl = new TimelineMax();
-                var achievementTitle = libraryManager.getElement('achievementTitle');
-                tl.add(achievementTitle.content.show, "+=0.075");
-                for (var i = 0; i < profileDataObj.achievementList.length; i++)
-                {
-                    var achievementBG = libraryManager.getElement('achievementBG_' + i);
-                    tl.add(achievementBG.content.show, "+=0.075");
-                }
-            });
+                var animateAchievement = (function(){
+                    var tl = new TimelineMax();
+                    var achievementTitle = libraryManager.getElement('achievementTitle');
+                    tl.add(achievementTitle.content.show, "+=0.075");
+                    for (var i = 0; i < profileDataObj.achievementList.length; i++)
+                    {
+                        var achievementBG = libraryManager.getElement('achievementBG_' + i);
+                        tl.add(achievementBG.content.show, "+=0.075");
+                    }
+                });
 
-            tl.add(animateProfile, "+=0.1");
-            tl.add(animateAchievement, "+=0.5");
+                tl.add(animateProfile, "+=0.1");
+                tl.add(animateAchievement, "+=0.5");
+            }
 
         }
 
@@ -1054,6 +638,34 @@ var InterfaceManager = (function () {
             setButtonSelected(buttonObj);
 
             clearContent();
+
+            var cluesDataObj = contentClues.getObjData();
+            if(cluesDataObj)
+            {
+                contentClues.loadContent();
+                var animateLoadClues = (function(){
+                    var tl = new TimelineMax();
+                    for (var i = 0; i < cluesDataObj.cluesList.length; i++)
+                    {
+                        var cluesBGContainer = libraryManager.getElement('cluesBGContainer_' + i);
+                        tl.add(cluesBGContainer.content.show, "+=0.05");
+                    }
+                });
+
+                var animateShowClues = (function(){
+                    var tl = new TimelineMax();
+                    for (var i = 0; i < cluesDataObj.cluesList.length; i++)
+                    {
+                        var cluesBGContainer = libraryManager.getElement('cluesBGContainer_' + i);
+                        var cluesContentContainer = cluesBGContainer.content.cluesContentContainer;
+                        tl.add(cluesContentContainer.content.show, "+=0");
+                    }
+                });
+
+                tl.add(animateLoadClues, "+=0.1");
+                tl.add(animateShowClues, "+=0.5");
+
+            }
 
         }
 
@@ -1116,6 +728,8 @@ var InterfaceManager = (function () {
         {
 
             initManagers();
+
+            initContents();
 
             initResourceData();
 
