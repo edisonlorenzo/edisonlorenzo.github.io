@@ -19,6 +19,7 @@ var ContentMission = (function () {
         assets.push(new Asset('img_block03', 'images/img_block03.png'));
         assets.push(new Asset('img_divider', 'images/img_divider.png'));
         assets.push(new Asset('btn_start', 'images/btn_start.png'));
+        assets.push(new Asset('icon_lock', 'images/icon_lock.png'));
         assets.push(new Asset('icon_book', 'images/icon_book.png'));
         assets.push(new Asset('icon_event', 'images/icon_event.png'));
         assets.push(new Asset('icon_game', 'images/icon_game.png'));
@@ -61,7 +62,7 @@ var ContentMission = (function () {
                     [
                         {type: 'onecell', title: 'Mission', desc: 'The Rick Deckard Report 01', imageRes: 'img_mission01', iconRes: 'icon_video'},
                         {type: 'onecell', title: 'Mission', desc: 'Tyrell Operation', imageRes: 'img_mission02', iconRes: 'icon_book'},
-                        {type: 'onecell', title: 'Mission', desc: 'The Origami Mystery', imageRes: 'img_mission03', iconRes: 'icon_game'}
+                        {type: 'onecell', title: 'Mission', desc: 'The Origami Mystery', imageRes: 'img_mission03', iconRes: 'icon_game', isLocked: true, lockDesc: 'Unlock with 99999 Clue Points'}
                     ]
                 },
                 {
@@ -168,6 +169,29 @@ var ContentMission = (function () {
                                 }).bind(contentImage);
                                 cellBlock.content.contentImage = contentImage;
 
+                                if(missionItem.isLocked)
+                                {
+                                    var contentImageFade = libraryManager.createImage('contentImageFade', contentImage, res['img_white'].texture);
+                                    contentImageFade.tint = 0x000000;
+                                    contentImageFade.alpha = 0.75;
+                                    contentImageFade.width = contentImage.width;
+                                    contentImageFade.height = contentImage.height;
+
+                                    var contentImageLocked = libraryManager.createImage('contentImageLocked', contentImage, res['icon_lock'].texture);
+                                    contentImageLocked.position.y = -15;
+
+                                    var contentLockedDesc = libraryManager.createText('contentLockedDesc', contentImage, 0, new PIXI.TextStyle({
+                                        fontFamily: 'Arial',
+                                        fontSize: 16,
+                                        fontStyle: 'normal',
+                                        fill: '#777777'
+                                    }));
+                                    contentLockedDesc.text = missionItem.lockDesc;
+                                    contentLockedDesc.anchor.y = 0;
+                                    contentLockedDesc.position.y = -(contentImage.height * 0.5) + 5;
+                                }
+
+
                                 if(missionType.imageShading)
                                 {
                                     var contentImageShading = libraryManager.createImage('contentImageShading', contentImage, res[missionType.imageShading].texture);
@@ -209,6 +233,7 @@ var ContentMission = (function () {
                                     contentDesc.position.x = -(contentImageShading.width * 0.5) + 6;
                                     contentDesc.position.y = (contentImageShading.height * 0.5) - 5;
 
+
                                     var contentImageHighlight = libraryManager.createImage('contentImageHighlight', contentImage, res['img_red_highlight'].texture);
                                     if(missionItem.type == 'eventcell')
                                     {
@@ -226,9 +251,10 @@ var ContentMission = (function () {
                                         TweenMax.fromTo(this.position, 1, {x: -(this.content.baseWidth * 0.5)}, {x: (this.content.baseWidth * 0.5), ease: Quad.easeInOut});
                                     }).bind(contentImageHighlight);
                                     cellBlock.content.contentImageHighlight = contentImageHighlight;
+
                                 }
 
-                                if(missionItem.iconRes)
+                                if(missionItem.iconRes && !missionItem.isLocked)
                                 {
                                     var contentIcon = libraryManager.createImage('contentIcon', cellBlock, res[missionItem.iconRes].texture);
                                     contentIcon.position.x = (contentImage.width * 0.5) - (contentIcon.width * 0.5) - 5;
