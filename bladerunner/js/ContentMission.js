@@ -16,6 +16,7 @@ var ContentMission = (function () {
         assets.push(new Asset('img_mission_shading', 'images/img_mission_shading.png'));
         assets.push(new Asset('img_block01', 'images/img_block01.png'));
         assets.push(new Asset('img_block02', 'images/img_block02.png'));
+        assets.push(new Asset('img_block03', 'images/img_block03.png'));
         assets.push(new Asset('img_divider', 'images/img_divider.png'));
         assets.push(new Asset('btn_start', 'images/btn_start.png'));
         assets.push(new Asset('icon_book', 'images/icon_book.png'));
@@ -45,8 +46,8 @@ var ContentMission = (function () {
                 {
                     data:
                     [
-                        {type: 'twocell', title: 'Special Event Mission', desc: 'Street Investigation', imageRes: 'img_event01', iconRes: 'icon_event', hasStartButton: true},
-                        {type: 'twocell', title: 'Special Event Mission', desc: 'Android Detention', imageRes: 'img_event02', iconRes: 'icon_game', hasStartButton: true}
+                        {type: 'eventcell', title: 'Special Event Mission', desc: 'Street Investigation', imageRes: 'img_event01', iconRes: 'icon_event', hasStartButton: true},
+                        {type: 'eventcell', title: 'Special Event Mission', desc: 'Android Detention', imageRes: 'img_event02', iconRes: 'icon_game', hasStartButton: true}
                     ]
                 },
                 {
@@ -66,14 +67,15 @@ var ContentMission = (function () {
                 {
                     data:
                     [
-                        {type: 'onecell', title: 'Mission', desc: 'Target Practice', imageRes: 'img_mission05', iconRes: 'icon_comic'},
-                        {type: 'onecell', title: 'Mission', desc: 'The Nexus 6 Creation Part 1', imageRes: 'img_mission06', iconRes: 'icon_news'},
-                        {type: 'onecell', title: 'Mission', desc: 'The Blueprint', imageRes: 'img_mission07', iconRes: 'icon_toy'}
+                        {type: 'twocell', title: 'Event', desc: 'The Hidden Soundtrack', imageRes: 'img_mission04', iconRes: 'icon_music'},
+                        {type: 'onecell', title: 'Mission', desc: 'Target Practice', imageRes: 'img_mission05', iconRes: 'icon_comic'}
                     ]
                 },
                 {
                     data:
                     [
+                        {type: 'onecell', title: 'Mission', desc: 'The Nexus 6 Creation Part 1', imageRes: 'img_mission06', iconRes: 'icon_news'},
+                        {type: 'onecell', title: 'Mission', desc: 'The Blueprint', imageRes: 'img_mission07', iconRes: 'icon_toy'},
                         {type: 'onecell', title: 'Mission', desc: 'Food for Thought', imageRes: 'img_mission08', iconRes: 'icon_food'}
                     ]
                 }
@@ -81,8 +83,9 @@ var ContentMission = (function () {
             missionType :
             [
                 {type: 'divider', imageRes: 'img_divider'},
+                {type: 'eventcell', imageRes: 'img_block01', imageShading: 'img_event_shading'},
                 {type: 'onecell', imageRes: 'img_block02', imageShading: 'img_mission_shading'},
-                {type: 'twocell', imageRes: 'img_block01', imageShading: 'img_event_shading'}
+                {type: 'twocell', imageRes: 'img_block03', imageShading: 'img_mission_shading'}
             ]
         }
 
@@ -121,6 +124,7 @@ var ContentMission = (function () {
 
                 for (var row = 0; row < objData.missionList.length; row++)
                 {
+                    var posX = -(bodyBackgroundObj.width * 0.5) + 5;
                     for (var i = 0; i < objData.missionList[row].data.length; i++)
                     {
                         var missionItem = objData.missionList[row].data[i];
@@ -136,24 +140,26 @@ var ContentMission = (function () {
                             {
 
                                 cellBlock.content.posX = 0;
-                                var cellMask = libraryManager.createImage('cellMask', cellBlock, res['img_white'].texture);
-                                cellMask.width = 0;
-                                cellMask.height = 50;
-                                cellBlock.mask = cellMask;
-                                cellMask.content.width = cellBlock.width;
+                                var dividerMask = libraryManager.createImage('dividerMask', cellBlock, res['img_white'].texture);
+                                dividerMask.width = 0;
+                                dividerMask.height = 50;
+                                cellBlock.mask = dividerMask;
+                                dividerMask.content.width = cellBlock.width;
 
-                                cellMask.content.load = (function() {
+                                dividerMask.content.load = (function() {
                                     TweenMax.to(this, 1, {width: 50 , ease: Back.easeOut});
-                                }).bind(cellMask);
+                                }).bind(dividerMask);
 
-                                cellMask.content.show = (function() {
+                                dividerMask.content.show = (function() {
                                     TweenMax.to(this, 0.5, {width: this.content.width , ease: Power2.easeOut});
-                                }).bind(cellMask);
-                                cellBlock.content.cellMask = cellMask;
+                                }).bind(dividerMask);
+                                cellBlock.content.dividerMask = dividerMask;
 
                             } else {
 
-                                cellBlock.content.posX = ((i * cellBlock.width) + ((i+1)*8)) - (bodyBackgroundObj.width * 0.5) + (cellBlock.width * 0.5);
+                                //cellBlock.content.posX = ((i * cellBlock.width) + ((i+1)*8)) - (bodyBackgroundObj.width * 0.5) + (cellBlock.width * 0.5);
+                                cellBlock.content.posX = posX + (cellBlock.width * 0.5) + 5;
+                                posX = cellBlock.content.posX + (cellBlock.width * 0.5);
                                 var contentImage = libraryManager.createImage('contentImage', cellBlock, res[missionItem.imageRes].texture);
                                 contentImage.visible = false;
                                 contentImage.content.show = (function() {
@@ -165,6 +171,7 @@ var ContentMission = (function () {
                                 if(missionType.imageShading)
                                 {
                                     var contentImageShading = libraryManager.createImage('contentImageShading', contentImage, res[missionType.imageShading].texture);
+                                    contentImageShading.width = contentImage.width;
                                     contentImageShading.position.y = (contentImage.height * 0.5) - (contentImageShading.height * 0.5);
                                     contentImageShading.visible = false;
                                     contentImageShading.content.show = (function() {
@@ -173,7 +180,11 @@ var ContentMission = (function () {
                                     }).bind(contentImageShading);
                                     cellBlock.content.contentImageShading = contentImageShading;
 
-                                    var contentTitle = libraryManager.createText('contentTitle', contentImageShading, 0, new PIXI.TextStyle({
+                                    var contentImageShadingContainer =  libraryManager.createContainer('contentImageShadingContainer', contentImage);
+                                    contentImageShadingContainer.position.x = contentImageShading.position.x;
+                                    contentImageShadingContainer.position.y = contentImageShading.position.y;
+
+                                    var contentTitle = libraryManager.createText('contentTitle', contentImageShadingContainer, 0, new PIXI.TextStyle({
                                         fontFamily: 'Arial',
                                         fontSize: 20,
                                         fontStyle: 'italic',
@@ -186,7 +197,7 @@ var ContentMission = (function () {
                                     contentTitle.position.x = -(contentImageShading.width * 0.5) + 6;
                                     contentTitle.position.y = -(contentImageShading.height * 0.5);
 
-                                    var contentDesc = libraryManager.createText('contentDesc', contentImageShading, 0, new PIXI.TextStyle({
+                                    var contentDesc = libraryManager.createText('contentDesc', contentImageShadingContainer, 0, new PIXI.TextStyle({
                                         fontFamily: 'Arial',
                                         fontSize: 16,
                                         fontStyle: 'normal',
@@ -199,7 +210,7 @@ var ContentMission = (function () {
                                     contentDesc.position.y = (contentImageShading.height * 0.5) - 5;
 
                                     var contentImageHighlight = libraryManager.createImage('contentImageHighlight', contentImage, res['img_red_highlight'].texture);
-                                    if(missionItem.type == 'twocell')
+                                    if(missionItem.type == 'eventcell')
                                     {
                                         contentImageHighlight.position.y = 62;
                                     } else {
@@ -258,22 +269,27 @@ var ContentMission = (function () {
                                 var tl = new TimelineMax();
                                 if(this.contentImage)
                                 {
-                                    tl.add(this.contentImage.content.show, "+=0.5");
+                                    tl.add(this.contentImage.content.show, "+=0.1");
+                                }
+
+                                if(this.dividerMask)
+                                {
+                                    tl.add(this.dividerMask.content.show, "+=0");
                                 }
 
                                 if(this.contentImageShading)
                                 {
-                                    tl.add(this.contentImageShading.content.show, "+=0.5");
+                                    tl.add(this.contentImageShading.content.show, "+=0.2");
                                 }
 
                                 if(this.contentImageHighlight)
                                 {
-                                    tl.add(this.contentImageHighlight.content.show, "+=1");
+                                    tl.add(this.contentImageHighlight.content.show, "+=0.5");
                                 }
 
                                 if(this.contentIcon)
                                 {
-                                    tl.add(this.contentIcon.content.show, "+=1");
+                                    tl.add(this.contentIcon.content.show, "+=0.5");
                                 }
 
                                 if(this.contentStart)

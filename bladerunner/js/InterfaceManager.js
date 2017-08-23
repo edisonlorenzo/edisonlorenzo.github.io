@@ -552,28 +552,10 @@ var InterfaceManager = (function () {
                             var cellBlock = libraryManager.getElement(missionItem.type + '_' + row + '_' + i);
                             if(missionItem.type == 'divider')
                             {
-                                var cellMask = cellBlock.content.cellMask;
-                                tl.add(cellMask.content.load, "+=0.075");
+                                var dividerMask = cellBlock.content.dividerMask;
+                                tl.add(dividerMask.content.load, "+=0.05");
                             }
-                            tl.add(cellBlock.content.load, "+=0.075");
-                        }
-                    }
-                });
-
-                var animateDivider = (function(){
-                    var tl = new TimelineMax();
-                    for (var row = 0; row < missionDataObj.missionList.length; row++)
-                    {
-                        for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
-                        {
-                            var missionItem = missionDataObj.missionList[row].data[i];
-                            var cellBlock = libraryManager.getElement(missionItem.type + '_' + row + '_' + i);
-                            if(missionItem.type == 'divider')
-                            {
-                                var cellMask = cellBlock.content.cellMask;
-                                tl.add(cellMask.content.show, "+=0");
-                            }
-
+                            tl.add(cellBlock.content.load, "+=0.05");
                         }
                     }
                 });
@@ -592,8 +574,7 @@ var InterfaceManager = (function () {
                 });
 
                 tl.add(animateBlock, "+=0.1");
-                tl.add(animateDivider, "+=1");
-                tl.add(showBlockContent, "+=0");
+                tl.add(showBlockContent, "+=0.75");
             }
         }
 
