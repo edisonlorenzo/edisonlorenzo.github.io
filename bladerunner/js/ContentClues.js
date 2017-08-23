@@ -374,6 +374,8 @@ var ContentClues = (function () {
                         bgIdx = 1;
                     }
 
+                    var cluesItem = objData.cluesList[i];
+
                     var cluesItemContainer =  libraryManager.createContainer('cluesItemContainer_' + i, contentContainer);
                     cluesItemContainer.buttonMode = true;
                     cluesItemContainer.interactive = true;
@@ -384,9 +386,9 @@ var ContentClues = (function () {
                         TweenMax.fromTo(this.position, 0.5, {y: -25}, {y: 0, ease: Power2.easeOut});
                     }).bind(cluesItemContainer);
 
-                    cluesItemContainer.on('pointertap', function() {
-                        showPopupContent();
-                    });
+                    cluesItemContainer.on('pointertap', (function() {
+                        showPopupContent(this);
+                    }).bind(cluesItem));
 
                     var cluesBG = libraryManager.createImage('cluesBG_' + i, cluesItemContainer, res['img_clue_bg' + bgIdx].texture);
                     rowHeight = cluesBG.height;
@@ -414,7 +416,7 @@ var ContentClues = (function () {
                     cluesGrid.height = 160;
 
                     var cluesRowPos = -(cluesGrid.height * 0.5), cluesRowHeight = 0, cluesColPos = 0;
-                    var cluesMaxCol = 4, cluesPadding = 0, maxGrid = objData.cluesList[i].data.length;
+                    var cluesMaxCol = 4, cluesPadding = 0, maxGrid = cluesItem.data.length;
 
                     for (var gridIdx = 0; gridIdx < maxGrid; gridIdx++)
                     {
@@ -425,8 +427,8 @@ var ContentClues = (function () {
 
                         cluesColPos = (gridIdx % cluesMaxCol) - (cluesMaxCol / 2);
 
-                        var cluesCellBg = libraryManager.createImage('img_clue', cluesCellContainer, res[objData.cluesList[i].data[gridIdx].imageRes].texture);
-                        if(!objData.cluesList[i].data[gridIdx].isCompleted)
+                        var cluesCellBg = libraryManager.createImage('img_clue', cluesCellContainer, res[cluesItem.data[gridIdx].imageRes].texture);
+                        if(!cluesItem.data[gridIdx].isCompleted)
                         {
                             cluesCellBg.tint = 0x303030;
                         }
@@ -460,12 +462,12 @@ var ContentClues = (function () {
                         fontStyle: 'bold',
                         fill: '#000000'
                     }));
-                    caseFileValue.text = objData.cluesList[i].id;
+                    caseFileValue.text = cluesItem.id;
                     caseFileValue.anchor.x = 0;
                     caseFileValue.position.x = caseFileLabel.position.x + caseFileLabel.width;
                     caseFileValue.position.y = caseFileLabel.position.y;
 
-                    var cellCompleted = libraryManager.getElementCountFromList(objData.cluesList[i].data, 'isCompleted', true);
+                    var cellCompleted = libraryManager.getElementCountFromList(cluesItem.data, 'isCompleted', true);
                     var isCaseCompleted = (cellCompleted == maxGrid);
 
                     var caseFileProgress = libraryManager.createText('caseFileProgress', cluesContentContainer, 0, new PIXI.TextStyle({
@@ -485,7 +487,8 @@ var ContentClues = (function () {
                         var caseFileStatus = libraryManager.createText('caseFileStatus', cluesContentContainer, 0, new PIXI.TextStyle({
                             fontFamily: 'Arial',
                             fontSize: 14,
-                            fontStyle: 'bold',
+                            fontStyle: 'normal',
+                            fontWeight: 'bold',
                             fill: '#7d4046'
                         }));
                         caseFileStatus.text = 'Solved';
@@ -552,7 +555,7 @@ var ContentClues = (function () {
 
         }
 
-        function showPopupContent()
+        function showPopupContent(item)
         {
             var assetLoaderManager = AssetLoaderManager.getInstance();
             var libraryManager = LibraryManager.getInstance();
@@ -592,6 +595,109 @@ var ContentClues = (function () {
                 buttonCloseImage.on('pointertap', function() {
                     closePopupContent();
                 });
+
+                var cluesCellGridContainer =  libraryManager.createContainer('cluesCellGridContainer', popupBG);
+                var cluesCellContainer =  libraryManager.createContainer('cluesCellContainer', cluesCellGridContainer);
+                var cluesGridContainer =  libraryManager.createContainer('cluesGridContainer', cluesCellGridContainer);
+                var cluesGrid = libraryManager.createImage('cluesGrid', cluesGridContainer, res['img_clue_puzzle_grid'].texture);
+
+                cluesCellGridContainer.position.x = -(popupBG.width * 0.5) + (cluesGrid.width * 0.5) + 15;
+                cluesCellGridContainer.position.y = -(popupBG.height * 0.5) + (cluesGrid.height * 0.5) + 15;
+
+                var cluesRowPos = -(cluesGrid.height * 0.5), cluesRowHeight = 0, cluesColPos = 0;
+                var cluesMaxCol = 4, cluesPadding = 0, maxGrid = item.data.length;
+
+                for (var gridIdx = 0; gridIdx < maxGrid; gridIdx++)
+                {
+                    if(gridIdx % cluesMaxCol == 0)
+                    {
+                        cluesRowPos = cluesRowPos + cluesRowHeight + cluesPadding;
+                    }
+
+                    cluesColPos = (gridIdx % cluesMaxCol) - (cluesMaxCol / 2);
+
+                    var cluesCellBg = libraryManager.createImage('img_clue', cluesCellContainer, res[item.data[gridIdx].imageRes].texture);
+                    if(!item.data[gridIdx].isCompleted)
+                    {
+                        cluesCellBg.tint = 0x303030;
+                    }
+
+                    cluesRowHeight = cluesCellBg.height;
+
+                    cluesCellBg.content.posY = cluesRowPos + (cluesRowHeight * 0.5) + cluesPadding;
+                    cluesCellBg.content.posX = (cluesColPos * (cluesCellBg.width + cluesPadding)) + ((cluesCellBg.width + cluesPadding) * 0.5);
+                    cluesCellBg.position.x = cluesCellBg.content.posX;
+                    cluesCellBg.position.y = cluesCellBg.content.posY;
+
+                }
+
+                var caseFileLabel = libraryManager.createText('caseFileLabel', popupBG, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 16,
+                    fontStyle: 'normal',
+                    fill: '#808080'
+                }));
+                caseFileLabel.text = 'Case File: ';
+                caseFileLabel.anchor.x = 0;
+                caseFileLabel.anchor.y = 0;
+                caseFileLabel.position.x = cluesCellGridContainer.position.x + (cluesGrid.width * 0.5) + 5;
+                caseFileLabel.position.y = -(popupBG.height * 0.5) + 15;
+
+                var caseFileValue = libraryManager.createText('caseFileValue', popupBG, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 16,
+                    fontStyle: 'normal',
+                    fill: '#ffffff'
+                }));
+                caseFileValue.text = item.id;
+                caseFileValue.anchor.x = 0;
+                caseFileValue.anchor.y = 0;
+                caseFileValue.position.x = caseFileLabel.position.x + caseFileLabel.width;
+                caseFileValue.position.y = caseFileLabel.position.y;
+
+                var cellCompleted = libraryManager.getElementCountFromList(item.data, 'isCompleted', true);
+                var isCaseCompleted = (cellCompleted == maxGrid);
+
+                var caseFileProgress = libraryManager.createText('caseFileProgress', popupBG, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 16,
+                    fontStyle: 'normal',
+                    fill: '#808080'
+                }));
+                caseFileProgress.text = cellCompleted + '/' + maxGrid;
+                caseFileProgress.anchor.x = 0;
+                caseFileProgress.anchor.y = 0;
+                caseFileProgress.position.x = caseFileLabel.position.x;
+                caseFileProgress.position.y = caseFileLabel.position.y + caseFileLabel.height + 2;
+
+                if(isCaseCompleted)
+                {
+                    var caseFileStatus = libraryManager.createText('caseFileStatus', popupBG, 0, new PIXI.TextStyle({
+                        fontFamily: 'Arial',
+                        fontSize: 16,
+                        fontStyle: 'bold',
+                        fill: '#7d4046'
+                    }));
+                    caseFileStatus.text = 'Solved';
+                    caseFileStatus.anchor.x = 0;
+                    caseFileStatus.anchor.y = 0;
+                    caseFileStatus.position.x = caseFileProgress.position.x;
+                    caseFileStatus.position.y = caseFileProgress.position.y + caseFileProgress.height + 2;
+                }
+
+                var caseFileDesc = libraryManager.createText('caseFileDesc', popupBG, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fill: '#808080',
+                    wordWrapWidth: 360,
+                    wordWrap : true
+                }));
+                caseFileDesc.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel enim nec arcu tristique convallis quis at urna. Donec tellus ipsum, porttitor id ultrices eu, aliquet in risus. Aenean nunc erat, accumsan sit amet odio id, faucibus tristique sem. Sed in ex dapibus, efficitur est at, venenatis sapien. Sed elementum mi vitae mauris accumsan, ac aliquet ligula fermentum.';
+                caseFileDesc.anchor.x = 0;
+                caseFileDesc.anchor.y = 0;
+                caseFileDesc.position.x = caseFileLabel.position.x;
+                caseFileDesc.position.y = caseFileLabel.position.y + caseFileLabel.height + 50;
 
                 popupBG.content.load();
 

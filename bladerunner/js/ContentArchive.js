@@ -35,15 +35,15 @@ var ContentArchive = (function () {
                     imageRes: 'img_archive_video',
                     imageHeaderRes: 'img_archive_header_video',
                     data: [
-                        {title: 'The City of Rain', imageRes: 'img_video01'},
-                        {title: 'Mini Future', imageRes: 'img_video02', isLocked: true},
-                        {title: 'Mind of a Replicant', imageRes: 'img_video03'},
-                        {title: 'Star Runner', imageRes: 'img_video04'},
-                        {title: 'Art of Runner', imageRes: 'img_video05'},
-                        {title: 'Blazing Style', imageRes: 'img_video06', isLocked: true},
-                        {title: 'The City of Rain', imageRes: 'img_video07', isLocked: true},
-                        {title: 'The City of Rain', imageRes: 'img_video08', isLocked: true},
-                        {title: 'The City of Rain', imageRes: 'img_video09', isLocked: true}
+                        {title: 'The City of Rain', imageRes: 'img_video01', unlocked: true},
+                        {title: 'Mini Future', imageRes: 'img_video02'},
+                        {title: 'Mind of a Replicant', imageRes: 'img_video03', unlocked: true},
+                        {title: 'Star Runner', imageRes: 'img_video04', unlocked: true},
+                        {title: 'Art of Runner', imageRes: 'img_video05', unlocked: true},
+                        {title: 'Blazing Style', imageRes: 'img_video06'},
+                        {title: '2017 SDCC', imageRes: 'img_video07'},
+                        {title: 'Convention Runners', imageRes: 'img_video08'},
+                        {title: 'Deckard Music', imageRes: 'img_video09'}
                     ]
                 },
                 {
@@ -347,7 +347,7 @@ var ContentArchive = (function () {
                         contentImage.position.x = contentImage.content.posX;
                         contentImage.position.y = contentImage.content.posY;
 
-                        if(archiveItem.isLocked)
+                        if(!archiveItem.unlocked)
                         {
                             var contentImageFade = libraryManager.createImage('contentImageFade', contentImage, res['img_white'].texture);
                             contentImageFade.tint = 0x000000;
