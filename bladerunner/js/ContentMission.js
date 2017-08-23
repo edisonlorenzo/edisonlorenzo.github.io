@@ -132,8 +132,15 @@ var ContentMission = (function () {
                         var missionType = libraryManager.getElementFromList(objData.missionType, 'type', missionItem.type);
                         if(missionType)
                         {
-                            var cellBlock = libraryManager.createImage(missionItem.type + '_' + row + '_' + i, contentContainer, res[missionType.imageRes].texture);
-                            cellBlock.visible = false;
+                            var missionItemContainer =  libraryManager.createContainer('missionItemContainer_' + row + '_' + i, contentContainer);
+                            missionItemContainer.visible = false;
+                            missionItemContainer.content.load = (function() {
+                                this.visible = true;
+                                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                                TweenMax.fromTo(this.position, 0.5, {y: -25}, {y: 0, ease: Power2.easeOut});
+                            }).bind(missionItemContainer);
+
+                            var cellBlock = libraryManager.createImage(missionItem.type + '_' + row + '_' + i, missionItemContainer, res[missionType.imageRes].texture);
 
                             rowHeight = cellBlock.height;
 
@@ -154,7 +161,7 @@ var ContentMission = (function () {
                                 dividerMask.content.show = (function() {
                                     TweenMax.to(this, 0.5, {width: this.content.width , ease: Power2.easeOut});
                                 }).bind(dividerMask);
-                                cellBlock.content.dividerMask = dividerMask;
+                                missionItemContainer.content.dividerMask = dividerMask;
 
                             } else {
 
@@ -167,7 +174,7 @@ var ContentMission = (function () {
                                     this.visible = true;
                                     TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                                 }).bind(contentImage);
-                                cellBlock.content.contentImage = contentImage;
+                                missionItemContainer.content.contentImage = contentImage;
 
                                 if(missionItem.isLocked)
                                 {
@@ -194,19 +201,18 @@ var ContentMission = (function () {
 
                                 if(missionType.imageShading)
                                 {
-                                    var contentImageShading = libraryManager.createImage('contentImageShading', contentImage, res[missionType.imageShading].texture);
-                                    contentImageShading.width = contentImage.width;
-                                    contentImageShading.position.y = (contentImage.height * 0.5) - (contentImageShading.height * 0.5);
-                                    contentImageShading.visible = false;
-                                    contentImageShading.content.show = (function() {
+                                    var contentImageShadingContainer =  libraryManager.createContainer('contentImageShadingContainer', contentImage);
+                                    contentImageShadingContainer.visible = false;
+                                    contentImageShadingContainer.content.show = (function() {
                                         this.visible = true;
                                         TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                                    }).bind(contentImageShading);
-                                    cellBlock.content.contentImageShading = contentImageShading;
+                                    }).bind(contentImageShadingContainer);
+                                    missionItemContainer.content.contentImageShadingContainer = contentImageShadingContainer;
 
-                                    var contentImageShadingContainer =  libraryManager.createContainer('contentImageShadingContainer', contentImage);
-                                    contentImageShadingContainer.position.x = contentImageShading.position.x;
-                                    contentImageShadingContainer.position.y = contentImageShading.position.y;
+                                    var contentImageShading = libraryManager.createImage('contentImageShading', contentImageShadingContainer, res[missionType.imageShading].texture);
+                                    contentImageShading.width = contentImage.width;
+
+                                    contentImageShadingContainer.position.y = (contentImage.height * 0.5) - (contentImageShading.height * 0.5);
 
                                     var contentTitle = libraryManager.createText('contentTitle', contentImageShadingContainer, 0, new PIXI.TextStyle({
                                         fontFamily: 'Arial',
@@ -250,7 +256,7 @@ var ContentMission = (function () {
                                         TweenMax.fromTo(this, 0.5, {width: 0}, {width: this.content.baseWidth, ease: Quad.easeInOut, repeat: 1, yoyo: true});
                                         TweenMax.fromTo(this.position, 1, {x: -(this.content.baseWidth * 0.5)}, {x: (this.content.baseWidth * 0.5), ease: Quad.easeInOut});
                                     }).bind(contentImageHighlight);
-                                    cellBlock.content.contentImageHighlight = contentImageHighlight;
+                                    missionItemContainer.content.contentImageHighlight = contentImageHighlight;
 
                                 }
 
@@ -264,7 +270,7 @@ var ContentMission = (function () {
                                         this.visible = true;
                                         TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                                     }).bind(contentIcon);
-                                    cellBlock.content.contentIcon = contentIcon;
+                                    missionItemContainer.content.contentIcon = contentIcon;
                                 }
 
                                 if(missionItem.hasStartButton)
@@ -277,7 +283,7 @@ var ContentMission = (function () {
                                         this.visible = true;
                                         TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                                     }).bind(contentStart);
-                                    cellBlock.content.contentStart = contentStart;
+                                    missionItemContainer.content.contentStart = contentStart;
                                 }
 
                             }
@@ -285,13 +291,8 @@ var ContentMission = (function () {
                             cellBlock.content.posY = rowPos + (rowHeight * 0.5) + 15;
                             cellBlock.position.x = cellBlock.content.posX;
                             cellBlock.position.y = cellBlock.content.posY;
-                            cellBlock.content.load = (function() {
-                                this.visible = true;
-                                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                                TweenMax.fromTo(this.position, 0.5, {y: this.content.posY - 10}, {y: this.content.posY, ease: Power2.easeOut});
-                            }).bind(cellBlock);
 
-                            cellBlock.content.show = (function() {
+                            missionItemContainer.content.show = (function() {
                                 var tl = new TimelineMax();
                                 if(this.contentImage)
                                 {
@@ -303,9 +304,9 @@ var ContentMission = (function () {
                                     tl.add(this.dividerMask.content.show, "+=0");
                                 }
 
-                                if(this.contentImageShading)
+                                if(this.contentImageShadingContainer)
                                 {
-                                    tl.add(this.contentImageShading.content.show, "+=0.2");
+                                    tl.add(this.contentImageShadingContainer.content.show, "+=0.2");
                                 }
 
                                 if(this.contentImageHighlight)
@@ -322,7 +323,7 @@ var ContentMission = (function () {
                                 {
                                     tl.add(this.contentStart.content.show, "+=0");
                                 }
-                            }).bind(cellBlock.content);
+                            }).bind(missionItemContainer.content);
                         }
                     }
                     rowPos = rowPos + rowHeight + 15;

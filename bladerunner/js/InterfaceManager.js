@@ -12,9 +12,12 @@ var InterfaceManager = (function () {
         var libraryManager;
         var stageManager;
 
-        var contentProfile;
-        var contentMission;
-        var contentClues;
+        var contents = {
+            profile: ContentProfile.getInstance(),
+            mission: ContentMission.getInstance(),
+            clues: ContentClues.getInstance(),
+            archive: ContentArchive.getInstance()
+        };
 
         var camera;
         var backgroundObj;
@@ -56,6 +59,11 @@ var InterfaceManager = (function () {
 
         function getAsset()
         {
+            assets.push.apply(assets, contents.profile.getAsset());
+            assets.push.apply(assets, contents.mission.getAsset());
+            assets.push.apply(assets, contents.clues.getAsset());
+            assets.push.apply(assets, contents.archive.getAsset());
+
             return assets;
         }
 
@@ -81,13 +89,6 @@ var InterfaceManager = (function () {
             assetLoaderManager = AssetLoaderManager.getInstance();
             libraryManager = LibraryManager.getInstance();
             stageManager = StageManager.getInstance();
-        }
-
-        function initContents()
-        {
-            contentProfile = ContentProfile.getInstance();
-            contentMission = ContentMission.getInstance();
-            contentClues = ContentClues.getInstance();
         }
 
         function initBody()
@@ -537,44 +538,44 @@ var InterfaceManager = (function () {
 
             clearContent();
 
-            var missionDataObj = contentMission.getObjData();
+            var missionDataObj = contents.mission.getObjData();
             if(missionDataObj)
             {
-                contentMission.loadContent();
+                contents.mission.loadContent();
 
-                var animateBlock = (function(){
+                var animateLoadMission = (function(){
                     var tl = new TimelineMax();
                     for (var row = 0; row < missionDataObj.missionList.length; row++)
                     {
                         for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
                         {
                             var missionItem = missionDataObj.missionList[row].data[i];
-                            var cellBlock = libraryManager.getElement(missionItem.type + '_' + row + '_' + i);
+                            var missionItemContainer = libraryManager.getElement('missionItemContainer_' + row + '_' + i);
+                            tl.add(missionItemContainer.content.load, "+=0.05");
                             if(missionItem.type == 'divider')
                             {
-                                var dividerMask = cellBlock.content.dividerMask;
+                                var dividerMask = missionItemContainer.content.dividerMask;
                                 tl.add(dividerMask.content.load, "+=0.05");
                             }
-                            tl.add(cellBlock.content.load, "+=0.05");
                         }
                     }
                 });
 
-                var showBlockContent = (function(){
+                var animateShowMission = (function(){
                     var tl = new TimelineMax();
                     for (var row = 0; row < missionDataObj.missionList.length; row++)
                     {
                         for (var i = 0; i < missionDataObj.missionList[row].data.length; i++)
                         {
                             var missionItem = missionDataObj.missionList[row].data[i];
-                            var cellBlock = libraryManager.getElement(missionItem.type + '_' + row + '_' + i);
-                            tl.add(cellBlock.content.show, "+=0");
+                            var missionItemContainer = libraryManager.getElement('missionItemContainer_' + row + '_' + i);
+                            tl.add(missionItemContainer.content.show, "+=0");
                         }
                     }
                 });
 
-                tl.add(animateBlock, "+=0.1");
-                tl.add(showBlockContent, "+=0.75");
+                tl.add(animateLoadMission, "+=0.1");
+                tl.add(animateShowMission, "+=0.75");
             }
         }
 
@@ -585,10 +586,10 @@ var InterfaceManager = (function () {
 
             clearContent();
 
-            var profileDataObj = contentProfile.getObjData();
+            var profileDataObj = contents.profile.getObjData();
             if(profileDataObj)
             {
-                contentProfile.loadContent();
+                contents.profile.loadContent();
 
                 var animateProfile = (function(){
                     var tl = new TimelineMax();
@@ -620,16 +621,16 @@ var InterfaceManager = (function () {
 
             clearContent();
 
-            var cluesDataObj = contentClues.getObjData();
+            var cluesDataObj = contents.clues.getObjData();
             if(cluesDataObj)
             {
-                contentClues.loadContent();
+                contents.clues.loadContent();
                 var animateLoadClues = (function(){
                     var tl = new TimelineMax();
                     for (var i = 0; i < cluesDataObj.cluesList.length; i++)
                     {
-                        var cluesBGContainer = libraryManager.getElement('cluesBGContainer_' + i);
-                        tl.add(cluesBGContainer.content.show, "+=0.05");
+                        var cluesItemContainer = libraryManager.getElement('cluesItemContainer_' + i);
+                        tl.add(cluesItemContainer.content.load, "+=0.05");
                     }
                 });
 
@@ -637,9 +638,8 @@ var InterfaceManager = (function () {
                     var tl = new TimelineMax();
                     for (var i = 0; i < cluesDataObj.cluesList.length; i++)
                     {
-                        var cluesBGContainer = libraryManager.getElement('cluesBGContainer_' + i);
-                        var cluesContentContainer = cluesBGContainer.content.cluesContentContainer;
-                        tl.add(cluesContentContainer.content.show, "+=0");
+                        var cluesItemContainer = libraryManager.getElement('cluesItemContainer_' + i);
+                        tl.add(cluesItemContainer.content.show, "+=0");
                     }
                 });
 
@@ -656,6 +656,33 @@ var InterfaceManager = (function () {
             setButtonSelected(buttonObj);
 
             clearContent();
+
+            var archiveDataObj = contents.archive.getObjData();
+            if(archiveDataObj)
+            {
+                contents.archive.loadContent();
+                var animateLoadArchive = (function(){
+                    var tl = new TimelineMax();
+                    for (var i = 0; i < archiveDataObj.archiveList.length; i++)
+                    {
+                        var archiveItemContainer = libraryManager.getElement('archiveItemContainer_' + i);
+                        tl.add(archiveItemContainer.content.load, "+=0.05");
+                    }
+                });
+
+                var animateShowArchive = (function(){
+                    var tl = new TimelineMax();
+                    for (var i = 0; i < archiveDataObj.archiveList.length; i++)
+                    {
+                        var archiveItemContainer = libraryManager.getElement('archiveItemContainer_' + i);
+                        tl.add(archiveItemContainer.content.show, "+=0");
+                    }
+                });
+
+                tl.add(animateLoadArchive, "+=0.1");
+                tl.add(animateShowArchive, "+=0.5");
+
+            }
 
         }
 
@@ -709,8 +736,6 @@ var InterfaceManager = (function () {
         {
 
             initManagers();
-
-            initContents();
 
             initResourceData();
 

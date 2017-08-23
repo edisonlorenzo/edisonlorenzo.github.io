@@ -365,27 +365,27 @@ var ContentClues = (function () {
 
                 for (var i = 0; i < objData.cluesList.length; i++)
                 {
-                    if(i % 4 == 0)
+                    if(i % maxCol == 0)
                     {
                         rowPos = rowPos + rowHeight + 15;
                     }
 
-                    colPos = (i % 4) - (maxCol / 2);
+                    colPos = (i % maxCol) - (maxCol / 2);
 
                     if(bgIdx > 8)
                     {
                         bgIdx = 1;
                     }
 
-                    var cluesBGContainer =  libraryManager.createContainer('cluesBGContainer_' + i, contentContainer);
-                    cluesBGContainer.visible = false;
-                    cluesBGContainer.content.show = (function() {
+                    var cluesItemContainer =  libraryManager.createContainer('cluesItemContainer_' + i, contentContainer);
+                    cluesItemContainer.visible = false;
+                    cluesItemContainer.content.load = (function() {
                         this.visible = true;
                         TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                         TweenMax.fromTo(this.position, 0.5, {y: -25}, {y: 0, ease: Power2.easeOut});
-                    }).bind(cluesBGContainer);
+                    }).bind(cluesItemContainer);
 
-                    var cluesBG = libraryManager.createImage('cluesBG_' + i, cluesBGContainer, res['img_clue_bg' + bgIdx].texture);
+                    var cluesBG = libraryManager.createImage('cluesBG_' + i, cluesItemContainer, res['img_clue_bg' + bgIdx].texture);
                     rowHeight = cluesBG.height;
                     cluesBG.content.posY = rowPos + (rowHeight * 0.5) + 15;
                     cluesBG.content.posX = (colPos * (cluesBG.width + 15)) + ((cluesBG.width + 15) * 0.5);
@@ -415,12 +415,12 @@ var ContentClues = (function () {
 
                     for (var gridIdx = 0; gridIdx < maxGrid; gridIdx++)
                     {
-                        if(gridIdx % 4 == 0)
+                        if(gridIdx % cluesMaxCol == 0)
                         {
                             cluesRowPos = cluesRowPos + cluesRowHeight + cluesPadding;
                         }
 
-                        cluesColPos = (gridIdx % 4) - (cluesMaxCol / 2);
+                        cluesColPos = (gridIdx % cluesMaxCol) - (cluesMaxCol / 2);
 
                         var cluesCellBg = libraryManager.createImage('img_clue', cluesCellContainer, res[objData.cluesList[i].data[gridIdx].imageRes].texture);
                         if(!objData.cluesList[i].data[gridIdx].isCompleted)
@@ -492,7 +492,17 @@ var ContentClues = (function () {
                         caseFileStatus.position.y = (cluesBG.height * 0.5) - 5;
                     }
 
-                    cluesBGContainer.content.cluesContentContainer = cluesContentContainer;
+                    cluesItemContainer.content.cluesContentContainer = cluesContentContainer;
+
+                    cluesItemContainer.content.show = (function() {
+
+                        var tl = new TimelineMax();
+                        if(this.cluesContentContainer)
+                        {
+                            tl.add(this.cluesContentContainer.content.show, "+=0.1");
+                        }
+
+                    }).bind(cluesItemContainer.content);
 
 
                 }

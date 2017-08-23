@@ -14,10 +14,6 @@ var SceneManager = (function () {
         var soundManager;
         var libraryManager;
 
-        var contentProfile;
-        var contentMission;
-        var contentClues;
-
         var res;
         var tl;
 
@@ -47,8 +43,6 @@ var SceneManager = (function () {
 
             initManagers();
 
-            initContents();
-
             initResourceData();
 
             initMainCanvas();
@@ -76,9 +70,6 @@ var SceneManager = (function () {
             scenes.loadingScene.show();
 
             assetLoaderManager.addAsset(interfaceManager.getAsset());
-            assetLoaderManager.addAsset(contentProfile.getAsset());
-            assetLoaderManager.addAsset(contentMission.getAsset());
-            assetLoaderManager.addAsset(contentClues.getAsset());
             assetLoaderManager.addAsset(soundManager.getAsset());
             assetLoaderManager.onReady(assetReady);
             assetLoaderManager.load();
@@ -122,13 +113,6 @@ var SceneManager = (function () {
             stageManager = StageManager.getInstance();
             soundManager = SoundManager.getInstance();
             libraryManager = LibraryManager.getInstance();
-        }
-
-        function initContents()
-        {
-            contentProfile = ContentProfile.getInstance();
-            contentMission = ContentMission.getInstance();
-            contentClues = ContentClues.getInstance();
         }
 
         function initMainCanvas()
