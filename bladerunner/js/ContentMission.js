@@ -7,9 +7,6 @@ var ContentMission = (function () {
     function init() {
 
         // Singleton Init
-        var assetLoaderManager;
-        var libraryManager;
-
         var assets = new Array();
 
         assets.push(new Asset('img_event_shading', 'images/img_event_shading.png'));
@@ -106,7 +103,7 @@ var ContentMission = (function () {
             return objData;
         }
 
-        function loadContent()
+        function showCategory()
         {
             var assetLoaderManager = AssetLoaderManager.getInstance();
             var libraryManager = LibraryManager.getInstance();
@@ -334,10 +331,61 @@ var ContentMission = (function () {
 
         }
 
+        function loadCategory()
+        {
+
+            var libraryManager = LibraryManager.getInstance();
+            var interfaceManager = InterfaceManager.getInstance();
+            interfaceManager.clearContent();
+
+            if(objData)
+            {
+
+                showCategory();
+
+                var tl = interfaceManager.getTimeline();
+
+                var animateLoad = (function(){
+                    var tl = new TimelineMax();
+                    for (var row = 0; row < objData.missionList.length; row++)
+                    {
+                        for (var i = 0; i < objData.missionList[row].data.length; i++)
+                        {
+                            var item = objData.missionList[row].data[i];
+                            var itemContainer = libraryManager.getElement('missionItemContainer_' + row + '_' + i);
+                            tl.add(itemContainer.content.load, "+=0.05");
+                            if(item.type == 'divider')
+                            {
+                                var dividerMask = itemContainer.content.dividerMask;
+                                tl.add(dividerMask.content.load, "+=0.05");
+                            }
+                        }
+                    }
+                });
+
+                var animateShow = (function(){
+                    var tl = new TimelineMax();
+                    for (var row = 0; row < objData.missionList.length; row++)
+                    {
+                        for (var i = 0; i < objData.missionList[row].data.length; i++)
+                        {
+                            var item = objData.missionList[row].data[i];
+                            var itemContainer = libraryManager.getElement('missionItemContainer_' + row + '_' + i);
+                            tl.add(itemContainer.content.show, "+=0");
+                        }
+                    }
+                });
+
+                tl.add(animateLoad, "+=0.1");
+                tl.add(animateShow, "+=0.75");
+            }
+
+        }
+
         return {
             getAsset: getAsset,
             getObjData: getObjData,
-            loadContent: loadContent
+            loadCategory: loadCategory
         };
 
     };

@@ -7,9 +7,6 @@ var ContentClues = (function () {
     function init() {
 
         // Singleton Init
-        var assetLoaderManager;
-        var libraryManager;
-
         var assets = new Array();
 
         assets.push(new Asset('img_clue_bg1', 'images/img_clue_bg01.png'));
@@ -343,7 +340,7 @@ var ContentClues = (function () {
             return objData;
         }
 
-        function loadContent()
+        function showContent()
         {
             var assetLoaderManager = AssetLoaderManager.getInstance();
             var libraryManager = LibraryManager.getInstance();
@@ -367,7 +364,7 @@ var ContentClues = (function () {
                 {
                     if(i % maxCol == 0)
                     {
-                        rowPos = rowPos + rowHeight + 15;
+                        rowPos = rowPos + rowHeight + 20;
                     }
 
                     colPos = (i % maxCol) - (maxCol / 2);
@@ -387,7 +384,7 @@ var ContentClues = (function () {
 
                     var cluesBG = libraryManager.createImage('cluesBG_' + i, cluesItemContainer, res['img_clue_bg' + bgIdx].texture);
                     rowHeight = cluesBG.height;
-                    cluesBG.content.posY = rowPos + (rowHeight * 0.5) + 15;
+                    cluesBG.content.posY = rowPos + (rowHeight * 0.5);
                     cluesBG.content.posX = (colPos * (cluesBG.width + 15)) + ((cluesBG.width + 15) * 0.5);
                     cluesBG.position.x = cluesBG.content.posX;
                     cluesBG.position.y = cluesBG.content.posY;
@@ -496,10 +493,10 @@ var ContentClues = (function () {
 
                     cluesItemContainer.content.show = (function() {
 
-                        var tl = new TimelineMax();
+                        var tl1 = new TimelineMax();
                         if(this.cluesContentContainer)
                         {
-                            tl.add(this.cluesContentContainer.content.show, "+=0.1");
+                            tl1.add(this.cluesContentContainer.content.show, "+=0.1");
                         }
 
                     }).bind(cluesItemContainer.content);
@@ -510,6 +507,45 @@ var ContentClues = (function () {
 
             }
 
+
+        }
+
+        function loadContent()
+        {
+
+            var libraryManager = LibraryManager.getInstance();
+            var interfaceManager = InterfaceManager.getInstance();
+            interfaceManager.clearContent();
+
+            if(objData)
+            {
+
+                showContent();
+
+                var tl = interfaceManager.getTimeline();
+
+                var animateLoad = (function(){
+                    var tl = new TimelineMax();
+                    for (var i = 0; i < objData.cluesList.length; i++)
+                    {
+                        var itemContainer = libraryManager.getElement('cluesItemContainer_' + i);
+                        tl.add(itemContainer.content.load, "+=0.05");
+                    }
+                });
+
+                var animateShow = (function(){
+                    var tl = new TimelineMax();
+                    for (var i = 0; i < objData.cluesList.length; i++)
+                    {
+                        var itemContainer = libraryManager.getElement('cluesItemContainer_' + i);
+                        tl.add(itemContainer.content.show, "+=0");
+                    }
+                });
+
+                tl.add(animateLoad, "+=0.1");
+                tl.add(animateShow, "+=0.5");
+
+            }
 
         }
 

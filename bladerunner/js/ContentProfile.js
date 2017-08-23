@@ -7,9 +7,6 @@ var ContentProfile = (function () {
     function init() {
 
         // Singleton Init
-        var assetLoaderManager;
-        var libraryManager;
-
         var assets = new Array();
 
         assets.push(new Asset('img_bg_profile', 'images/img_bg_profile.png'));
@@ -79,7 +76,7 @@ var ContentProfile = (function () {
             return objData;
         }
 
-        function loadContent()
+        function showContent()
         {
             var assetLoaderManager = AssetLoaderManager.getInstance();
             var libraryManager = LibraryManager.getInstance();
@@ -280,6 +277,44 @@ var ContentProfile = (function () {
 
             }
 
+
+        }
+
+        function loadContent()
+        {
+
+            var libraryManager = LibraryManager.getInstance();
+            var interfaceManager = InterfaceManager.getInstance();
+            interfaceManager.clearContent();
+
+            if(objData)
+            {
+
+                showContent();
+
+                var tl = interfaceManager.getTimeline();
+
+                var animateProfile = (function(){
+                    var tl = new TimelineMax();
+                    var profileBGContainer =  libraryManager.getElement('profileBGContainer');
+                    tl.add(profileBGContainer.content.load, "+=0");
+                });
+
+                var animateAchievement = (function(){
+                    var tl = new TimelineMax();
+                    var achievementTitle = libraryManager.getElement('achievementTitle');
+                    tl.add(achievementTitle.content.show, "+=0.075");
+                    for (var i = 0; i < objData.achievementList.length; i++)
+                    {
+                        var achievementBG = libraryManager.getElement('achievementBG_' + i);
+                        tl.add(achievementBG.content.show, "+=0.075");
+                    }
+                });
+
+                tl.add(animateProfile, "+=0.1");
+                tl.add(animateAchievement, "+=0.5");
+
+            }
 
         }
 
