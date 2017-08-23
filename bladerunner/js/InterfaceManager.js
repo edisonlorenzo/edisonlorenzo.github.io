@@ -33,8 +33,10 @@ var InterfaceManager = (function () {
         assets.push(new Asset('img_header', 'images/img_header.png'));
         assets.push(new Asset('img_header_neon', 'images/img_header_neon.png'));
         assets.push(new Asset('img_footer', 'images/img_footer.png'));
+        assets.push(new Asset('img_bg_pop', 'images/img_bg_pop.png'));
         assets.push(new Asset('btn_arrow_left', 'images/btn_arrow_left.png'));
         assets.push(new Asset('btn_arrow_right', 'images/btn_arrow_right.png'));
+        assets.push(new Asset('btn_close', 'images/btn_close.png'));
         assets.push(new Asset('btn_activate_default', 'images/btn_activate_default.png'));
         assets.push(new Asset('btn_activate_highlight', 'images/btn_activate_highlight.png'));
         assets.push(new Asset('btn_archive_default', 'images/btn_archive_default.png'));

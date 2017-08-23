@@ -375,12 +375,18 @@ var ContentClues = (function () {
                     }
 
                     var cluesItemContainer =  libraryManager.createContainer('cluesItemContainer_' + i, contentContainer);
+                    cluesItemContainer.buttonMode = true;
+                    cluesItemContainer.interactive = true;
                     cluesItemContainer.visible = false;
                     cluesItemContainer.content.load = (function() {
                         this.visible = true;
                         TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                         TweenMax.fromTo(this.position, 0.5, {y: -25}, {y: 0, ease: Power2.easeOut});
                     }).bind(cluesItemContainer);
+
+                    cluesItemContainer.on('pointertap', function() {
+                        showPopupContent();
+                    });
 
                     var cluesBG = libraryManager.createImage('cluesBG_' + i, cluesItemContainer, res['img_clue_bg' + bgIdx].texture);
                     rowHeight = cluesBG.height;
@@ -402,7 +408,7 @@ var ContentClues = (function () {
                     var cluesCellContainer =  libraryManager.createContainer('cluesCellContainer', cluesCellGridContainer);
                     var cluesGridContainer =  libraryManager.createContainer('cluesGridContainer', cluesCellGridContainer);
                     var cluesGrid = libraryManager.createImage('cluesGrid', cluesGridContainer, res['img_clue_puzzle_grid'].texture);
-                    //cluesGrid.scale.set((cluesBG.width - 20) / cluesGrid.width);
+
                     cluesCellGridContainer.position.y = -25;
                     cluesGrid.width = 160;
                     cluesGrid.height = 160;
@@ -501,12 +507,9 @@ var ContentClues = (function () {
 
                     }).bind(cluesItemContainer.content);
 
-
                 }
 
-
             }
-
 
         }
 
@@ -544,6 +547,79 @@ var ContentClues = (function () {
 
                 tl.add(animateLoad, "+=0.1");
                 tl.add(animateShow, "+=0.5");
+
+            }
+
+        }
+
+        function showPopupContent()
+        {
+            var assetLoaderManager = AssetLoaderManager.getInstance();
+            var libraryManager = LibraryManager.getInstance();
+
+            if(assetLoaderManager && libraryManager)
+            {
+                var res = assetLoaderManager.getRes();
+
+                var bodyContainer = libraryManager.getElement('bodyContainer');
+                bodyContainer.position.y = 45;
+
+                var contentContainer = libraryManager.getElement('contentContainer');
+                var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
+
+                var popupContainer =  libraryManager.createContainer('popupContainer', contentContainer);
+                popupContainer.position.y = -100;
+                popupContainer.interactive = true;
+
+                var popupBGFade = libraryManager.createImage('popupBGFade', popupContainer, res['img_white'].texture);
+                popupBGFade.tint = 0x000000;
+                popupBGFade.alpha = 0.75;
+                popupBGFade.width = bodyBackgroundObj.width;
+                popupBGFade.height = bodyBackgroundObj.height;
+
+                var popupBG = libraryManager.createImage('popupBG', popupContainer, res['img_bg_pop'].texture);
+                popupBG.visible = false;
+                popupBG.content.load = (function() {
+                    this.visible = true;
+                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    TweenMax.fromTo(this.position, 0.5, {y: -25}, {y: 0, ease: Power2.easeOut});
+                }).bind(popupBG);
+
+                var buttonCloseImage = libraryManager.createImageButton('buttonCloseImage', popupBG, res['btn_close'].texture);
+                buttonCloseImage.position.x = (popupBG.width * 0.5) - 15;
+                buttonCloseImage.position.y = -(popupBG.height * 0.5) + 15;
+
+                buttonCloseImage.on('pointertap', function() {
+                    closePopupContent();
+                });
+
+                popupBG.content.load();
+
+            }
+
+        }
+
+        function closePopupContent()
+        {
+            var assetLoaderManager = AssetLoaderManager.getInstance();
+            var libraryManager = LibraryManager.getInstance();
+
+            if(assetLoaderManager && libraryManager)
+            {
+                var res = assetLoaderManager.getRes();
+
+                var bodyContainer = libraryManager.getElement('bodyContainer');
+                bodyContainer.position.y = 45;
+
+                var contentContainer = libraryManager.getElement('contentContainer');
+                var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
+
+                var popupContainer =  libraryManager.getElement('popupContainer');
+                if(popupContainer)
+                {
+                    libraryManager.removeElement(popupContainer.content.id);
+                    contentContainer.removeChild(popupContainer);
+                }
 
             }
 
