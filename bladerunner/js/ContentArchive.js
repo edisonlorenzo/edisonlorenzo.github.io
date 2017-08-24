@@ -18,6 +18,9 @@ var ContentArchive = (function () {
         assets.push(new Asset('img_archive_mission', 'images/archives/img_archive_mission.png'));
         assets.push(new Asset('img_archive_dossier', 'images/archives/img_archive_dossier.png'));
         assets.push(new Asset('img_archive_header_video', 'images/archives/img_archive_header_video.png'));
+        assets.push(new Asset('img_archive_header_images', 'images/archives/img_archive_header_images.png'));
+        assets.push(new Asset('img_archive_header_missions', 'images/archives/img_archive_header_missions.png'));
+        assets.push(new Asset('img_archive_header_dossier', 'images/archives/img_archive_header_dossier.png'));
         assets.push(new Asset('img_video01', 'images/archives/videos/img_video01.png'));
         assets.push(new Asset('img_video02', 'images/archives/videos/img_video02.png'));
         assets.push(new Asset('img_video03', 'images/archives/videos/img_video03.png'));
@@ -27,6 +30,16 @@ var ContentArchive = (function () {
         assets.push(new Asset('img_video07', 'images/archives/videos/img_video07.png'));
         assets.push(new Asset('img_video08', 'images/archives/videos/img_video08.png'));
         assets.push(new Asset('img_video09', 'images/archives/videos/img_video09.png'));
+        assets.push(new Asset('img_missionpast01', 'images/archives/missions/img_missionpast01.png'));
+        assets.push(new Asset('img_missionpast02', 'images/archives/missions/img_missionpast02.png'));
+        assets.push(new Asset('img_missionpast03', 'images/archives/missions/img_missionpast03.png'));
+        assets.push(new Asset('img_missionpast04', 'images/archives/missions/img_missionpast04.png'));
+        assets.push(new Asset('img_dossier01', 'images/archives/dossier/img_dossier01.png'));
+        assets.push(new Asset('img_dossier02', 'images/archives/dossier/img_dossier02.png'));
+        assets.push(new Asset('img_dossier03', 'images/archives/dossier/img_dossier03.png'));
+        assets.push(new Asset('img_dossier04', 'images/archives/dossier/img_dossier04.png'));
+        assets.push(new Asset('img_dossier05', 'images/archives/dossier/img_dossier05.png'));
+        assets.push(new Asset('img_dossier06', 'images/archives/dossier/img_dossier06.png'));
 
         var objData =
         {
@@ -50,15 +63,32 @@ var ContentArchive = (function () {
                 },
                 {
                     title: 'Images',
-                    imageRes: 'img_archive_image'
+                    imageRes: 'img_archive_image',
+                    imageHeaderRes: 'img_archive_header_images'
                 },
                 {
                     title: 'Past Missions',
-                    imageRes: 'img_archive_mission'
+                    imageRes: 'img_archive_mission',
+                    imageHeaderRes: 'img_archive_header_missions',
+                    data: [
+                        {title: 'Vehicle Runner', imageRes: 'img_missionpast01', unlocked: true},
+                        {title: 'Gaff\'s Request', imageRes: 'img_missionpast02', unlocked: true},
+                        {title: 'Detective 101', imageRes: 'img_missionpast03', unlocked: true},
+                        {title: 'The Umbrella Protest', imageRes: 'img_missionpast04', unlocked: true}
+                    ]
                 },
                 {
                     title: 'Dossier',
-                    imageRes: 'img_archive_dossier'
+                    imageRes: 'img_archive_dossier',
+                    imageHeaderRes: 'img_archive_header_dossier',
+                    data: [
+                        {title: 'Replicant Profile: Wallace', imageRes: 'img_dossier01', unlocked: true},
+                        {title: 'What\'s in an Owl?', imageRes: 'img_dossier02', unlocked: true},
+                        {title: 'Sebastian\'s Lab', imageRes: 'img_dossier03', unlocked: true},
+                        {title: 'The Chess Game', imageRes: 'img_dossier04', unlocked: true},
+                        {title: 'Corporate Spinner', imageRes: 'img_dossier05', unlocked: true},
+                        {title: 'Replicant Profile: Leon', imageRes: 'img_dossier06', unlocked: true}
+                    ]
                 }
             ]
         }
@@ -283,6 +313,9 @@ var ContentArchive = (function () {
 
                 var tl = interfaceManager.getTimeline();
 
+                var headerContainer = libraryManager.getElement('contentHeaderContainer');
+                tl.add(headerContainer.content.load, "+=0.05");
+
                 if(item.data)
                 {
                     var animateLoad = (function(){
@@ -328,6 +361,11 @@ var ContentArchive = (function () {
                 var contentBodyContainer =  libraryManager.createContainer('contentBodyContainer', contentContainer);
                 var contentNavContainer =  libraryManager.createContainer('contentNavContainer', contentContainer);
                 var contentHeaderContainer =  libraryManager.createContainer('contentHeaderContainer', contentContainer);
+                contentHeaderContainer.visible = false;
+                contentHeaderContainer.content.load = (function() {
+                    this.visible = true;
+                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                }).bind(contentHeaderContainer);
 
                 if(item.imageHeaderRes)
                 {
@@ -342,13 +380,13 @@ var ContentArchive = (function () {
 
                     var backButtonLabel = libraryManager.createText('contentTitle', backButtonImage, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 16,
+                        fontSize: 22,
                         fontStyle: 'normal',
-                        fill: '#777777'
+                        fill: '#999999'
                     }));
                     backButtonLabel.text = 'Back to Archive Menu';
                     backButtonLabel.anchor.x = 0;
-                    backButtonLabel.position.x = backButtonImage.width + 5;
+                    backButtonLabel.position.x = backButtonImage.width + 10;
 
                     var contentHeaderImage = libraryManager.createImage('contentHeaderImage', contentHeaderContainer, res[item.imageHeaderRes].texture);
                     contentNavContainer.position.y = -(bodyBackgroundObj.height * 0.5) + (backButtonImage.height * 0.5) + 15;
@@ -416,9 +454,9 @@ var ContentArchive = (function () {
 
                         var contentTitle = libraryManager.createText('contentTitle', contentImageShadingContainer, 0, new PIXI.TextStyle({
                             fontFamily: 'Arial',
-                            fontSize: 14,
+                            fontSize: 18,
                             fontStyle: 'normal',
-                            fill: '#777777'
+                            fill: '#999999'
                         }));
                         contentTitle.text = archiveItem.title;
                         contentTitle.anchor.x = 0;
