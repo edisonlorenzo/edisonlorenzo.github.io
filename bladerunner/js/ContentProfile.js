@@ -7,6 +7,8 @@ var ContentProfile = (function () {
     function init() {
 
         // Singleton Init
+        var isAssetLoaded;
+
         var assets = new Array();
 
         assets.push(new Asset('img_bg_profile', 'images/img_bg_profile.png'));
@@ -74,6 +76,30 @@ var ContentProfile = (function () {
         function getObjData()
         {
             return objData;
+        }
+
+        function loadAssets(callback)
+        {
+            var assetLoaderManager = AssetLoaderManager.getInstance();
+            // assetLoaderManager.stop();
+            // assetLoaderManager.addAsset(getAsset());
+            // assetLoaderManager.onReady(assetReady);
+            // assetLoaderManager.load();
+            var assetLoader = new PIXI.loaders.Loader();
+            var assets = getAsset();
+
+            for(var i = 0; i<assets.length; i++)
+            {
+                assetLoader.add(assets[i].resName, assets[i].resPath);
+            }
+            assetLoader.load(assetReady);
+
+            function assetReady(loader, res)
+            {
+                assetLoaderManager.setRes(res);
+                isAssetLoaded = true;
+                callback();
+            }
         }
 
         function showContent()
@@ -287,34 +313,50 @@ var ContentProfile = (function () {
             var interfaceManager = InterfaceManager.getInstance();
             interfaceManager.clearContent();
 
-            if(objData)
+            if(!isAssetLoaded)
             {
-
-                showContent();
-
-                var tl = interfaceManager.getTimeline();
-
-                var animateProfile = (function(){
-                    var tl = new TimelineMax();
-                    var profileBGContainer =  libraryManager.getElement('profileBGContainer');
-                    tl.add(profileBGContainer.content.load, "+=0");
-                });
-
-                var animateAchievement = (function(){
-                    var tl = new TimelineMax();
-                    var achievementTitle = libraryManager.getElement('achievementTitle');
-                    tl.add(achievementTitle.content.show, "+=0.075");
-                    for (var i = 0; i < objData.achievementList.length; i++)
-                    {
-                        var achievementBG = libraryManager.getElement('achievementBG_' + i);
-                        tl.add(achievementBG.content.show, "+=0.075");
-                    }
-                });
-
-                tl.add(animateProfile, "+=0.1");
-                tl.add(animateAchievement, "+=0.5");
-
+                interfaceManager.getLoader().show();
+                loadAssets(isReady);
+            } else {
+                isReady();
             }
+
+            function isReady()
+            {
+                if(interfaceManager.getActiveContent() == 'profile')
+                {
+                    interfaceManager.getLoader().hide();
+                    if(objData)
+                    {
+
+                        showContent();
+
+                        var tl = interfaceManager.getTimeline();
+
+                        var animateProfile = (function(){
+                            var tl = new TimelineMax();
+                            var profileBGContainer =  libraryManager.getElement('profileBGContainer');
+                            tl.add(profileBGContainer.content.load, "+=0");
+                        });
+
+                        var animateAchievement = (function(){
+                            var tl = new TimelineMax();
+                            var achievementTitle = libraryManager.getElement('achievementTitle');
+                            tl.add(achievementTitle.content.show, "+=0.075");
+                            for (var i = 0; i < objData.achievementList.length; i++)
+                            {
+                                var achievementBG = libraryManager.getElement('achievementBG_' + i);
+                                tl.add(achievementBG.content.show, "+=0.075");
+                            }
+                        });
+
+                        tl.add(animateProfile, "+=0.1");
+                        tl.add(animateAchievement, "+=0.5");
+
+                    }
+                }
+            }
+
 
         }
 

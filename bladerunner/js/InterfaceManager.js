@@ -19,7 +19,10 @@ var InterfaceManager = (function () {
             archive: ContentArchive.getInstance()
         };
 
+        var activeContent;
+
         var camera;
+        var loadingCircle;
         var backgroundObj;
         var backgroundContainer;
         var foregroundContainer;
@@ -34,6 +37,7 @@ var InterfaceManager = (function () {
         assets.push(new Asset('img_header_neon', 'images/img_header_neon.png'));
         assets.push(new Asset('img_footer', 'images/img_footer.png'));
         assets.push(new Asset('img_bg_pop', 'images/img_bg_pop.png'));
+        assets.push(new Asset('img_loading_circle', 'images/img_loading_circle.png'));
         assets.push(new Asset('btn_arrow_left', 'images/btn_arrow_left.png'));
         assets.push(new Asset('btn_arrow_right', 'images/btn_arrow_right.png'));
         assets.push(new Asset('btn_close', 'images/btn_close.png'));
@@ -63,10 +67,10 @@ var InterfaceManager = (function () {
 
         function getAsset()
         {
-            assets.push.apply(assets, contents.profile.getAsset());
-            assets.push.apply(assets, contents.mission.getAsset());
-            assets.push.apply(assets, contents.clues.getAsset());
-            assets.push.apply(assets, contents.archive.getAsset());
+            //assets.push.apply(assets, contents.profile.getAsset());
+            //assets.push.apply(assets, contents.mission.getAsset());
+            //assets.push.apply(assets, contents.clues.getAsset());
+            //assets.push.apply(assets, contents.archive.getAsset());
 
             return assets;
         }
@@ -74,6 +78,16 @@ var InterfaceManager = (function () {
         function getTimeline()
         {
             return tl;
+        }
+
+        function getLoader()
+        {
+            return loadingCircle;
+        }
+
+        function getActiveContent()
+        {
+            return activeContent;
         }
 
         function initResourceData()
@@ -114,6 +128,48 @@ var InterfaceManager = (function () {
             bodyBackgroundObj.alpha = 0;
             bodyBackgroundObj.width = 768;
             bodyBackgroundObj.height = backgroundObj.content.height - headerObj.height - (footerObj.height * 0.4);
+
+        }
+
+        function initLoadingCircle()
+        {
+
+            loadingCircle = function ()
+            {
+                var circleImage;
+
+                var assetLoaderManager = AssetLoaderManager.getInstance();
+                var libraryManager = LibraryManager.getInstance();
+
+                var res = assetLoaderManager.getRes();
+
+                var bodyContainer = libraryManager.getElement('bodyContainer');
+                bodyContainer.position.y = 0;
+
+                var contentContainer = libraryManager.getElement('contentContainer');
+                var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
+
+                function show()
+                {
+                    circleImage = libraryManager.createImage('circleImage', contentContainer, res['img_loading_circle'].texture);
+                    TweenMax.fromTo(circleImage, 1, {rotation: 0}, {rotation: Math.PI * 2, ease: Linear.easeNone, repeat: -1});
+                }
+
+                function hide()
+                {
+                    circleImage = libraryManager.getElement('circleImage');
+                    if(circleImage)
+                    {
+                        libraryManager.removeElement(circleImage.content.id);
+                        contentContainer.removeChild(circleImage);
+                    }
+                }
+
+                return {
+                    show: show,
+                    hide: hide
+                }
+            }();
 
         }
 
@@ -542,49 +598,43 @@ var InterfaceManager = (function () {
 
         function showMission()
         {
+            activeContent = 'mission';
             var buttonObj = libraryManager.getElement('missionsButtonObj');
             setButtonSelected(buttonObj);
-
             contents.mission.loadCategory();
-
         }
 
         function showProfile()
         {
+            activeContent = 'profile';
             var buttonObj = libraryManager.getElement('profileButtonObj');
             setButtonSelected(buttonObj);
-
             contents.profile.loadContent();
-
         }
 
         function showClues()
         {
+            activeContent = 'clues';
             var buttonObj = libraryManager.getElement('cluesButtonObj');
             setButtonSelected(buttonObj);
-
             contents.clues.loadContent();
-
         }
 
         function showArchive()
         {
+            activeContent = 'archive';
             var buttonObj = libraryManager.getElement('archiveButtonObj');
             setButtonSelected(buttonObj);
-
             contents.archive.loadCategory();
-
         }
 
         function showActivate()
         {
+            activeContent = 'activate';
             var buttonObj = libraryManager.getElement('activateButtonObj');
             setButtonSelected(buttonObj);
-
             clearContent();
-
             camera.startStream();
-
         }
 
         function showActivateResult(resultData)
@@ -637,6 +687,8 @@ var InterfaceManager = (function () {
 
             initBody();
 
+            initLoadingCircle();
+
             initCamera();
 
             initTimeLinedTween();
@@ -673,6 +725,8 @@ var InterfaceManager = (function () {
         return {
             getAsset: getAsset,
             getTimeline: getTimeline,
+            getLoader: getLoader,
+            getActiveContent: getActiveContent,
             setup: setup,
             showHeader: showHeader,
             showFooter: showFooter,

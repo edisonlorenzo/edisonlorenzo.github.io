@@ -7,6 +7,7 @@ var ContentArchive = (function () {
     function init() {
 
         // Singleton Init
+        var isAssetLoaded;
         var assets = new Array();
 
         assets.push(new Asset('img_block04', 'images/img_block04.png'));
@@ -75,6 +76,26 @@ var ContentArchive = (function () {
         function getObjData()
         {
             return objData;
+        }
+
+        function loadAssets(callback)
+        {
+            var assetLoaderManager = AssetLoaderManager.getInstance();
+            var assetLoader = new PIXI.loaders.Loader();
+            var assets = getAsset();
+
+            for(var i = 0; i<assets.length; i++)
+            {
+                assetLoader.add(assets[i].resName, assets[i].resPath);
+            }
+            assetLoader.load(assetReady);
+
+            function assetReady(loader, res)
+            {
+                assetLoaderManager.setRes(res);
+                isAssetLoaded = true;
+                callback();
+            }
         }
 
         function showCategory()
@@ -195,34 +216,50 @@ var ContentArchive = (function () {
             var interfaceManager = InterfaceManager.getInstance();
             interfaceManager.clearContent();
 
-            if(objData)
+            if(!isAssetLoaded)
             {
+                interfaceManager.getLoader().show();
+                loadAssets(isReady);
+            } else {
+                isReady();
+            }
 
-                showCategory();
+            function isReady()
+            {
+                if(interfaceManager.getActiveContent() == 'archive')
+                {
+                    interfaceManager.getLoader().hide();
 
-                var tl = interfaceManager.getTimeline();
-
-                var animateLoad = (function(){
-                    var tl = new TimelineMax();
-                    for (var i = 0; i < objData.archiveList.length; i++)
+                    if(objData)
                     {
-                        var itemContainer = libraryManager.getElement('archiveItemContainer_' + i);
-                        tl.add(itemContainer.content.load, "+=0.05");
+
+                        showCategory();
+
+                        var tl = interfaceManager.getTimeline();
+
+                        var animateLoad = (function(){
+                            var tl = new TimelineMax();
+                            for (var i = 0; i < objData.archiveList.length; i++)
+                            {
+                                var itemContainer = libraryManager.getElement('archiveItemContainer_' + i);
+                                tl.add(itemContainer.content.load, "+=0.05");
+                            }
+                        });
+
+                        var animateShow = (function(){
+                            var tl = new TimelineMax();
+                            for (var i = 0; i < objData.archiveList.length; i++)
+                            {
+                                var itemContainer = libraryManager.getElement('archiveItemContainer_' + i);
+                                tl.add(itemContainer.content.show, "+=0");
+                            }
+                        });
+
+                        tl.add(animateLoad, "+=0.1");
+                        tl.add(animateShow, "+=0.5");
+
                     }
-                });
-
-                var animateShow = (function(){
-                    var tl = new TimelineMax();
-                    for (var i = 0; i < objData.archiveList.length; i++)
-                    {
-                        var itemContainer = libraryManager.getElement('archiveItemContainer_' + i);
-                        tl.add(itemContainer.content.show, "+=0");
-                    }
-                });
-
-                tl.add(animateLoad, "+=0.1");
-                tl.add(animateShow, "+=0.5");
-
+                }
             }
 
         }

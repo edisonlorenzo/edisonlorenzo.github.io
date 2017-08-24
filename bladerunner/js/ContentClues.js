@@ -7,6 +7,7 @@ var ContentClues = (function () {
     function init() {
 
         // Singleton Init
+        var isAssetLoaded;
         var assets = new Array();
 
         assets.push(new Asset('img_clue_bg1', 'images/img_clue_bg01.png'));
@@ -340,6 +341,26 @@ var ContentClues = (function () {
             return objData;
         }
 
+        function loadAssets(callback)
+        {
+            var assetLoaderManager = AssetLoaderManager.getInstance();
+            var assetLoader = new PIXI.loaders.Loader();
+            var assets = getAsset();
+
+            for(var i = 0; i<assets.length; i++)
+            {
+                assetLoader.add(assets[i].resName, assets[i].resPath);
+            }
+            assetLoader.load(assetReady);
+
+            function assetReady(loader, res)
+            {
+                assetLoaderManager.setRes(res);
+                isAssetLoaded = true;
+                callback();
+            }
+        }
+
         function showContent()
         {
             var assetLoaderManager = AssetLoaderManager.getInstance();
@@ -523,34 +544,50 @@ var ContentClues = (function () {
             var interfaceManager = InterfaceManager.getInstance();
             interfaceManager.clearContent();
 
-            if(objData)
+            if(!isAssetLoaded)
             {
+                interfaceManager.getLoader().show();
+                loadAssets(isReady);
+            } else {
+                isReady();
+            }
 
-                showContent();
+            function isReady()
+            {
+                if(interfaceManager.getActiveContent() == 'clues')
+                {
+                    interfaceManager.getLoader().hide();
 
-                var tl = interfaceManager.getTimeline();
-
-                var animateLoad = (function(){
-                    var tl = new TimelineMax();
-                    for (var i = 0; i < objData.cluesList.length; i++)
+                    if(objData)
                     {
-                        var itemContainer = libraryManager.getElement('cluesItemContainer_' + i);
-                        tl.add(itemContainer.content.load, "+=0.05");
+
+                        showContent();
+
+                        var tl = interfaceManager.getTimeline();
+
+                        var animateLoad = (function(){
+                            var tl = new TimelineMax();
+                            for (var i = 0; i < objData.cluesList.length; i++)
+                            {
+                                var itemContainer = libraryManager.getElement('cluesItemContainer_' + i);
+                                tl.add(itemContainer.content.load, "+=0.05");
+                            }
+                        });
+
+                        var animateShow = (function(){
+                            var tl = new TimelineMax();
+                            for (var i = 0; i < objData.cluesList.length; i++)
+                            {
+                                var itemContainer = libraryManager.getElement('cluesItemContainer_' + i);
+                                tl.add(itemContainer.content.show, "+=0");
+                            }
+                        });
+
+                        tl.add(animateLoad, "+=0.1");
+                        tl.add(animateShow, "+=0.5");
+
                     }
-                });
-
-                var animateShow = (function(){
-                    var tl = new TimelineMax();
-                    for (var i = 0; i < objData.cluesList.length; i++)
-                    {
-                        var itemContainer = libraryManager.getElement('cluesItemContainer_' + i);
-                        tl.add(itemContainer.content.show, "+=0");
-                    }
-                });
-
-                tl.add(animateLoad, "+=0.1");
-                tl.add(animateShow, "+=0.5");
-
+                }
             }
 
         }

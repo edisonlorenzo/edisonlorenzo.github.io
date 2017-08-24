@@ -7,6 +7,7 @@ var ContentMission = (function () {
     function init() {
 
         // Singleton Init
+        var isAssetLoaded;
         var assets = new Array();
 
         assets.push(new Asset('img_event_shading', 'images/img_event_shading.png'));
@@ -101,6 +102,26 @@ var ContentMission = (function () {
         function getObjData()
         {
             return objData;
+        }
+
+        function loadAssets(callback)
+        {
+            var assetLoaderManager = AssetLoaderManager.getInstance();
+            var assetLoader = new PIXI.loaders.Loader();
+            var assets = getAsset();
+
+            for(var i = 0; i<assets.length; i++)
+            {
+                assetLoader.add(assets[i].resName, assets[i].resPath);
+            }
+            assetLoader.load(assetReady);
+
+            function assetReady(loader, res)
+            {
+                assetLoaderManager.setRes(res);
+                isAssetLoaded = true;
+                callback();
+            }
         }
 
         function showCategory()
@@ -338,46 +359,62 @@ var ContentMission = (function () {
             var interfaceManager = InterfaceManager.getInstance();
             interfaceManager.clearContent();
 
-            if(objData)
+            if(!isAssetLoaded)
             {
+                interfaceManager.getLoader().show();
+                loadAssets(isReady);
+            } else {
+                isReady();
+            }
 
-                showCategory();
+            function isReady()
+            {
+                if(interfaceManager.getActiveContent() == 'mission')
+                {
+                    interfaceManager.getLoader().hide();
 
-                var tl = interfaceManager.getTimeline();
-
-                var animateLoad = (function(){
-                    var tl = new TimelineMax();
-                    for (var row = 0; row < objData.missionList.length; row++)
+                    if(objData)
                     {
-                        for (var i = 0; i < objData.missionList[row].data.length; i++)
-                        {
-                            var item = objData.missionList[row].data[i];
-                            var itemContainer = libraryManager.getElement('missionItemContainer_' + row + '_' + i);
-                            tl.add(itemContainer.content.load, "+=0.05");
-                            if(item.type == 'divider')
+
+                        showCategory();
+
+                        var tl = interfaceManager.getTimeline();
+
+                        var animateLoad = (function(){
+                            var tl = new TimelineMax();
+                            for (var row = 0; row < objData.missionList.length; row++)
                             {
-                                var dividerMask = itemContainer.content.dividerMask;
-                                tl.add(dividerMask.content.load, "+=0.05");
+                                for (var i = 0; i < objData.missionList[row].data.length; i++)
+                                {
+                                    var item = objData.missionList[row].data[i];
+                                    var itemContainer = libraryManager.getElement('missionItemContainer_' + row + '_' + i);
+                                    tl.add(itemContainer.content.load, "+=0.05");
+                                    if(item.type == 'divider')
+                                    {
+                                        var dividerMask = itemContainer.content.dividerMask;
+                                        tl.add(dividerMask.content.load, "+=0.05");
+                                    }
+                                }
                             }
-                        }
-                    }
-                });
+                        });
 
-                var animateShow = (function(){
-                    var tl = new TimelineMax();
-                    for (var row = 0; row < objData.missionList.length; row++)
-                    {
-                        for (var i = 0; i < objData.missionList[row].data.length; i++)
-                        {
-                            var item = objData.missionList[row].data[i];
-                            var itemContainer = libraryManager.getElement('missionItemContainer_' + row + '_' + i);
-                            tl.add(itemContainer.content.show, "+=0");
-                        }
-                    }
-                });
+                        var animateShow = (function(){
+                            var tl = new TimelineMax();
+                            for (var row = 0; row < objData.missionList.length; row++)
+                            {
+                                for (var i = 0; i < objData.missionList[row].data.length; i++)
+                                {
+                                    var item = objData.missionList[row].data[i];
+                                    var itemContainer = libraryManager.getElement('missionItemContainer_' + row + '_' + i);
+                                    tl.add(itemContainer.content.show, "+=0");
+                                }
+                            }
+                        });
 
-                tl.add(animateLoad, "+=0.1");
-                tl.add(animateShow, "+=0.75");
+                        tl.add(animateLoad, "+=0.1");
+                        tl.add(animateShow, "+=0.75");
+                    }
+                }
             }
 
         }

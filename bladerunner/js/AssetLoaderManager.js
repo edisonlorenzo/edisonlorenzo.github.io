@@ -10,7 +10,7 @@ var AssetLoaderManager = (function () {
 
         var ticker = new PIXI.ticker.Ticker();
         var assetLoader = new PIXI.loaders.Loader();
-        var resources;
+        var resources = new Array();
         var onReadyCallback;
         var hasProgressText;
 
@@ -102,7 +102,7 @@ var AssetLoaderManager = (function () {
 
         function onAssetsLoaded(loader, res)
         {
-            resources = res;
+            resources = extend(resources, res);
             setTimeout(function(){
                     onReadyCallback();
                     progress.stop();
@@ -110,9 +110,32 @@ var AssetLoaderManager = (function () {
             );
         }
 
+        function extend()
+        {
+            var o = {};
+
+            for (var i in arguments)
+            {
+                var s = arguments[i];
+
+                for (var i in s)
+                {
+                    o[i] = s[i];
+                }
+            }
+
+            return o;
+        }
+
         function getRes()
         {
             return resources;
+        }
+
+        function setRes(res)
+        {
+            resources = extend(resources, res);
+            console.log(resources);
         }
 
         function getProgress()
@@ -141,6 +164,7 @@ var AssetLoaderManager = (function () {
 
         return {
             getRes: getRes,
+            setRes: setRes,
             getProgress: getProgress,
             showProgressText: showProgressText,
             onReady: onReady,
