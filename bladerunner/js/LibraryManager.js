@@ -287,18 +287,18 @@ var LibraryManager = (function () {
                     if (lastDiff) {
                         var goY = _this.scrollContainer.y + lastDiff * 10;
                         var ease = Quad.easeOut;
-                        var time = 0.5 + Math.abs(lastDiff / 150);
+                        var time = 0.1 + Math.abs(lastDiff / 150);
 
                         if (goY < -_this.items.length * itemHeight + height) {
                             goY = -_this.items.length * itemHeight + height;
                             ease = Back.easeOut;
-                            time = 0.5 + Math.abs(lastDiff / 1500);
+                            time = 0.1 + Math.abs(lastDiff / 1500);
                             console.log(time);
                         }
                         if (goY > 0)  {
                             goY = 0;
                             ease = Back.easeOut;
-                            time = 0.5 + Math.abs(lastDiff / 1500);
+                            time = 0.1 + Math.abs(lastDiff / 1500);
                             console.log(time);
                         }
 
