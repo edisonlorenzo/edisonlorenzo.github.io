@@ -13,7 +13,9 @@ var StageManager = (function () {
 
         var callBackArray = new Array();
 
-        var app = new PIXI.Application(logicalWidth, logicalHeight, {backgroundColor : 0x000000, resolution: window.devicePixelRatio, autoResize:true});
+        PIXI.glCore.VertexArrayObject.FORCE_NATIVE = true;
+
+        var app = new PIXI.Application(logicalWidth, logicalHeight, {backgroundColor : 0x000000, resolution: window.devicePixelRatio});
         app.view.id = 'pixi-canvas';
 
         //Add style in document head
