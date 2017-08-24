@@ -188,7 +188,6 @@ var ContentMission = (function () {
 
                             } else {
 
-                                //cellBlock.content.posX = ((i * cellBlock.width) + ((i+1)*8)) - (bodyBackgroundObj.width * 0.5) + (cellBlock.width * 0.5);
                                 cellBlock.content.posX = posX + (cellBlock.width * 0.5) + 5;
                                 posX = cellBlock.content.posX + (cellBlock.width * 0.5);
                                 var contentImage = libraryManager.createImage('contentImage', cellBlock, res[missionItem.imageRes].texture);
@@ -254,7 +253,7 @@ var ContentMission = (function () {
                                         fontFamily: 'Arial',
                                         fontSize: 16,
                                         fontStyle: 'normal',
-                                        fill: '#777777'
+                                        fill: '#ffffff'
                                     }));
                                     contentDesc.text = missionItem.desc;
                                     contentDesc.anchor.x = 0;

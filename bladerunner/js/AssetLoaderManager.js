@@ -135,7 +135,6 @@ var AssetLoaderManager = (function () {
         function setRes(res)
         {
             resources = extend(resources, res);
-            console.log(resources);
         }
 
         function getProgress()

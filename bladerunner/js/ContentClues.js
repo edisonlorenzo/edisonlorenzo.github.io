@@ -475,7 +475,8 @@ var ContentClues = (function () {
                         fontFamily: 'Arial',
                         fontSize: 14,
                         fontStyle: 'normal',
-                        fill: '#808080'
+                        fontWeight: 'bold',
+                        fill: '#333333'
                     }));
                     caseFileLabel.text = 'Case File: ';
                     caseFileLabel.anchor.x = 0;
@@ -485,7 +486,8 @@ var ContentClues = (function () {
                     var caseFileValue = libraryManager.createText('caseFileValue', cluesContentContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
                         fontSize: 14,
-                        fontStyle: 'bold',
+                        fontStyle: 'normal',
+                        fontWeight: 'bold',
                         fill: '#000000'
                     }));
                     caseFileValue.text = cluesItem.id;
@@ -500,7 +502,8 @@ var ContentClues = (function () {
                         fontFamily: 'Arial',
                         fontSize: 14,
                         fontStyle: 'normal',
-                        fill: '#808080'
+                        fontWeight: 'bold',
+                        fill: '#333333'
                     }));
                     caseFileProgress.text = cellCompleted + '/' + maxGrid;
                     caseFileProgress.anchor.x = 1;
