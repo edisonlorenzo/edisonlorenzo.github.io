@@ -367,6 +367,8 @@ var ContentArchive = (function () {
                     TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                 }).bind(contentHeaderContainer);
 
+                var bodyHeight = bodyBackgroundObj.height;
+
                 if(item.imageHeaderRes)
                 {
                     var backButtonImage = libraryManager.createImageButton('backButton', contentNavContainer, res['btn_arrow_left'].texture);
@@ -392,14 +394,16 @@ var ContentArchive = (function () {
                     contentNavContainer.position.y = -(bodyBackgroundObj.height * 0.5) + (backButtonImage.height * 0.5) + 15;
                     contentHeaderContainer.position.y = contentNavContainer.position.y + (backButtonImage.height * 0.5) + (contentHeaderImage.height * 0.5) + 15;
                     contentBodyContainer.position.y = contentHeaderContainer.position.y + (contentHeaderImage.height * 0.5);
+
+                    bodyHeight = bodyHeight - backButtonImage.height - contentHeaderImage.height - 45;
                 }
 
                 if(item.data)
                 {
 
-                    var rowPos = 0, rowHeight = 0, colPos = 0;
-
-                    var maxCol = 3;
+                    var rowPos = 0, rowHeight = 0, colPos = 0, maxCol = 3;
+                    var sc = libraryManager.createScrollContainer('contentScrollContainer', contentBodyContainer, bodyBackgroundObj.width, bodyHeight);
+                    var rowContainer;
 
                     for (var i = 0; i < item.data.length; i++)
                     {
@@ -407,12 +411,17 @@ var ContentArchive = (function () {
 
                         if(i % maxCol == 0)
                         {
+                            rowContainer = new PIXI.Container();
+                            rowContainer.position.x = (bodyBackgroundObj.width * 0.5);
+                            sc.scrollContainer.addChild(rowContainer);
+                            sc.items.push(rowContainer);
+                            sc.setItemHeight(rowHeight + 15);
                             rowPos = rowPos + rowHeight + 15;
                         }
 
                         colPos = (i % maxCol) - (maxCol / 2);
 
-                        var archiveItemContainer =  libraryManager.createContainer('archiveItemContainer_' + i, contentBodyContainer);
+                        var archiveItemContainer = libraryManager.createContainer('archiveItemContainer_' + i, rowContainer);
                         archiveItemContainer.visible = false;
                         archiveItemContainer.content.load = (function() {
                             this.visible = true;
@@ -422,6 +431,7 @@ var ContentArchive = (function () {
 
                         var contentImage = libraryManager.createImage('contentImage', archiveItemContainer, res[archiveItem.imageRes].texture);
                         rowHeight = contentImage.height;
+
                         contentImage.content.posY = rowPos + (rowHeight * 0.5);
                         contentImage.content.posX = (colPos * (contentImage.width + 15)) + ((contentImage.width + 15) * 0.5);
                         contentImage.position.x = contentImage.content.posX;
@@ -476,6 +486,8 @@ var ContentArchive = (function () {
                         }).bind(archiveItemContainer.content);
 
                     }
+
+                    sc.setItemHeight(rowHeight + 25);
 
                 }
             }

@@ -183,6 +183,168 @@ var LibraryManager = (function () {
             return image;
         }
 
+        function createScrollContainer(id, container, width, height)
+        {
+            var sc = new ScrollContainer(width, height);
+            container.addChild(sc.po);
+
+            sc.po.position.x = -(width * 0.5);
+
+            var content = {};
+            content.id = id;
+
+            sc.content = content;
+
+            removeElement(id);
+            elements.push(sc);
+
+            return sc;
+
+        }
+
+        function ScrollContainer(width, height)
+        {
+            this.po = new PIXI.DisplayObjectContainer();
+            this.scrollContainer = new PIXI.DisplayObjectContainer();
+            this.po.addChild(this.scrollContainer);
+            this.items = [];
+
+            this.mask = new PIXI.Graphics();
+            this.mask
+            .beginFill(0xFFFFFF)
+            .drawRect(0, 0, width, height)
+            .endFill();
+
+            this.po.addChild(this.mask);
+            this.scrollContainer.mask = this.mask;
+
+            var itemHeight = 1;
+
+            var _this = this;
+
+            var mousedown = false;
+            var isMoving = false;
+            var lastPos = null;
+            var lastDiff = null;
+            var scrollTween = null;
+            var maxVel = 0;
+
+            this.setItemHeight = setItemHeight;
+            this.isMoving = getScrollMovement;
+
+            function setItemHeight(value)
+            {
+                itemHeight = value;
+            }
+
+            function getScrollMovement()
+            {
+                return isMoving;
+            }
+
+            function onmousemove(e)
+            {
+                var clientY = !e.data.originalEvent.touches ? e.data.originalEvent.clientY : e.data.originalEvent.touches[0].clientY;
+
+                if (mousedown) {
+                    lastDiff = clientY - lastPos.y;
+                    if(Math.abs(lastDiff) > 10 * window.devicePixelRatio)
+                    {
+                        isMoving = true;
+                    }
+
+                    if(isMoving)
+                    {
+                        lastPos.y = clientY;
+
+                        if (-_this.scrollContainer.y < 0) {
+                        _this.scrollContainer.y += lastDiff/2;
+                        }else{
+                        _this.scrollContainer.y += lastDiff/2;
+                        }
+                    }
+
+                }
+            }
+
+            function onmousedown(e)
+            {
+                var clientY = !e.data.originalEvent.touches ? e.data.originalEvent.clientY : e.data.originalEvent.touches[0].clientY;
+                mousedown = true;
+                if (scrollTween) scrollTween.kill();
+                lastPos = {
+                    y: clientY
+                }
+            }
+
+            function onmouseup(e)
+            {
+                if(mousedown)
+                {
+                    if (lastDiff) {
+                        var goY = _this.scrollContainer.y + lastDiff * 10;
+                        var ease = Quad.easeOut;
+                        var time = Math.abs(lastDiff / 150);
+
+                        if (goY < -_this.items.length * itemHeight + height) {
+                            goY = -_this.items.length * itemHeight + height;
+                            ease = Back.easeOut;
+                            time = .1 + Math.abs(lastDiff / 150);
+                        }
+                        if (goY > 0)  {
+                            goY = 0;
+                            ease = Back.easeOut;
+                            time = .1 + Math.abs(lastDiff / 150);
+                        }
+
+                        if (_this.scrollContainer.y > 0) {
+                            time = 1 + _this.scrollContainer.y / 5000;
+                            ease = Elastic.easeOut;
+                        }
+                        if (_this.scrollContainer.y < -_this.items.length * itemHeight + height) {
+                            time = 1 + (_this.items.length * itemHeight + height + _this.scrollContainer.y) / 5000;
+                            ease = Elastic.easeOut;
+                        }
+
+                        scrollTween = TweenMax.to(_this.scrollContainer, time, {
+                            y: goY,
+                            ease: ease
+                        });
+                    }
+
+                    isMoving = false;
+                    mousedown = false;
+                    lastPos = null;
+                    lastDiff = null;
+                }
+            }
+
+            this.po.interactive = true;
+            this.po.mousemove = onmousemove;
+            this.po.mousedown = onmousedown;
+            this.po.mouseup = onmouseup;
+            this.po.touchmove = onmousemove;
+            this.po.touchstart = onmousedown;
+            this.po.touchend = onmouseup;
+            this.po.touchendoutside = onmouseup;
+            this.po.mouseleave = onmouseup;
+            this.po.mouseout = onmouseup;
+
+            this.hideOffscreenElements = function() {
+                var startIndex = Math.floor(-_this.scrollContainer.y / itemHeight);
+                var endIndex = Math.floor(startIndex + (height / itemHeight));
+
+                for (var i = 0; i < _this.items.length; i++) {
+                    var item = _this.items[i];
+                    item.visible = false;
+                    if (i >= startIndex && i <= endIndex + 1) {
+                        item.visible = true;
+                    }
+                }
+            }
+
+        }
+
         return {
             compareStrings: compareStrings,
             getElementCountFromList: getElementCountFromList,
@@ -194,7 +356,8 @@ var LibraryManager = (function () {
             createText: createText,
             createGraphic: createGraphic,
             createImageButton: createImageButton,
-            createVideo: createVideo
+            createVideo: createVideo,
+            createScrollContainer: createScrollContainer
         };
 
     };

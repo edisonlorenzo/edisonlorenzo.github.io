@@ -381,16 +381,28 @@ var ContentClues = (function () {
                 var contentContainer = libraryManager.getElement('contentContainer');
                 var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
 
-                var rowPos = -(bodyBackgroundObj.height * 0.5), rowHeight = 0, colPos = 0;
+                var contentBodyContainer =  libraryManager.createContainer('contentBodyContainer', contentContainer);
+                contentBodyContainer.position.y = -(bodyBackgroundObj.height * 0.5);
+
+                var rowPos = 0, rowHeight = 0, colPos = 0;
 
                 var bgIdx = 1;
                 var maxCol = 4;
+
+                var sc = libraryManager.createScrollContainer('contentScrollContainer', contentBodyContainer, bodyBackgroundObj.width, bodyBackgroundObj.height);
+                var rowContainer;
 
                 for (var i = 0; i < objData.cluesList.length; i++)
                 {
                     if(i % maxCol == 0)
                     {
+                        rowContainer = new PIXI.Container();
+                        rowContainer.position.x = (bodyBackgroundObj.width * 0.5);
+                        sc.scrollContainer.addChild(rowContainer);
+                        sc.items.push(rowContainer);
+                        sc.setItemHeight(rowHeight + 20);
                         rowPos = rowPos + rowHeight + 20;
+
                     }
 
                     colPos = (i % maxCol) - (maxCol / 2);
@@ -402,7 +414,7 @@ var ContentClues = (function () {
 
                     var cluesItem = objData.cluesList[i];
 
-                    var cluesItemContainer =  libraryManager.createContainer('cluesItemContainer_' + i, contentContainer);
+                    var cluesItemContainer = libraryManager.createContainer('cluesItemContainer_' + i, rowContainer);
                     cluesItemContainer.buttonMode = true;
                     cluesItemContainer.interactive = true;
                     cluesItemContainer.visible = false;
@@ -413,7 +425,10 @@ var ContentClues = (function () {
                     }).bind(cluesItemContainer);
 
                     cluesItemContainer.on('pointertap', (function() {
-                        showPopupContent(this);
+                        if(!sc.isMoving())
+                        {
+                            showPopupContent(this);
+                        }
                     }).bind(cluesItem));
 
                     var cluesBG = libraryManager.createImage('cluesBG_' + i, cluesItemContainer, res['img_clue_bg' + bgIdx].texture);
@@ -540,6 +555,8 @@ var ContentClues = (function () {
                     }).bind(cluesItemContainer.content);
 
                 }
+
+                sc.setItemHeight(rowHeight + 35);
 
             }
 

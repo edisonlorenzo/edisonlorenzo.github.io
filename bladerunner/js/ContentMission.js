@@ -38,6 +38,12 @@ var ContentMission = (function () {
         assets.push(new Asset('img_mission06', 'images/missions/img_mission06.png'));
         assets.push(new Asset('img_mission07', 'images/missions/img_mission07.png'));
         assets.push(new Asset('img_mission08', 'images/missions/img_mission08.png'));
+        assets.push(new Asset('img_mission09', 'images/missions/img_mission09.png'));
+        assets.push(new Asset('img_mission10', 'images/missions/img_mission10.png'));
+        assets.push(new Asset('img_mission11', 'images/missions/img_mission11.png'));
+        assets.push(new Asset('img_mission12', 'images/missions/img_mission12.png'));
+        assets.push(new Asset('img_mission13', 'images/missions/img_mission13.png'));
+        assets.push(new Asset('img_mission14', 'images/missions/img_mission14.png'));
 
         var objData =
         {
@@ -77,6 +83,22 @@ var ContentMission = (function () {
                         {type: 'onecell', title: 'Mission', desc: 'The Nexus 6 Creation Part 1', imageRes: 'img_mission06', iconRes: 'icon_news'},
                         {type: 'onecell', title: 'Mission', desc: 'The Blueprint', imageRes: 'img_mission07', iconRes: 'icon_toy'},
                         {type: 'onecell', title: 'Mission', desc: 'Food for Thought', imageRes: 'img_mission08', iconRes: 'icon_food'}
+                    ]
+                },
+                {
+                    data:
+                    [
+                        {type: 'onecell', title: 'Mission', desc: 'Mobile Runner', imageRes: 'img_mission09', iconRes: 'icon_news'},
+                        {type: 'onecell', title: 'Mission', desc: 'Inside of Movie Preview', imageRes: 'img_mission10', iconRes: 'icon_news'},
+                        {type: 'onecell', title: 'Mission', desc: 'First Person Blade Runner', imageRes: 'img_mission11', iconRes: 'icon_news'}
+                    ]
+                },
+                {
+                    data:
+                    [
+                        {type: 'onecell', title: 'Mission', desc: 'Art of Cinema', imageRes: 'img_mission12', iconRes: 'icon_news'},
+                        {type: 'onecell', title: 'Mission', desc: 'LAPD 2019 Blaster', imageRes: 'img_mission13', iconRes: 'icon_news'},
+                        {type: 'onecell', title: 'Mission', desc: 'Blade Fashion', imageRes: 'img_mission14', iconRes: 'icon_news'}
                     ]
                 }
             ],
@@ -144,18 +166,28 @@ var ContentMission = (function () {
                 var contentContainer = libraryManager.getElement('contentContainer');
                 var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
 
-                var rowPos = -(bodyBackgroundObj.height * 0.5), rowHeight = 0;
+                var contentBodyContainer =  libraryManager.createContainer('contentBodyContainer', contentContainer);
+                contentBodyContainer.position.y = -(bodyBackgroundObj.height * 0.5);
+
+                var rowPos = 0, rowHeight = 0;
+                var sc = libraryManager.createScrollContainer('contentScrollContainer', contentBodyContainer, bodyBackgroundObj.width, bodyBackgroundObj.height);
+                var rowContainer;
 
                 for (var row = 0; row < objData.missionList.length; row++)
                 {
                     var posX = -(bodyBackgroundObj.width * 0.5) + 5;
+                    rowContainer = new PIXI.Container();
+                    rowContainer.position.x = (bodyBackgroundObj.width * 0.5);
+                    sc.scrollContainer.addChild(rowContainer);
+                    sc.items.push(rowContainer);
+
                     for (var i = 0; i < objData.missionList[row].data.length; i++)
                     {
                         var missionItem = objData.missionList[row].data[i];
                         var missionType = libraryManager.getElementFromList(objData.missionType, 'type', missionItem.type);
                         if(missionType)
                         {
-                            var missionItemContainer =  libraryManager.createContainer('missionItemContainer_' + row + '_' + i, contentContainer);
+                            var missionItemContainer =  libraryManager.createContainer('missionItemContainer_' + row + '_' + i, rowContainer);
                             missionItemContainer.visible = false;
                             missionItemContainer.content.load = (function() {
                                 this.visible = true;
@@ -348,6 +380,7 @@ var ContentMission = (function () {
                             }).bind(missionItemContainer.content);
                         }
                     }
+                    sc.setItemHeight(rowHeight);
                     rowPos = rowPos + rowHeight + 15;
                 }
 
