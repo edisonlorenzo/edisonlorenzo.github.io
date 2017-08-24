@@ -248,6 +248,7 @@ var LibraryManager = (function () {
 
                 if (mousedown) {
                     lastDiff = clientY - lastPos.y;
+                    lastDiff = lastDiff == 0 ? 1 : lastDiff;
                     if(Math.abs(lastDiff) > 10 * window.devicePixelRatio)
                     {
                         isMoving = true;
@@ -269,6 +270,7 @@ var LibraryManager = (function () {
 
             function onmousedown(e)
             {
+                console.log(e);
                 var clientY = !e.data.originalEvent.touches ? e.data.originalEvent.clientY : e.data.originalEvent.touches[0].clientY;
                 mousedown = true;
                 if (scrollTween) scrollTween.kill();
@@ -281,28 +283,35 @@ var LibraryManager = (function () {
             {
                 if(mousedown)
                 {
+                    console.log(lastDiff);
                     if (lastDiff) {
                         var goY = _this.scrollContainer.y + lastDiff * 10;
                         var ease = Quad.easeOut;
-                        var time = Math.abs(lastDiff / 150);
+                        var time = 0.5 + Math.abs(lastDiff / 150);
 
                         if (goY < -_this.items.length * itemHeight + height) {
                             goY = -_this.items.length * itemHeight + height;
                             ease = Back.easeOut;
-                            time = .1 + Math.abs(lastDiff / 150);
+                            time = 0.5 + Math.abs(lastDiff / 1500);
+                            console.log(time);
                         }
                         if (goY > 0)  {
                             goY = 0;
                             ease = Back.easeOut;
-                            time = .1 + Math.abs(lastDiff / 150);
+                            time = 0.5 + Math.abs(lastDiff / 1500);
+                            console.log(time);
                         }
 
                         if (_this.scrollContainer.y > 0) {
-                            time = 1 + _this.scrollContainer.y / 5000;
+                            //time = 1 + _this.scrollContainer.y / 5000;
+                            time = 0.5 + Math.abs(lastDiff / 1500);
+                            console.log(time);
                             ease = Elastic.easeOut;
                         }
                         if (_this.scrollContainer.y < -_this.items.length * itemHeight + height) {
-                            time = 1 + (_this.items.length * itemHeight + height + _this.scrollContainer.y) / 5000;
+                            time = 0.5 + Math.abs(lastDiff / 1500);
+                            console.log(time);
+                            //time = 1 + (_this.items.length * itemHeight + height + _this.scrollContainer.y) / 5000;
                             ease = Elastic.easeOut;
                         }
 
