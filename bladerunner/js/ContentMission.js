@@ -8,6 +8,7 @@ var ContentMission = (function () {
 
         // Singleton Init
         var isAssetLoaded;
+        var isAssetPending;
         var assets = new Array();
 
         assets.push(new Asset('img_event_shading', 'images/img_event_shading.png'));
@@ -106,21 +107,25 @@ var ContentMission = (function () {
 
         function loadAssets(callback)
         {
-            var assetLoaderManager = AssetLoaderManager.getInstance();
-            var assetLoader = new PIXI.loaders.Loader();
-            var assets = getAsset();
-
-            for(var i = 0; i<assets.length; i++)
+            if(!isAssetPending)
             {
-                assetLoader.add(assets[i].resName, assets[i].resPath);
-            }
-            assetLoader.load(assetReady);
+                isAssetPending = true;
+                var assetLoaderManager = AssetLoaderManager.getInstance();
+                var assetLoader = new PIXI.loaders.Loader();
+                var assets = getAsset();
 
-            function assetReady(loader, res)
-            {
-                assetLoaderManager.setRes(res);
-                isAssetLoaded = true;
-                callback();
+                for(var i = 0; i<assets.length; i++)
+                {
+                    assetLoader.add(assets[i].resName, assets[i].resPath);
+                }
+                assetLoader.load(assetReady);
+
+                function assetReady(loader, res)
+                {
+                    assetLoaderManager.setRes(res);
+                    isAssetLoaded = true;
+                    callback();
+                }
             }
         }
 

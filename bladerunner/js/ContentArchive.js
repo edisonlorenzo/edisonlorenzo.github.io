@@ -8,6 +8,7 @@ var ContentArchive = (function () {
 
         // Singleton Init
         var isAssetLoaded;
+        var isAssetPending;
         var assets = new Array();
 
         assets.push(new Asset('img_block04', 'images/img_block04.png'));
@@ -80,21 +81,25 @@ var ContentArchive = (function () {
 
         function loadAssets(callback)
         {
-            var assetLoaderManager = AssetLoaderManager.getInstance();
-            var assetLoader = new PIXI.loaders.Loader();
-            var assets = getAsset();
-
-            for(var i = 0; i<assets.length; i++)
+            if(!isAssetPending)
             {
-                assetLoader.add(assets[i].resName, assets[i].resPath);
-            }
-            assetLoader.load(assetReady);
+                isAssetPending = true;
+                var assetLoaderManager = AssetLoaderManager.getInstance();
+                var assetLoader = new PIXI.loaders.Loader();
+                var assets = getAsset();
 
-            function assetReady(loader, res)
-            {
-                assetLoaderManager.setRes(res);
-                isAssetLoaded = true;
-                callback();
+                for(var i = 0; i<assets.length; i++)
+                {
+                    assetLoader.add(assets[i].resName, assets[i].resPath);
+                }
+                assetLoader.load(assetReady);
+
+                function assetReady(loader, res)
+                {
+                    assetLoaderManager.setRes(res);
+                    isAssetLoaded = true;
+                    callback();
+                }
             }
         }
 

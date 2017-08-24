@@ -8,7 +8,7 @@ var ContentProfile = (function () {
 
         // Singleton Init
         var isAssetLoaded;
-
+        var isAssetPending;
         var assets = new Array();
 
         assets.push(new Asset('img_bg_profile', 'images/img_bg_profile.png'));
@@ -80,25 +80,25 @@ var ContentProfile = (function () {
 
         function loadAssets(callback)
         {
-            var assetLoaderManager = AssetLoaderManager.getInstance();
-            // assetLoaderManager.stop();
-            // assetLoaderManager.addAsset(getAsset());
-            // assetLoaderManager.onReady(assetReady);
-            // assetLoaderManager.load();
-            var assetLoader = new PIXI.loaders.Loader();
-            var assets = getAsset();
-
-            for(var i = 0; i<assets.length; i++)
+            if(!isAssetPending)
             {
-                assetLoader.add(assets[i].resName, assets[i].resPath);
-            }
-            assetLoader.load(assetReady);
+                isAssetPending = true;
+                var assetLoaderManager = AssetLoaderManager.getInstance();
+                var assetLoader = new PIXI.loaders.Loader();
+                var assets = getAsset();
 
-            function assetReady(loader, res)
-            {
-                assetLoaderManager.setRes(res);
-                isAssetLoaded = true;
-                callback();
+                for(var i = 0; i<assets.length; i++)
+                {
+                    assetLoader.add(assets[i].resName, assets[i].resPath);
+                }
+                assetLoader.load(assetReady);
+
+                function assetReady(loader, res)
+                {
+                    assetLoaderManager.setRes(res);
+                    isAssetLoaded = true;
+                    callback();
+                }
             }
         }
 
