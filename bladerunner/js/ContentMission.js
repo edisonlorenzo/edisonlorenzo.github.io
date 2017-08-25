@@ -474,7 +474,7 @@ var ContentMission = (function () {
             {
                 var libraryManager = LibraryManager.getInstance();
                 var youtubeId = libraryManager.getYoutubeID(url);
-                console.log(youtubeId);
+
                 if(youtubeId)
                 {
 
@@ -517,6 +517,7 @@ var ContentMission = (function () {
                         modalContent.appendChild(videoElement);
                         videoElement.setAttribute("id", "videoFrame");
                         videoElement.setAttribute("frameborder", "0");
+                        videoElement.setAttribute("enablejsapi", "1");
 
                         var width = window.innerWidth;
                         var height = window.innerHeight;
@@ -531,18 +532,8 @@ var ContentMission = (function () {
 
                     modal.style.display = "block";
 
-                    var videoElement = document.getElementById('videoFrame');
-                    if(!videoElement)
-                    {
-                        videoElement = document.createElement('iframe');
-                        document.body.appendChild(videoElement);
-                        videoElement.setAttribute("id", "videoFrame");
-                        videoElement.setAttribute("frameborder", "0");
-                        videoElement.height = popupBG.height;
-                        videoElement.width = popupBG.width;
-                    }
-
                     videoElement.src = 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=1';
+
                 }
             }
         }
