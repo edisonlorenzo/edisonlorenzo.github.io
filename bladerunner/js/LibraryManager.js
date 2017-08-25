@@ -348,6 +348,18 @@ var LibraryManager = (function () {
 
         }
 
+        function getYoutubeID (url)
+        {
+            var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            if (match && match[2].length == 11) {
+              return match[2];
+            } else {
+              return null;
+            }
+        }
+
+
         return {
             compareStrings: compareStrings,
             getElementCountFromList: getElementCountFromList,
@@ -360,7 +372,8 @@ var LibraryManager = (function () {
             createGraphic: createGraphic,
             createImageButton: createImageButton,
             createVideo: createVideo,
-            createScrollContainer: createScrollContainer
+            createScrollContainer: createScrollContainer,
+            getYoutubeID: getYoutubeID
         };
 
     };

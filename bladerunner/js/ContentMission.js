@@ -65,7 +65,7 @@ var ContentMission = (function () {
                 {
                     data:
                     [
-                        {type: 'onecell', title: 'Mission', desc: 'The Rick Deckard Report 01', imageRes: 'img_mission01', iconRes: 'icon_video'},
+                        {type: 'onecell', title: 'Mission', desc: 'The Rick Deckard Report 01', imageRes: 'img_mission01', iconRes: 'icon_video', videoURL: 'https://www.youtube.com/watch?v=qJA48WZ9bis'},
                         {type: 'onecell', title: 'Mission', desc: 'Tyrell Operation', imageRes: 'img_mission02', iconRes: 'icon_book'},
                         {type: 'onecell', title: 'Mission', desc: 'The Origami Mystery', imageRes: 'img_mission03', iconRes: 'icon_game', isLocked: true, lockDesc: 'Unlock with 99999 Clue Points'}
                     ]
@@ -219,6 +219,18 @@ var ContentMission = (function () {
                                 missionItemContainer.content.dividerMask = dividerMask;
 
                             } else {
+
+                                if(missionItem.videoURL)
+                                {
+                                    missionItemContainer.buttonMode = true;
+                                    missionItemContainer.interactive = true;
+                                    missionItemContainer.on('pointertap', (function() {
+                                        if(!sc.isMoving())
+                                        {
+                                            showPopupVideo(this);
+                                        }
+                                    }).bind(missionItem.videoURL));
+                                }
 
                                 cellBlock.content.posX = posX + (cellBlock.width * 0.5) + 5;
                                 posX = cellBlock.content.posX + (cellBlock.width * 0.5);
@@ -454,6 +466,86 @@ var ContentMission = (function () {
                 }
             }
 
+        }
+
+        function showPopupVideo(url)
+        {
+            if(url)
+            {
+                var libraryManager = LibraryManager.getInstance();
+                var youtubeId = libraryManager.getYoutubeID(url);
+                console.log(youtubeId);
+                if(youtubeId)
+                {
+
+                    var modal = document.getElementById('myModal');
+                    var modalContent = document.getElementById('modalContent');
+                    if(!modal)
+                    {
+                        modal = document.createElement('div');
+                        modal.setAttribute("id", "myModal");
+                        modal.setAttribute("class", "modal");
+                        modal.style.display = "none";
+                        document.body.appendChild(modal);
+
+                        window.onclick = function(event) {
+                            if (event.target == modal) {
+                                closePopupVideo();
+                            }
+                        }
+
+                        modalContent = document.createElement('div');
+                        modalContent.setAttribute("id", "modalContent");
+                        modalContent.setAttribute("class", "modal-content");
+                        modal.appendChild(modalContent);
+
+                        var span = document.createElement("span");
+                        span.setAttribute("class", "close");
+                        span.innerHTML = '&times;';
+                        modalContent.appendChild(span);
+
+                        span.onclick = function() {
+                            closePopupVideo();
+                        }
+
+                    }
+
+                    var videoElement = document.getElementById('videoFrame');
+                    if(!videoElement)
+                    {
+                        videoElement = document.createElement('iframe');
+                        modalContent.appendChild(videoElement);
+                        videoElement.setAttribute("id", "videoFrame");
+                        videoElement.setAttribute("frameborder", "0");
+                        videoElement.height = window.innerHeight * 0.30;
+                        videoElement.width = window.innerWidth * 0.80;
+                    }
+
+                    modal.style.display = "block";
+
+                    var videoElement = document.getElementById('videoFrame');
+                    if(!videoElement)
+                    {
+                        videoElement = document.createElement('iframe');
+                        document.body.appendChild(videoElement);
+                        videoElement.setAttribute("id", "videoFrame");
+                        videoElement.setAttribute("frameborder", "0");
+                        videoElement.height = popupBG.height;
+                        videoElement.width = popupBG.width;
+                    }
+
+                    videoElement.src = 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=1';
+                }
+            }
+        }
+
+        function closePopupVideo()
+        {
+            var modal = document.getElementById('myModal');
+            if(modal)
+            {
+                document.body.removeChild(modal);
+            }
         }
 
         return {
