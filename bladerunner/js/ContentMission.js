@@ -517,6 +517,8 @@ var ContentMission = (function () {
                         modalContent.appendChild(videoElement);
                         videoElement.setAttribute("id", "videoFrame");
                         videoElement.setAttribute("frameborder", "0");
+                        videoElement.style.display = "inherit";
+                        videoElement.style.clear = "both";
 
                         var width = window.innerWidth;
                         var height = window.innerHeight;
