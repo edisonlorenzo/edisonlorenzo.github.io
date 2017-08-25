@@ -456,17 +456,17 @@ var ContentClues = (function () {
                     cluesGrid.width = 160;
                     cluesGrid.height = 160;
 
-                    var cluesRowPos = -(cluesGrid.height * 0.5), cluesRowHeight = 0, cluesColPos = 0;
+                    var cluesRowPos = -(cluesGrid.height * 0.5), cluesCellHeight = 0, cluesCellWidth = 0, cluesColPos = 0;
                     var cluesMaxCol = 4, cluesPadding = 0, maxGrid = cluesItem.data.length;
 
                     for (var gridIdx = 0; gridIdx < maxGrid; gridIdx++)
                     {
                         if(gridIdx % cluesMaxCol == 0)
                         {
-                            cluesRowPos = cluesRowPos + cluesRowHeight + cluesPadding;
+                            cluesRowPos = cluesRowPos + cluesCellHeight;
                         }
 
-                        cluesColPos = (gridIdx % cluesMaxCol) - (cluesMaxCol / 2);
+                        //cluesColPos = (gridIdx % cluesMaxCol) - (cluesMaxCol / 2);
 
                         var cluesCellBg = libraryManager.createImage('img_clue', cluesCellContainer, res[cluesItem.data[gridIdx].imageRes].texture);
                         if(!cluesItem.data[gridIdx].isCompleted)
@@ -477,10 +477,15 @@ var ContentClues = (function () {
                         cluesCellBg.width = 40;
                         cluesCellBg.height = 40;
 
-                        cluesRowHeight = cluesCellBg.height;
+                        cluesCellHeight = cluesCellBg.height + cluesPadding;
+                        cluesCellWidth = cluesCellBg.width + cluesPadding;
 
-                        cluesCellBg.content.posY = cluesRowPos + (cluesRowHeight * 0.5) + cluesPadding;
-                        cluesCellBg.content.posX = (cluesColPos * (cluesCellBg.width + cluesPadding)) + ((cluesCellBg.width + cluesPadding) * 0.5);
+                        cluesColPos = ((gridIdx % cluesMaxCol) - Math.ceil(cluesMaxCol * 0.5)) * cluesCellWidth;
+
+                        // cluesCellBg.content.posY = cluesRowPos + (cluesRowHeight * 0.5) + cluesPadding;
+                        // cluesCellBg.content.posX = (cluesColPos * (cluesCellBg.width + cluesPadding)) + ((cluesCellBg.width + cluesPadding) * 0.5);
+                        cluesCellBg.content.posY = cluesRowPos + (cluesCellHeight * 0.5);
+                        cluesCellBg.content.posX = cluesColPos + (cluesCellWidth * 0.5);
                         cluesCellBg.position.x = cluesCellBg.content.posX;
                         cluesCellBg.position.y = cluesCellBg.content.posY;
 
@@ -666,17 +671,15 @@ var ContentClues = (function () {
                 cluesCellGridContainer.position.x = -(popupBG.width * 0.5) + (cluesGrid.width * 0.5) + 15;
                 cluesCellGridContainer.position.y = -(popupBG.height * 0.5) + (cluesGrid.height * 0.5) + 15;
 
-                var cluesRowPos = -(cluesGrid.height * 0.5), cluesRowHeight = 0, cluesColPos = 0;
-                var cluesMaxCol = 4, cluesPadding = 0, maxGrid = item.data.length;
+                var cluesRowPos = -(cluesGrid.height * 0.5), cluesCellHeight = 0, cluesCellWidth = 0, cluesColPos = 0;
+                var cluesMaxCol = 4, cluesPadding = 1, maxGrid = item.data.length;
 
                 for (var gridIdx = 0; gridIdx < maxGrid; gridIdx++)
                 {
                     if(gridIdx % cluesMaxCol == 0)
                     {
-                        cluesRowPos = cluesRowPos + cluesRowHeight + cluesPadding;
+                        cluesRowPos = cluesRowPos + cluesCellHeight;
                     }
-
-                    cluesColPos = (gridIdx % cluesMaxCol) - (cluesMaxCol / 2);
 
                     var cluesCellBg = libraryManager.createImage('img_clue', cluesCellContainer, res[item.data[gridIdx].imageRes].texture);
                     if(!item.data[gridIdx].isCompleted)
@@ -684,10 +687,15 @@ var ContentClues = (function () {
                         cluesCellBg.tint = 0x303030;
                     }
 
-                    cluesRowHeight = cluesCellBg.height;
+                    cluesCellHeight = cluesCellBg.height + cluesPadding;
+                    cluesCellWidth = cluesCellBg.width + cluesPadding;
 
-                    cluesCellBg.content.posY = cluesRowPos + (cluesRowHeight * 0.5) + cluesPadding;
-                    cluesCellBg.content.posX = (cluesColPos * (cluesCellBg.width + cluesPadding)) + ((cluesCellBg.width + cluesPadding) * 0.5);
+                    cluesColPos = ((gridIdx % cluesMaxCol) - Math.ceil(cluesMaxCol * 0.5)) * cluesCellWidth;
+
+                    console.log(cluesColPos);
+
+                    cluesCellBg.content.posY = cluesRowPos + (cluesCellHeight * 0.5);
+                    cluesCellBg.content.posX = cluesColPos + (cluesCellWidth * 0.5);
                     cluesCellBg.position.x = cluesCellBg.content.posX;
                     cluesCellBg.position.y = cluesCellBg.content.posY;
 
