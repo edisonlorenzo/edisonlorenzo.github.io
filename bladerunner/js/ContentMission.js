@@ -520,18 +520,21 @@ var ContentMission = (function () {
 
                         var width = window.innerWidth;
                         var height = window.innerHeight;
+
                         if(window.innerWidth > window.innerHeight)
                         {
                             width = window.innerHeight;
                             height = window.innerWidth;
                         }
-                        videoElement.height = height * 0.30;
-                        videoElement.width = width * 0.80;
+
+                        var ratio = (width / height) * 0.50;
+                        videoElement.height = height * ratio;
+                        videoElement.width = width * 0.85 + 20;
                     }
 
                     modal.style.display = "block";
 
-                    videoElement.src = 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=1';
+                    videoElement.src = 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&showinfo=0&controls=0';
 
                 }
             }
