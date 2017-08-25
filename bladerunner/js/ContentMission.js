@@ -517,8 +517,16 @@ var ContentMission = (function () {
                         modalContent.appendChild(videoElement);
                         videoElement.setAttribute("id", "videoFrame");
                         videoElement.setAttribute("frameborder", "0");
-                        videoElement.height = window.innerHeight * 0.30;
-                        videoElement.width = window.innerWidth * 0.80;
+
+                        var width = window.innerWidth;
+                        var height = window.innerHeight;
+                        if(window.innerWidth > window.innerHeight)
+                        {
+                            width = window.innerHeight;
+                            height = window.innerWidth;
+                        }
+                        videoElement.height = height * 0.30;
+                        videoElement.width = width * 0.80;
                     }
 
                     modal.style.display = "block";
