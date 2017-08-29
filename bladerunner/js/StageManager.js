@@ -42,6 +42,8 @@ var StageManager = (function () {
             container.scale.set(scaleFactor);
         };
 
+        resizeHandler();
+
         callBackArray.push(resizeHandler);
 
         const runAllCallbacks = function () {
