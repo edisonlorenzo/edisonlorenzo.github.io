@@ -51,8 +51,10 @@ var StageManager = (function () {
         };
 
         window.addEventListener("resize", runAllCallbacks);
-
-        runAllCallbacks();
+        window.addEventListener("load", function(event) {
+            console.log("All resources finished loading!");
+            runAllCallbacks();
+        });
 
         function addCallBack(value)
         {
