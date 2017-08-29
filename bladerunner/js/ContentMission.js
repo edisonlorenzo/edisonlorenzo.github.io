@@ -9,6 +9,9 @@ var ContentMission = (function () {
         // Singleton Init
         var isAssetLoaded;
         var isAssetPending;
+
+        var isYtApiSuccess;
+
         var assets = new Array();
 
         assets.push(new Asset('img_event_shading', 'images/img_event_shading.png'));
@@ -44,6 +47,7 @@ var ContentMission = (function () {
         assets.push(new Asset('img_mission12', 'images/missions/img_mission12.png'));
         assets.push(new Asset('img_mission13', 'images/missions/img_mission13.png'));
         assets.push(new Asset('img_mission14', 'images/missions/img_mission14.png'));
+        assets.push(new Asset('txt_mission_completed', 'images/txt_mission_completed.png'));
 
         var objData =
         {
@@ -52,8 +56,8 @@ var ContentMission = (function () {
                 {
                     data:
                     [
-                        {type: 'eventcell', title: 'Special Event Mission', desc: 'Street Investigation', imageRes: 'img_event01', iconRes: 'icon_event', hasStartButton: true},
-                        {type: 'eventcell', title: 'Special Event Mission', desc: 'Android Detention', imageRes: 'img_event02', iconRes: 'icon_game', hasStartButton: true}
+                        {id: 'm1', type: 'eventcell', title: 'Special Event Mission', desc: 'Street Investigation', imageRes: 'img_event01', iconRes: 'icon_event', hasStartButton: true},
+                        {id: 'm2', type: 'eventcell', title: 'Special Event Mission', desc: 'Android Detention', imageRes: 'img_event02', iconRes: 'icon_game', hasStartButton: true}
                     ]
                 },
                 {
@@ -65,40 +69,40 @@ var ContentMission = (function () {
                 {
                     data:
                     [
-                        {type: 'onecell', title: 'Mission', desc: 'The Rick Deckard Report 01', imageRes: 'img_mission01', iconRes: 'icon_video', videoURL: 'https://www.youtube.com/watch?v=qJA48WZ9bis'},
-                        {type: 'onecell', title: 'Mission', desc: 'Tyrell Operation', imageRes: 'img_mission02', iconRes: 'icon_book'},
-                        {type: 'onecell', title: 'Mission', desc: 'The Origami Mystery', imageRes: 'img_mission03', iconRes: 'icon_game', isLocked: true, lockDesc: 'Unlock with 99999 Clue Points'}
+                        {id: 'm3', type: 'onecell', title: 'Mission', desc: 'The Rick Deckard Report 01', imageRes: 'img_mission01', iconRes: 'icon_video', videoURL: 'https://www.youtube.com/watch?v=qJA48WZ9bis', rewardPoints: 5000},
+                        {id: 'm4', type: 'onecell', title: 'Mission', desc: 'Tyrell Operation', imageRes: 'img_mission02', iconRes: 'icon_book'},
+                        {id: 'm5', type: 'onecell', title: 'Mission', desc: 'The Origami Mystery', imageRes: 'img_mission03', iconRes: 'icon_game', isLocked: true, lockDesc: 'Unlock with 99999 Clue Points'}
                     ]
                 },
                 {
                     data:
                     [
-                        {type: 'twocell', title: 'Event', desc: 'The Hidden Soundtrack', imageRes: 'img_mission04', iconRes: 'icon_music'},
-                        {type: 'onecell', title: 'Mission', desc: 'Target Practice', imageRes: 'img_mission05', iconRes: 'icon_comic'}
+                        {id: 'm6', type: 'twocell', title: 'Event', desc: 'The Hidden Soundtrack', imageRes: 'img_mission04', iconRes: 'icon_music'},
+                        {id: 'm7', type: 'onecell', title: 'Mission', desc: 'Target Practice', imageRes: 'img_mission05', iconRes: 'icon_comic'}
                     ]
                 },
                 {
                     data:
                     [
-                        {type: 'onecell', title: 'Mission', desc: 'The Nexus 6 Creation Part 1', imageRes: 'img_mission06', iconRes: 'icon_news'},
-                        {type: 'onecell', title: 'Mission', desc: 'The Blueprint', imageRes: 'img_mission07', iconRes: 'icon_toy'},
-                        {type: 'onecell', title: 'Mission', desc: 'Food for Thought', imageRes: 'img_mission08', iconRes: 'icon_food'}
+                        {id: 'm8', type: 'onecell', title: 'Mission', desc: 'The Nexus 6 Creation Part 1', imageRes: 'img_mission06', iconRes: 'icon_news'},
+                        {id: 'm9', type: 'onecell', title: 'Mission', desc: 'The Blueprint', imageRes: 'img_mission07', iconRes: 'icon_toy'},
+                        {id: 'm10', type: 'onecell', title: 'Mission', desc: 'Food for Thought', imageRes: 'img_mission08', iconRes: 'icon_food'}
                     ]
                 },
                 {
                     data:
                     [
-                        {type: 'onecell', title: 'Mission', desc: 'Mobile Runner', imageRes: 'img_mission09', iconRes: 'icon_news'},
-                        {type: 'onecell', title: 'Mission', desc: 'Inside of Movie Preview', imageRes: 'img_mission10', iconRes: 'icon_news'},
-                        {type: 'onecell', title: 'Mission', desc: 'First Person Blade Runner', imageRes: 'img_mission11', iconRes: 'icon_news'}
+                        {id: 'm11', type: 'onecell', title: 'Mission', desc: 'Mobile Runner', imageRes: 'img_mission09', iconRes: 'icon_news'},
+                        {id: 'm12', type: 'onecell', title: 'Mission', desc: 'Inside of Movie Preview', imageRes: 'img_mission10', iconRes: 'icon_news'},
+                        {id: 'm13', type: 'onecell', title: 'Mission', desc: 'First Person Blade Runner', imageRes: 'img_mission11', iconRes: 'icon_news'}
                     ]
                 },
                 {
                     data:
                     [
-                        {type: 'onecell', title: 'Mission', desc: 'Art of Cinema', imageRes: 'img_mission12', iconRes: 'icon_news'},
-                        {type: 'onecell', title: 'Mission', desc: 'LAPD 2019 Blaster', imageRes: 'img_mission13', iconRes: 'icon_news'},
-                        {type: 'onecell', title: 'Mission', desc: 'Blade Fashion', imageRes: 'img_mission14', iconRes: 'icon_news'}
+                        {id: 'm14', type: 'onecell', title: 'Mission', desc: 'Art of Cinema', imageRes: 'img_mission12', iconRes: 'icon_news'},
+                        {id: 'm15', type: 'onecell', title: 'Mission', desc: 'LAPD 2019 Blaster', imageRes: 'img_mission13', iconRes: 'icon_news'},
+                        {id: 'm16', type: 'onecell', title: 'Mission', desc: 'Blade Fashion', imageRes: 'img_mission14', iconRes: 'icon_news'}
                     ]
                 }
             ],
@@ -229,7 +233,7 @@ var ContentMission = (function () {
                                         {
                                             showPopupVideo(this);
                                         }
-                                    }).bind(missionItem.videoURL));
+                                    }).bind(missionItem));
                                 }
 
                                 cellBlock.content.posX = posX + (cellBlock.width * 0.5) + 5;
@@ -468,8 +472,9 @@ var ContentMission = (function () {
 
         }
 
-        function showPopupVideo(url)
+        function showPopupVideo(missionItem)
         {
+            var url = missionItem.videoURL;
             if(url)
             {
                 var libraryManager = LibraryManager.getInstance();
@@ -505,7 +510,7 @@ var ContentMission = (function () {
                         modalContent.appendChild(span);
 
                         span.onclick = function() {
-                            closePopupVideo();
+                            closePopupVideo(missionItem);
                         }
 
                     }
@@ -534,21 +539,248 @@ var ContentMission = (function () {
                         videoElement.width = width * 0.85 + 20;
                     }
 
+                    videoElement.style.visibility = "hidden";
                     modal.style.display = "block";
 
-                    videoElement.src = 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&showinfo=0&controls=0';
+                    videoElement.src = 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&showinfo=0&controls=1&enablejsapi=1';
+
+
+                    var ytApi = document.getElementById('ytApi');
+
+                    if(!isYtApiSuccess)
+                    {
+                        if(ytApi)
+                        {
+                            console.log('failed');
+                            document.head.removeChild(ytApi);
+                            ytApi = null;
+                        }
+                    }
+
+                    if(!ytApi)
+                    {
+                        ytApi = document.createElement('script');
+                        ytApi.src = "https://www.youtube.com/iframe_api";
+                        ytApi.setAttribute("id", "ytApi");
+                        var firstScriptTag = document.getElementsByTagName('script')[0];
+                        firstScriptTag.parentNode.insertBefore(ytApi, firstScriptTag);
+                    }
+
+                    var ytApiReady = document.getElementById('ytApiReady');
+                    if(!ytApiReady)
+                    {
+                        ytApiReady = document.createElement('script');
+                        ytApiReady.setAttribute("id", "ytApiReady");
+                        document.body.appendChild(ytApiReady);
+                        document.addEventListener('initYoutubeEvent', initYoutubeEvent);
+                    }
+                    else {
+                        if(isYtApiSuccess)
+                        {
+                            initYoutubeEvent();
+                        }
+                    }
+
+                    var ytCode = (
+                        function onYouTubeIframeAPIReady()
+                        {
+                            console.log('Youtube Player is ready');
+                            var event = new CustomEvent("initYoutubeEvent");
+                            document.dispatchEvent(event);
+                        }
+                    );
+
+                    ytApiReady.innerHTML = ytCode;
+
+                    function initYoutubeEvent()
+                    {
+                        isYtApiSuccess = true;
+                        console.log('init event');
+
+                        var player = new YT.Player('videoFrame', {
+                            events: {
+                                'onReady' : onReady,
+                                'onStateChange': onPlayerStateChange
+                            }
+                        });
+
+                        function onReady()
+                        {
+                            videoElement.style.visibility = "visible";
+                        }
+
+
+                        function onPlayerStateChange(event) {
+                            console.log(event);
+
+                            if(event.data === 0)
+                            {
+                                videoEnded();
+                            }
+                        }
+
+                        function videoEnded()
+                        {
+                            console.log('Video Ended');
+                            missionItem.hasWatched = true;
+                        }
+                    }
 
                 }
             }
         }
 
-        function closePopupVideo()
+        function closePopupVideo(missionItem)
         {
             var modal = document.getElementById('myModal');
             if(modal)
             {
-                document.body.removeChild(modal);
+                modal.style.display = "none";
             }
+
+            if(missionItem.hasWatched && !missionItem.rewardReceived)
+            {
+                showNotification(missionItem);
+                missionItem.rewardReceived = true;
+            }
+        }
+
+        function showNotification(missionItem)
+        {
+            var assetLoaderManager = AssetLoaderManager.getInstance();
+            var libraryManager = LibraryManager.getInstance();
+            var stageManager = StageManager.getInstance();
+
+            if(assetLoaderManager && libraryManager && stageManager)
+            {
+                var res = assetLoaderManager.getRes();
+
+                var foregroundContainer = libraryManager.getElement('foregroundContainer');
+
+                var notificationContainer =  libraryManager.createContainer('notificationContainer', foregroundContainer);
+                notificationContainer.interactive = true;
+                notificationContainer.on('pointertap', function() {
+                    closeNotification();
+                });
+
+                var notificationBGFade = libraryManager.createImage('notificationBGFade', notificationContainer, res['img_white'].texture);
+                notificationBGFade.tint = 0x000000;
+                notificationBGFade.alpha = 0.75;
+                notificationBGFade.width = stageManager.getDimension().width;
+                notificationBGFade.height = stageManager.getDimension().height;
+
+                var notificationBG = libraryManager.createImage('notificationBG', notificationContainer, res['img_bg_notification'].texture);
+                notificationBG.visible = false;
+                notificationBG.content.show = (function() {
+                    this.visible = true;
+                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    TweenMax.fromTo(this.scale, 0.5, {y: 0}, {y: 1, ease: Power2.easeOut});
+                }).bind(notificationBG);
+
+                var notificationTitle = libraryManager.createImage('notificationTitle', notificationBG, res['txt_mission_completed'].texture);
+                notificationTitle.content.offsetX = -(notificationBG.width * 0.5) - (notificationTitle.width * 0.5);
+                notificationTitle.position.y = -45;
+                notificationTitle.visible = false;
+                notificationTitle.content.show = (function() {
+                    this.visible = true;
+                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    TweenMax.fromTo(this.position, 0.5, {x: this.content.offsetX}, {x: 0, ease: Power2.easeOut});
+                }).bind(notificationTitle);
+
+                var notificationMessageContainer =  libraryManager.createContainer('notificationMessageContainer', notificationBG);
+
+                var notificationMessage1 = libraryManager.createText('notificationMessage1', notificationMessageContainer, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fill: '#ffffff'
+                }));
+                notificationMessage1.text = 'You\'ve Earned ';
+                notificationMessage1.anchor.x = 0;
+
+                var notificationMessage2 = libraryManager.createText('notificationMessage2', notificationMessageContainer, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fill: '#4fcd17'
+                }));
+                notificationMessage2.text = missionItem.rewardPoints ? missionItem.rewardPoints : 0;
+                notificationMessage2.anchor.x = 0;
+
+                var notificationMessage3 = libraryManager.createText('notificationMessage3', notificationMessageContainer, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fill: '#ffffff'
+                }));
+                notificationMessage3.text = ' Clue Points';
+                notificationMessage3.anchor.x = 0;
+
+                var width = notificationMessage1.width + notificationMessage2.width + notificationMessage3.width;
+
+                notificationMessage1.position.x = -(width * 0.5);
+                notificationMessage2.position.x = notificationMessage1.position.x + notificationMessage1.width;
+                notificationMessage3.position.x = notificationMessage2.position.x + notificationMessage2.width;
+
+                notificationMessageContainer.position.y = 45;
+                notificationMessageContainer.visible = false;
+                notificationMessageContainer.content.show = (function() {
+                    this.visible = true;
+                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                }).bind(notificationMessageContainer);
+
+                notificationBG.content.notificationTitle = notificationTitle;
+                notificationBG.content.notificationMessageContainer = notificationMessageContainer;
+                notificationBG.content.load = (function() {
+                    var tl = new TimelineMax();
+                    this.show();
+                    if(this.notificationTitle)
+                    {
+                        tl.add(this.notificationTitle.content.show, "+=0.5");
+                    }
+                    if(this.notificationMessageContainer)
+                    {
+                        tl.add(this.notificationMessageContainer.content.show, "+=0.5");
+                    }
+
+                    if(missionItem.rewardPoints)
+                    {
+                        tl.add(addReward, "+=0.5");
+                        function addReward()
+                        {
+                            var interfaceManager = InterfaceManager.getInstance();
+                            interfaceManager.addCluePoints(missionItem.rewardPoints);
+                        }
+                    }
+
+
+
+                }).bind(notificationBG.content);
+
+                notificationBG.content.load();
+
+
+
+            }
+        }
+
+        function closeNotification()
+        {
+            var libraryManager = LibraryManager.getInstance();
+
+            if(libraryManager)
+            {
+                var foregroundContainer = libraryManager.getElement('foregroundContainer');
+                var notificationContainer =  libraryManager.getElement('notificationContainer');
+
+                if(notificationContainer)
+                {
+                    libraryManager.removeElement(notificationContainer.content.id);
+                    foregroundContainer.removeChild(notificationContainer);
+                }
+
+            }
+
         }
 
         return {

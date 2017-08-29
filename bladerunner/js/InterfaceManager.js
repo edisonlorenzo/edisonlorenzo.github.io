@@ -29,6 +29,8 @@ var InterfaceManager = (function () {
         var res;
         var tl;
 
+        var cluesValueObj = {};
+
         var footerButtonObjList;
 
         var assets = new Array();
@@ -37,6 +39,7 @@ var InterfaceManager = (function () {
         assets.push(new Asset('img_header_neon', 'images/img_header_neon.png'));
         assets.push(new Asset('img_footer', 'images/img_footer.png'));
         assets.push(new Asset('img_bg_pop', 'images/img_bg_pop.png'));
+        assets.push(new Asset('img_bg_notification', 'images/img_bg_notification.png'));
         assets.push(new Asset('img_loading_circle', 'images/img_loading_circle.png'));
         assets.push(new Asset('btn_arrow_left', 'images/btn_arrow_left.png'));
         assets.push(new Asset('btn_arrow_right', 'images/btn_arrow_right.png'));
@@ -457,7 +460,10 @@ var InterfaceManager = (function () {
             headerStatusLeftImageMask.width = 0;
 
             headerStatusLeftImage.mask = headerStatusLeftImageMask;
-            var cluesValue = 3837856, cluesMax = 9999999;
+
+            var cluesValue = 3837856;
+
+            var cluesMax = 9999999;
             var widthValue = headerStatusLeftImage.width + 2;
             var finalWidthValue = Math.ceil(widthValue * (cluesValue / cluesMax));
 
@@ -482,7 +488,11 @@ var InterfaceManager = (function () {
                 headerStatusCluesValueText.text = cluesValueObj.value;
             }
 
-            var cluesValueObj = {value: 0, cluesValue: cluesValue, setText: setText};
+            //var cluesValueObj = {value: 0, cluesValue: cluesValue, setText: setText};
+            cluesValueObj.value = 0;
+            cluesValueObj.cluesValue = cluesValue;
+            cluesValueObj.setText = setText;
+
             headerStatusCluesValueText.content.show = (function() {
                 TweenMax.to(this, 1, {value: "+="+this.cluesValue, roundProps:"value", ease: Back.easeOut, onUpdate: this.setText});
             }).bind(cluesValueObj);
@@ -722,6 +732,23 @@ var InterfaceManager = (function () {
             headerNeonObj.content.show();
         }
 
+        function addCluePoints(value)
+        {
+            cluesValueObj.cluesValue = value;
+            // console.log(cluesValueObj);
+            // var foregroundContainer = libraryManager.getElement('foregroundContainer');
+            // var headerStatusContainer = libraryManager.getElement('headerStatusContainer');
+            // var tmpContainer = libraryManager.createContainer('tmpContainer', foregroundContainer);
+            // tmpContainer.position.x = headerStatusContainer.position.x;
+            // tmpContainer.position.y = headerStatusContainer.position.y;
+            //
+            // var headerStatusLeftObj = libraryManager.getElement('headerStatusLeftObj');
+            // headerStatusLeftObj.parent = tmpContainer;
+            // console.log(foregroundContainer.children);
+            var headerStatusCluesValueText = libraryManager.getElement('headerStatusCluesValueText');
+            headerStatusCluesValueText.content.show();
+        }
+
         return {
             getAsset: getAsset,
             getTimeline: getTimeline,
@@ -733,7 +760,8 @@ var InterfaceManager = (function () {
             showMission: showMission,
             showHeaderStatus: showHeaderStatus,
             showHeaderFlicker: showHeaderFlicker,
-            clearContent: clearContent
+            clearContent: clearContent,
+            addCluePoints: addCluePoints
         };
 
     };
