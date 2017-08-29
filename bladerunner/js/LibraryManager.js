@@ -249,6 +249,7 @@ var LibraryManager = (function () {
                 if (mousedown) {
                     lastDiff = clientY - lastPos.y;
                     lastDiff = lastDiff == 0 ? 1 : lastDiff;
+                    lastDiff *= window.devicePixelRatio;
                     if(Math.abs(lastDiff) > 10 * window.devicePixelRatio)
                     {
                         isMoving = true;
@@ -285,17 +286,17 @@ var LibraryManager = (function () {
                     if (lastDiff) {
                         var goY = _this.scrollContainer.y + lastDiff * 10;
                         var ease = Quad.easeOut;
-                        var time = 0.1 + Math.abs(lastDiff / 150);
+                        var time = 0.5 + Math.abs(lastDiff / 1500);
 
                         if (goY < -_this.items.length * itemHeight + height) {
                             goY = -_this.items.length * itemHeight + height;
                             ease = Back.easeOut;
-                            time = 0.1 + Math.abs(lastDiff / 1500);
+                            time = 0.5 + Math.abs(lastDiff / 1500);
                         }
                         if (goY > 0)  {
                             goY = 0;
                             ease = Back.easeOut;
-                            time = 0.1 + Math.abs(lastDiff / 1500);
+                            time = 0.5 + Math.abs(lastDiff / 1500);
                         }
 
                         if (_this.scrollContainer.y > 0) {

@@ -291,7 +291,7 @@ var ContentProfile = (function () {
                     achievementItemDesc.position.y = (achievementItemDesc.height * 0.5);
 
                     rowHeight = achievementBG.height;
-                    achievementBG.content.posX = (i % 2) == 0 ? -(bodyBackgroundObj.width * 0.5) + (achievementBG.width * 0.5) : (bodyBackgroundObj.width * 0.5) - (achievementBG.width * 0.5) ;
+                    achievementBG.content.posX = (i % 2) == 0 ? -(bodyBackgroundObj.width * 0.5) + (achievementBG.width * 0.5) + 10 : (bodyBackgroundObj.width * 0.5) - (achievementBG.width * 0.5) - 10;
                     achievementBG.content.posY = rowPos + (rowHeight * 0.5) + 15;
                     achievementBG.position.x = achievementBG.content.posX;
                     achievementBG.position.y = achievementBG.content.posY;
