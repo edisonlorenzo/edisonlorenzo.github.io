@@ -11,6 +11,8 @@ var ContentMission = (function () {
         var isAssetPending;
 
         var isYtApiSuccess;
+        var player;
+        var isVideoLoading;
 
         var assets = new Array();
 
@@ -474,6 +476,7 @@ var ContentMission = (function () {
 
         function showPopupVideo(missionItem)
         {
+            isVideoLoading = true;
             var url = missionItem.videoURL;
             if(url)
             {
@@ -484,7 +487,9 @@ var ContentMission = (function () {
                 {
 
                     var modal = document.getElementById('myModal');
-                    var modalContent = document.getElementById('modalContent');
+                    var cssLoader = document.getElementById('cssLoader');
+                    // var modalContent = document.getElementById('modalContent');
+                    var contentFrame = document.getElementById('contentFrame');
                     if(!modal)
                     {
                         modal = document.createElement('div');
@@ -495,135 +500,183 @@ var ContentMission = (function () {
 
                         window.onclick = function(event) {
                             if (event.target == modal) {
-                                closePopupVideo();
+                                closePopupVideo(missionItem);
                             }
                         }
 
-                        modalContent = document.createElement('div');
+                        var modalContent = document.createElement('div');
                         modalContent.setAttribute("id", "modalContent");
                         modalContent.setAttribute("class", "modal-content");
                         modal.appendChild(modalContent);
 
-                        var span = document.createElement("span");
-                        span.setAttribute("class", "close");
-                        span.innerHTML = '&times;';
-                        modalContent.appendChild(span);
+                        var closeBtn = document.createElement("span");
+                        closeBtn.setAttribute("class", "close");
+                        closeBtn.innerHTML = '&times;';
+                        modalContent.appendChild(closeBtn);
 
-                        span.onclick = function() {
+                        closeBtn.onclick = function() {
                             closePopupVideo(missionItem);
                         }
 
+                        var contentFrame = document.createElement("div");
+                        contentFrame.setAttribute("id", "contentFrame");
+                        contentFrame.style.display = "inherit";
+                        contentFrame.style.clear = "both";
+                        modalContent.appendChild(contentFrame);
+
+                        var loaderCode = '<div class="sk-circle1 sk-child"></div>'+
+                                          '<div class="sk-circle2 sk-child"></div>'+
+                                          '<div class="sk-circle3 sk-child"></div>'+
+                                          '<div class="sk-circle4 sk-child"></div>'+
+                                          '<div class="sk-circle5 sk-child"></div>'+
+                                          '<div class="sk-circle6 sk-child"></div>'+
+                                          '<div class="sk-circle7 sk-child"></div>'+
+                                          '<div class="sk-circle8 sk-child"></div>'+
+                                          '<div class="sk-circle9 sk-child"></div>'+
+                                          '<div class="sk-circle10 sk-child"></div>'+
+                                          '<div class="sk-circle11 sk-child"></div>'+
+                                          '<div class="sk-circle12 sk-child"></div>';
+
+                        var cssLoader = document.createElement('div');
+                        cssLoader.setAttribute("id", "cssLoader");
+                        cssLoader.setAttribute("class", "sk-circle");
+                        cssLoader.innerHTML = loaderCode;
+                        contentFrame.appendChild(cssLoader);
+
                     }
 
-                    var videoElement = document.getElementById('videoFrame');
-                    if(!videoElement)
+                    function makeYoutubeIframe(callback)
                     {
-                        videoElement = document.createElement('iframe');
-                        modalContent.appendChild(videoElement);
-                        videoElement.setAttribute("id", "videoFrame");
-                        videoElement.setAttribute("frameborder", "0");
-                        videoElement.style.display = "inherit";
-                        videoElement.style.clear = "both";
-
-                        var width = window.innerWidth;
-                        var height = window.innerHeight;
-
-                        if(window.innerWidth > window.innerHeight)
+                        videoElement = document.getElementById('videoFrame');
+                        if(!videoElement)
                         {
-                            width = window.innerHeight;
-                            height = window.innerWidth;
+                            videoElement = document.createElement('iframe');
+                            contentFrame.appendChild(videoElement);
+                            videoElement.setAttribute("id", "videoFrame");
+                            videoElement.setAttribute("frameborder", "0");
+                            videoElement.setAttribute("allowfullscreen", "");
+                            videoElement.style.display = "inherit";
+                            videoElement.style.clear = "both";
+                            videoElement.addEventListener("load", callback);
+
+                            var width = window.innerWidth;
+                            var height = window.innerHeight;
+
+                            if(window.innerWidth > window.innerHeight)
+                            {
+                                width = window.innerHeight;
+                                height = window.innerWidth;
+                            }
+
+                            var ratio = (width / height) * 0.50;
+                            videoElement.height = height * ratio;
+                            videoElement.width = width * 0.85 + 20;
                         }
 
-                        var ratio = (width / height) * 0.50;
-                        videoElement.height = height * ratio;
-                        videoElement.width = width * 0.85 + 20;
+                        cssLoader.style.display = "block";
+                        videoElement.style.visibility = "hidden";
+                        modal.style.display = "block";
+
+                        videoElement.src = 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&rel=0&disablekb=1&showinfo=0&controls=1&enablejsapi=1';
                     }
 
-                    videoElement.style.visibility = "hidden";
-                    modal.style.display = "block";
+                    var videoElement;
 
-                    videoElement.src = 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&showinfo=0&controls=1&enablejsapi=1';
+                    makeYoutubeIframe(initYoutubeAPI);
 
-
-                    var ytApi = document.getElementById('ytApi');
-
-                    if(!isYtApiSuccess)
+                    function initYoutubeAPI()
                     {
-                        if(ytApi)
+                        var ytApi = document.getElementById('ytApi');
+
+                        if(!isYtApiSuccess)
                         {
-                            console.log('failed');
-                            document.head.removeChild(ytApi);
-                            ytApi = null;
+                            if(ytApi)
+                            {
+                                console.log('failed');
+                                document.head.removeChild(ytApi);
+                                ytApi = null;
+                            }
                         }
-                    }
 
-                    if(!ytApi)
-                    {
-                        ytApi = document.createElement('script');
-                        ytApi.src = "https://www.youtube.com/iframe_api";
-                        ytApi.setAttribute("id", "ytApi");
-                        var firstScriptTag = document.getElementsByTagName('script')[0];
-                        firstScriptTag.parentNode.insertBefore(ytApi, firstScriptTag);
-                    }
-
-                    var ytApiReady = document.getElementById('ytApiReady');
-                    if(!ytApiReady)
-                    {
-                        ytApiReady = document.createElement('script');
-                        ytApiReady.setAttribute("id", "ytApiReady");
-                        document.body.appendChild(ytApiReady);
-                        document.addEventListener('initYoutubeEvent', initYoutubeEvent);
-                    }
-                    else {
-                        if(isYtApiSuccess)
+                        if(!ytApi)
                         {
-                            initYoutubeEvent();
+                            ytApi = document.createElement('script');
+                            ytApi.src = "https://www.youtube.com/iframe_api";
+                            ytApi.setAttribute("id", "ytApi");
+                            var firstScriptTag = document.getElementsByTagName('script')[0];
+                            firstScriptTag.parentNode.insertBefore(ytApi, firstScriptTag);
                         }
-                    }
 
-                    var ytCode = (
-                        function onYouTubeIframeAPIReady()
+                        var ytApiReady = document.getElementById('ytApiReady');
+                        if(!ytApiReady)
                         {
-                            console.log('Youtube Player is ready');
-                            var event = new CustomEvent("initYoutubeEvent");
-                            document.dispatchEvent(event);
+                            ytApiReady = document.createElement('script');
+                            ytApiReady.setAttribute("id", "ytApiReady");
+                            document.body.appendChild(ytApiReady);
+                            document.addEventListener('initYoutubeEvent', initYoutubeEvent);
                         }
-                    );
+                        else {
+                            if(isYtApiSuccess)
+                            {
+                                initYoutubeEvent();
+                            }
+                        }
 
-                    ytApiReady.innerHTML = ytCode;
+                        var ytCode = (
+                            function onYouTubeIframeAPIReady()
+                            {
+                                console.log('Youtube Player is ready');
+                                var event = new CustomEvent("initYoutubeEvent");
+                                document.dispatchEvent(event);
+                            }
+                        );
+
+                        ytApiReady.innerHTML = ytCode;
+                    }
 
                     function initYoutubeEvent()
                     {
                         isYtApiSuccess = true;
                         console.log('init event');
 
-                        var player = new YT.Player('videoFrame', {
-                            events: {
-                                'onReady' : onReady,
-                                'onStateChange': onPlayerStateChange
-                            }
-                        });
-
-                        function onReady()
+                        if(isVideoLoading)
                         {
-                            videoElement.style.visibility = "visible";
-                        }
+                            player = new YT.Player('videoFrame', {
+                                events: {
+                                    'onReady' : onReady,
+                                    'onStateChange': onPlayerStateChange
+                                }
+                            });
 
-
-                        function onPlayerStateChange(event) {
-                            console.log(event);
-
-                            if(event.data === 0)
+                            function onReady(event)
                             {
-                                videoEnded();
+                                event.target.playVideo();
+                                cssLoader.style.display = "none";
+                                videoElement.style.visibility = "visible";
+                            }
+
+
+                            function onPlayerStateChange(event) {
+                                console.log(event);
+
+                                switch(event.data) {
+                                    case 0:
+                                        videoEnded();
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                            }
+
+                            function videoEnded()
+                            {
+                                console.log('Video Ended');
+                                missionItem.hasWatched = true;
+                                closePopupVideo(missionItem);
                             }
                         }
 
-                        function videoEnded()
-                        {
-                            console.log('Video Ended');
-                            missionItem.hasWatched = true;
-                        }
                     }
 
                 }
@@ -632,6 +685,23 @@ var ContentMission = (function () {
 
         function closePopupVideo(missionItem)
         {
+            isVideoLoading = false;
+
+            var contentFrame = document.getElementById('contentFrame');
+            if(contentFrame)
+            {
+                var videoElement = document.getElementById('videoFrame');
+                if(videoElement)
+                {
+                    contentFrame.removeChild(videoElement);
+                }
+            }
+            // if(player)
+            // {
+            //     //player.destroy();
+            //     player = undefined;
+            // }
+
             var modal = document.getElementById('myModal');
             if(modal)
             {
