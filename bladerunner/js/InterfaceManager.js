@@ -747,8 +747,9 @@ var InterfaceManager = (function () {
             var headerStatusLeftObj = libraryManager.getElement('headerStatusLeftObj');
             if(value)
             {
-                topContainer.addChild(headerStatusLeftObj);
-                topContainer.position = headerStatusContainer.position;
+                var tmpContainer = libraryManager.createContainer('tmpContainer', topContainer);
+                tmpContainer.addChild(headerStatusLeftObj);
+                tmpContainer.position = headerStatusContainer.position;
             }
             else
             {
