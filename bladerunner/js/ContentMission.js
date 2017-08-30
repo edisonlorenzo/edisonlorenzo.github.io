@@ -249,11 +249,6 @@ var ContentMission = (function () {
                                 missionItemContainer.content.contentImage = contentImage;
                                 missionItem.contentImage = contentImage;
 
-                                if(missionItem.rewardReceived)
-                                {
-                                    setDesaturate(contentImage);
-                                }
-
                                 if(missionItem.isLocked)
                                 {
                                     var contentImageFade = libraryManager.createImage('contentImageFade', contentImage, res['img_white'].texture);
@@ -304,6 +299,7 @@ var ContentMission = (function () {
                                     contentTitle.anchor.y = 0;
                                     contentTitle.position.x = -(contentImageShading.width * 0.5) + 6;
                                     contentTitle.position.y = -(contentImageShading.height * 0.5);
+                                    missionItem.contentTitle = contentTitle;
 
                                     var contentDesc = libraryManager.createText('contentDesc', contentImageShadingContainer, 0, new PIXI.TextStyle({
                                         fontFamily: 'Arial',
@@ -363,6 +359,8 @@ var ContentMission = (function () {
                                     }).bind(contentStart);
                                     missionItemContainer.content.contentStart = contentStart;
                                 }
+
+                                checkMissionComplete(missionItem);
 
                             }
 
@@ -720,7 +718,7 @@ var ContentMission = (function () {
             {
                 showNotification(missionItem);
                 missionItem.rewardReceived = true;
-                setDesaturate(missionItem.contentImage);
+                checkMissionComplete(missionItem);
             }
         }
 
@@ -862,11 +860,23 @@ var ContentMission = (function () {
 
         }
 
-        function setDesaturate(contentImage)
+        function checkMissionComplete(missionItem)
+        {
+            var isComplete = missionItem.rewardReceived ? true : false;
+            missionItem.contentTitle.text = missionItem.rewardReceived ? missionItem.title + ' Complete' : missionItem.title;
+            setDesaturate(missionItem.contentImage, isComplete);
+        }
+
+        function setDesaturate(contentImage, value)
         {
             let colorMatrix = new PIXI.filters.ColorMatrixFilter();
-            contentImage.filters = [colorMatrix];
-            colorMatrix.desaturate();
+            if(value)
+            {
+                contentImage.filters = [colorMatrix];
+                colorMatrix.desaturate();
+            } else {
+                contentImage.filters = [];
+            }
         }
 
         return {
