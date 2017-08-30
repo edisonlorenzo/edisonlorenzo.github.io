@@ -583,7 +583,7 @@ var ContentMission = (function () {
                         videoElement.style.visibility = "hidden";
                         modal.style.display = "block";
 
-                        videoElement.src = 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&rel=0&disablekb=1&showinfo=0&controls=1&enablejsapi=1';
+                        videoElement.src = 'https://www.youtube.com/embed/' + youtubeId + '?rel=0&disablekb=1&showinfo=0&controls=1&enablejsapi=1';
                     }
 
                     var videoElement;
@@ -657,8 +657,6 @@ var ContentMission = (function () {
                             function onReady(event)
                             {
                                 event.target.playVideo();
-                                cssLoader.style.display = "none";
-                                videoElement.style.visibility = "visible";
                             }
 
 
@@ -666,6 +664,9 @@ var ContentMission = (function () {
                                 console.log(event);
 
                                 switch(event.data) {
+                                    case 1:
+                                        showPlayer();
+                                        break;
                                     case 0:
                                         videoEnded();
                                         break;
@@ -673,6 +674,12 @@ var ContentMission = (function () {
                                         break;
                                 }
 
+                            }
+
+                            function showPlayer()
+                            {
+                                cssLoader.style.display = "none";
+                                videoElement.style.visibility = "visible";
                             }
 
                             function videoEnded()
