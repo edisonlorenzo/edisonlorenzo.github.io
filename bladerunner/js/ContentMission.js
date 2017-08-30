@@ -247,6 +247,12 @@ var ContentMission = (function () {
                                     TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                                 }).bind(contentImage);
                                 missionItemContainer.content.contentImage = contentImage;
+                                missionItem.contentImage = contentImage;
+
+                                if(missionItem.rewardReceived)
+                                {
+                                    setDesaturate(contentImage);
+                                }
 
                                 if(missionItem.isLocked)
                                 {
@@ -712,6 +718,7 @@ var ContentMission = (function () {
             {
                 showNotification(missionItem);
                 missionItem.rewardReceived = true;
+                setDesaturate(missionItem.contentImage);
             }
         }
 
@@ -851,6 +858,13 @@ var ContentMission = (function () {
 
             }
 
+        }
+
+        function setDesaturate(contentImage)
+        {
+            let colorMatrix = new PIXI.filters.ColorMatrixFilter();
+            contentImage.filters = [colorMatrix];
+            colorMatrix.desaturate();
         }
 
         return {
