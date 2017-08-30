@@ -463,17 +463,25 @@ var InterfaceManager = (function () {
 
             headerStatusLeftImage.mask = headerStatusLeftImageMask;
 
-            var cluesValue = 3837856;
+            // var cluesValue = 0;
+            //
+            // var cluesMax = 99999;
+            // var widthValue = headerStatusLeftImage.width + 2;
+            // var finalWidthValue = Math.ceil(widthValue * (cluesValue / cluesMax));
 
-            var cluesMax = 9999999;
-            var widthValue = headerStatusLeftImage.width + 2;
-            var finalWidthValue = Math.ceil(widthValue * (cluesValue / cluesMax));
+            cluesValueObj.value = 0;
+            cluesValueObj.cluesMax = 9999999;
+            cluesValueObj.cluesValue = 3453500;
+            cluesValueObj.setText = setText;
+            cluesValueObj.imageMask = headerStatusLeftImageMask;
+            cluesValueObj.widthValue = headerStatusLeftImage.width + 2;
+            cluesValueObj.finalWidthValue = computeFinalWidth;
 
-            headerStatusLeftImageMask.content.finalWidthValue = finalWidthValue;
+            //headerStatusLeftImageMask.content.finalWidthValue = finalWidthValue;
             headerStatusLeftImage.content.show = (function() {
                 this.visible = true;
-                TweenMax.to(this, 1, {width: this.content.finalWidthValue, ease: Back.easeOut});
-            }).bind(headerStatusLeftImageMask);
+                TweenMax.to(this.imageMask, 1, {width: this.finalWidthValue(), ease: Back.easeOut});
+            }).bind(cluesValueObj);
 
             var headerStatusCluesValueText = libraryManager.createText('headerStatusCluesValueText', headerStatusLeftObjContainer, 0, new PIXI.TextStyle({
                 fontFamily: 'Arial',
@@ -490,10 +498,14 @@ var InterfaceManager = (function () {
                 headerStatusCluesValueText.text = cluesValueObj.value;
             }
 
-            //var cluesValueObj = {value: 0, cluesValue: cluesValue, setText: setText};
-            cluesValueObj.value = 0;
-            cluesValueObj.cluesValue = cluesValue;
-            cluesValueObj.setText = setText;
+            function computeFinalWidth()
+            {
+                return Math.ceil(cluesValueObj.widthValue * ((cluesValueObj.value + cluesValueObj.cluesValue) / cluesValueObj.cluesMax));
+            }
+
+            // cluesValueObj.value = 0;
+            // cluesValueObj.cluesValue = cluesValue;
+            // cluesValueObj.setText = setText;
 
             headerStatusCluesValueText.content.show = (function() {
                 TweenMax.to(this, 1, {value: "+="+this.cluesValue, roundProps:"value", ease: Back.easeOut, onUpdate: this.setText});
@@ -737,8 +749,8 @@ var InterfaceManager = (function () {
         function addCluePoints(value)
         {
             cluesValueObj.cluesValue = value;
-            var headerStatusCluesValueText = libraryManager.getElement('headerStatusCluesValueText');
-            headerStatusCluesValueText.content.show();
+            var headerStatusLeftObjContainer = libraryManager.getElement('headerStatusLeftObjContainer');
+            headerStatusLeftObjContainer.content.show();
         }
 
         function highlightCluePoint(value)
