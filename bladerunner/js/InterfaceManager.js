@@ -26,6 +26,7 @@ var InterfaceManager = (function () {
         var backgroundObj;
         var backgroundContainer;
         var foregroundContainer;
+        var topContainer;
         var res;
         var tl;
 
@@ -108,6 +109,7 @@ var InterfaceManager = (function () {
             backgroundObj = libraryManager.getElement('backgroundObj');
             backgroundContainer = libraryManager.getElement('backgroundContainer');
             foregroundContainer = libraryManager.getElement('foregroundContainer');
+            topContainer = libraryManager.getElement('topContainer');
         }
 
         function initManagers()
@@ -735,18 +737,23 @@ var InterfaceManager = (function () {
         function addCluePoints(value)
         {
             cluesValueObj.cluesValue = value;
-            // console.log(cluesValueObj);
-            // var foregroundContainer = libraryManager.getElement('foregroundContainer');
-            // var headerStatusContainer = libraryManager.getElement('headerStatusContainer');
-            // var tmpContainer = libraryManager.createContainer('tmpContainer', foregroundContainer);
-            // tmpContainer.position.x = headerStatusContainer.position.x;
-            // tmpContainer.position.y = headerStatusContainer.position.y;
-            //
-            // var headerStatusLeftObj = libraryManager.getElement('headerStatusLeftObj');
-            // headerStatusLeftObj.parent = tmpContainer;
-            // console.log(foregroundContainer.children);
             var headerStatusCluesValueText = libraryManager.getElement('headerStatusCluesValueText');
             headerStatusCluesValueText.content.show();
+        }
+
+        function highlightCluePoint(value)
+        {
+            var headerStatusContainer = libraryManager.getElement('headerStatusContainer');
+            var headerStatusLeftObj = libraryManager.getElement('headerStatusLeftObj');
+            if(value)
+            {
+                topContainer.addChild(headerStatusLeftObj);
+                topContainer.position = headerStatusContainer.position;
+            }
+            else
+            {
+                headerStatusContainer.addChild(headerStatusLeftObj);
+            }
         }
 
         return {
@@ -761,7 +768,8 @@ var InterfaceManager = (function () {
             showHeaderStatus: showHeaderStatus,
             showHeaderFlicker: showHeaderFlicker,
             clearContent: clearContent,
-            addCluePoints: addCluePoints
+            addCluePoints: addCluePoints,
+            highlightCluePoint: highlightCluePoint
         };
 
     };

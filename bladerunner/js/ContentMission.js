@@ -822,10 +822,11 @@ var ContentMission = (function () {
 
                     if(missionItem.rewardPoints)
                     {
-                        tl.add(addReward, "+=0.5");
+                        var interfaceManager = InterfaceManager.getInstance();
+                        interfaceManager.highlightCluePoint(true);
+                        tl.add(addReward, "+=0.25");
                         function addReward()
                         {
-                            var interfaceManager = InterfaceManager.getInstance();
                             interfaceManager.addCluePoints(missionItem.rewardPoints);
                         }
                     }
@@ -854,6 +855,9 @@ var ContentMission = (function () {
                 {
                     libraryManager.removeElement(notificationContainer.content.id);
                     foregroundContainer.removeChild(notificationContainer);
+
+                    var interfaceManager = InterfaceManager.getInstance();
+                    interfaceManager.highlightCluePoint(false);
                 }
 
             }

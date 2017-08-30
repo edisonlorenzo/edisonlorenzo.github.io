@@ -146,6 +146,7 @@ var SceneManager = (function () {
             var backgroundObj = libraryManager.getElement('backgroundObj');
             var backgroundContainer = libraryManager.createContainer('backgroundContainer', backgroundObj);
             var foregroundContainer = libraryManager.createContainer('foregroundContainer', backgroundObj);
+            var topContainer = libraryManager.createContainer('topContainer', backgroundObj);
 
             var backgroundContainerMask = libraryManager.createImage('backgroundContainerMask', backgroundContainer, res['img_white'].texture);
             backgroundContainerMask.width = backgroundObj.content.width;
