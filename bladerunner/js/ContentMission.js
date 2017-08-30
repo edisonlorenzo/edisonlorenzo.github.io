@@ -655,15 +655,8 @@ var ContentMission = (function () {
 
                             function onReady(event)
                             {
-                                setTimeout(
-                                    function(){
-                                        event.target.playVideo();
-                                    },
-                                    500
-                                );
-
                                 //event.target.playVideo();
-                                //showPlayer();
+                                showPlayer();
                             }
 
 
