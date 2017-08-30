@@ -582,7 +582,7 @@ var ContentMission = (function () {
                         videoElement.style.visibility = "hidden";
                         modal.style.display = "block";
 
-                        videoElement.src = 'https://www.youtube.com/embed/' + youtubeId + '?rel=0&disablekb=1&showinfo=0&controls=1&enablejsapi=1';
+                        videoElement.src = 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&rel=0&disablekb=1&showinfo=0&controls=1&enablejsapi=1';
                     }
 
                     var videoElement;
@@ -655,8 +655,15 @@ var ContentMission = (function () {
 
                             function onReady(event)
                             {
-                                event.target.playVideo();
-                                showPlayer();
+                                setTimeout(
+                                    function(){
+                                        event.target.playVideo();
+                                    },
+                                    500
+                                );
+
+                                //event.target.playVideo();
+                                //showPlayer();
                             }
 
 
