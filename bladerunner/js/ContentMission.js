@@ -494,7 +494,6 @@ var ContentMission = (function () {
 
                     var modal = document.getElementById('myModal');
                     var cssLoader = document.getElementById('cssLoader');
-                    // var modalContent = document.getElementById('modalContent');
                     var contentFrame = document.getElementById('contentFrame');
                     if(!modal)
                     {
@@ -657,6 +656,7 @@ var ContentMission = (function () {
                             function onReady(event)
                             {
                                 event.target.playVideo();
+                                showPlayer();
                             }
 
 
@@ -709,11 +709,6 @@ var ContentMission = (function () {
                     contentFrame.removeChild(videoElement);
                 }
             }
-            // if(player)
-            // {
-            //     //player.destroy();
-            //     player = undefined;
-            // }
 
             var modal = document.getElementById('myModal');
             if(modal)
