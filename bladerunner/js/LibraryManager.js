@@ -299,9 +299,7 @@ var LibraryManager = (function () {
                 if(mousedown)
                 {
 
-
                     var goY = _this.scrollContainer.y + lastDiff * 10;
-                    console.log(goY);
                     var ease = Quad.easeOut;
                     var time = 0.5 + Math.abs(lastDiff / 1500);
 

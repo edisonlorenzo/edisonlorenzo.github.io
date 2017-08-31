@@ -62,6 +62,7 @@ var InterfaceManager = (function () {
         assets.push(new Asset('img_header_bar_green', 'images/img_header_bar_green.png'));
         assets.push(new Asset('img_camerabg_mask', 'images/img_camerabg_mask.png'));
         assets.push(new Asset('img_cameramarker', 'images/img_cameramarker.png'));
+        assets.push(new Asset('img_clue_highlight', 'images/img_clue_highlight.png'));
 
         function Asset(resName, resPath)
         {
@@ -92,6 +93,11 @@ var InterfaceManager = (function () {
         function getActiveContent()
         {
             return activeContent;
+        }
+
+        function getContents()
+        {
+            return contents;
         }
 
         function initResourceData()
@@ -774,6 +780,7 @@ var InterfaceManager = (function () {
             getTimeline: getTimeline,
             getLoader: getLoader,
             getActiveContent: getActiveContent,
+            getContents: getContents,
             setup: setup,
             showHeader: showHeader,
             showFooter: showFooter,

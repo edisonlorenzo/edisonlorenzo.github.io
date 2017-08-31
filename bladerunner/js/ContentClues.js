@@ -20,22 +20,22 @@ var ContentClues = (function () {
         assets.push(new Asset('img_clue_bg7', 'images/img_clue_bg07.png'));
         assets.push(new Asset('img_clue_bg8', 'images/img_clue_bg08.png'));
         assets.push(new Asset('img_clue_puzzle_grid', 'images/img_clue_puzzle_grid.png'));
-        assets.push(new Asset('img_clue_101', 'images/clues/img_clue_101.png'));
-        assets.push(new Asset('img_clue_102', 'images/clues/img_clue_102.png'));
-        assets.push(new Asset('img_clue_103', 'images/clues/img_clue_103.png'));
-        assets.push(new Asset('img_clue_104', 'images/clues/img_clue_104.png'));
-        assets.push(new Asset('img_clue_105', 'images/clues/img_clue_105.png'));
-        assets.push(new Asset('img_clue_106', 'images/clues/img_clue_106.png'));
-        assets.push(new Asset('img_clue_107', 'images/clues/img_clue_107.png'));
-        assets.push(new Asset('img_clue_108', 'images/clues/img_clue_108.png'));
-        assets.push(new Asset('img_clue_109', 'images/clues/img_clue_109.png'));
-        assets.push(new Asset('img_clue_110', 'images/clues/img_clue_110.png'));
-        assets.push(new Asset('img_clue_111', 'images/clues/img_clue_111.png'));
-        assets.push(new Asset('img_clue_112', 'images/clues/img_clue_112.png'));
-        assets.push(new Asset('img_clue_113', 'images/clues/img_clue_113.png'));
-        assets.push(new Asset('img_clue_114', 'images/clues/img_clue_114.png'));
-        assets.push(new Asset('img_clue_115', 'images/clues/img_clue_115.png'));
-        assets.push(new Asset('img_clue_116', 'images/clues/img_clue_116.png'));
+        // assets.push(new Asset('img_clue_101', 'images/clues/img_clue_101.png'));
+        // assets.push(new Asset('img_clue_102', 'images/clues/img_clue_102.png'));
+        // assets.push(new Asset('img_clue_103', 'images/clues/img_clue_103.png'));
+        // assets.push(new Asset('img_clue_104', 'images/clues/img_clue_104.png'));
+        // assets.push(new Asset('img_clue_105', 'images/clues/img_clue_105.png'));
+        // assets.push(new Asset('img_clue_106', 'images/clues/img_clue_106.png'));
+        // assets.push(new Asset('img_clue_107', 'images/clues/img_clue_107.png'));
+        // assets.push(new Asset('img_clue_108', 'images/clues/img_clue_108.png'));
+        // assets.push(new Asset('img_clue_109', 'images/clues/img_clue_109.png'));
+        // assets.push(new Asset('img_clue_110', 'images/clues/img_clue_110.png'));
+        // assets.push(new Asset('img_clue_111', 'images/clues/img_clue_111.png'));
+        // assets.push(new Asset('img_clue_112', 'images/clues/img_clue_112.png'));
+        // assets.push(new Asset('img_clue_113', 'images/clues/img_clue_113.png'));
+        // assets.push(new Asset('img_clue_114', 'images/clues/img_clue_114.png'));
+        // assets.push(new Asset('img_clue_115', 'images/clues/img_clue_115.png'));
+        // assets.push(new Asset('img_clue_116', 'images/clues/img_clue_116.png'));
         assets.push(new Asset('img_clue_201', 'images/clues/img_clue_201.png'));
         assets.push(new Asset('img_clue_202', 'images/clues/img_clue_202.png'));
         assets.push(new Asset('img_clue_203', 'images/clues/img_clue_203.png'));
@@ -156,28 +156,28 @@ var ContentClues = (function () {
             cluesList :
             [
                 {
-                    id: '#2342',
+                    id: '#1111',
                     data: [
-                        {cell: 1, imageRes: 'img_clue_101', isCompleted: true},
-                        {cell: 2, imageRes: 'img_clue_102', isCompleted: true},
-                        {cell: 3, imageRes: 'img_clue_103', isCompleted: true},
+                        {cell: 1, imageRes: 'img_clue_101', isCompleted: false},
+                        {cell: 2, imageRes: 'img_clue_102', isCompleted: false},
+                        {cell: 3, imageRes: 'img_clue_103', isCompleted: false},
                         {cell: 4, imageRes: 'img_clue_104', isCompleted: false},
                         {cell: 5, imageRes: 'img_clue_105', isCompleted: false},
-                        {cell: 6, imageRes: 'img_clue_106', isCompleted: true},
+                        {cell: 6, imageRes: 'img_clue_106', isCompleted: false},
                         {cell: 7, imageRes: 'img_clue_107', isCompleted: false},
-                        {cell: 8, imageRes: 'img_clue_108', isCompleted: true},
+                        {cell: 8, imageRes: 'img_clue_108', isCompleted: false},
                         {cell: 9, imageRes: 'img_clue_109', isCompleted: false},
-                        {cell: 10, imageRes: 'img_clue_110', isCompleted: true},
-                        {cell: 11, imageRes: 'img_clue_111', isCompleted: true},
+                        {cell: 10, imageRes: 'img_clue_110', isCompleted: false},
+                        {cell: 11, imageRes: 'img_clue_111', isCompleted: false},
                         {cell: 12, imageRes: 'img_clue_112', isCompleted: false},
-                        {cell: 13, imageRes: 'img_clue_113', isCompleted: true},
-                        {cell: 14, imageRes: 'img_clue_114', isCompleted: true},
+                        {cell: 13, imageRes: 'img_clue_113', isCompleted: false},
+                        {cell: 14, imageRes: 'img_clue_114', isCompleted: false},
                         {cell: 15, imageRes: 'img_clue_115', isCompleted: false},
-                        {cell: 16, imageRes: 'img_clue_116', isCompleted: true}
+                        {cell: 16, imageRes: 'img_clue_116', isCompleted: false}
                     ]
                 },
                 {
-                    id: '#2342',
+                    id: '#2222',
                     data: [
                         {cell: 1, imageRes: 'img_clue_201', isCompleted: true},
                         {cell: 2, imageRes: 'img_clue_202', isCompleted: true},
@@ -198,7 +198,7 @@ var ContentClues = (function () {
                     ]
                 },
                 {
-                    id: '#3634',
+                    id: '#3333',
                     data: [
                         {cell: 1, imageRes: 'img_clue_301', isCompleted: true},
                         {cell: 2, imageRes: 'img_clue_302', isCompleted: true},
@@ -219,7 +219,7 @@ var ContentClues = (function () {
                     ]
                 },
                 {
-                    id: '#3634',
+                    id: '#4444',
                     data: [
                         {cell: 1, imageRes: 'img_clue_401', isCompleted: true},
                         {cell: 2, imageRes: 'img_clue_402', isCompleted: false},
@@ -240,7 +240,7 @@ var ContentClues = (function () {
                     ]
                 },
                 {
-                    id: '#3634',
+                    id: '#5555',
                     data: [
                         {cell: 1, imageRes: 'img_clue_501', isCompleted: true},
                         {cell: 2, imageRes: 'img_clue_502', isCompleted: true},
@@ -261,7 +261,7 @@ var ContentClues = (function () {
                     ]
                 },
                 {
-                    id: '#3634',
+                    id: '#6666',
                     data: [
                         {cell: 1, imageRes: 'img_clue_601', isCompleted: false},
                         {cell: 2, imageRes: 'img_clue_602', isCompleted: false},
@@ -282,7 +282,7 @@ var ContentClues = (function () {
                     ]
                 },
                 {
-                    id: '#3634',
+                    id: '#7777',
                     data: [
                         {cell: 1, imageRes: 'img_clue_701', isCompleted: true},
                         {cell: 2, imageRes: 'img_clue_702', isCompleted: false},
@@ -303,7 +303,7 @@ var ContentClues = (function () {
                     ]
                 },
                 {
-                    id: '#3634',
+                    id: '#8888',
                     data: [
                         {cell: 1, imageRes: 'img_clue_801', isCompleted: true},
                         {cell: 2, imageRes: 'img_clue_802', isCompleted: true},

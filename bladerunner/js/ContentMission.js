@@ -51,6 +51,24 @@ var ContentMission = (function () {
         assets.push(new Asset('img_mission14', 'images/missions/img_mission14.png'));
         assets.push(new Asset('txt_mission_completed', 'images/txt_mission_completed.png'));
 
+        assets.push(new Asset('img_clue_101', 'images/clues/img_clue_101.png'));
+        assets.push(new Asset('img_clue_102', 'images/clues/img_clue_102.png'));
+        assets.push(new Asset('img_clue_103', 'images/clues/img_clue_103.png'));
+        assets.push(new Asset('img_clue_104', 'images/clues/img_clue_104.png'));
+        assets.push(new Asset('img_clue_105', 'images/clues/img_clue_105.png'));
+        assets.push(new Asset('img_clue_106', 'images/clues/img_clue_106.png'));
+        assets.push(new Asset('img_clue_107', 'images/clues/img_clue_107.png'));
+        assets.push(new Asset('img_clue_108', 'images/clues/img_clue_108.png'));
+        assets.push(new Asset('img_clue_109', 'images/clues/img_clue_109.png'));
+        assets.push(new Asset('img_clue_110', 'images/clues/img_clue_110.png'));
+        assets.push(new Asset('img_clue_111', 'images/clues/img_clue_111.png'));
+        assets.push(new Asset('img_clue_112', 'images/clues/img_clue_112.png'));
+        assets.push(new Asset('img_clue_113', 'images/clues/img_clue_113.png'));
+        assets.push(new Asset('img_clue_114', 'images/clues/img_clue_114.png'));
+        assets.push(new Asset('img_clue_115', 'images/clues/img_clue_115.png'));
+        assets.push(new Asset('img_clue_116', 'images/clues/img_clue_116.png'));
+
+
         var rewardObjData =
         {
             cluePointReward :
@@ -61,9 +79,22 @@ var ContentMission = (function () {
             ],
             cluePieceReward :
             [
-                {id: 'cluePiece01', caseId: '#2342', rewardPiece: 1},
-                {id: 'cluePiece02', caseId: '#2342', rewardPiece: 3},
-                {id: 'cluePiece03', caseId: '#2342', rewardPiece: 2}
+                {id: 'cluePiece_1111_01', caseId: '#1111', rewardPiece: 1},
+                {id: 'cluePiece_1111_02', caseId: '#1111', rewardPiece: 2},
+                {id: 'cluePiece_1111_03', caseId: '#1111', rewardPiece: 3},
+                {id: 'cluePiece_1111_04', caseId: '#1111', rewardPiece: 4},
+                {id: 'cluePiece_1111_05', caseId: '#1111', rewardPiece: 5},
+                {id: 'cluePiece_1111_06', caseId: '#1111', rewardPiece: 6},
+                {id: 'cluePiece_1111_07', caseId: '#1111', rewardPiece: 7},
+                {id: 'cluePiece_1111_08', caseId: '#1111', rewardPiece: 8},
+                {id: 'cluePiece_1111_09', caseId: '#1111', rewardPiece: 9},
+                {id: 'cluePiece_1111_10', caseId: '#1111', rewardPiece: 10},
+                {id: 'cluePiece_1111_11', caseId: '#1111', rewardPiece: 11},
+                {id: 'cluePiece_1111_12', caseId: '#1111', rewardPiece: 12},
+                {id: 'cluePiece_1111_13', caseId: '#1111', rewardPiece: 13},
+                {id: 'cluePiece_1111_14', caseId: '#1111', rewardPiece: 14},
+                {id: 'cluePiece_1111_15', caseId: '#1111', rewardPiece: 15},
+                {id: 'cluePiece_1111_16', caseId: '#1111', rewardPiece: 16}
             ]
         }
 
@@ -87,7 +118,7 @@ var ContentMission = (function () {
                 {
                     data:
                     [
-                        {id: 'm3', type: 'onecell', title: 'Mission', desc: 'The Rick Deckard Report 01', imageRes: 'img_mission01', iconRes: 'icon_video', videoURL: 'https://www.youtube.com/watch?v=qJA48WZ9bis', cluePointRewardId: 'cluePoint01'},
+                        {id: 'm3', type: 'onecell', title: 'Mission', desc: 'The Rick Deckard Report 01', imageRes: 'img_mission01', iconRes: 'icon_video', videoURL: 'https://www.youtube.com/watch?v=qJA48WZ9bis', cluePointRewardId: 'cluePoint01', cluePieceRewardId: 'cluePiece_1111_01'},
                         {id: 'm4', type: 'onecell', title: 'Mission', desc: 'Tyrell Operation', imageRes: 'img_mission02', iconRes: 'icon_book'},
                         {id: 'm5', type: 'onecell', title: 'Mission', desc: 'The Origami Mystery', imageRes: 'img_mission03', iconRes: 'icon_game', isLocked: true, lockDesc: 'Unlock with 99999 Clue Points'}
                     ]
@@ -95,8 +126,8 @@ var ContentMission = (function () {
                 {
                     data:
                     [
-                        {id: 'm6', type: 'twocell', title: 'Event', desc: 'The Hidden Soundtrack', imageRes: 'img_mission04', iconRes: 'icon_music', videoURL: 'https://www.youtube.com/watch?v=UgsS3nhRRzQ', cluePointRewardId: 'cluePoint03'},
-                        {id: 'm7', type: 'onecell', title: 'Mission', desc: 'Target Practice', imageRes: 'img_mission05', iconRes: 'icon_comic', videoURL: 'https://www.youtube.com/watch?v=Dgank1Rk32E', cluePointRewardId: 'cluePoint02'}
+                        {id: 'm6', type: 'twocell', title: 'Event', desc: 'The Hidden Soundtrack', imageRes: 'img_mission04', iconRes: 'icon_music', videoURL: 'https://www.youtube.com/watch?v=UgsS3nhRRzQ', cluePointRewardId: 'cluePoint03', cluePieceRewardId: 'cluePiece_1111_05'},
+                        {id: 'm7', type: 'onecell', title: 'Mission', desc: 'Target Practice', imageRes: 'img_mission05', iconRes: 'icon_comic', videoURL: 'https://www.youtube.com/watch?v=Dgank1Rk32E', cluePointRewardId: 'cluePoint02', cluePieceRewardId: 'cluePiece_1111_06'}
                     ]
                 },
                 {
@@ -210,6 +241,11 @@ var ContentMission = (function () {
                         if(missionItem.cluePointRewardId)
                         {
                             missionItem.cluePointReward = libraryManager.getElementFromList(rewardObjData.cluePointReward, 'id', missionItem.cluePointRewardId);
+                        }
+
+                        if(missionItem.cluePieceRewardId)
+                        {
+                            missionItem.cluePieceReward = libraryManager.getElementFromList(rewardObjData.cluePieceReward, 'id', missionItem.cluePieceRewardId);
                         }
 
                         if(missionType)
@@ -735,11 +771,28 @@ var ContentMission = (function () {
                 modal.style.display = "none";
             }
 
+            checkMissionReward(missionItem);
+            checkMissionComplete(missionItem);
+        }
+
+        function checkMissionReward(missionItem)
+        {
             if(missionItem.hasWatched && !missionItem.rewardReceived)
             {
+                missionItem.notificationReward = new Array();
+                if(missionItem.cluePointReward)
+                {
+                    console.log(missionItem.cluePointReward);
+                    missionItem.notificationReward.push(missionItem.cluePointReward);
+                }
+
+                if(missionItem.cluePieceReward)
+                {
+                    console.log(missionItem.cluePieceReward);
+                    missionItem.notificationReward.push(missionItem.cluePieceReward);
+                }
+
                 showNotification(missionItem);
-                missionItem.rewardReceived = true;
-                checkMissionComplete(missionItem);
             }
         }
 
@@ -748,20 +801,20 @@ var ContentMission = (function () {
             var assetLoaderManager = AssetLoaderManager.getInstance();
             var libraryManager = LibraryManager.getInstance();
             var stageManager = StageManager.getInstance();
+            var interfaceManager = InterfaceManager.getInstance();
 
-            if(assetLoaderManager && libraryManager && stageManager)
+            if(assetLoaderManager && libraryManager && stageManager && interfaceManager)
             {
-                var hasRewardPoints = missionItem.cluePointReward ? true : false;
-                var rewardPoints = hasRewardPoints ? missionItem.cluePointReward.rewardPoints : 0;
 
                 var res = assetLoaderManager.getRes();
 
                 var foregroundContainer = libraryManager.getElement('foregroundContainer');
 
                 var notificationContainer =  libraryManager.createContainer('notificationContainer', foregroundContainer);
+                notificationContainer.visible = false;
                 notificationContainer.interactive = true;
                 notificationContainer.on('pointertap', function() {
-                    closeNotification();
+                    closeNotification(missionItem);
                 });
 
                 var notificationBGFade = libraryManager.createImage('notificationBGFade', notificationContainer, res['img_white'].texture);
@@ -778,95 +831,199 @@ var ContentMission = (function () {
                     TweenMax.fromTo(this.scale, 0.5, {y: 0}, {y: 1, ease: Power2.easeOut});
                 }).bind(notificationBG);
 
-                var notificationTitle = libraryManager.createImage('notificationTitle', notificationBG, res['txt_mission_completed'].texture);
-                notificationTitle.content.offsetX = -(notificationBG.width * 0.5) - (notificationTitle.width * 0.5);
-                notificationTitle.position.y = -45;
-                notificationTitle.visible = false;
-                notificationTitle.content.show = (function() {
-                    this.visible = true;
-                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                    TweenMax.fromTo(this.position, 0.5, {x: this.content.offsetX}, {x: 0, ease: Power2.easeOut});
-                }).bind(notificationTitle);
 
-                var notificationMessageContainer =  libraryManager.createContainer('notificationMessageContainer', notificationBG);
+                if(missionItem.notificationReward.length > 0)
+                {
+                    missionItem.rewardReceived = true;
+                    var reward = missionItem.notificationReward.shift();
 
-                var notificationMessage1 = libraryManager.createText('notificationMessage1', notificationMessageContainer, 0, new PIXI.TextStyle({
-                    fontFamily: 'Arial',
-                    fontSize: 18,
-                    fontStyle: 'normal',
-                    fill: '#ffffff'
-                }));
-                notificationMessage1.text = 'You\'ve Earned ';
-                notificationMessage1.anchor.x = 0;
+                    switch (reward) {
+                        case missionItem.cluePointReward:
 
-                var notificationMessage2 = libraryManager.createText('notificationMessage2', notificationMessageContainer, 0, new PIXI.TextStyle({
-                    fontFamily: 'Arial',
-                    fontSize: 18,
-                    fontStyle: 'normal',
-                    fill: '#4fcd17'
-                }));
-                notificationMessage2.text = rewardPoints;
-                notificationMessage2.anchor.x = 0;
+                            showMissionComplete(reward);
+                            break;
+                        case missionItem.cluePieceReward:
+                            showPieceUnlock(reward);
+                            break;
+                        default:
 
-                var notificationMessage3 = libraryManager.createText('notificationMessage3', notificationMessageContainer, 0, new PIXI.TextStyle({
-                    fontFamily: 'Arial',
-                    fontSize: 18,
-                    fontStyle: 'normal',
-                    fill: '#ffffff'
-                }));
-                notificationMessage3.text = ' Clue Points';
-                notificationMessage3.anchor.x = 0;
-
-                var width = notificationMessage1.width + notificationMessage2.width + notificationMessage3.width;
-
-                notificationMessage1.position.x = -(width * 0.5);
-                notificationMessage2.position.x = notificationMessage1.position.x + notificationMessage1.width;
-                notificationMessage3.position.x = notificationMessage2.position.x + notificationMessage2.width;
-
-                notificationMessageContainer.position.y = 45;
-                notificationMessageContainer.visible = false;
-                notificationMessageContainer.content.show = (function() {
-                    this.visible = true;
-                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                }).bind(notificationMessageContainer);
-
-                notificationBG.content.notificationTitle = notificationTitle;
-                notificationBG.content.notificationMessageContainer = notificationMessageContainer;
-                notificationBG.content.load = (function() {
-                    var tl = new TimelineMax();
-                    this.show();
-                    if(this.notificationTitle)
-                    {
-                        tl.add(this.notificationTitle.content.show, "+=0.5");
                     }
-                    if(this.notificationMessageContainer)
-                    {
-                        tl.add(this.notificationMessageContainer.content.show, "+=0.5");
-                    }
+                }
 
-                    if(hasRewardPoints)
-                    {
-                        var interfaceManager = InterfaceManager.getInstance();
-                        interfaceManager.highlightCluePoint(true);
-                        tl.add(addReward, "+=0.25");
-                        function addReward()
+                function showMissionComplete(reward)
+                {
+                    notificationContainer.visible = true;
+
+                    var hasReward = reward ? true : false;
+                    var rewardPoints = hasReward ? reward.rewardPoints : 0;
+
+                    var notificationTitle = libraryManager.createImage('notificationTitle', notificationBG, res['txt_mission_completed'].texture);
+                    notificationTitle.content.offsetX = -(notificationBG.width * 0.5) - (notificationTitle.width * 0.5);
+                    notificationTitle.position.y = -45;
+                    notificationTitle.visible = false;
+                    notificationTitle.content.show = (function() {
+                        this.visible = true;
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                        TweenMax.fromTo(this.position, 0.5, {x: this.content.offsetX}, {x: 0, ease: Power2.easeOut});
+                    }).bind(notificationTitle);
+
+                    var notificationMessageContainer =  libraryManager.createContainer('notificationMessageContainer', notificationBG);
+
+                    var notificationMessage1 = libraryManager.createText('notificationMessage1', notificationMessageContainer, 0, new PIXI.TextStyle({
+                        fontFamily: 'Arial',
+                        fontSize: 18,
+                        fontStyle: 'normal',
+                        fill: '#ffffff'
+                    }));
+                    notificationMessage1.text = 'You\'ve Earned ';
+                    notificationMessage1.anchor.x = 0;
+
+                    var notificationMessage2 = libraryManager.createText('notificationMessage2', notificationMessageContainer, 0, new PIXI.TextStyle({
+                        fontFamily: 'Arial',
+                        fontSize: 18,
+                        fontStyle: 'normal',
+                        fill: '#4fcd17'
+                    }));
+                    notificationMessage2.text = rewardPoints;
+                    notificationMessage2.anchor.x = 0;
+
+                    var notificationMessage3 = libraryManager.createText('notificationMessage3', notificationMessageContainer, 0, new PIXI.TextStyle({
+                        fontFamily: 'Arial',
+                        fontSize: 18,
+                        fontStyle: 'normal',
+                        fill: '#ffffff'
+                    }));
+                    notificationMessage3.text = ' Clue Points';
+                    notificationMessage3.anchor.x = 0;
+
+                    var width = notificationMessage1.width + notificationMessage2.width + notificationMessage3.width;
+
+                    notificationMessage1.position.x = -(width * 0.5);
+                    notificationMessage2.position.x = notificationMessage1.position.x + notificationMessage1.width;
+                    notificationMessage3.position.x = notificationMessage2.position.x + notificationMessage2.width;
+
+                    notificationMessageContainer.position.y = 45;
+                    notificationMessageContainer.visible = false;
+                    notificationMessageContainer.content.show = (function() {
+                        this.visible = true;
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    }).bind(notificationMessageContainer);
+
+                    notificationBG.content.notificationTitle = notificationTitle;
+                    notificationBG.content.notificationMessageContainer = notificationMessageContainer;
+                    notificationBG.content.load = (function() {
+                        var tl = new TimelineMax();
+                        this.show();
+                        if(this.notificationTitle)
                         {
-                            interfaceManager.addCluePoints(rewardPoints);
+                            tl.add(this.notificationTitle.content.show, "+=0.5");
                         }
-                    }
+                        if(this.notificationMessageContainer)
+                        {
+                            tl.add(this.notificationMessageContainer.content.show, "+=0.5");
+                        }
+
+                        if(hasReward)
+                        {
+                            interfaceManager.highlightCluePoint(true);
+                            tl.add(addReward, "+=0.25");
+                            function addReward()
+                            {
+                                interfaceManager.addCluePoints(rewardPoints);
+                            }
+                        }
+
+                    }).bind(notificationBG.content);
+
+                    notificationBG.content.load();
+                }
+
+                function showPieceUnlock(reward)
+                {
+                    notificationContainer.visible = true;
+
+                    var hasReward = reward ? true : false;
+                    var rewardPiece = hasReward ? reward.rewardPiece : null;
+                    var rewardCaseId = hasReward ? reward.caseId : null;
+                    console.log(rewardCaseId);
+                    var cluesObjData = interfaceManager.getContents().clues.getObjData();
+                    console.log(cluesObjData);
+                    var clueCaseData = libraryManager.getElementFromList(cluesObjData.cluesList, 'id', rewardCaseId);
+                    console.log(clueCaseData);
+
+                    var cluePieceData = libraryManager.getElementFromList(clueCaseData.data, 'cell', rewardPiece);
+                    console.log(cluePieceData);
+
+                    cluePieceData.isCompleted = true;
+
+                    var clueIcon = libraryManager.createImage('clueIcon', notificationBG, res[cluePieceData.imageRes].texture);
+                    clueIcon.content.offsetX = -(notificationBG.width * 0.5) - (clueIcon.width * 0.5);
+                    clueIcon.position.y = -30;
+                    clueIcon.visible = false;
+                    clueIcon.content.show = (function() {
+                        this.visible = true;
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                        TweenMax.fromTo(this.scale, 0.5, {x: 0, y: 0}, {x: 1, y: 1, ease: Back.easeOut});
+                    }).bind(clueIcon);
+
+                    var clueIconHighlight = libraryManager.createImage('clueIconHighlight', clueIcon, res['img_clue_highlight'].texture);
+
+                    var notificationMessageContainer =  libraryManager.createContainer('notificationMessageContainer', notificationBG);
+
+                    var notificationMessage1 = libraryManager.createText('notificationMessage1', notificationMessageContainer, 0, new PIXI.TextStyle({
+                        fontFamily: 'Arial',
+                        fontSize: 18,
+                        fontStyle: 'normal',
+                        fill: '#ffffff'
+                    }));
+                    notificationMessage1.text = 'Clue Piece ';
+                    notificationMessage1.anchor.x = 0;
+
+                    var notificationMessage2 = libraryManager.createText('notificationMessage2', notificationMessageContainer, 0, new PIXI.TextStyle({
+                        fontFamily: 'Arial',
+                        fontSize: 18,
+                        fontStyle: 'normal',
+                        fill: '#ff3437'
+                    }));
+                    notificationMessage2.text = 'Unlocked';
+                    notificationMessage2.anchor.x = 0;
+
+                    var width = notificationMessage1.width + notificationMessage2.width;
+
+                    notificationMessage1.position.x = -(width * 0.5);
+                    notificationMessage2.position.x = notificationMessage1.position.x + notificationMessage1.width;
+
+                    notificationMessageContainer.position.y = 60;
+                    notificationMessageContainer.visible = false;
+                    notificationMessageContainer.content.show = (function() {
+                        this.visible = true;
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    }).bind(notificationMessageContainer);
+
+                    notificationBG.content.clueIcon = clueIcon;
+                    notificationBG.content.notificationMessageContainer = notificationMessageContainer;
+                    notificationBG.content.load = (function() {
+                        var tl = new TimelineMax();
+                        this.show();
+                        if(this.clueIcon)
+                        {
+                            tl.add(this.clueIcon.content.show, "+=0.5");
+                        }
+                        if(this.notificationMessageContainer)
+                        {
+                            tl.add(this.notificationMessageContainer.content.show, "+=0.5");
+                        }
 
 
+                    }).bind(notificationBG.content);
 
-                }).bind(notificationBG.content);
-
-                notificationBG.content.load();
-
-
+                    notificationBG.content.load();
+                }
 
             }
         }
 
-        function closeNotification()
+        function closeNotification(missionItem)
         {
             var libraryManager = LibraryManager.getInstance();
 
@@ -885,6 +1042,8 @@ var ContentMission = (function () {
                 }
 
             }
+
+            showNotification(missionItem);
 
         }
 
