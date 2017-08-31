@@ -153,6 +153,9 @@ var ContentClues = (function () {
 
         var objData =
         {
+            notificationList:
+            [
+            ],
             cluesList :
             [
                 {
@@ -366,10 +369,30 @@ var ContentClues = (function () {
             }
         }
 
+        function checkNotification()
+        {
+            var libraryManager = LibraryManager.getInstance();
+            var notificationCount = objData.notificationList.length;
+            if(objData.notificationList.length > 0)
+            {
+                var cluesButtonObj = libraryManager.getElement('cluesButtonObj');
+                cluesButtonObj.content.showNotification(notificationCount);
+            }
+        }
+
+        function clearNotification()
+        {
+            var libraryManager = LibraryManager.getInstance();
+            objData.notificationList = new Array();
+            var cluesButtonObj = libraryManager.getElement('cluesButtonObj');
+            cluesButtonObj.content.hideNotification();
+        }
+
         function showContent()
         {
             var assetLoaderManager = AssetLoaderManager.getInstance();
             var libraryManager = LibraryManager.getInstance();
+            var interfaceManager = InterfaceManager.getInstance();
 
             if(assetLoaderManager && libraryManager)
             {
@@ -391,6 +414,14 @@ var ContentClues = (function () {
 
                 var sc = libraryManager.createScrollContainer('contentScrollContainer', contentBodyContainer, bodyBackgroundObj.width, bodyBackgroundObj.height);
                 var rowContainer;
+
+                // var notificationCount = objData.notificationList.length;
+                // if(objData.notificationList.length > 0)
+                // {
+                //     var cluesButtonObj = libraryManager.getElement('cluesButtonObj');
+                //     console.log(cluesButtonObj);
+                //     cluesButtonObj.content.showNotification(notificationCount);
+                // }
 
                 for (var i = 0; i < objData.cluesList.length; i++)
                 {
@@ -485,6 +516,7 @@ var ContentClues = (function () {
                         cluesCellBg.position.x = cluesCellBg.content.posX;
                         cluesCellBg.position.y = cluesCellBg.content.posY;
 
+                        cluesItem.data[gridIdx].clueCell = cluesCellBg;
                     }
 
                     var caseFileLabel = libraryManager.createText('caseFileLabel', cluesContentContainer, 0, new PIXI.TextStyle({
@@ -541,6 +573,46 @@ var ContentClues = (function () {
                         caseFileStatus.anchor.y = 1;
                         caseFileStatus.position.x = -(cluesBG.width * 0.5) + 5;
                         caseFileStatus.position.y = (cluesBG.height * 0.5) - 5;
+                    }
+
+                    // var isNewPiece = libraryManager.getElementFromList(objData.notificationList, 'id', cluesItem.id);
+                    var newPieceList = libraryManager.getElementsFromList(objData.notificationList, 'id', cluesItem.id);
+                    if(newPieceList.length > 0)
+                    {
+                        for(var idx = 0; idx < newPieceList.length; idx++)
+                        {
+                            var clueCase = libraryManager.getElementFromList(objData.cluesList, 'id', newPieceList[idx].id);
+                            if(!clueCase) break;
+
+                            var clueItem = libraryManager.getElementFromList(clueCase.data, 'cell', newPieceList[idx].cell);
+                            if(!clueItem) break;
+
+                            var clueIconHighlight = libraryManager.createImage('clueIconHighlight', cluesCellContainer, res['img_clue_highlight'].texture);
+                            clueIconHighlight.position = clueItem.clueCell.position;
+                            clueIconHighlight.scale = clueItem.clueCell.scale;
+                            TweenMax.fromTo(clueIconHighlight, 0.75, {alpha: 0.5}, {alpha: 1, ease: Quad.easeOut, repeat: -1, yoyo: true});
+                        }
+
+
+                        var cluesNewPieceContainer =  libraryManager.createContainer('cluesNewPieceContainer', cluesContentContainer);
+                        TweenMax.fromTo(cluesNewPieceContainer, 0.75, {alpha: 0}, {alpha: 1, ease: Quad.easeOut, repeat: -1, yoyo: true});
+
+                        var cluesNewPiece = libraryManager.createImage('cluesNewPiece', cluesNewPieceContainer, res['img_white'].texture);
+                        cluesNewPiece.tint = 0xdd2525;
+                        cluesNewPiece.width = 90;
+                        cluesNewPiece.height = 25;
+
+
+                        var cluesNewPieceText = libraryManager.createText('cluesNewPieceText', cluesNewPieceContainer, 0, new PIXI.TextStyle({
+                            fontFamily: 'Arial',
+                            fontSize: 16,
+                            fontStyle: 'normal',
+                            fill: '#ffffff'
+                        }));
+                        cluesNewPieceText.text = 'New Piece';
+
+                        cluesNewPieceContainer.position.x = -(cluesBG.width * 0.5) + (cluesNewPiece.width * 0.5);
+                        cluesNewPieceContainer.position.y = (cluesBG.height * 0.5) - (cluesNewPiece.height * 0.5) - 5;
                     }
 
                     cluesItemContainer.content.cluesContentContainer = cluesContentContainer;
@@ -611,7 +683,7 @@ var ContentClues = (function () {
 
                         tl.add(animateLoad, "+=0.1");
                         tl.add(animateShow, "+=0.5");
-
+                        tl.add(clearNotification, "+=0.5");
                     }
                 }
             }
@@ -798,7 +870,8 @@ var ContentClues = (function () {
         return {
             getAsset: getAsset,
             getObjData: getObjData,
-            loadContent: loadContent
+            loadContent: loadContent,
+            checkNotification: checkNotification
         };
 
     };

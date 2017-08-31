@@ -954,6 +954,9 @@ var ContentMission = (function () {
 
                     notificationContainer.visible = true;
                     cluePieceData.isCompleted = true;
+                    var notificationItem = {id: clueCaseData.id, cell: cluePieceData.cell};
+                    cluesObjData.notificationList.push(notificationItem);
+                    interfaceManager.getContents().clues.checkNotification();
 
                     var clueIcon = libraryManager.createImage('clueIcon', notificationBG, res[cluePieceData.imageRes].texture);
                     clueIcon.content.offsetX = -(notificationBG.width * 0.5) - (clueIcon.width * 0.5);
@@ -966,6 +969,7 @@ var ContentMission = (function () {
                     }).bind(clueIcon);
 
                     var clueIconHighlight = libraryManager.createImage('clueIconHighlight', clueIcon, res['img_clue_highlight'].texture);
+                    TweenMax.fromTo(clueIconHighlight, 0.75, {alpha: 0.5}, {alpha: 1, ease: Quad.easeOut, repeat: -1, yoyo: true});
 
                     var notificationMessageContainer =  libraryManager.createContainer('notificationMessageContainer', notificationBG);
 

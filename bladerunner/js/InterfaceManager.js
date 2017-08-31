@@ -63,6 +63,7 @@ var InterfaceManager = (function () {
         assets.push(new Asset('img_camerabg_mask', 'images/img_camerabg_mask.png'));
         assets.push(new Asset('img_cameramarker', 'images/img_cameramarker.png'));
         assets.push(new Asset('img_clue_highlight', 'images/img_clue_highlight.png'));
+        assets.push(new Asset('icon_clue_pop', 'images/icon_clue_pop.png'));
 
         function Asset(resName, resPath)
         {
@@ -582,6 +583,35 @@ var InterfaceManager = (function () {
             footerButtonObjList.push(cluesButtonObj);
             cluesButtonObj.position.x = (footerObj.width * 0.25) - 20;
             cluesButtonObj.position.y = (footerObj.height * 0.5) - (cluesButtonObj.height * 0.5) - 20;
+
+            var cluesButtonNotification = libraryManager.createImage('cluesButtonNotification', cluesButtonObj, res['icon_clue_pop'].texture,);
+            cluesButtonNotification.visible = false;
+            cluesButtonNotification.position.x = (cluesButtonObj.width * 0.5) - (cluesButtonNotification.width * 0.5);
+            cluesButtonNotification.position.y = -(cluesButtonObj.height * 0.5) - (cluesButtonNotification.height * 0.5) + 5;
+
+            var cluesButtonNotificationText = libraryManager.createText('cluesButtonNotificationText', cluesButtonNotification, 0, new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 18,
+                fontStyle: 'normal',
+                fill: '#ffffff'
+            }));
+            cluesButtonNotificationText.position.y = -5;
+            cluesButtonNotificationText.text = '0';
+
+            cluesButtonObj.content.cluesButtonNotification = cluesButtonNotification;
+            cluesButtonObj.content.cluesButtonNotificationText = cluesButtonNotificationText;
+            cluesButtonObj.content.showNotification = (function(value) {
+                if(value > 0) {
+                    cluesButtonNotification.visible = true;
+                    cluesButtonNotificationText.text = value;
+                }
+            }).bind(cluesButtonObj.content);
+
+            cluesButtonObj.content.hideNotification = (function() {
+                cluesButtonNotification.visible = false;
+                cluesButtonNotificationText.text = 0;
+            }).bind(cluesButtonObj.content);
+
 
             var archiveButtonObj = libraryManager.createImageButton('archiveButtonObj', footerButtonContainer, res['btn_archive_default'].texture, res['btn_archive_highlight'].texture);
             footerButtonObjList.push(archiveButtonObj);

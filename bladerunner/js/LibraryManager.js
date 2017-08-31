@@ -25,6 +25,11 @@ var LibraryManager = (function () {
             return list.find(function(item){return item[ref] === value});
         }
 
+        function getElementsFromList(list, ref, value)
+        {
+            return list.filter(function(item){return item[ref] === value});
+        }
+
         function getElementCountFromList(list, ref, value)
         {
             return list.filter(function(item){return item[ref] === value}).length;
@@ -380,6 +385,7 @@ var LibraryManager = (function () {
             compareStrings: compareStrings,
             getElementCountFromList: getElementCountFromList,
             getElementFromList: getElementFromList,
+            getElementsFromList: getElementsFromList,
             getElement: getElement,
             removeElement: removeElement,
             createImage: createImage,
