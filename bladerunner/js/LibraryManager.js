@@ -228,6 +228,7 @@ var LibraryManager = (function () {
             var lastDiff = null;
             var scrollTween = null;
             var maxVel = 0;
+            var scrollDistance = 0;
 
             this.setItemHeight = setItemHeight;
             this.isMoving = getScrollMovement;
@@ -245,26 +246,43 @@ var LibraryManager = (function () {
             function onmousemove(e)
             {
                 var clientY = !e.data.originalEvent.touches ? e.data.originalEvent.clientY : e.data.originalEvent.touches[0].clientY;
+                var multiplier = window.devicePixelRatio == 1 ? 2 : window.devicePixelRatio;
 
                 if (mousedown) {
                     lastDiff = clientY - lastPos.y;
                     lastDiff = lastDiff == 0 ? 1 : lastDiff;
-                    lastDiff *= window.devicePixelRatio;
-                    if(Math.abs(lastDiff) > 10 * window.devicePixelRatio)
+                    scrollDistance += Math.abs(lastDiff);
+                    lastDiff *= multiplier;
+
+                    if(scrollDistance > 5 * multiplier)
                     {
                         isMoving = true;
+                        scrollDistance = 0;
                     }
 
                     if(isMoving)
                     {
-                        lastPos.y = clientY;
-
-                        if (-_this.scrollContainer.y < 0) {
-                        _this.scrollContainer.y += lastDiff/2;
-                        }else{
-                        _this.scrollContainer.y += lastDiff/2;
+                        var scrollSpeed = lastDiff / 2;
+                        if (_this.scrollContainer.y < -_this.items.length * itemHeight + height) {
+                            console.log('bottom');
+                            scrollSpeed = scrollSpeed / 3;
+                        } else if (_this.scrollContainer.y > 0) {
+                            console.log('top');
+                            scrollSpeed = scrollSpeed / 3;
                         }
+
+                        _this.scrollContainer.y += scrollSpeed;
+
+                        //     console.log(_this.scrollContainer.y);
+                        // if (_this.scrollContainer.y < 0) {
+                        //     //console.log('top');
+                        // _this.scrollContainer.y += lastDiff;
+                        // }else{
+                        // _this.scrollContainer.y += lastDiff;
+                        // }
                     }
+
+                    lastPos.y = clientY;
 
                 }
             }
@@ -284,6 +302,7 @@ var LibraryManager = (function () {
                 if(mousedown)
                 {
                     if (lastDiff) {
+
                         var goY = _this.scrollContainer.y + lastDiff * 10;
                         var ease = Quad.easeOut;
                         var time = 0.5 + Math.abs(lastDiff / 1500);
@@ -291,22 +310,22 @@ var LibraryManager = (function () {
                         if (goY < -_this.items.length * itemHeight + height) {
                             goY = -_this.items.length * itemHeight + height;
                             ease = Back.easeOut;
-                            time = 0.5 + Math.abs(lastDiff / 1500);
+                            time = 0.5 + Math.abs(lastDiff / 5000);
                         }
                         if (goY > 0)  {
                             goY = 0;
                             ease = Back.easeOut;
-                            time = 0.5 + Math.abs(lastDiff / 1500);
+                            time = 0.5 + Math.abs(lastDiff / 5000);
                         }
 
                         if (_this.scrollContainer.y > 0) {
-                            //time = 1 + _this.scrollContainer.y / 5000;
-                            time = 0.5 + Math.abs(lastDiff / 1500);
+                            time = 1 + _this.scrollContainer.y / 5000;
+                            //time = 0.5 + Math.abs(lastDiff / 1500);
                             ease = Elastic.easeOut;
                         }
                         if (_this.scrollContainer.y < -_this.items.length * itemHeight + height) {
-                            time = 0.5 + Math.abs(lastDiff / 1500);
-                            //time = 1 + (_this.items.length * itemHeight + height + _this.scrollContainer.y) / 5000;
+                            //time = 0.5 + Math.abs(lastDiff / 1500);
+                            time = 1 + (_this.items.length * itemHeight + height + _this.scrollContainer.y) / 5000;
                             ease = Elastic.easeOut;
                         }
 

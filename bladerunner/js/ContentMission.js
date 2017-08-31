@@ -51,6 +51,22 @@ var ContentMission = (function () {
         assets.push(new Asset('img_mission14', 'images/missions/img_mission14.png'));
         assets.push(new Asset('txt_mission_completed', 'images/txt_mission_completed.png'));
 
+        var rewardObjData =
+        {
+            cluePointReward :
+            [
+                {id: 'cluePoint01', rewardPoints: 500000},
+                {id: 'cluePoint02', rewardPoints: 100000},
+                {id: 'cluePoint03', rewardPoints: 200000}
+            ],
+            cluePieceReward :
+            [
+                {id: 'cluePiece01', caseId: '#2342', rewardPiece: 1},
+                {id: 'cluePiece02', caseId: '#2342', rewardPiece: 3},
+                {id: 'cluePiece03', caseId: '#2342', rewardPiece: 2}
+            ]
+        }
+
         var objData =
         {
             missionList :
@@ -71,7 +87,7 @@ var ContentMission = (function () {
                 {
                     data:
                     [
-                        {id: 'm3', type: 'onecell', title: 'Mission', desc: 'The Rick Deckard Report 01', imageRes: 'img_mission01', iconRes: 'icon_video', videoURL: 'https://www.youtube.com/watch?v=qJA48WZ9bis', rewardPoints: 500000},
+                        {id: 'm3', type: 'onecell', title: 'Mission', desc: 'The Rick Deckard Report 01', imageRes: 'img_mission01', iconRes: 'icon_video', videoURL: 'https://www.youtube.com/watch?v=qJA48WZ9bis', cluePointRewardId: 'cluePoint01'},
                         {id: 'm4', type: 'onecell', title: 'Mission', desc: 'Tyrell Operation', imageRes: 'img_mission02', iconRes: 'icon_book'},
                         {id: 'm5', type: 'onecell', title: 'Mission', desc: 'The Origami Mystery', imageRes: 'img_mission03', iconRes: 'icon_game', isLocked: true, lockDesc: 'Unlock with 99999 Clue Points'}
                     ]
@@ -79,8 +95,8 @@ var ContentMission = (function () {
                 {
                     data:
                     [
-                        {id: 'm6', type: 'twocell', title: 'Event', desc: 'The Hidden Soundtrack', imageRes: 'img_mission04', iconRes: 'icon_music'},
-                        {id: 'm7', type: 'onecell', title: 'Mission', desc: 'Target Practice', imageRes: 'img_mission05', iconRes: 'icon_comic'}
+                        {id: 'm6', type: 'twocell', title: 'Event', desc: 'The Hidden Soundtrack', imageRes: 'img_mission04', iconRes: 'icon_music', videoURL: 'https://www.youtube.com/watch?v=UgsS3nhRRzQ', cluePointRewardId: 'cluePoint03'},
+                        {id: 'm7', type: 'onecell', title: 'Mission', desc: 'Target Practice', imageRes: 'img_mission05', iconRes: 'icon_comic', videoURL: 'https://www.youtube.com/watch?v=Dgank1Rk32E', cluePointRewardId: 'cluePoint02'}
                     ]
                 },
                 {
@@ -191,6 +207,11 @@ var ContentMission = (function () {
                     {
                         var missionItem = objData.missionList[row].data[i];
                         var missionType = libraryManager.getElementFromList(objData.missionType, 'type', missionItem.type);
+                        if(missionItem.cluePointRewardId)
+                        {
+                            missionItem.cluePointReward = libraryManager.getElementFromList(rewardObjData.cluePointReward, 'id', missionItem.cluePointRewardId);
+                        }
+
                         if(missionType)
                         {
                             var missionItemContainer =  libraryManager.createContainer('missionItemContainer_' + row + '_' + i, rowContainer);
@@ -730,6 +751,9 @@ var ContentMission = (function () {
 
             if(assetLoaderManager && libraryManager && stageManager)
             {
+                var hasRewardPoints = missionItem.cluePointReward ? true : false;
+                var rewardPoints = hasRewardPoints ? missionItem.cluePointReward.rewardPoints : 0;
+
                 var res = assetLoaderManager.getRes();
 
                 var foregroundContainer = libraryManager.getElement('foregroundContainer');
@@ -781,7 +805,7 @@ var ContentMission = (function () {
                     fontStyle: 'normal',
                     fill: '#4fcd17'
                 }));
-                notificationMessage2.text = missionItem.rewardPoints ? missionItem.rewardPoints : 0;
+                notificationMessage2.text = rewardPoints;
                 notificationMessage2.anchor.x = 0;
 
                 var notificationMessage3 = libraryManager.createText('notificationMessage3', notificationMessageContainer, 0, new PIXI.TextStyle({
@@ -820,14 +844,14 @@ var ContentMission = (function () {
                         tl.add(this.notificationMessageContainer.content.show, "+=0.5");
                     }
 
-                    if(missionItem.rewardPoints)
+                    if(hasRewardPoints)
                     {
                         var interfaceManager = InterfaceManager.getInstance();
                         interfaceManager.highlightCluePoint(true);
                         tl.add(addReward, "+=0.25");
                         function addReward()
                         {
-                            interfaceManager.addCluePoints(missionItem.rewardPoints);
+                            interfaceManager.addCluePoints(rewardPoints);
                         }
                     }
 
