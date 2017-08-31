@@ -716,7 +716,6 @@ var ContentMission = (function () {
 
 
                             function onPlayerStateChange(event) {
-                                console.log(event);
 
                                 switch(event.data) {
                                     case 1:
@@ -782,13 +781,11 @@ var ContentMission = (function () {
                 missionItem.notificationReward = new Array();
                 if(missionItem.cluePointReward)
                 {
-                    console.log(missionItem.cluePointReward);
                     missionItem.notificationReward.push(missionItem.cluePointReward);
                 }
 
                 if(missionItem.cluePieceReward)
                 {
-                    console.log(missionItem.cluePieceReward);
                     missionItem.notificationReward.push(missionItem.cluePieceReward);
                 }
 
@@ -839,7 +836,6 @@ var ContentMission = (function () {
 
                     switch (reward) {
                         case missionItem.cluePointReward:
-
                             showMissionComplete(reward);
                             break;
                         case missionItem.cluePieceReward:
@@ -940,20 +936,23 @@ var ContentMission = (function () {
 
                 function showPieceUnlock(reward)
                 {
-                    notificationContainer.visible = true;
 
                     var hasReward = reward ? true : false;
                     var rewardPiece = hasReward ? reward.rewardPiece : null;
                     var rewardCaseId = hasReward ? reward.caseId : null;
-                    console.log(rewardCaseId);
+
                     var cluesObjData = interfaceManager.getContents().clues.getObjData();
-                    console.log(cluesObjData);
                     var clueCaseData = libraryManager.getElementFromList(cluesObjData.cluesList, 'id', rewardCaseId);
-                    console.log(clueCaseData);
+
+                    if(!clueCaseData)
+                        return;
 
                     var cluePieceData = libraryManager.getElementFromList(clueCaseData.data, 'cell', rewardPiece);
-                    console.log(cluePieceData);
 
+                    if(!cluePieceData)
+                        return;
+
+                    notificationContainer.visible = true;
                     cluePieceData.isCompleted = true;
 
                     var clueIcon = libraryManager.createImage('clueIcon', notificationBG, res[cluePieceData.imageRes].texture);
