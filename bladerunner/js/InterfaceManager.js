@@ -40,6 +40,7 @@ var InterfaceManager = (function () {
         assets.push(new Asset('img_header_neon', 'images/img_header_neon.png'));
         assets.push(new Asset('img_footer', 'images/img_footer.png'));
         assets.push(new Asset('img_bg_pop', 'images/img_bg_pop.png'));
+        assets.push(new Asset('img_bg_pop_bar', 'images/img_bg_pop_bar.png'));
         assets.push(new Asset('img_bg_notification', 'images/img_bg_notification.png'));
         assets.push(new Asset('img_loading_circle', 'images/img_loading_circle.png'));
         assets.push(new Asset('btn_arrow_left', 'images/btn_arrow_left.png'));

@@ -50,6 +50,9 @@ var ContentMission = (function () {
         assets.push(new Asset('img_mission13', 'images/missions/img_mission13.png'));
         assets.push(new Asset('img_mission14', 'images/missions/img_mission14.png'));
         assets.push(new Asset('txt_mission_completed', 'images/txt_mission_completed.png'));
+        assets.push(new Asset('img_event02_sub01', 'images/missions/img_event02_sub01.png'));
+        assets.push(new Asset('img_event02_sub02', 'images/missions/img_event02_sub02.png'));
+        assets.push(new Asset('img_event02_sub03', 'images/missions/img_event02_sub03.png'));
 
         assets.push(new Asset('img_clue_101', 'images/clues/img_clue_101.png'));
         assets.push(new Asset('img_clue_102', 'images/clues/img_clue_102.png'));
@@ -106,7 +109,13 @@ var ContentMission = (function () {
                     data:
                     [
                         {id: 'm1', type: 'eventcell', title: 'Special Event Mission', desc: 'Street Investigation', imageRes: 'img_event01', iconRes: 'icon_event', hasStartButton: true},
-                        {id: 'm2', type: 'eventcell', title: 'Special Event Mission', desc: 'Android Detention', imageRes: 'img_event02', iconRes: 'icon_game', hasStartButton: true}
+                        {id: 'm2', type: 'eventcell', title: 'Special Event Mission', desc: 'Android Detention', imageRes: 'img_event02', iconRes: 'icon_game', hasStartButton: true,
+                            gameData: [
+                                {imageRes: 'img_event02_sub01'},
+                                {imageRes: 'img_event02_sub02'},
+                                {imageRes: 'img_event02_sub03'}
+                            ]
+                        }
                     ]
                 },
                 {
@@ -282,6 +291,18 @@ var ContentMission = (function () {
                                 missionItemContainer.content.dividerMask = dividerMask;
 
                             } else {
+
+                                if(missionItem.gameData)
+                                {
+                                    missionItemContainer.buttonMode = true;
+                                    missionItemContainer.interactive = true;
+                                    missionItemContainer.on('pointertap', (function() {
+                                        if(!sc.isMoving())
+                                        {
+                                            showPopupContentGames(this);
+                                        }
+                                    }).bind(missionItem));
+                                }
 
                                 if(missionItem.videoURL)
                                 {
@@ -1047,6 +1068,164 @@ var ContentMission = (function () {
             }
 
             showNotification(missionItem);
+
+        }
+
+        function showPopupContentGames(item)
+        {
+            var assetLoaderManager = AssetLoaderManager.getInstance();
+            var libraryManager = LibraryManager.getInstance();
+
+            if(assetLoaderManager && libraryManager)
+            {
+                var res = assetLoaderManager.getRes();
+
+                var bodyContainer = libraryManager.getElement('bodyContainer');
+                bodyContainer.position.y = 45;
+
+                var contentContainer = libraryManager.getElement('contentContainer');
+                var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
+
+                var popupContainer =  libraryManager.createContainer('popupContainer', contentContainer);
+                popupContainer.position.y = -100;
+                popupContainer.interactive = true;
+
+                var popupBGFade = libraryManager.createImage('popupBGFade', popupContainer, res['img_white'].texture);
+                popupBGFade.tint = 0x000000;
+                popupBGFade.alpha = 0.75;
+                popupBGFade.width = bodyBackgroundObj.width;
+                popupBGFade.height = bodyBackgroundObj.height;
+
+                var popupBG = libraryManager.createImage('popupBG', popupContainer, res['img_bg_pop'].texture);
+                popupBG.visible = false;
+                popupBG.content.load = (function() {
+                    this.visible = true;
+                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    TweenMax.fromTo(this.position, 0.5, {y: -25}, {y: 0, ease: Power2.easeOut});
+                }).bind(popupBG);
+
+                var popupBGBar = libraryManager.createImage('popupBGBar', popupBG, res['img_bg_pop_bar'].texture);
+                popupBGBar.position.y = -(popupBG.height * 0.5) + (popupBGBar.height * 0.5);
+
+                var popupBGBarTitle = libraryManager.createText('popupBGBarTitle', popupBGBar, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 20,
+                    fontStyle: 'italic',
+                    fontWeight: 'bold',
+                    fill: '#ffffff'
+                }));
+                popupBGBarTitle.text = item.title;
+
+                var buttonCloseImage = libraryManager.createImageButton('buttonCloseImage', popupBG, res['btn_close'].texture);
+                buttonCloseImage.position.x = (popupBG.width * 0.5) - 15;
+                buttonCloseImage.position.y = -(popupBG.height * 0.5) + 15;
+
+                buttonCloseImage.on('pointertap', function() {
+                    closePopupContentGames();
+                });
+
+                var popupImage = libraryManager.createImage('popupImage', popupBG, res[item.imageRes].texture);
+                popupImage.position.x = -(popupBG.width * 0.5) + (popupImage.width * 0.5) + 10;
+                popupImage.position.y = -(popupBG.height * 0.5) + (popupImage.height * 0.5) + 70;
+
+                var popupImageIcon = libraryManager.createImage('popupImageIcon', popupImage, res[item.iconRes].texture);
+                popupImageIcon.position.x = (popupImage.width * 0.5) - (popupImageIcon.width * 0.5) - 5;
+                popupImageIcon.position.y = -(popupImage.height * 0.5) + (popupImageIcon.height * 0.5) + 5;
+
+                var popupImageTitle = libraryManager.createText('popupImageTitle', popupBG, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fill: '#909090'
+                }));
+                popupImageTitle.text = item.desc;
+                popupImageTitle.anchor.x = 0;
+                popupImageTitle.position.x = popupImage.position.x + (popupImage.width * 0.5) + 20;
+                popupImageTitle.position.y = -(popupBG.height * 0.5) + (popupImageTitle.height * 0.5) + 70;
+
+                var popupImageTimeLeft = libraryManager.createText('popupImageTimeLeft', popupBG, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fill: '#909090'
+                }));
+                popupImageTimeLeft.text = 'Time Left: ';
+                popupImageTimeLeft.anchor.x = 0;
+                popupImageTimeLeft.position.x = popupImageTitle.position.x;
+                popupImageTimeLeft.position.y = popupImageTitle.position.y + (popupImageTitle.height * 0.5) + 20;
+
+                var popupImageProgress = libraryManager.createText('popupImageProgress', popupBG, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fill: '#909090'
+                }));
+                popupImageProgress.text = 'Progress: ';
+                popupImageProgress.anchor.x = 0;
+                popupImageProgress.position.x = popupImageTimeLeft.position.x;
+                popupImageProgress.position.y = popupImageTimeLeft.position.y + (popupImageTimeLeft.height * 0.5) + 20;
+
+                var popupImageDesc = libraryManager.createText('popupImageDesc', popupBG, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fill: '#909090',
+                    wordWrapWidth: popupBG.width - 50,
+                    wordWrap : true
+                }));
+                popupImageDesc.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel enim nec arcu tristique convallis quis at urna. Donec tellus ipsum, porttitor id ultrices eu, aliquet in risus. Aenean nunc erat, accumsan sit amet odio id, faucibus tristique sem. Sed in ex dapibus, efficitur est at, venenatis sapien. Sed elementum mi vitae mauris accumsan, ac aliquet ligula fermentum.';
+                popupImageDesc.anchor.x = 0;
+                popupImageDesc.anchor.y = 0;
+                popupImageDesc.position.x = popupImage.position.x - (popupImage.width * 0.5);
+                popupImageDesc.position.y = popupImage.position.y + (popupImage.height * 0.5) + 20;
+
+                var colPos = 0;
+                var maxCol = 3;
+
+                for (var i = 0; i < item.gameData.length; i++)
+                {
+                    var gameData = item.gameData[i];
+
+                    colPos = (i % maxCol) - (maxCol / 2);
+
+                    var popupGameDataImage = libraryManager.createImage('popupGameDataImage_' + i, popupBG, res[gameData.imageRes].texture);
+                    popupGameDataImage.position.x = (colPos * (popupGameDataImage.width + 20)) + ((popupGameDataImage.width + 20) * 0.5);
+                    popupGameDataImage.position.y = popupImageDesc.position.y + popupImageDesc.height + (popupGameDataImage.height * 0.5) + 20;
+
+                    var contentStart = libraryManager.createImageButton('contentStart', popupGameDataImage, res['btn_start'].texture);
+                    contentStart.position.x = (popupGameDataImage.width * 0.5) - (contentStart.width * 0.5);
+                    contentStart.position.y = (popupGameDataImage.height * 0.5) - (contentStart.height * 0.5);
+                }
+
+                popupBG.content.load();
+
+            }
+
+        }
+
+        function closePopupContentGames()
+        {
+            var assetLoaderManager = AssetLoaderManager.getInstance();
+            var libraryManager = LibraryManager.getInstance();
+
+            if(assetLoaderManager && libraryManager)
+            {
+                var res = assetLoaderManager.getRes();
+
+                var bodyContainer = libraryManager.getElement('bodyContainer');
+                bodyContainer.position.y = 45;
+
+                var contentContainer = libraryManager.getElement('contentContainer');
+                var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
+
+                var popupContainer =  libraryManager.getElement('popupContainer');
+                if(popupContainer)
+                {
+                    libraryManager.removeElement(popupContainer.content.id);
+                    contentContainer.removeChild(popupContainer);
+                }
+
+            }
 
         }
 
