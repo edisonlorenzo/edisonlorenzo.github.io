@@ -415,14 +415,6 @@ var ContentClues = (function () {
                 var sc = libraryManager.createScrollContainer('contentScrollContainer', contentBodyContainer, bodyBackgroundObj.width, bodyBackgroundObj.height);
                 var rowContainer;
 
-                // var notificationCount = objData.notificationList.length;
-                // if(objData.notificationList.length > 0)
-                // {
-                //     var cluesButtonObj = libraryManager.getElement('cluesButtonObj');
-                //     console.log(cluesButtonObj);
-                //     cluesButtonObj.content.showNotification(notificationCount);
-                // }
-
                 for (var i = 0; i < objData.cluesList.length; i++)
                 {
                     if(i % maxCol == 0)
@@ -575,7 +567,6 @@ var ContentClues = (function () {
                         caseFileStatus.position.y = (cluesBG.height * 0.5) - 5;
                     }
 
-                    // var isNewPiece = libraryManager.getElementFromList(objData.notificationList, 'id', cluesItem.id);
                     var newPieceList = libraryManager.getElementsFromList(objData.notificationList, 'id', cluesItem.id);
                     if(newPieceList.length > 0)
                     {

@@ -855,7 +855,7 @@ var ContentMission = (function () {
 
                     var notificationTitle = libraryManager.createImage('notificationTitle', notificationBG, res['txt_mission_completed'].texture);
                     notificationTitle.content.offsetX = -(notificationBG.width * 0.5) - (notificationTitle.width * 0.5);
-                    notificationTitle.position.y = -45;
+                    notificationTitle.position.y = -40;
                     notificationTitle.visible = false;
                     notificationTitle.content.show = (function() {
                         this.visible = true;
@@ -867,7 +867,7 @@ var ContentMission = (function () {
 
                     var notificationMessage1 = libraryManager.createText('notificationMessage1', notificationMessageContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 18,
+                        fontSize: 24,
                         fontStyle: 'normal',
                         fill: '#ffffff'
                     }));
@@ -876,7 +876,7 @@ var ContentMission = (function () {
 
                     var notificationMessage2 = libraryManager.createText('notificationMessage2', notificationMessageContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 18,
+                        fontSize: 24,
                         fontStyle: 'normal',
                         fill: '#4fcd17'
                     }));
@@ -885,7 +885,7 @@ var ContentMission = (function () {
 
                     var notificationMessage3 = libraryManager.createText('notificationMessage3', notificationMessageContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 18,
+                        fontSize: 24,
                         fontStyle: 'normal',
                         fill: '#ffffff'
                     }));
@@ -898,7 +898,7 @@ var ContentMission = (function () {
                     notificationMessage2.position.x = notificationMessage1.position.x + notificationMessage1.width;
                     notificationMessage3.position.x = notificationMessage2.position.x + notificationMessage2.width;
 
-                    notificationMessageContainer.position.y = 45;
+                    notificationMessageContainer.position.y = 40;
                     notificationMessageContainer.visible = false;
                     notificationMessageContainer.content.show = (function() {
                         this.visible = true;
@@ -975,7 +975,7 @@ var ContentMission = (function () {
 
                     var notificationMessage1 = libraryManager.createText('notificationMessage1', notificationMessageContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 18,
+                        fontSize: 24,
                         fontStyle: 'normal',
                         fill: '#ffffff'
                     }));
@@ -984,7 +984,7 @@ var ContentMission = (function () {
 
                     var notificationMessage2 = libraryManager.createText('notificationMessage2', notificationMessageContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 18,
+                        fontSize: 24,
                         fontStyle: 'normal',
                         fill: '#ff3437'
                     }));

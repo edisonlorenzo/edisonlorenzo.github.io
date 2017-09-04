@@ -470,12 +470,6 @@ var InterfaceManager = (function () {
 
             headerStatusLeftImage.mask = headerStatusLeftImageMask;
 
-            // var cluesValue = 0;
-            //
-            // var cluesMax = 99999;
-            // var widthValue = headerStatusLeftImage.width + 2;
-            // var finalWidthValue = Math.ceil(widthValue * (cluesValue / cluesMax));
-
             cluesValueObj.value = 0;
             cluesValueObj.cluesMax = 9999999;
             cluesValueObj.cluesValue = 3453500;
@@ -484,7 +478,6 @@ var InterfaceManager = (function () {
             cluesValueObj.widthValue = headerStatusLeftImage.width + 2;
             cluesValueObj.finalWidthValue = computeFinalWidth;
 
-            //headerStatusLeftImageMask.content.finalWidthValue = finalWidthValue;
             headerStatusLeftImage.content.show = (function() {
                 this.visible = true;
                 TweenMax.to(this.imageMask, 1, {width: this.finalWidthValue(), ease: Back.easeOut});
@@ -509,10 +502,6 @@ var InterfaceManager = (function () {
             {
                 return Math.ceil(cluesValueObj.widthValue * ((cluesValueObj.value + cluesValueObj.cluesValue) / cluesValueObj.cluesMax));
             }
-
-            // cluesValueObj.value = 0;
-            // cluesValueObj.cluesValue = cluesValue;
-            // cluesValueObj.setText = setText;
 
             headerStatusCluesValueText.content.show = (function() {
                 TweenMax.to(this, 1, {value: "+="+this.cluesValue, roundProps:"value", ease: Back.easeOut, onUpdate: this.setText});
