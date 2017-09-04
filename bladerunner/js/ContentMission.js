@@ -1154,6 +1154,18 @@ var ContentMission = (function () {
                 popupImageTimeLeft.position.x = popupImageTitle.position.x;
                 popupImageTimeLeft.position.y = popupImageTitle.position.y + (popupImageTitle.height * 0.5) + 20;
 
+                var popupImageTimeLeftValue = libraryManager.createText('popupImageTimeLeftValue', popupBG, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: 'bold',
+                    fill: '#ffffff'
+                }));
+                popupImageTimeLeftValue.text = '09:30:53';
+                popupImageTimeLeftValue.anchor.x = 0;
+                popupImageTimeLeftValue.position.x = popupImageTimeLeft.position.x + popupImageTimeLeft.width;
+                popupImageTimeLeftValue.position.y = popupImageTimeLeft.position.y;
+
                 var popupImageProgress = libraryManager.createText('popupImageProgress', popupBG, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 18,
@@ -1164,6 +1176,18 @@ var ContentMission = (function () {
                 popupImageProgress.anchor.x = 0;
                 popupImageProgress.position.x = popupImageTimeLeft.position.x;
                 popupImageProgress.position.y = popupImageTimeLeft.position.y + (popupImageTimeLeft.height * 0.5) + 20;
+
+                var popupImageProgressValue = libraryManager.createText('popupImageProgressValue', popupBG, 0, new PIXI.TextStyle({
+                    fontFamily: 'Arial',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: 'bold',
+                    fill: '#ffffff'
+                }));
+                popupImageProgressValue.text = '0/3';
+                popupImageProgressValue.anchor.x = 0;
+                popupImageProgressValue.position.x = popupImageProgress.position.x + popupImageProgress.width;
+                popupImageProgressValue.position.y = popupImageProgress.position.y;
 
                 var popupImageDesc = libraryManager.createText('popupImageDesc', popupBG, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
