@@ -383,7 +383,7 @@ var ContentArchive = (function () {
 
                     var backButtonLabel = libraryManager.createText('contentTitle', backButtonImage, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 28,
+                        fontSize: 30,
                         fontStyle: 'normal',
                         fill: '#999999'
                     }));
