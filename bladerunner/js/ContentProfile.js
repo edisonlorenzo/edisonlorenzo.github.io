@@ -15,22 +15,14 @@ var ContentProfile = (function () {
         assets.push(new Asset('img_profile_card', 'images/img_profile_card.png'));
         assets.push(new Asset('img_profile_avatar', 'images/img_profile_avatar.png'));
         assets.push(new Asset('img_bg_achievement', 'images/img_bg_achievement.png'));
-        assets.push(new Asset('img_achievement01_active', 'images/achievements/img_achievement01_active.png'));
-        assets.push(new Asset('img_achievement02_active', 'images/achievements/img_achievement02_active.png'));
-        assets.push(new Asset('img_achievement03_active', 'images/achievements/img_achievement03_active.png'));
-        assets.push(new Asset('img_achievement04_active', 'images/achievements/img_achievement04_active.png'));
-        assets.push(new Asset('img_achievement05_active', 'images/achievements/img_achievement05_active.png'));
-        assets.push(new Asset('img_achievement06_active', 'images/achievements/img_achievement06_active.png'));
-        assets.push(new Asset('img_achievement07_active', 'images/achievements/img_achievement07_active.png'));
-        assets.push(new Asset('img_achievement08_active', 'images/achievements/img_achievement08_active.png'));
-        assets.push(new Asset('img_achievement01_inactive', 'images/achievements/img_achievement01_inactive.png'));
-        assets.push(new Asset('img_achievement02_inactive', 'images/achievements/img_achievement02_inactive.png'));
-        assets.push(new Asset('img_achievement03_inactive', 'images/achievements/img_achievement03_inactive.png'));
-        assets.push(new Asset('img_achievement04_inactive', 'images/achievements/img_achievement04_inactive.png'));
-        assets.push(new Asset('img_achievement05_inactive', 'images/achievements/img_achievement05_inactive.png'));
-        assets.push(new Asset('img_achievement06_inactive', 'images/achievements/img_achievement06_inactive.png'));
-        assets.push(new Asset('img_achievement07_inactive', 'images/achievements/img_achievement07_inactive.png'));
-        assets.push(new Asset('img_achievement08_inactive', 'images/achievements/img_achievement08_inactive.png'));
+        assets.push(new Asset('img_achievement01', 'images/achievements/img_achievement01.png'));
+        assets.push(new Asset('img_achievement02', 'images/achievements/img_achievement02.png'));
+        assets.push(new Asset('img_achievement03', 'images/achievements/img_achievement03.png'));
+        assets.push(new Asset('img_achievement04', 'images/achievements/img_achievement04.png'));
+        assets.push(new Asset('img_achievement05', 'images/achievements/img_achievement05.png'));
+        assets.push(new Asset('img_achievement06', 'images/achievements/img_achievement06.png'));
+        assets.push(new Asset('img_achievement07', 'images/achievements/img_achievement07.png'));
+        assets.push(new Asset('img_achievement08', 'images/achievements/img_achievement08.png'));
 
         var objData =
         {
@@ -258,7 +250,6 @@ var ContentProfile = (function () {
 
                 for (var i = 0; i < objData.achievementList.length; i++)
                 {
-                    var imageResTag = objData.achievementList[i].isActive ? '_active' : '_inactive'
                     var achievementBG = libraryManager.createImage('achievementBG_' + i, achievementContainer, res['img_bg_achievement'].texture);
                     achievementBG.visible = false;
                     achievementBG.content.show = (function() {
@@ -267,8 +258,12 @@ var ContentProfile = (function () {
                         TweenMax.fromTo(this.position, 0.5, {y: this.content.posY - 15}, {y: this.content.posY, ease: Power2.easeOut});
                     }).bind(achievementBG);
 
-                    var achievementItemIcon = libraryManager.createImage('achievementItemIcon_' + i, achievementBG, res[objData.achievementList[i].imageRes + imageResTag].texture);
+                    var achievementItemIcon = libraryManager.createImage('achievementItemIcon_' + i, achievementBG, res[objData.achievementList[i].imageRes].texture);
                     achievementItemIcon.position.x = -(achievementBG.width * 0.5) + (achievementItemIcon.width * 0.5);
+
+                    var isActive = (objData.achievementList[i].isActive) ? true : false;
+                    libraryManager.setDesaturate(achievementItemIcon, !isActive);
+
 
                     var achievementItemTitle = libraryManager.createText('achievementItemTitle_' + i, achievementBG, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',

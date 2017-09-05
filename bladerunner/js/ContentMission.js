@@ -1340,21 +1340,10 @@ var ContentMission = (function () {
 
         function checkMissionComplete(missionItem)
         {
+            var libraryManager = LibraryManager.getInstance();
             var isComplete = missionItem.rewardReceived ? true : false;
             missionItem.contentTitle.text = missionItem.rewardReceived ? missionItem.title + ' Complete' : missionItem.title;
-            setDesaturate(missionItem.contentImage, isComplete);
-        }
-
-        function setDesaturate(contentImage, value)
-        {
-            let colorMatrix = new PIXI.filters.ColorMatrixFilter();
-            if(value)
-            {
-                contentImage.filters = [colorMatrix];
-                colorMatrix.desaturate();
-            } else {
-                contentImage.filters = [];
-            }
+            libraryManager.setDesaturate(missionItem.contentImage, isComplete);
         }
 
         return {

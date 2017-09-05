@@ -380,6 +380,18 @@ var LibraryManager = (function () {
             }
         }
 
+        function setDesaturate(contentImage, value)
+        {
+            var colorMatrix = new PIXI.filters.ColorMatrixFilter();
+            if(value)
+            {
+                contentImage.filters = [colorMatrix];
+                colorMatrix.desaturate();
+            } else {
+                contentImage.filters = [];
+            }
+        }
+
 
         return {
             compareStrings: compareStrings,
@@ -395,7 +407,8 @@ var LibraryManager = (function () {
             createImageButton: createImageButton,
             createVideo: createVideo,
             createScrollContainer: createScrollContainer,
-            getYoutubeID: getYoutubeID
+            getYoutubeID: getYoutubeID,
+            setDesaturate: setDesaturate
         };
 
     };
