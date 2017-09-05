@@ -108,7 +108,12 @@ var ContentMission = (function () {
                 {
                     data:
                     [
-                        {id: 'm1', type: 'eventcell', title: 'Special Event Mission', desc: 'Street Investigation', imageRes: 'img_event01', iconRes: 'icon_event', hasStartButton: true},
+                        {id: 'm1', type: 'eventcell', title: 'Special Event Mission', desc: 'Street Investigation', imageRes: 'img_event01', iconRes: 'icon_event', hasStartButton: true}
+                    ]
+                },
+                {
+                    data:
+                    [
                         {id: 'm2', type: 'eventcell', title: 'Special Event Mission', desc: 'Android Detention', imageRes: 'img_event02', iconRes: 'icon_game', hasStartButton: true,
                             gameData: [
                                 {imageRes: 'img_event02_sub01'},
@@ -128,29 +133,40 @@ var ContentMission = (function () {
                     data:
                     [
                         {id: 'm3', type: 'onecell', title: 'Mission', desc: 'The Rick Deckard Report 01', imageRes: 'img_mission01', iconRes: 'icon_video', videoURL: 'https://www.youtube.com/watch?v=qJA48WZ9bis', cluePointRewardId: 'cluePoint01', cluePieceRewardId: 'cluePiece_1111_01'},
-                        {id: 'm4', type: 'onecell', title: 'Mission', desc: 'Tyrell Operation', imageRes: 'img_mission02', iconRes: 'icon_book'},
-                        {id: 'm5', type: 'onecell', title: 'Mission', desc: 'The Origami Mystery', imageRes: 'img_mission03', iconRes: 'icon_game', isLocked: true, lockDesc: 'Unlock with 99999 Clue Points'}
+                        {id: 'm4', type: 'onecell', title: 'Mission', desc: 'Tyrell Operation', imageRes: 'img_mission02', iconRes: 'icon_book'}
                     ]
                 },
                 {
                     data:
                     [
-                        {id: 'm6', type: 'twocell', title: 'Event', desc: 'The Hidden Soundtrack', imageRes: 'img_mission04', iconRes: 'icon_music', videoURL: 'https://www.youtube.com/watch?v=UgsS3nhRRzQ', cluePointRewardId: 'cluePoint03', cluePieceRewardId: 'cluePiece_1111_05'},
-                        {id: 'm7', type: 'onecell', title: 'Mission', desc: 'Target Practice', imageRes: 'img_mission05', iconRes: 'icon_comic', videoURL: 'https://www.youtube.com/watch?v=Dgank1Rk32E', cluePointRewardId: 'cluePoint02', cluePieceRewardId: 'cluePiece_1111_06'}
+                        {id: 'm5', type: 'onecell', title: 'Mission', desc: 'The Origami Mystery', imageRes: 'img_mission03', iconRes: 'icon_game', isLocked: true, lockDesc: 'Unlock with 99999 Clue Points'},
+                        {id: 'm6', type: 'onecell', title: 'Mission', desc: 'Target Practice', imageRes: 'img_mission05', iconRes: 'icon_comic', videoURL: 'https://www.youtube.com/watch?v=Dgank1Rk32E', cluePointRewardId: 'cluePoint02', cluePieceRewardId: 'cluePiece_1111_06'}
+                    ]
+                },
+                {
+                    data:
+                    [
+                        {id: 'm7', type: 'twocell', title: 'Event', desc: 'The Hidden Soundtrack', imageRes: 'img_mission04', iconRes: 'icon_music', videoURL: 'https://www.youtube.com/watch?v=UgsS3nhRRzQ', cluePointRewardId: 'cluePoint03', cluePieceRewardId: 'cluePiece_1111_05'}
                     ]
                 },
                 {
                     data:
                     [
                         {id: 'm8', type: 'onecell', title: 'Mission', desc: 'The Nexus 6 Creation Part 1', imageRes: 'img_mission06', iconRes: 'icon_news'},
-                        {id: 'm9', type: 'onecell', title: 'Mission', desc: 'The Blueprint', imageRes: 'img_mission07', iconRes: 'icon_toy'},
-                        {id: 'm10', type: 'onecell', title: 'Mission', desc: 'Food for Thought', imageRes: 'img_mission08', iconRes: 'icon_food'}
+                        {id: 'm9', type: 'onecell', title: 'Mission', desc: 'The Blueprint', imageRes: 'img_mission07', iconRes: 'icon_toy'}
                     ]
                 },
                 {
                     data:
                     [
-                        {id: 'm11', type: 'onecell', title: 'Mission', desc: 'Mobile Runner', imageRes: 'img_mission09', iconRes: 'icon_news'},
+                        {id: 'm10', type: 'onecell', title: 'Mission', desc: 'Food for Thought', imageRes: 'img_mission08', iconRes: 'icon_food'},
+                        {id: 'm11', type: 'onecell', title: 'Mission', desc: 'Mobile Runner', imageRes: 'img_mission09', iconRes: 'icon_news'}
+                    ]
+                },
+                {
+                    data:
+                    [
+
                         {id: 'm12', type: 'onecell', title: 'Mission', desc: 'Inside of Movie Preview', imageRes: 'img_mission10', iconRes: 'icon_news'},
                         {id: 'm13', type: 'onecell', title: 'Mission', desc: 'First Person Blade Runner', imageRes: 'img_mission11', iconRes: 'icon_news'}
                     ]
@@ -159,7 +175,12 @@ var ContentMission = (function () {
                     data:
                     [
                         {id: 'm14', type: 'onecell', title: 'Mission', desc: 'Art of Cinema', imageRes: 'img_mission12', iconRes: 'icon_news'},
-                        {id: 'm15', type: 'onecell', title: 'Mission', desc: 'LAPD 2019 Blaster', imageRes: 'img_mission13', iconRes: 'icon_news'},
+                        {id: 'm15', type: 'onecell', title: 'Mission', desc: 'LAPD 2019 Blaster', imageRes: 'img_mission13', iconRes: 'icon_news'}
+                    ]
+                },
+                {
+                    data:
+                    [
                         {id: 'm16', type: 'onecell', title: 'Mission', desc: 'Blade Fashion', imageRes: 'img_mission14', iconRes: 'icon_news'}
                     ]
                 }
@@ -268,6 +289,19 @@ var ContentMission = (function () {
                             }).bind(missionItemContainer);
 
                             var cellBlock = libraryManager.createImage(missionItem.type + '_' + row + '_' + i, missionItemContainer, res[missionType.imageRes].texture);
+
+                            if(missionItem.type == 'onecell')
+                            {
+                                cellBlock.scale.set(1.51);
+                            }
+                            else if(missionItem.type == 'twocell')
+                            {
+                                cellBlock.scale.set(1.505);
+                            }
+                            else if(missionItem.type == 'eventcell')
+                            {
+                                cellBlock.scale.set(2.01);
+                            }
 
                             rowHeight = cellBlock.height;
 
@@ -888,7 +922,7 @@ var ContentMission = (function () {
 
                     var notificationMessage1 = libraryManager.createText('notificationMessage1', notificationMessageContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 24,
+                        fontSize: 26,
                         fontStyle: 'normal',
                         fill: '#ffffff'
                     }));
@@ -897,7 +931,7 @@ var ContentMission = (function () {
 
                     var notificationMessage2 = libraryManager.createText('notificationMessage2', notificationMessageContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 24,
+                        fontSize: 26,
                         fontStyle: 'normal',
                         fill: '#4fcd17'
                     }));
@@ -906,7 +940,7 @@ var ContentMission = (function () {
 
                     var notificationMessage3 = libraryManager.createText('notificationMessage3', notificationMessageContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 24,
+                        fontSize: 26,
                         fontStyle: 'normal',
                         fill: '#ffffff'
                     }));
@@ -996,7 +1030,7 @@ var ContentMission = (function () {
 
                     var notificationMessage1 = libraryManager.createText('notificationMessage1', notificationMessageContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 24,
+                        fontSize: 26,
                         fontStyle: 'normal',
                         fill: '#ffffff'
                     }));
@@ -1005,7 +1039,7 @@ var ContentMission = (function () {
 
                     var notificationMessage2 = libraryManager.createText('notificationMessage2', notificationMessageContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 24,
+                        fontSize: 26,
                         fontStyle: 'normal',
                         fill: '#ff3437'
                     }));
@@ -1109,7 +1143,7 @@ var ContentMission = (function () {
 
                 var popupBGBarTitle = libraryManager.createText('popupBGBarTitle', popupBGBar, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
-                    fontSize: 20,
+                    fontSize: 28,
                     fontStyle: 'italic',
                     fontWeight: 'bold',
                     fill: '#ffffff'
@@ -1134,7 +1168,7 @@ var ContentMission = (function () {
 
                 var popupImageTitle = libraryManager.createText('popupImageTitle', popupBG, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
-                    fontSize: 18,
+                    fontSize: 24,
                     fontStyle: 'normal',
                     fill: '#909090'
                 }));
@@ -1145,7 +1179,7 @@ var ContentMission = (function () {
 
                 var popupImageTimeLeft = libraryManager.createText('popupImageTimeLeft', popupBG, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
-                    fontSize: 18,
+                    fontSize: 24,
                     fontStyle: 'normal',
                     fill: '#909090'
                 }));
@@ -1156,7 +1190,7 @@ var ContentMission = (function () {
 
                 var popupImageTimeLeftValue = libraryManager.createText('popupImageTimeLeftValue', popupBG, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
-                    fontSize: 18,
+                    fontSize: 24,
                     fontStyle: 'normal',
                     fontWeight: 'bold',
                     fill: '#ffffff'
@@ -1168,7 +1202,7 @@ var ContentMission = (function () {
 
                 var popupImageProgress = libraryManager.createText('popupImageProgress', popupBG, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
-                    fontSize: 18,
+                    fontSize: 24,
                     fontStyle: 'normal',
                     fill: '#909090'
                 }));
@@ -1179,7 +1213,7 @@ var ContentMission = (function () {
 
                 var popupImageProgressValue = libraryManager.createText('popupImageProgressValue', popupBG, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
-                    fontSize: 18,
+                    fontSize: 24,
                     fontStyle: 'normal',
                     fontWeight: 'bold',
                     fill: '#ffffff'
@@ -1190,13 +1224,13 @@ var ContentMission = (function () {
 
                 var popupImageDesc = libraryManager.createText('popupImageDesc', popupBG, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
-                    fontSize: 18,
+                    fontSize: 24,
                     fontStyle: 'normal',
                     fill: '#909090',
                     wordWrapWidth: popupBG.width - 50,
                     wordWrap : true
                 }));
-                popupImageDesc.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel enim nec arcu tristique convallis quis at urna. Donec tellus ipsum, porttitor id ultrices eu, aliquet in risus. Aenean nunc erat, accumsan sit amet odio id, faucibus tristique sem. Sed in ex dapibus, efficitur est at, venenatis sapien. Sed elementum mi vitae mauris accumsan, ac aliquet ligula fermentum.';
+                popupImageDesc.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel enim nec arcu tristique convallis quis at urna. Donec tellus ipsum, porttitor id ultrices eu, aliquet in risus.';
                 popupImageDesc.anchor.x = 0;
                 popupImageDesc.anchor.y = 0;
                 popupImageDesc.position.x = popupImage.position.x - (popupImage.width * 0.5);
@@ -1214,6 +1248,7 @@ var ContentMission = (function () {
                     var popupGameDataImage = libraryManager.createImage('popupGameDataImage_' + i, popupBG, res[gameData.imageRes].texture);
                     popupGameDataImage.position.x = (colPos * (popupGameDataImage.width + 20)) + ((popupGameDataImage.width + 20) * 0.5);
                     popupGameDataImage.position.y = popupImageDesc.position.y + popupImageDesc.height + (popupGameDataImage.height * 0.5) + 20;
+                    popupGameDataImage.position.y = (popupBG.height * 0.5) - (popupGameDataImage.height * 0.5) - 20;
 
                     var contentStart = libraryManager.createImageButton('contentStart', popupGameDataImage, res['btn_start'].texture);
                     contentStart.position.x = (popupGameDataImage.width * 0.5) - (contentStart.width * 0.5);
@@ -1232,7 +1267,7 @@ var ContentMission = (function () {
 
                     var popupGameDataImageText = libraryManager.createText('popupGameDataImageText', popupGameDataImage, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 18,
+                        fontSize: 24,
                         fontStyle: 'normal',
                         fill: '#ff3437'
                     }));

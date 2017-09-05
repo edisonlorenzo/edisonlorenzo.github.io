@@ -204,12 +204,13 @@ var ContentArchive = (function () {
 
                     var contentImageShading = libraryManager.createImage('contentImageShading', contentImageShadingContainer, res['img_archive_shading'].texture);
                     contentImageShading.width = contentImage.width;
+                    contentImageShading.scale.y = 1.4;
 
                     contentImageShadingContainer.position.y = (contentImage.height * 0.5) - (contentImageShading.height * 0.5);
 
                     var contentTitle = libraryManager.createText('contentTitle', contentImageShadingContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 20,
+                        fontSize: 32,
                         fontStyle: 'italic',
                         fontWeight: 'bold',
                         fill: '#ffffff'
@@ -382,7 +383,7 @@ var ContentArchive = (function () {
 
                     var backButtonLabel = libraryManager.createText('contentTitle', backButtonImage, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 22,
+                        fontSize: 28,
                         fontStyle: 'normal',
                         fill: '#999999'
                     }));
@@ -401,7 +402,7 @@ var ContentArchive = (function () {
                 if(item.data)
                 {
 
-                    var rowPos = 0, rowHeight = 0, colPos = 0, maxCol = 3;
+                    var rowPos = 0, rowHeight = 0, colPos = 0, maxCol = 2;
                     var sc = libraryManager.createScrollContainer('contentScrollContainer', contentBodyContainer, bodyBackgroundObj.width, bodyHeight);
                     var rowContainer;
 
@@ -430,6 +431,10 @@ var ContentArchive = (function () {
                         }).bind(archiveItemContainer);
 
                         var contentImage = libraryManager.createImage('contentImage', archiveItemContainer, res[archiveItem.imageRes].texture);
+                        contentImage.content.width = contentImage.width;
+                        contentImage.content.height = contentImage.height;
+                        contentImage.scale.set(1.5);
+
                         rowHeight = contentImage.height;
 
                         contentImage.content.posY = rowPos + (rowHeight * 0.5);
@@ -442,8 +447,8 @@ var ContentArchive = (function () {
                             var contentImageFade = libraryManager.createImage('contentImageFade', contentImage, res['img_white'].texture);
                             contentImageFade.tint = 0x000000;
                             contentImageFade.alpha = 0.75;
-                            contentImageFade.width = contentImage.width;
-                            contentImageFade.height = contentImage.height;
+                            contentImageFade.width = contentImage.content.width;
+                            contentImageFade.height = contentImage.content.height;
 
                             var contentImageLocked = libraryManager.createImage('contentImageLocked', contentImage, res['icon_lock'].texture);
                             contentImageLocked.position.y = -15;
@@ -458,9 +463,10 @@ var ContentArchive = (function () {
                         archiveItemContainer.content.contentImageShadingContainer = contentImageShadingContainer;
 
                         var contentImageShading = libraryManager.createImage('contentImageShading', contentImageShadingContainer, res['img_archive_shading'].texture);
-                        contentImageShading.width = contentImage.width;
+                        contentImageShading.width = contentImage.content.width;
+                        contentImageShading.scale.y = 1.2;
 
-                        contentImageShadingContainer.position.y = (contentImage.height * 0.5) - (contentImageShading.height * 0.5);
+                        contentImageShadingContainer.position.y = (contentImage.content.height * 0.5) - (contentImageShading.height * 0.5);
 
                         var contentTitle = libraryManager.createText('contentTitle', contentImageShadingContainer, 0, new PIXI.TextStyle({
                             fontFamily: 'Arial',

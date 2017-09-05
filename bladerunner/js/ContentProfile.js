@@ -140,7 +140,7 @@ var ContentProfile = (function () {
 
                 var profileTextRank = libraryManager.createText('profileTextRank', profileCard, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
-                    fontSize: 18,
+                    fontSize: 20,
                     fontStyle: 'bold',
                     fill: '#000000'
                 }));
@@ -160,7 +160,7 @@ var ContentProfile = (function () {
                 {
                     var profileTextInfoTitle = libraryManager.createText('profileTextInfoTitle_' + i, profileInfoContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 18,
+                        fontSize: 20,
                         fontStyle: 'bold',
                         fill: '#000000'
                     }));
@@ -171,7 +171,7 @@ var ContentProfile = (function () {
 
                     var profileTextInfoValue = libraryManager.createText('profileTextInfoValue_' + i, profileInfoContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 18,
+                        fontSize: 20,
                         fontStyle: 'normal',
                         fill: '#000000'
                     }));
@@ -202,7 +202,7 @@ var ContentProfile = (function () {
                 {
                     var profileTextInfoTitle = libraryManager.createText('profileTextInfoTitle_' + i, profileInfoContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 18,
+                        fontSize: 20,
                         fontStyle: 'bold',
                         fill: '#000000'
                     }));
@@ -213,7 +213,7 @@ var ContentProfile = (function () {
 
                     var profileTextInfoValue = libraryManager.createText('profileTextInfoValue_' + i, profileInfoContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 18,
+                        fontSize: 20,
                         fontStyle: 'normal',
                         fill: '#000000'
                     }));
@@ -242,7 +242,7 @@ var ContentProfile = (function () {
 
                 var achievementTitle = libraryManager.createText('achievementTitle', achievementContainer, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
-                    fontSize: 18,
+                    fontSize: 22,
                     fontStyle: 'normal',
                     fill: '#ffffff'
                 }));
@@ -272,7 +272,7 @@ var ContentProfile = (function () {
 
                     var achievementItemTitle = libraryManager.createText('achievementItemTitle_' + i, achievementBG, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 18,
+                        fontSize: 22,
                         fontStyle: 'normal',
                         fill: '#ffffff'
                     }));
@@ -282,7 +282,7 @@ var ContentProfile = (function () {
 
                     var achievementItemDesc = libraryManager.createText('achievementItemDesc_' + i, achievementBG, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 18,
+                        fontSize: 20,
                         fontStyle: 'normal',
                         fill: '#777777'
                     }));

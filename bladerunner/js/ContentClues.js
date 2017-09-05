@@ -410,7 +410,7 @@ var ContentClues = (function () {
                 var rowPos = 0, rowHeight = 0, colPos = 0;
 
                 var bgIdx = 1;
-                var maxCol = 4;
+                var maxCol = 3;
 
                 var sc = libraryManager.createScrollContainer('contentScrollContainer', contentBodyContainer, bodyBackgroundObj.width, bodyBackgroundObj.height);
                 var rowContainer;
@@ -425,7 +425,6 @@ var ContentClues = (function () {
                         sc.items.push(rowContainer);
                         sc.setItemHeight(rowHeight + 20);
                         rowPos = rowPos + rowHeight + 20;
-
                     }
 
                     colPos = (i % maxCol) - (maxCol / 2);
@@ -455,6 +454,9 @@ var ContentClues = (function () {
                     }).bind(cluesItem));
 
                     var cluesBG = libraryManager.createImage('cluesBG_' + i, cluesItemContainer, res['img_clue_bg' + bgIdx].texture);
+                    cluesBG.content.width = cluesBG.width;
+                    cluesBG.content.height = cluesBG.height;
+                    cluesBG.scale.set(1.35);
                     rowHeight = cluesBG.height;
                     cluesBG.content.posY = rowPos + (rowHeight * 0.5);
                     cluesBG.content.posX = (colPos * (cluesBG.width + 15)) + ((cluesBG.width + 15) * 0.5);
@@ -513,19 +515,19 @@ var ContentClues = (function () {
 
                     var caseFileLabel = libraryManager.createText('caseFileLabel', cluesContentContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 14,
+                        fontSize: 16,
                         fontStyle: 'normal',
                         fontWeight: 'bold',
                         fill: '#333333'
                     }));
                     caseFileLabel.text = 'Case File: ';
                     caseFileLabel.anchor.x = 0;
-                    caseFileLabel.position.x = -(cluesBG.width * 0.5) + 5;
+                    caseFileLabel.position.x = -(cluesBG.content.width * 0.5) + 5;
                     caseFileLabel.position.y = 65;
 
                     var caseFileValue = libraryManager.createText('caseFileValue', cluesContentContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 14,
+                        fontSize: 16,
                         fontStyle: 'normal',
                         fontWeight: 'bold',
                         fill: '#000000'
@@ -540,7 +542,7 @@ var ContentClues = (function () {
 
                     var caseFileProgress = libraryManager.createText('caseFileProgress', cluesContentContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 14,
+                        fontSize: 16,
                         fontStyle: 'normal',
                         fontWeight: 'bold',
                         fill: '#333333'
@@ -548,14 +550,14 @@ var ContentClues = (function () {
                     caseFileProgress.text = cellCompleted + '/' + maxGrid;
                     caseFileProgress.anchor.x = 1;
                     caseFileProgress.anchor.y = 1;
-                    caseFileProgress.position.x = (cluesBG.width * 0.5) - 5;
-                    caseFileProgress.position.y = (cluesBG.height * 0.5) - 5;
+                    caseFileProgress.position.x = (cluesBG.content.width * 0.5) - 5;
+                    caseFileProgress.position.y = (cluesBG.content.height * 0.5) - 5;
 
                     if(isCaseCompleted)
                     {
                         var caseFileStatus = libraryManager.createText('caseFileStatus', cluesContentContainer, 0, new PIXI.TextStyle({
                             fontFamily: 'Arial',
-                            fontSize: 14,
+                            fontSize: 16,
                             fontStyle: 'normal',
                             fontWeight: 'bold',
                             fill: '#7d4046'
@@ -563,8 +565,8 @@ var ContentClues = (function () {
                         caseFileStatus.text = 'Solved';
                         caseFileStatus.anchor.x = 0;
                         caseFileStatus.anchor.y = 1;
-                        caseFileStatus.position.x = -(cluesBG.width * 0.5) + 5;
-                        caseFileStatus.position.y = (cluesBG.height * 0.5) - 5;
+                        caseFileStatus.position.x = -(cluesBG.content.width * 0.5) + 5;
+                        caseFileStatus.position.y = (cluesBG.content.height * 0.5) - 5;
                     }
 
                     var newPieceList = libraryManager.getElementsFromList(objData.notificationList, 'id', cluesItem.id);
@@ -590,20 +592,20 @@ var ContentClues = (function () {
 
                         var cluesNewPiece = libraryManager.createImage('cluesNewPiece', cluesNewPieceContainer, res['img_white'].texture);
                         cluesNewPiece.tint = 0xdd2525;
-                        cluesNewPiece.width = 90;
+                        cluesNewPiece.width = 100;
                         cluesNewPiece.height = 25;
 
 
                         var cluesNewPieceText = libraryManager.createText('cluesNewPieceText', cluesNewPieceContainer, 0, new PIXI.TextStyle({
                             fontFamily: 'Arial',
-                            fontSize: 16,
+                            fontSize: 18,
                             fontStyle: 'normal',
                             fill: '#ffffff'
                         }));
                         cluesNewPieceText.text = 'New Piece';
 
-                        cluesNewPieceContainer.position.x = -(cluesBG.width * 0.5) + (cluesNewPiece.width * 0.5);
-                        cluesNewPieceContainer.position.y = (cluesBG.height * 0.5) - (cluesNewPiece.height * 0.5) - 5;
+                        cluesNewPieceContainer.position.x = -(cluesBG.content.width * 0.5) + (cluesNewPiece.width * 0.5);
+                        cluesNewPieceContainer.position.y = (cluesBG.content.height * 0.5) - (cluesNewPiece.height * 0.5) - 5;
                     }
 
                     cluesItemContainer.content.cluesContentContainer = cluesContentContainer;
@@ -760,7 +762,7 @@ var ContentClues = (function () {
 
                 var caseFileLabel = libraryManager.createText('caseFileLabel', popupBG, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
-                    fontSize: 16,
+                    fontSize: 24,
                     fontStyle: 'normal',
                     fill: '#808080'
                 }));
@@ -772,7 +774,7 @@ var ContentClues = (function () {
 
                 var caseFileValue = libraryManager.createText('caseFileValue', popupBG, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
-                    fontSize: 16,
+                    fontSize: 24,
                     fontStyle: 'normal',
                     fill: '#ffffff'
                 }));
@@ -787,7 +789,7 @@ var ContentClues = (function () {
 
                 var caseFileProgress = libraryManager.createText('caseFileProgress', popupBG, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
-                    fontSize: 16,
+                    fontSize: 24,
                     fontStyle: 'normal',
                     fill: '#808080'
                 }));
@@ -801,7 +803,7 @@ var ContentClues = (function () {
                 {
                     var caseFileStatus = libraryManager.createText('caseFileStatus', popupBG, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
-                        fontSize: 16,
+                        fontSize: 24,
                         fontStyle: 'bold',
                         fill: '#7d4046'
                     }));
@@ -814,17 +816,17 @@ var ContentClues = (function () {
 
                 var caseFileDesc = libraryManager.createText('caseFileDesc', popupBG, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
-                    fontSize: 18,
+                    fontSize: 24,
                     fontStyle: 'normal',
                     fill: '#808080',
                     wordWrapWidth: 360,
                     wordWrap : true
                 }));
-                caseFileDesc.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel enim nec arcu tristique convallis quis at urna. Donec tellus ipsum, porttitor id ultrices eu, aliquet in risus. Aenean nunc erat, accumsan sit amet odio id, faucibus tristique sem. Sed in ex dapibus, efficitur est at, venenatis sapien. Sed elementum mi vitae mauris accumsan, ac aliquet ligula fermentum.';
+                caseFileDesc.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel enim nec arcu tristique convallis quis at urna. Donec tellus ipsum, porttitor id ultrices eu, aliquet in risus.';
                 caseFileDesc.anchor.x = 0;
                 caseFileDesc.anchor.y = 0;
                 caseFileDesc.position.x = caseFileLabel.position.x;
-                caseFileDesc.position.y = caseFileLabel.position.y + caseFileLabel.height + 50;
+                caseFileDesc.position.y = caseFileLabel.position.y + caseFileLabel.height + 80;
 
                 popupBG.content.load();
 
