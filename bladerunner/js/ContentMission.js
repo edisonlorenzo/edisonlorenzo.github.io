@@ -252,7 +252,7 @@ var ContentMission = (function () {
                 var contentBodyContainer =  libraryManager.createContainer('contentBodyContainer', contentContainer);
                 contentBodyContainer.position.y = -(bodyBackgroundObj.height * 0.5);
 
-                var rowPos = 0, rowHeight = 0;
+                var rowPos = 0, rowHeight = 0, totalHeight = 0, rowSpacing = 15;
                 var sc = libraryManager.createScrollContainer('contentScrollContainer', contentBodyContainer, bodyBackgroundObj.width, bodyBackgroundObj.height);
                 var rowContainer;
 
@@ -438,7 +438,6 @@ var ContentMission = (function () {
                                     contentImageHighlight.content.baseWidth = contentImage.width;
                                     contentImageHighlight.content.show = (function() {
                                         this.visible = true;
-                                        //TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                                         TweenMax.fromTo(this, 0.5, {width: 0}, {width: this.content.baseWidth, ease: Quad.easeInOut, repeat: 1, yoyo: true});
                                         TweenMax.fromTo(this.position, 1, {x: -(this.content.baseWidth * 0.5)}, {x: (this.content.baseWidth * 0.5), ease: Quad.easeInOut});
                                     }).bind(contentImageHighlight);
@@ -476,7 +475,7 @@ var ContentMission = (function () {
 
                             }
 
-                            cellBlock.content.posY = rowPos + (rowHeight * 0.5) + 15;
+                            cellBlock.content.posY = rowPos + (rowHeight * 0.5) + rowSpacing;
                             cellBlock.position.x = cellBlock.content.posX;
                             cellBlock.position.y = cellBlock.content.posY;
 
@@ -514,8 +513,18 @@ var ContentMission = (function () {
                             }).bind(missionItemContainer.content);
                         }
                     }
-                    sc.setItemHeight(rowHeight);
-                    rowPos = rowPos + rowHeight + 15;
+
+                    totalHeight = totalHeight + rowHeight + rowSpacing;
+
+                    rowPos = rowPos + rowHeight + rowSpacing;
+                }
+
+                totalHeight += 100;
+
+                if(sc.items.length > 0)
+                {
+                    var itemHeight = totalHeight / sc.items.length
+                    sc.setItemHeight(itemHeight);
                 }
 
             }

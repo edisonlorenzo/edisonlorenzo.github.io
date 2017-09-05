@@ -407,7 +407,7 @@ var ContentClues = (function () {
                 var contentBodyContainer =  libraryManager.createContainer('contentBodyContainer', contentContainer);
                 contentBodyContainer.position.y = -(bodyBackgroundObj.height * 0.5);
 
-                var rowPos = 0, rowHeight = 0, colPos = 0;
+                var rowPos = 0, rowHeight = 0, totalHeight = 0, rowSpacing = 20, colPos = 0;
 
                 var bgIdx = 1;
                 var maxCol = 3;
@@ -423,8 +423,7 @@ var ContentClues = (function () {
                         rowContainer.position.x = (bodyBackgroundObj.width * 0.5);
                         sc.scrollContainer.addChild(rowContainer);
                         sc.items.push(rowContainer);
-                        sc.setItemHeight(rowHeight + 20);
-                        rowPos = rowPos + rowHeight + 20;
+                        rowPos = rowPos + rowHeight + rowSpacing;
                     }
 
                     colPos = (i % maxCol) - (maxCol / 2);
@@ -457,7 +456,10 @@ var ContentClues = (function () {
                     cluesBG.content.width = cluesBG.width;
                     cluesBG.content.height = cluesBG.height;
                     cluesBG.scale.set(1.35);
+
                     rowHeight = cluesBG.height;
+                    totalHeight = (i % maxCol == 0) ? totalHeight + rowHeight + rowSpacing : totalHeight;
+
                     cluesBG.content.posY = rowPos + (rowHeight * 0.5);
                     cluesBG.content.posX = (colPos * (cluesBG.width + 15)) + ((cluesBG.width + 15) * 0.5);
                     cluesBG.position.x = cluesBG.content.posX;
@@ -622,7 +624,13 @@ var ContentClues = (function () {
 
                 }
 
-                sc.setItemHeight(rowHeight + 35);
+                totalHeight += 80;
+
+                if(sc.items.length > 0)
+                {
+                    var itemHeight = totalHeight / sc.items.length
+                    sc.setItemHeight(itemHeight);
+                }
 
             }
 

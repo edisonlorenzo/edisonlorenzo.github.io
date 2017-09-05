@@ -402,7 +402,7 @@ var ContentArchive = (function () {
                 if(item.data)
                 {
 
-                    var rowPos = 0, rowHeight = 0, colPos = 0, maxCol = 2;
+                    var rowPos = 0, rowHeight = 0, totalHeight = 0, rowSpacing = 15, colPos = 0, maxCol = 2;
                     var sc = libraryManager.createScrollContainer('contentScrollContainer', contentBodyContainer, bodyBackgroundObj.width, bodyHeight);
                     var rowContainer;
 
@@ -416,8 +416,7 @@ var ContentArchive = (function () {
                             rowContainer.position.x = (bodyBackgroundObj.width * 0.5);
                             sc.scrollContainer.addChild(rowContainer);
                             sc.items.push(rowContainer);
-                            sc.setItemHeight(rowHeight + 15);
-                            rowPos = rowPos + rowHeight + 15;
+                            rowPos = rowPos + rowHeight + rowSpacing;
                         }
 
                         colPos = (i % maxCol) - (maxCol / 2);
@@ -436,6 +435,7 @@ var ContentArchive = (function () {
                         contentImage.scale.set(1.5);
 
                         rowHeight = contentImage.height;
+                        totalHeight = (i % maxCol == 0) ? totalHeight + rowHeight + rowSpacing : totalHeight;
 
                         contentImage.content.posY = rowPos + (rowHeight * 0.5);
                         contentImage.content.posX = (colPos * (contentImage.width + 15)) + ((contentImage.width + 15) * 0.5);
@@ -494,7 +494,13 @@ var ContentArchive = (function () {
 
                     }
 
-                    sc.setItemHeight(rowHeight + 25);
+                    totalHeight += 80;
+
+                    if(sc.items.length > 0)
+                    {
+                        var itemHeight = totalHeight / sc.items.length
+                        sc.setItemHeight(itemHeight);
+                    }
 
                 }
             }
