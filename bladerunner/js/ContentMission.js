@@ -113,7 +113,7 @@ var ContentMission = (function () {
                             gameData: [
                                 {imageRes: 'img_event02_sub01'},
                                 {imageRes: 'img_event02_sub02'},
-                                {imageRes: 'img_event02_sub03'}
+                                {imageRes: 'img_event02_sub03', isCompleted: true}
                             ]
                         }
                     ]
@@ -1184,7 +1184,6 @@ var ContentMission = (function () {
                     fontWeight: 'bold',
                     fill: '#ffffff'
                 }));
-                popupImageProgressValue.text = '0/3';
                 popupImageProgressValue.anchor.x = 0;
                 popupImageProgressValue.position.x = popupImageProgress.position.x + popupImageProgress.width;
                 popupImageProgressValue.position.y = popupImageProgress.position.y;
@@ -1219,6 +1218,48 @@ var ContentMission = (function () {
                     var contentStart = libraryManager.createImageButton('contentStart', popupGameDataImage, res['btn_start'].texture);
                     contentStart.position.x = (popupGameDataImage.width * 0.5) - (contentStart.width * 0.5);
                     contentStart.position.y = (popupGameDataImage.height * 0.5) - (contentStart.height * 0.5);
+                    contentStart.on('pointertap', (function() {
+                        this.isCompleted = true;
+                        checkProgress();
+                    }).bind(gameData));
+
+                    var popupGameDataImageFade = libraryManager.createImage('popupBGFade', popupGameDataImage, res['img_white'].texture);
+                    popupGameDataImageFade.visible = false;
+                    popupGameDataImageFade.tint = 0x000000;
+                    popupGameDataImageFade.alpha = 0.75;
+                    popupGameDataImageFade.width = popupGameDataImage.width;
+                    popupGameDataImageFade.height = popupGameDataImage.height;
+
+                    var popupGameDataImageText = libraryManager.createText('popupGameDataImageText', popupGameDataImage, 0, new PIXI.TextStyle({
+                        fontFamily: 'Arial',
+                        fontSize: 18,
+                        fontStyle: 'normal',
+                        fill: '#ff3437'
+                    }));
+                    popupGameDataImageText.visible = false;
+                    popupGameDataImageText.text = 'Solved';
+
+                    gameData.contentStart = contentStart;
+                    gameData.popupGameDataImageFade = popupGameDataImageFade;
+                    gameData.popupGameDataImageText = popupGameDataImageText;
+
+                }
+
+                checkProgress();
+
+                function checkProgress()
+                {
+                    var progressCount =  libraryManager.getElementCountFromList(item.gameData, 'isCompleted', true);
+                    popupImageProgressValue.text = progressCount + '/' + item.gameData.length;
+
+                    for (var i = 0; i < item.gameData.length; i++)
+                    {
+                        var gameData = item.gameData[i];
+                        var visible = gameData.isCompleted == true;
+                        gameData.contentStart.visible = !visible;
+                        gameData.popupGameDataImageFade.visible = visible;
+                        gameData.popupGameDataImageText.visible = visible;
+                    }
                 }
 
                 popupBG.content.load();
