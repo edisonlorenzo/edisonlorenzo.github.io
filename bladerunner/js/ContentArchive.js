@@ -452,6 +452,7 @@ var ContentArchive = (function () {
 
                             var contentImageLocked = libraryManager.createImage('contentImageLocked', contentImage, res['icon_lock'].texture);
                             contentImageLocked.position.y = -15;
+                            contentImageLocked.scale.set(0.6);
                         }
 
                         var contentImageShadingContainer =  libraryManager.createContainer('contentImageShadingContainer', contentImage);
