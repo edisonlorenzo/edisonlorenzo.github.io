@@ -36,6 +36,7 @@ var InterfaceManager = (function () {
 
         var assets = new Array();
 
+        assets.push(new Asset('icon_lock', 'images/icon_lock.png'));
         assets.push(new Asset('img_header', 'images/img_header.png'));
         assets.push(new Asset('img_header_neon', 'images/img_header_neon.png'));
         assets.push(new Asset('img_footer', 'images/img_footer.png'));
@@ -43,8 +44,12 @@ var InterfaceManager = (function () {
         assets.push(new Asset('img_bg_pop_bar', 'images/img_bg_pop_bar.png'));
         assets.push(new Asset('img_bg_notification', 'images/img_bg_notification.png'));
         assets.push(new Asset('img_loading_circle', 'images/img_loading_circle.png'));
+        assets.push(new Asset('img_navigation_dot', 'images/img_navigation_dot.png'));
+        assets.push(new Asset('img_navigation_dot_highlight', 'images/img_navigation_dot_highlight.png'));
         assets.push(new Asset('btn_arrow_left', 'images/btn_arrow_left.png'));
         assets.push(new Asset('btn_arrow_right', 'images/btn_arrow_right.png'));
+        assets.push(new Asset('btn_arrow_left_highlight', 'images/btn_arrow_left_highlight.png'));
+        assets.push(new Asset('btn_arrow_right_highlight', 'images/btn_arrow_right_highlight.png'));
         assets.push(new Asset('btn_close', 'images/btn_close.png'));
         assets.push(new Asset('btn_activate_default', 'images/btn_activate_default.png'));
         assets.push(new Asset('btn_activate_highlight', 'images/btn_activate_highlight.png'));

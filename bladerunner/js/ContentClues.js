@@ -11,6 +11,7 @@ var ContentClues = (function () {
         var isAssetPending;
         var assets = new Array();
 
+        assets.push(new Asset('img_clue_reward01', 'images/img_clue_reward01.png'));
         assets.push(new Asset('img_clue_bg1', 'images/img_clue_bg01.png'));
         assets.push(new Asset('img_clue_bg2', 'images/img_clue_bg02.png'));
         assets.push(new Asset('img_clue_bg3', 'images/img_clue_bg03.png'));
@@ -160,23 +161,27 @@ var ContentClues = (function () {
             [
                 {
                     id: '#1111',
+                    reward: {
+                        imageRes: 'img_clue_reward01',
+                        desc: 'Behind the Scene with Officer K'
+                    },
                     data: [
-                        {cell: 1, imageRes: 'img_clue_101', isCompleted: false},
-                        {cell: 2, imageRes: 'img_clue_102', isCompleted: false},
-                        {cell: 3, imageRes: 'img_clue_103', isCompleted: false},
-                        {cell: 4, imageRes: 'img_clue_104', isCompleted: false},
-                        {cell: 5, imageRes: 'img_clue_105', isCompleted: false},
-                        {cell: 6, imageRes: 'img_clue_106', isCompleted: false},
-                        {cell: 7, imageRes: 'img_clue_107', isCompleted: false},
-                        {cell: 8, imageRes: 'img_clue_108', isCompleted: false},
-                        {cell: 9, imageRes: 'img_clue_109', isCompleted: false},
-                        {cell: 10, imageRes: 'img_clue_110', isCompleted: false},
-                        {cell: 11, imageRes: 'img_clue_111', isCompleted: false},
-                        {cell: 12, imageRes: 'img_clue_112', isCompleted: false},
-                        {cell: 13, imageRes: 'img_clue_113', isCompleted: false},
-                        {cell: 14, imageRes: 'img_clue_114', isCompleted: false},
-                        {cell: 15, imageRes: 'img_clue_115', isCompleted: false},
-                        {cell: 16, imageRes: 'img_clue_116', isCompleted: false}
+                        {cell: 1, imageRes: 'img_clue_101', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'A benefit or a hazard'},
+                        {cell: 2, imageRes: 'img_clue_102', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'That\'s what it is to be a slave'},
+                        {cell: 3, imageRes: 'img_clue_103', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'But then again who does?'},
+                        {cell: 4, imageRes: 'img_clue_104', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'I\'ve done questionable things'},
+                        {cell: 5, imageRes: 'img_clue_105', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'An itch you can never scratch!'},
+                        {cell: 6, imageRes: 'img_clue_106', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Like our owl?'},
+                        {cell: 7, imageRes: 'img_clue_107', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'No Description'},
+                        {cell: 8, imageRes: 'img_clue_108', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'No Description'},
+                        {cell: 9, imageRes: 'img_clue_109', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'No Description'},
+                        {cell: 10, imageRes: 'img_clue_110', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'No Description'},
+                        {cell: 11, imageRes: 'img_clue_111', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'No Description'},
+                        {cell: 12, imageRes: 'img_clue_112', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'No Description'},
+                        {cell: 13, imageRes: 'img_clue_113', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'No Description'},
+                        {cell: 14, imageRes: 'img_clue_114', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'No Description'},
+                        {cell: 15, imageRes: 'img_clue_115', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'No Description'},
+                        {cell: 16, imageRes: 'img_clue_116', lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'No Description'}
                     ]
                 },
                 {
@@ -202,23 +207,27 @@ var ContentClues = (function () {
                 },
                 {
                     id: '#3333',
+                    reward: {
+                        imageRes: 'img_clue_reward01',
+                        desc: 'Behind the Scene with Officer K'
+                    },
                     data: [
-                        {cell: 1, imageRes: 'img_clue_301', isCompleted: true},
-                        {cell: 2, imageRes: 'img_clue_302', isCompleted: true},
-                        {cell: 3, imageRes: 'img_clue_303', isCompleted: true},
-                        {cell: 4, imageRes: 'img_clue_304', isCompleted: true},
-                        {cell: 5, imageRes: 'img_clue_305', isCompleted: true},
-                        {cell: 6, imageRes: 'img_clue_306', isCompleted: true},
-                        {cell: 7, imageRes: 'img_clue_307', isCompleted: true},
-                        {cell: 8, imageRes: 'img_clue_308', isCompleted: true},
-                        {cell: 9, imageRes: 'img_clue_309', isCompleted: true},
-                        {cell: 10, imageRes: 'img_clue_310', isCompleted: true},
-                        {cell: 11, imageRes: 'img_clue_311', isCompleted: true},
-                        {cell: 12, imageRes: 'img_clue_312', isCompleted: true},
-                        {cell: 13, imageRes: 'img_clue_313', isCompleted: true},
-                        {cell: 14, imageRes: 'img_clue_314', isCompleted: true},
-                        {cell: 15, imageRes: 'img_clue_315', isCompleted: true},
-                        {cell: 16, imageRes: 'img_clue_316', isCompleted: true}
+                        {cell: 1, imageRes: 'img_clue_301', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 2, imageRes: 'img_clue_302', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 3, imageRes: 'img_clue_303', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 4, imageRes: 'img_clue_304', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 5, imageRes: 'img_clue_305', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 6, imageRes: 'img_clue_306', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 7, imageRes: 'img_clue_307', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 8, imageRes: 'img_clue_308', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 9, imageRes: 'img_clue_309', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 10, imageRes: 'img_clue_310', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 11, imageRes: 'img_clue_311', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 12, imageRes: 'img_clue_312', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 13, imageRes: 'img_clue_313', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 14, imageRes: 'img_clue_314', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 15, imageRes: 'img_clue_315', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'},
+                        {cell: 16, imageRes: 'img_clue_316', isCompleted: true, lockedDesc: 'Unlock with 1000 points', unlockedDesc: 'Description Text'}
                     ]
                 },
                 {
@@ -737,8 +746,8 @@ var ContentClues = (function () {
                 var cluesGridContainer =  libraryManager.createContainer('cluesGridContainer', cluesCellGridContainer);
                 var cluesGrid = libraryManager.createImage('cluesGrid', cluesGridContainer, res['img_clue_puzzle_grid'].texture);
 
-                cluesCellGridContainer.position.x = -(popupBG.width * 0.5) + (cluesGrid.width * 0.5) + 15;
-                cluesCellGridContainer.position.y = -(popupBG.height * 0.5) + (cluesGrid.height * 0.5) + 15;
+                cluesCellGridContainer.position.x = -(popupBG.width * 0.5) + (cluesGrid.width * 0.5) + 20;
+                cluesCellGridContainer.position.y = -(popupBG.height * 0.5) + (cluesGrid.height * 0.5) + 20;
 
                 var cluesRowPos = -(cluesGrid.height * 0.5), cluesCellHeight = 0, cluesCellWidth = 0, cluesColPos = 0;
                 var cluesMaxCol = 4, cluesPadding = 1, maxGrid = item.data.length;
@@ -777,8 +786,8 @@ var ContentClues = (function () {
                 caseFileLabel.text = 'Case File: ';
                 caseFileLabel.anchor.x = 0;
                 caseFileLabel.anchor.y = 0;
-                caseFileLabel.position.x = cluesCellGridContainer.position.x + (cluesGrid.width * 0.5) + 5;
-                caseFileLabel.position.y = -(popupBG.height * 0.5) + 15;
+                caseFileLabel.position.x = cluesCellGridContainer.position.x + (cluesGrid.width * 0.5) + 10;
+                caseFileLabel.position.y = -(popupBG.height * 0.5) + 20;
 
                 var caseFileValue = libraryManager.createText('caseFileValue', popupBG, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
@@ -827,7 +836,7 @@ var ContentClues = (function () {
                     fontSize: 24,
                     fontStyle: 'normal',
                     fill: '#808080',
-                    wordWrapWidth: 360,
+                    wordWrapWidth: 350,
                     wordWrap : true
                 }));
                 caseFileDesc.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel enim nec arcu tristique convallis quis at urna. Donec tellus ipsum, porttitor id ultrices eu, aliquet in risus.';
@@ -835,6 +844,219 @@ var ContentClues = (function () {
                 caseFileDesc.anchor.y = 0;
                 caseFileDesc.position.x = caseFileLabel.position.x;
                 caseFileDesc.position.y = caseFileLabel.position.y + caseFileLabel.height + 80;
+
+                if(item.reward)
+                {
+                    var cluesRewardBG = libraryManager.createImage('cluesRewardBG', popupBG, res[item.reward.imageRes].texture);
+                    cluesRewardBG.position.y = cluesCellGridContainer.position.y + (cluesGrid.height * 0.5) + (cluesRewardBG.height * 0.5) + 15;
+
+                    if(!isCaseCompleted)
+                    {
+                        libraryManager.setDesaturate(cluesRewardBG, true);
+                    }
+
+                    var cluesRewardTitle = libraryManager.createText('cluesRewardTitle', cluesRewardBG, 0, new PIXI.TextStyle({
+                        fontFamily: 'Arial',
+                        fontSize: 20,
+                        fontStyle: 'normal',
+                        fill: '#ffffff'
+                    }));
+                    cluesRewardTitle.text = 'Completion Reward';
+                    cluesRewardTitle.anchor.x = 0;
+                    cluesRewardTitle.position.x = -(cluesRewardBG.width * 0.5) + 10;
+
+                    var cluesRewardDesc = libraryManager.createText('cluesRewardDesc', cluesRewardBG, 0, new PIXI.TextStyle({
+                        fontFamily: 'Arial',
+                        fontSize: 20,
+                        fontStyle: 'normal',
+                        fill: '#808080'
+                    }));
+                    cluesRewardDesc.text = item.reward.desc;
+                    cluesRewardDesc.anchor.x = 0;
+                    cluesRewardDesc.position.x = cluesRewardTitle.position.x;
+                    cluesRewardDesc.position.y = cluesRewardTitle.position.y + (cluesRewardTitle.height * 0.5) + (cluesRewardDesc.height * 0.5) + 2;
+
+                    var pageNav = {currentPage: 1, maxPage: 3};
+
+                    var btn_arrow_left_texture = res['btn_arrow_left'].texture;
+                    var btn_arrow_right_texture = res['btn_arrow_right'].texture;
+                    var img_navigation_dot_texture = res['img_navigation_dot'].texture;
+                    var btn_arrow_left_highlight_texture = res['btn_arrow_left_highlight'].texture;
+                    var btn_arrow_right_highlight_texture = res['btn_arrow_right_highlight'].texture;
+                    var img_navigation_dot_highlight_texture = res['img_navigation_dot_highlight'].texture;
+
+
+                    var cluesNavLeftButton = libraryManager.createImage('cluesNavRightButton', popupBG, btn_arrow_left_texture);
+                    cluesNavLeftButton.buttonMode = true;
+                    cluesNavLeftButton.interactive = true;
+                    cluesNavLeftButton.position.x = -(popupBG.width * 0.5) + (cluesNavLeftButton.width * 0.5) + 20;
+                    cluesNavLeftButton.position.y = (popupBG.height * 0.5) - (cluesNavLeftButton.height * 0.5) - 20;
+                    cluesNavLeftButton.on('pointertap', (function() {
+                        this.currentPage = this.currentPage > 1 ? this.currentPage - 1 : 1;
+                        showClueItems(this.currentPage);
+                    }).bind(pageNav));
+
+                    var cluesNavRightButton = libraryManager.createImage('cluesNavRightButton', popupBG, btn_arrow_right_texture);
+                    cluesNavRightButton.buttonMode = true;
+                    cluesNavRightButton.interactive = true;
+                    cluesNavRightButton.position.x = (popupBG.width * 0.5) - (cluesNavRightButton.width * 0.5) - 20;
+                    cluesNavRightButton.position.y = (popupBG.height * 0.5) - (cluesNavRightButton.height * 0.5) - 20;
+                    cluesNavRightButton.on('pointertap', (function() {
+                        this.currentPage = this.currentPage < this.maxPage ? this.currentPage + 1 : this.maxPage;
+                        showClueItems(this.currentPage);
+                    }).bind(pageNav));
+
+                    pageNav.dot = new Array();
+                    var dotPosX = 0;
+                    var cluesNavDotContainer = libraryManager.createContainer('cluesNavDotContainer', popupBG);
+                    for(var i = 0; i < 3; i++)
+                    {
+
+                        if(i > 0)
+                        {
+                            dotPosX += cluesNavDot.width + 10;
+                        }
+
+                        var cluesNavDot = libraryManager.createImage('cluesNavDot', cluesNavDotContainer, img_navigation_dot_texture);
+                        cluesNavDot.position.x = dotPosX;
+                        cluesNavDot.position.y = (popupBG.height * 0.5) - (cluesNavDot.height * 0.5) - 20;
+
+                        pageNav.dot.push(cluesNavDot);
+
+                    }
+                    cluesNavDotContainer.position.x = -(dotPosX * 0.5);
+
+                    function checkNavIndicator()
+                    {
+                        for(var i = 0; i < pageNav.dot.length; i++)
+                        {
+                            pageNav.dot[i].texture = img_navigation_dot_texture;
+                        }
+
+                        cluesNavLeftButton.tint = 0xffffff;
+                        cluesNavRightButton.tint = 0xffffff;
+                        cluesNavLeftButton.texture = btn_arrow_left_highlight_texture;
+                        cluesNavRightButton.texture = btn_arrow_right_highlight_texture;
+
+                        pageNav.dot[pageNav.currentPage - 1].texture = img_navigation_dot_highlight_texture;
+
+                        if(pageNav.currentPage == 1)
+                        {
+                            cluesNavLeftButton.tint = 0x000000;
+                            cluesNavLeftButton.texture = btn_arrow_left_texture;
+                        }
+
+                        if(pageNav.currentPage == pageNav.maxPage)
+                        {
+                            cluesNavRightButton.tint = 0x000000;
+                            cluesNavRightButton.texture = btn_arrow_right_texture;
+                        }
+                    }
+
+                    showClueItems(pageNav.currentPage);
+
+                    var cluesCellItemNavContainer;
+
+                    function showClueItems(page)
+                    {
+                        checkNavIndicator();
+
+                        cluesCellItemNavContainer = libraryManager.getElement('cluesCellItemNavContainer');
+                        if(cluesCellItemNavContainer)
+                        {
+                            popupBG.removeChild(cluesCellItemNavContainer);
+                        }
+
+                        cluesCellItemNavContainer = libraryManager.createContainer('cluesCellItemNavContainer', popupBG);
+
+                        var rowPos = 0, cluesCellPosY = 0, cluesCellPosX = 0;
+
+                        var startIdx = (page - 1) * 6;
+                        var endIdx = page * 6;
+
+                        endIdx = endIdx > item.data.length ? item.data.length : endIdx;
+
+                        for(var i = startIdx; i < endIdx; i++)
+                        {
+                            var cluesCellItemContainer =  libraryManager.createContainer('cluesCellItemContainer', cluesCellItemNavContainer);
+                            if(item.data[i].isCompleted)
+                            {
+                                var cluesCellItemNameBG = libraryManager.createImage('cluesCellItemNameBG', cluesCellItemContainer, res['img_white'].texture);
+                                cluesCellItemNameBG.tint = 0x111111;
+                                cluesCellItemNameBG.height = 35;
+                                cluesCellItemNameBG.width = 65;
+
+                                cluesCellPosX = i % 2 == 0 ? -(popupBG.width * 0.5) + (cluesCellItemNameBG.width * 0.5) + 20 : (cluesCellItemNameBG.width * 0.5) + 5;
+                                cluesCellPosY = cluesRewardBG.position.y + (cluesRewardBG.height * 0.5) + 15 + (rowPos * (cluesCellItemNameBG.height + 10));
+                                cluesCellItemNameBG.position.x = cluesCellPosX;
+                                cluesCellItemNameBG.position.y = cluesCellPosY + (cluesCellItemNameBG.height * 0.5);
+
+                                var cluesCellItemDescBG = libraryManager.createImage('cluesCellItemDescBG', cluesCellItemContainer, res['img_white'].texture);
+                                cluesCellItemDescBG.tint = 0x000000;
+                                cluesCellItemDescBG.height = 35;
+                                cluesCellItemDescBG.width = 255;
+                                cluesCellItemDescBG.position.x = cluesCellItemNameBG.position.x + (cluesCellItemNameBG.width * 0.5) + (cluesCellItemDescBG.width * 0.5);
+                                cluesCellItemDescBG.position.y = cluesCellItemNameBG.position.y;
+
+                                var cluesCellItemName = libraryManager.createText('cluesCellItemName', cluesCellItemContainer, 0, new PIXI.TextStyle({
+                                    fontFamily: 'Arial',
+                                    fontSize: 16,
+                                    fontStyle: 'normal',
+                                    fill: '#808080'
+                                }));
+                                cluesCellItemName.text = 'Clue ' + item.data[i].cell;
+                                cluesCellItemName.position = cluesCellItemNameBG.position;
+
+                                var cluesCellItemDesc = libraryManager.createText('cluesCellItemDesc', cluesCellItemContainer, 0, new PIXI.TextStyle({
+                                    fontFamily: 'Arial',
+                                    fontSize: 16,
+                                    fontStyle: 'normal',
+                                    fill: '#808080'
+                                }));
+                                cluesCellItemDesc.text = item.data[i].unlockedDesc;
+                                cluesCellItemDesc.position.x = cluesCellItemDescBG.position.x - (cluesCellItemDescBG.width * 0.5) + (cluesCellItemDesc.width * 0.5) + 10;
+                                cluesCellItemDesc.position.y = cluesCellItemDescBG.position.y;
+                            }
+                            else
+                            {
+                                var cluesCellItemLockedBG = libraryManager.createImage('cluesCellItemLockedBG', cluesCellItemContainer, res['img_white'].texture);
+                                cluesCellItemLockedBG.tint = 0x303030;
+                                cluesCellItemLockedBG.height = 35;
+                                cluesCellItemLockedBG.width = 320;
+
+                                cluesCellPosX = i % 2 == 0 ? -(popupBG.width * 0.5) + (cluesCellItemLockedBG.width * 0.5) + 20 : (cluesCellItemLockedBG.width * 0.5) + 5;
+                                cluesCellPosY = cluesRewardBG.position.y + (cluesRewardBG.height * 0.5) + 15 + (rowPos * (cluesCellItemLockedBG.height + 10));
+                                cluesCellItemLockedBG.position.x = cluesCellPosX;
+                                cluesCellItemLockedBG.position.y = cluesCellPosY + (cluesCellItemLockedBG.height * 0.5);
+
+                                var cluesCellItemLockedIcon = libraryManager.createImage('cluesCellItemLockedIcon', cluesCellItemContainer, res['icon_lock'].texture);
+                                cluesCellItemLockedIcon.scale.set(0.2);
+                                cluesCellItemLockedIcon.position.y = cluesCellItemLockedBG.position.y;
+
+                                var cluesCellItemLockedDesc = libraryManager.createText('cluesCellItemLockedDesc', cluesCellItemContainer, 0, new PIXI.TextStyle({
+                                    fontFamily: 'Arial',
+                                    fontSize: 16,
+                                    fontStyle: 'normal',
+                                    fill: '#808080'
+                                }));
+                                cluesCellItemLockedDesc.text = item.data[i].lockedDesc;
+                                cluesCellItemLockedDesc.position.y = cluesCellItemLockedBG.position.y;
+
+                                var totalWidth = cluesCellItemLockedIcon.width + cluesCellItemLockedDesc.width + 10;
+                                cluesCellItemLockedIcon.position.x = cluesCellItemLockedBG.position.x - (totalWidth * 0.5);
+                                cluesCellItemLockedDesc.position.x = cluesCellItemLockedIcon.position.x + (cluesCellItemLockedIcon.width * 0.5) + (cluesCellItemLockedDesc.width * 0.5) + 10;
+                            }
+
+
+                            rowPos = i % 2 == 1 ? rowPos + 1: rowPos;
+                        }
+                    }
+
+
+
+                }
+
+
 
                 popupBG.content.load();
 

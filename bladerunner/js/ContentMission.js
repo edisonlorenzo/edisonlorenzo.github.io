@@ -23,7 +23,6 @@ var ContentMission = (function () {
         assets.push(new Asset('img_block03', 'images/img_block03.png'));
         assets.push(new Asset('img_divider', 'images/img_divider.png'));
         assets.push(new Asset('btn_start', 'images/btn_start.png'));
-        assets.push(new Asset('icon_lock', 'images/icon_lock.png'));
         assets.push(new Asset('icon_book', 'images/icon_book.png'));
         assets.push(new Asset('icon_event', 'images/icon_event.png'));
         assets.push(new Asset('icon_game', 'images/icon_game.png'));
