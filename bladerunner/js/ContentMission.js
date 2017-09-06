@@ -1072,15 +1072,21 @@ var ContentMission = (function () {
                     notificationBG.content.load = (function() {
                         var tl = new TimelineMax();
                         this.show();
+
                         if(this.clueIcon)
                         {
                             tl.add(this.clueIcon.content.show, "+=0.5");
                         }
+
                         if(this.notificationMessageContainer)
                         {
                             tl.add(this.notificationMessageContainer.content.show, "+=0.5");
                         }
 
+                        if(hasReward)
+                        {
+                            interfaceManager.highlightClueButton(true);
+                        }
 
                     }).bind(notificationBG.content);
 
@@ -1106,6 +1112,7 @@ var ContentMission = (function () {
 
                     var interfaceManager = InterfaceManager.getInstance();
                     interfaceManager.highlightCluePoint(false);
+                    interfaceManager.highlightClueButton(false);
                 }
 
             }

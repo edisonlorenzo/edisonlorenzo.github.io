@@ -576,8 +576,16 @@ var InterfaceManager = (function () {
 
             var cluesButtonNotification = libraryManager.createImage('cluesButtonNotification', cluesButtonObj, res['icon_clue_pop'].texture,);
             cluesButtonNotification.visible = false;
-            cluesButtonNotification.position.x = (cluesButtonObj.width * 0.5) - (cluesButtonNotification.width * 0.5);
-            cluesButtonNotification.position.y = -(cluesButtonObj.height * 0.5) - (cluesButtonNotification.height * 0.5) + 5;
+            cluesButtonNotification.content.posX = (cluesButtonObj.width * 0.5) - (cluesButtonNotification.width * 0.5);
+            cluesButtonNotification.content.posY = -(cluesButtonObj.height * 0.5) - (cluesButtonNotification.height * 0.5) + 5;
+            cluesButtonNotification.position.x = cluesButtonNotification.content.posX;
+            cluesButtonNotification.position.y = cluesButtonNotification.content.posY;
+
+            cluesButtonNotification.content.show = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.25, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                TweenMax.fromTo(this.position, 0.5, {y: this.content.posY + 25}, {y: this.content.posY, ease: Back.easeOut});
+            }).bind(cluesButtonNotification);
 
             var cluesButtonNotificationText = libraryManager.createText('cluesButtonNotificationText', cluesButtonNotification, 0, new PIXI.TextStyle({
                 fontFamily: 'Arial',
@@ -592,7 +600,7 @@ var InterfaceManager = (function () {
             cluesButtonObj.content.cluesButtonNotificationText = cluesButtonNotificationText;
             cluesButtonObj.content.showNotification = (function(value) {
                 if(value > 0) {
-                    cluesButtonNotification.visible = true;
+                    cluesButtonNotification.content.show();
                     cluesButtonNotificationText.text = value;
                 }
             }).bind(cluesButtonObj.content);
@@ -795,6 +803,24 @@ var InterfaceManager = (function () {
             }
         }
 
+        function highlightClueButton(value)
+        {
+            var footerButtonContainer = libraryManager.getElement('footerButtonContainer');
+            var cluesButtonObj = libraryManager.getElement('cluesButtonObj');
+            cluesButtonObj.buttonMode = !value;
+            cluesButtonObj.interactive = !value;
+            if(value)
+            {
+                var tmpContainer = libraryManager.createContainer('tmpContainer', topContainer);
+                tmpContainer.addChild(cluesButtonObj);
+                tmpContainer.position = footerButtonContainer.position;
+            }
+            else
+            {
+                footerButtonContainer.addChild(cluesButtonObj);
+            }
+        }
+
         return {
             getAsset: getAsset,
             getTimeline: getTimeline,
@@ -809,7 +835,8 @@ var InterfaceManager = (function () {
             showHeaderFlicker: showHeaderFlicker,
             clearContent: clearContent,
             addCluePoints: addCluePoints,
-            highlightCluePoint: highlightCluePoint
+            highlightCluePoint: highlightCluePoint,
+            highlightClueButton: highlightClueButton
         };
 
     };
