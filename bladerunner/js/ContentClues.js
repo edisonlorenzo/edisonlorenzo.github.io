@@ -911,8 +911,6 @@ var ContentClues = (function () {
 
 
                     var cluesNavLeftButton = libraryManager.createImage('cluesNavRightButton', popupBG, btn_arrow_left_texture);
-                    cluesNavLeftButton.buttonMode = true;
-                    cluesNavLeftButton.interactive = true;
                     cluesNavLeftButton.position.x = -(popupBG.width * 0.5) + (cluesNavLeftButton.width * 0.5) + 20;
                     cluesNavLeftButton.position.y = (popupBG.height * 0.5) - (cluesNavLeftButton.height * 0.5) - 20;
                     cluesNavLeftButton.on('pointertap', (function() {
@@ -921,8 +919,6 @@ var ContentClues = (function () {
                     }).bind(pageNav));
 
                     var cluesNavRightButton = libraryManager.createImage('cluesNavRightButton', popupBG, btn_arrow_right_texture);
-                    cluesNavRightButton.buttonMode = true;
-                    cluesNavRightButton.interactive = true;
                     cluesNavRightButton.position.x = (popupBG.width * 0.5) - (cluesNavRightButton.width * 0.5) - 20;
                     cluesNavRightButton.position.y = (popupBG.height * 0.5) - (cluesNavRightButton.height * 0.5) - 20;
                     cluesNavRightButton.on('pointertap', (function() {
@@ -957,6 +953,11 @@ var ContentClues = (function () {
                             pageNav.dot[i].texture = img_navigation_dot_texture;
                         }
 
+                        cluesNavLeftButton.buttonMode = true;
+                        cluesNavLeftButton.interactive = true;
+                        cluesNavRightButton.buttonMode = true;
+                        cluesNavRightButton.interactive = true;
+
                         cluesNavLeftButton.tint = 0xffffff;
                         cluesNavRightButton.tint = 0xffffff;
                         cluesNavLeftButton.texture = btn_arrow_left_highlight_texture;
@@ -966,12 +967,16 @@ var ContentClues = (function () {
 
                         if(pageNav.currentPage == 1)
                         {
+                            cluesNavLeftButton.buttonMode = false;
+                            cluesNavLeftButton.interactive = false;
                             cluesNavLeftButton.tint = 0x000000;
                             cluesNavLeftButton.texture = btn_arrow_left_texture;
                         }
 
                         if(pageNav.currentPage == pageNav.maxPage)
                         {
+                            cluesNavRightButton.buttonMode = false;
+                            cluesNavRightButton.interactive = false;
                             cluesNavRightButton.tint = 0x000000;
                             cluesNavRightButton.texture = btn_arrow_right_texture;
                         }
@@ -999,10 +1004,19 @@ var ContentClues = (function () {
                         var endIdx = page * 6;
 
                         endIdx = endIdx > item.data.length ? item.data.length : endIdx;
-
+                        var tl = new TimelineMax();
                         for(var i = startIdx; i < endIdx; i++)
                         {
                             var cluesCellItemContainer =  libraryManager.createContainer('cluesCellItemContainer', cluesCellItemNavContainer);
+                            cluesCellItemContainer.visible = false;
+                            cluesCellItemContainer.content.show = (function() {
+                                this.visible = true;
+                                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                                TweenMax.fromTo(this.position, 0.5, {y: -15}, {y: 0, ease: Power2.easeOut});
+                            }).bind(cluesCellItemContainer);
+
+                            tl.add(cluesCellItemContainer.content.show, '+=0.075');
+
                             if(item.data[i].isCompleted)
                             {
                                 var cluesCellItemNameBG = libraryManager.createImage('cluesCellItemNameBG', cluesCellItemContainer, res['img_white'].texture);
