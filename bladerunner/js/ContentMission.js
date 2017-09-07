@@ -1136,7 +1136,6 @@ var ContentMission = (function () {
                 var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
 
                 var popupContainer =  libraryManager.createContainer('popupContainer', contentContainer);
-                popupContainer.position.y = -100;
                 popupContainer.interactive = true;
 
                 var popupBGFade = libraryManager.createImage('popupBGFade', popupContainer, res['img_white'].texture);
@@ -1284,7 +1283,7 @@ var ContentMission = (function () {
                         checkProgress();
                     }).bind(gameData));
 
-                    var popupGameDataImageFade = libraryManager.createImage('popupBGFade', popupGameDataImage, res['img_white'].texture);
+                    var popupGameDataImageFade = libraryManager.createImage('popupGameDataImageFade', popupGameDataImage, res['img_white'].texture);
                     popupGameDataImageFade.visible = false;
                     popupGameDataImageFade.tint = 0x000000;
                     popupGameDataImageFade.alpha = 0.75;
