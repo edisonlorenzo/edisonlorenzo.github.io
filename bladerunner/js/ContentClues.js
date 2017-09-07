@@ -871,15 +871,17 @@ var ContentClues = (function () {
 
                 if(item.reward)
                 {
-                    var cluesRewardBG = libraryManager.createImage('cluesRewardBG', popupBG, res[item.reward.imageRes].texture);
-                    cluesRewardBG.position.y = cluesCellGridContainer.position.y + (cluesGrid.height * 0.5) + (cluesRewardBG.height * 0.5) + 15;
+                    var cluesRewardContainer = libraryManager.createContainer('cluesRewardContainer', popupBG);
+
+                    var cluesRewardBG = libraryManager.createImage('cluesRewardBG', cluesRewardContainer, res[item.reward.imageRes].texture);
+                    cluesRewardContainer.position.y = cluesCellGridContainer.position.y + (cluesGrid.height * 0.5) + (cluesRewardBG.height * 0.5) + 15;
 
                     if(!isCaseCompleted)
                     {
                         libraryManager.setDesaturate(cluesRewardBG, true);
                     }
 
-                    var cluesRewardTitle = libraryManager.createText('cluesRewardTitle', cluesRewardBG, 0, new PIXI.TextStyle({
+                    var cluesRewardTitle = libraryManager.createText('cluesRewardTitle', cluesRewardContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
                         fontSize: 20,
                         fontStyle: 'normal',
@@ -889,7 +891,7 @@ var ContentClues = (function () {
                     cluesRewardTitle.anchor.x = 0;
                     cluesRewardTitle.position.x = -(cluesRewardBG.width * 0.5) + 10;
 
-                    var cluesRewardDesc = libraryManager.createText('cluesRewardDesc', cluesRewardBG, 0, new PIXI.TextStyle({
+                    var cluesRewardDesc = libraryManager.createText('cluesRewardDesc', cluesRewardContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
                         fontSize: 20,
                         fontStyle: 'normal',
@@ -1025,7 +1027,7 @@ var ContentClues = (function () {
                                 cluesCellItemNameBG.width = 65;
 
                                 cluesCellPosX = i % 2 == 0 ? -(popupBG.width * 0.5) + (cluesCellItemNameBG.width * 0.5) + 20 : (cluesCellItemNameBG.width * 0.5) + 5;
-                                cluesCellPosY = cluesRewardBG.position.y + (cluesRewardBG.height * 0.5) + 15 + (rowPos * (cluesCellItemNameBG.height + 10));
+                                cluesCellPosY = cluesRewardContainer.position.y + (cluesRewardBG.height * 0.5) + 15 + (rowPos * (cluesCellItemNameBG.height + 10));
                                 cluesCellItemNameBG.position.x = cluesCellPosX;
                                 cluesCellItemNameBG.position.y = cluesCellPosY + (cluesCellItemNameBG.height * 0.5);
 
@@ -1063,7 +1065,7 @@ var ContentClues = (function () {
                                 cluesCellItemLockedBG.width = 320;
 
                                 cluesCellPosX = i % 2 == 0 ? -(popupBG.width * 0.5) + (cluesCellItemLockedBG.width * 0.5) + 20 : (cluesCellItemLockedBG.width * 0.5) + 5;
-                                cluesCellPosY = cluesRewardBG.position.y + (cluesRewardBG.height * 0.5) + 15 + (rowPos * (cluesCellItemLockedBG.height + 10));
+                                cluesCellPosY = cluesRewardContainer.position.y + (cluesRewardBG.height * 0.5) + 15 + (rowPos * (cluesCellItemLockedBG.height + 10));
                                 cluesCellItemLockedBG.position.x = cluesCellPosX;
                                 cluesCellItemLockedBG.position.y = cluesCellPosY + (cluesCellItemLockedBG.height * 0.5);
 
