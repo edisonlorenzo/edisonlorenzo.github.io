@@ -279,7 +279,7 @@ var ContentProfile = (function () {
                         fontFamily: 'Arial',
                         fontSize: 20,
                         fontStyle: 'normal',
-                        fill: '#777777'
+                        fill: '#909090'
                     }));
                     achievementItemDesc.text = objData.achievementList[i].desc;
                     achievementItemDesc.position.x = achievementItemIcon.position.x + (achievementItemIcon.width * 0.5) + (achievementItemDesc.width * 0.5) + 15;
