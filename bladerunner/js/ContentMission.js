@@ -351,6 +351,7 @@ var ContentMission = (function () {
 
                                 cellBlock.content.posX = posX + (cellBlock.width * 0.5) + 5;
                                 posX = cellBlock.content.posX + (cellBlock.width * 0.5);
+
                                 var contentImage = libraryManager.createImage('contentImage', cellBlock, res[missionItem.imageRes].texture);
                                 contentImage.visible = false;
                                 contentImage.content.show = (function() {
@@ -362,16 +363,16 @@ var ContentMission = (function () {
 
                                 if(missionItem.isLocked)
                                 {
-                                    var contentImageFade = libraryManager.createImage('contentImageFade', contentImage, res['img_white'].texture);
+                                    var contentImageFade = libraryManager.createImage('contentImageFade', cellBlock, res['img_white'].texture);
                                     contentImageFade.tint = 0x000000;
                                     contentImageFade.alpha = 0.75;
                                     contentImageFade.width = contentImage.width;
                                     contentImageFade.height = contentImage.height;
 
-                                    var contentImageLocked = libraryManager.createImage('contentImageLocked', contentImage, res['icon_lock'].texture);
+                                    var contentImageLocked = libraryManager.createImage('contentImageLocked', cellBlock, res['icon_lock'].texture);
                                     contentImageLocked.position.y = -15;
 
-                                    var contentLockedDesc = libraryManager.createText('contentLockedDesc', contentImage, 0, new PIXI.TextStyle({
+                                    var contentLockedDesc = libraryManager.createText('contentLockedDesc', cellBlock, 0, new PIXI.TextStyle({
                                         fontFamily: 'Arial',
                                         fontSize: 16,
                                         fontStyle: 'normal',
@@ -385,7 +386,7 @@ var ContentMission = (function () {
 
                                 if(missionType.imageShading)
                                 {
-                                    var contentImageShadingContainer =  libraryManager.createContainer('contentImageShadingContainer', contentImage);
+                                    var contentImageShadingContainer =  libraryManager.createContainer('contentImageShadingContainer', cellBlock);
                                     contentImageShadingContainer.visible = false;
                                     contentImageShadingContainer.content.show = (function() {
                                         this.visible = true;
@@ -425,7 +426,7 @@ var ContentMission = (function () {
                                     contentDesc.position.y = (contentImageShading.height * 0.5) - 5;
 
 
-                                    var contentImageHighlight = libraryManager.createImage('contentImageHighlight', contentImage, res['img_red_highlight'].texture);
+                                    var contentImageHighlight = libraryManager.createImage('contentImageHighlight', cellBlock, res['img_red_highlight'].texture);
                                     if(missionItem.type == 'eventcell')
                                     {
                                         contentImageHighlight.position.y = 62;
