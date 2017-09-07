@@ -385,7 +385,7 @@ var ContentArchive = (function () {
                         fontFamily: 'Arial',
                         fontSize: 30,
                         fontStyle: 'normal',
-                        fill: '#999999'
+                        fill: '#909090'
                     }));
                     backButtonLabel.text = 'Back to Archive Menu';
                     backButtonLabel.anchor.x = 0;
@@ -473,7 +473,7 @@ var ContentArchive = (function () {
                             fontFamily: 'Arial',
                             fontSize: 18,
                             fontStyle: 'normal',
-                            fill: '#999999'
+                            fill: '#909090'
                         }));
                         contentTitle.text = archiveItem.title;
                         contentTitle.anchor.x = 0;

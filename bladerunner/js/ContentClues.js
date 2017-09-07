@@ -805,7 +805,7 @@ var ContentClues = (function () {
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
-                    fill: '#808080'
+                    fill: '#909090'
                 }));
                 caseFileLabel.text = 'Case File: ';
                 caseFileLabel.anchor.x = 0;
@@ -832,7 +832,7 @@ var ContentClues = (function () {
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
-                    fill: '#808080'
+                    fill: '#909090'
                 }));
                 caseFileProgress.text = cellCompleted + '/' + maxGrid;
                 caseFileProgress.anchor.x = 0;
@@ -859,7 +859,7 @@ var ContentClues = (function () {
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
-                    fill: '#808080',
+                    fill: '#909090',
                     wordWrapWidth: 350,
                     wordWrap : true
                 }));
@@ -893,7 +893,7 @@ var ContentClues = (function () {
                         fontFamily: 'Arial',
                         fontSize: 20,
                         fontStyle: 'normal',
-                        fill: '#808080'
+                        fill: '#909090'
                     }));
                     cluesRewardDesc.text = item.reward.desc;
                     cluesRewardDesc.anchor.x = 0;
@@ -1040,7 +1040,7 @@ var ContentClues = (function () {
                                     fontFamily: 'Arial',
                                     fontSize: 16,
                                     fontStyle: 'normal',
-                                    fill: '#808080'
+                                    fill: '#909090'
                                 }));
                                 cluesCellItemName.text = 'Clue ' + item.data[i].cell;
                                 cluesCellItemName.position = cluesCellItemNameBG.position;
@@ -1049,7 +1049,7 @@ var ContentClues = (function () {
                                     fontFamily: 'Arial',
                                     fontSize: 16,
                                     fontStyle: 'normal',
-                                    fill: '#808080'
+                                    fill: '#909090'
                                 }));
                                 cluesCellItemDesc.text = item.data[i].unlockedDesc;
                                 cluesCellItemDesc.position.x = cluesCellItemDescBG.position.x - (cluesCellItemDescBG.width * 0.5) + (cluesCellItemDesc.width * 0.5) + 10;
@@ -1075,7 +1075,7 @@ var ContentClues = (function () {
                                     fontFamily: 'Arial',
                                     fontSize: 16,
                                     fontStyle: 'normal',
-                                    fill: '#808080'
+                                    fill: '#909090'
                                 }));
                                 cluesCellItemLockedDesc.text = item.data[i].lockedDesc;
                                 cluesCellItemLockedDesc.position.y = cluesCellItemLockedBG.position.y;
