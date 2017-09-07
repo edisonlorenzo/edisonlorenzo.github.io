@@ -69,6 +69,7 @@ html, body {
 
 /* preloader */
 .sk-circle {
+  z-index: -1;
   margin: auto;
   width: 60px;
   height: 60px;
