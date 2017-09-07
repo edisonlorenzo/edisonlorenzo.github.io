@@ -1254,15 +1254,26 @@ var ContentMission = (function () {
                 var colPos = 0;
                 var maxCol = 3;
 
+                var tl = new TimelineMax();
+
                 for (var i = 0; i < item.gameData.length; i++)
                 {
                     var gameData = item.gameData[i];
 
                     colPos = (i % maxCol) - (maxCol / 2);
 
-                    var popupGameDataImage = libraryManager.createImage('popupGameDataImage_' + i, popupBG, res[gameData.imageRes].texture);
+                    var popupGameDataContainer =  libraryManager.createContainer('popupGameDataContainer_' + i, popupBG);
+                    popupGameDataContainer.visible = false;
+                    popupGameDataContainer.content.show = (function() {
+                        this.visible = true;
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                        TweenMax.fromTo(this.position, 0.5, {y: -15}, {y: 0, ease: Power2.easeOut});
+                    }).bind(popupGameDataContainer);
+
+                    tl.add(popupGameDataContainer.content.show, '+=0.075');
+
+                    var popupGameDataImage = libraryManager.createImage('popupGameDataImage', popupGameDataContainer, res[gameData.imageRes].texture);
                     popupGameDataImage.position.x = (colPos * (popupGameDataImage.width + 20)) + ((popupGameDataImage.width + 20) * 0.5);
-                    popupGameDataImage.position.y = popupImageDesc.position.y + popupImageDesc.height + (popupGameDataImage.height * 0.5) + 20;
                     popupGameDataImage.position.y = (popupBG.height * 0.5) - (popupGameDataImage.height * 0.5) - 20;
 
                     var contentStart = libraryManager.createImageButton('contentStart', popupGameDataImage, res['btn_start'].texture);
