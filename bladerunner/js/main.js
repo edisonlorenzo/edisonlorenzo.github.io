@@ -25,4 +25,7 @@ function init()
 
 }
 
-init();
+document.addEventListener('DOMContentLoaded', function(){
+    console.log('DOM Loaded');
+    init();
+}, false);
