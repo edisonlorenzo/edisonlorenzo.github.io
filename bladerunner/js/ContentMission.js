@@ -352,27 +352,29 @@ var ContentMission = (function () {
                                 cellBlock.content.posX = posX + (cellBlock.width * 0.5) + 5;
                                 posX = cellBlock.content.posX + (cellBlock.width * 0.5);
 
-                                var contentImage = libraryManager.createImage('contentImage', cellBlock, res[missionItem.imageRes].texture);
-                                contentImage.visible = false;
-                                contentImage.content.show = (function() {
+                                var contentImageContainer = libraryManager.createContainer('contentImageContainer', cellBlock);
+                                contentImageContainer.visible = false;
+                                contentImageContainer.content.show = (function() {
                                     this.visible = true;
                                     TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                                }).bind(contentImage);
-                                missionItemContainer.content.contentImage = contentImage;
+                                }).bind(contentImageContainer);
+                                missionItemContainer.content.contentImageContainer = contentImageContainer;
+
+                                var contentImage = libraryManager.createImage('contentImage', contentImageContainer, res[missionItem.imageRes].texture);
                                 missionItem.contentImage = contentImage;
 
                                 if(missionItem.isLocked)
                                 {
-                                    var contentImageFade = libraryManager.createImage('contentImageFade', cellBlock, res['img_white'].texture);
+                                    var contentImageFade = libraryManager.createImage('contentImageFade', contentImageContainer, res['img_white'].texture);
                                     contentImageFade.tint = 0x000000;
                                     contentImageFade.alpha = 0.75;
                                     contentImageFade.width = contentImage.width;
                                     contentImageFade.height = contentImage.height;
 
-                                    var contentImageLocked = libraryManager.createImage('contentImageLocked', cellBlock, res['icon_lock'].texture);
+                                    var contentImageLocked = libraryManager.createImage('contentImageLocked', contentImageContainer, res['icon_lock'].texture);
                                     contentImageLocked.position.y = -15;
 
-                                    var contentLockedDesc = libraryManager.createText('contentLockedDesc', cellBlock, 0, new PIXI.TextStyle({
+                                    var contentLockedDesc = libraryManager.createText('contentLockedDesc', contentImageContainer, 0, new PIXI.TextStyle({
                                         fontFamily: 'Arial',
                                         fontSize: 16,
                                         fontStyle: 'normal',
@@ -386,7 +388,7 @@ var ContentMission = (function () {
 
                                 if(missionType.imageShading)
                                 {
-                                    var contentImageShadingContainer =  libraryManager.createContainer('contentImageShadingContainer', cellBlock);
+                                    var contentImageShadingContainer =  libraryManager.createContainer('contentImageShadingContainer', contentImageContainer);
                                     contentImageShadingContainer.visible = false;
                                     contentImageShadingContainer.content.show = (function() {
                                         this.visible = true;
@@ -426,7 +428,7 @@ var ContentMission = (function () {
                                     contentDesc.position.y = (contentImageShading.height * 0.5) - 5;
 
 
-                                    var contentImageHighlight = libraryManager.createImage('contentImageHighlight', cellBlock, res['img_red_highlight'].texture);
+                                    var contentImageHighlight = libraryManager.createImage('contentImageHighlight', contentImageContainer, res['img_red_highlight'].texture);
                                     if(missionItem.type == 'eventcell')
                                     {
                                         contentImageHighlight.position.y = 62;
@@ -447,7 +449,7 @@ var ContentMission = (function () {
 
                                 if(missionItem.iconRes && !missionItem.isLocked)
                                 {
-                                    var contentIcon = libraryManager.createImage('contentIcon', cellBlock, res[missionItem.iconRes].texture);
+                                    var contentIcon = libraryManager.createImage('contentIcon', contentImageContainer, res[missionItem.iconRes].texture);
                                     contentIcon.position.x = (contentImage.width * 0.5) - (contentIcon.width * 0.5) - 5;
                                     contentIcon.position.y = -(contentImage.height * 0.5) + (contentIcon.height * 0.5) + 5;
                                     contentIcon.visible = false;
@@ -460,7 +462,7 @@ var ContentMission = (function () {
 
                                 if(missionItem.hasStartButton)
                                 {
-                                    var contentStart = libraryManager.createImageButton('contentStart', cellBlock, res['btn_start'].texture);
+                                    var contentStart = libraryManager.createImageButton('contentStart', contentImageContainer, res['btn_start'].texture);
                                     contentStart.position.x = (contentImage.width * 0.5) - (contentStart.width * 0.5) - 10;
                                     contentStart.position.y = (contentImage.height * 0.5) - (contentStart.height * 0.5) - 24;
                                     contentStart.visible = false;
@@ -481,9 +483,9 @@ var ContentMission = (function () {
 
                             missionItemContainer.content.show = (function() {
                                 var tl = new TimelineMax();
-                                if(this.contentImage)
+                                if(this.contentImageContainer)
                                 {
-                                    tl.add(this.contentImage.content.show, "+=0.1");
+                                    tl.add(this.contentImageContainer.content.show, "+=0.1");
                                 }
 
                                 if(this.dividerMask)
