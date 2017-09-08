@@ -25,7 +25,7 @@ function init()
 
 }
 
-window.onload = function() {
-    console.log('window loaded');
+document.addEventListener('DOMContentLoaded', function(){
+    console.log('DOM Loaded');
     init();
-}
+}, false);
