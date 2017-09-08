@@ -351,30 +351,27 @@ var ContentMission = (function () {
 
                                 cellBlock.content.posX = posX + (cellBlock.width * 0.5) + 5;
                                 posX = cellBlock.content.posX + (cellBlock.width * 0.5);
-
-                                var contentImageContainer = libraryManager.createContainer('contentImageContainer', cellBlock);
-                                contentImageContainer.visible = false;
-                                contentImageContainer.content.show = (function() {
+                                var contentImage = libraryManager.createImage('contentImage', cellBlock, res[missionItem.imageRes].texture);
+                                contentImage.visible = false;
+                                contentImage.content.show = (function() {
                                     this.visible = true;
                                     TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                                }).bind(contentImageContainer);
-                                missionItemContainer.content.contentImageContainer = contentImageContainer;
-
-                                var contentImage = libraryManager.createImage('contentImage', contentImageContainer, res[missionItem.imageRes].texture);
+                                }).bind(contentImage);
+                                missionItemContainer.content.contentImage = contentImage;
                                 missionItem.contentImage = contentImage;
 
                                 if(missionItem.isLocked)
                                 {
-                                    var contentImageFade = libraryManager.createImage('contentImageFade', contentImageContainer, res['img_white'].texture);
+                                    var contentImageFade = libraryManager.createImage('contentImageFade', contentImage, res['img_white'].texture);
                                     contentImageFade.tint = 0x000000;
                                     contentImageFade.alpha = 0.75;
                                     contentImageFade.width = contentImage.width;
                                     contentImageFade.height = contentImage.height;
 
-                                    var contentImageLocked = libraryManager.createImage('contentImageLocked', contentImageContainer, res['icon_lock'].texture);
+                                    var contentImageLocked = libraryManager.createImage('contentImageLocked', contentImage, res['icon_lock'].texture);
                                     contentImageLocked.position.y = -15;
 
-                                    var contentLockedDesc = libraryManager.createText('contentLockedDesc', contentImageContainer, 0, new PIXI.TextStyle({
+                                    var contentLockedDesc = libraryManager.createText('contentLockedDesc', contentImage, 0, new PIXI.TextStyle({
                                         fontFamily: 'Arial',
                                         fontSize: 16,
                                         fontStyle: 'normal',
@@ -388,7 +385,7 @@ var ContentMission = (function () {
 
                                 if(missionType.imageShading)
                                 {
-                                    var contentImageShadingContainer =  libraryManager.createContainer('contentImageShadingContainer', contentImageContainer);
+                                    var contentImageShadingContainer =  libraryManager.createContainer('contentImageShadingContainer', contentImage);
                                     contentImageShadingContainer.visible = false;
                                     contentImageShadingContainer.content.show = (function() {
                                         this.visible = true;
@@ -428,7 +425,7 @@ var ContentMission = (function () {
                                     contentDesc.position.y = (contentImageShading.height * 0.5) - 5;
 
 
-                                    var contentImageHighlight = libraryManager.createImage('contentImageHighlight', contentImageContainer, res['img_red_highlight'].texture);
+                                    var contentImageHighlight = libraryManager.createImage('contentImageHighlight', contentImage, res['img_red_highlight'].texture);
                                     if(missionItem.type == 'eventcell')
                                     {
                                         contentImageHighlight.position.y = 62;
@@ -449,7 +446,7 @@ var ContentMission = (function () {
 
                                 if(missionItem.iconRes && !missionItem.isLocked)
                                 {
-                                    var contentIcon = libraryManager.createImage('contentIcon', contentImageContainer, res[missionItem.iconRes].texture);
+                                    var contentIcon = libraryManager.createImage('contentIcon', cellBlock, res[missionItem.iconRes].texture);
                                     contentIcon.position.x = (contentImage.width * 0.5) - (contentIcon.width * 0.5) - 5;
                                     contentIcon.position.y = -(contentImage.height * 0.5) + (contentIcon.height * 0.5) + 5;
                                     contentIcon.visible = false;
@@ -462,7 +459,7 @@ var ContentMission = (function () {
 
                                 if(missionItem.hasStartButton)
                                 {
-                                    var contentStart = libraryManager.createImageButton('contentStart', contentImageContainer, res['btn_start'].texture);
+                                    var contentStart = libraryManager.createImageButton('contentStart', cellBlock, res['btn_start'].texture);
                                     contentStart.position.x = (contentImage.width * 0.5) - (contentStart.width * 0.5) - 10;
                                     contentStart.position.y = (contentImage.height * 0.5) - (contentStart.height * 0.5) - 24;
                                     contentStart.visible = false;
@@ -483,9 +480,9 @@ var ContentMission = (function () {
 
                             missionItemContainer.content.show = (function() {
                                 var tl = new TimelineMax();
-                                if(this.contentImageContainer)
+                                if(this.contentImage)
                                 {
-                                    tl.add(this.contentImageContainer.content.show, "+=0.1");
+                                    tl.add(this.contentImage.content.show, "+=0.1");
                                 }
 
                                 if(this.dividerMask)
@@ -1139,6 +1136,7 @@ var ContentMission = (function () {
                 var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
 
                 var popupContainer =  libraryManager.createContainer('popupContainer', contentContainer);
+                popupContainer.position.y = -100;
                 popupContainer.interactive = true;
 
                 var popupBGFade = libraryManager.createImage('popupBGFade', popupContainer, res['img_white'].texture);
@@ -1256,26 +1254,15 @@ var ContentMission = (function () {
                 var colPos = 0;
                 var maxCol = 3;
 
-                var tl = new TimelineMax();
-
                 for (var i = 0; i < item.gameData.length; i++)
                 {
                     var gameData = item.gameData[i];
 
                     colPos = (i % maxCol) - (maxCol / 2);
 
-                    var popupGameDataContainer =  libraryManager.createContainer('popupGameDataContainer_' + i, popupBG);
-                    popupGameDataContainer.visible = false;
-                    popupGameDataContainer.content.show = (function() {
-                        this.visible = true;
-                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                        TweenMax.fromTo(this.position, 0.5, {y: -15}, {y: 0, ease: Power2.easeOut});
-                    }).bind(popupGameDataContainer);
-
-                    tl.add(popupGameDataContainer.content.show, '+=0.075');
-
-                    var popupGameDataImage = libraryManager.createImage('popupGameDataImage', popupGameDataContainer, res[gameData.imageRes].texture);
+                    var popupGameDataImage = libraryManager.createImage('popupGameDataImage_' + i, popupBG, res[gameData.imageRes].texture);
                     popupGameDataImage.position.x = (colPos * (popupGameDataImage.width + 20)) + ((popupGameDataImage.width + 20) * 0.5);
+                    popupGameDataImage.position.y = popupImageDesc.position.y + popupImageDesc.height + (popupGameDataImage.height * 0.5) + 20;
                     popupGameDataImage.position.y = (popupBG.height * 0.5) - (popupGameDataImage.height * 0.5) - 20;
 
                     var contentStart = libraryManager.createImageButton('contentStart', popupGameDataImage, res['btn_start'].texture);
@@ -1286,7 +1273,7 @@ var ContentMission = (function () {
                         checkProgress();
                     }).bind(gameData));
 
-                    var popupGameDataImageFade = libraryManager.createImage('popupGameDataImageFade', popupGameDataImage, res['img_white'].texture);
+                    var popupGameDataImageFade = libraryManager.createImage('popupBGFade', popupGameDataImage, res['img_white'].texture);
                     popupGameDataImageFade.visible = false;
                     popupGameDataImageFade.tint = 0x000000;
                     popupGameDataImageFade.alpha = 0.75;

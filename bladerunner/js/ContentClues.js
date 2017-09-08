@@ -805,7 +805,7 @@ var ContentClues = (function () {
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
-                    fill: '#909090'
+                    fill: '#808080'
                 }));
                 caseFileLabel.text = 'Case File: ';
                 caseFileLabel.anchor.x = 0;
@@ -832,7 +832,7 @@ var ContentClues = (function () {
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
-                    fill: '#909090'
+                    fill: '#808080'
                 }));
                 caseFileProgress.text = cellCompleted + '/' + maxGrid;
                 caseFileProgress.anchor.x = 0;
@@ -859,7 +859,7 @@ var ContentClues = (function () {
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
-                    fill: '#909090',
+                    fill: '#808080',
                     wordWrapWidth: 350,
                     wordWrap : true
                 }));
@@ -871,17 +871,15 @@ var ContentClues = (function () {
 
                 if(item.reward)
                 {
-                    var cluesRewardContainer = libraryManager.createContainer('cluesRewardContainer', popupBG);
-
-                    var cluesRewardBG = libraryManager.createImage('cluesRewardBG', cluesRewardContainer, res[item.reward.imageRes].texture);
-                    cluesRewardContainer.position.y = cluesCellGridContainer.position.y + (cluesGrid.height * 0.5) + (cluesRewardBG.height * 0.5) + 15;
+                    var cluesRewardBG = libraryManager.createImage('cluesRewardBG', popupBG, res[item.reward.imageRes].texture);
+                    cluesRewardBG.position.y = cluesCellGridContainer.position.y + (cluesGrid.height * 0.5) + (cluesRewardBG.height * 0.5) + 15;
 
                     if(!isCaseCompleted)
                     {
                         libraryManager.setDesaturate(cluesRewardBG, true);
                     }
 
-                    var cluesRewardTitle = libraryManager.createText('cluesRewardTitle', cluesRewardContainer, 0, new PIXI.TextStyle({
+                    var cluesRewardTitle = libraryManager.createText('cluesRewardTitle', cluesRewardBG, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
                         fontSize: 20,
                         fontStyle: 'normal',
@@ -891,11 +889,11 @@ var ContentClues = (function () {
                     cluesRewardTitle.anchor.x = 0;
                     cluesRewardTitle.position.x = -(cluesRewardBG.width * 0.5) + 10;
 
-                    var cluesRewardDesc = libraryManager.createText('cluesRewardDesc', cluesRewardContainer, 0, new PIXI.TextStyle({
+                    var cluesRewardDesc = libraryManager.createText('cluesRewardDesc', cluesRewardBG, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
                         fontSize: 20,
                         fontStyle: 'normal',
-                        fill: '#909090'
+                        fill: '#808080'
                     }));
                     cluesRewardDesc.text = item.reward.desc;
                     cluesRewardDesc.anchor.x = 0;
@@ -1027,7 +1025,7 @@ var ContentClues = (function () {
                                 cluesCellItemNameBG.width = 65;
 
                                 cluesCellPosX = i % 2 == 0 ? -(popupBG.width * 0.5) + (cluesCellItemNameBG.width * 0.5) + 20 : (cluesCellItemNameBG.width * 0.5) + 5;
-                                cluesCellPosY = cluesRewardContainer.position.y + (cluesRewardBG.height * 0.5) + 15 + (rowPos * (cluesCellItemNameBG.height + 10));
+                                cluesCellPosY = cluesRewardBG.position.y + (cluesRewardBG.height * 0.5) + 15 + (rowPos * (cluesCellItemNameBG.height + 10));
                                 cluesCellItemNameBG.position.x = cluesCellPosX;
                                 cluesCellItemNameBG.position.y = cluesCellPosY + (cluesCellItemNameBG.height * 0.5);
 
@@ -1042,7 +1040,7 @@ var ContentClues = (function () {
                                     fontFamily: 'Arial',
                                     fontSize: 16,
                                     fontStyle: 'normal',
-                                    fill: '#909090'
+                                    fill: '#808080'
                                 }));
                                 cluesCellItemName.text = 'Clue ' + item.data[i].cell;
                                 cluesCellItemName.position = cluesCellItemNameBG.position;
@@ -1051,7 +1049,7 @@ var ContentClues = (function () {
                                     fontFamily: 'Arial',
                                     fontSize: 16,
                                     fontStyle: 'normal',
-                                    fill: '#909090'
+                                    fill: '#808080'
                                 }));
                                 cluesCellItemDesc.text = item.data[i].unlockedDesc;
                                 cluesCellItemDesc.position.x = cluesCellItemDescBG.position.x - (cluesCellItemDescBG.width * 0.5) + (cluesCellItemDesc.width * 0.5) + 10;
@@ -1065,7 +1063,7 @@ var ContentClues = (function () {
                                 cluesCellItemLockedBG.width = 320;
 
                                 cluesCellPosX = i % 2 == 0 ? -(popupBG.width * 0.5) + (cluesCellItemLockedBG.width * 0.5) + 20 : (cluesCellItemLockedBG.width * 0.5) + 5;
-                                cluesCellPosY = cluesRewardContainer.position.y + (cluesRewardBG.height * 0.5) + 15 + (rowPos * (cluesCellItemLockedBG.height + 10));
+                                cluesCellPosY = cluesRewardBG.position.y + (cluesRewardBG.height * 0.5) + 15 + (rowPos * (cluesCellItemLockedBG.height + 10));
                                 cluesCellItemLockedBG.position.x = cluesCellPosX;
                                 cluesCellItemLockedBG.position.y = cluesCellPosY + (cluesCellItemLockedBG.height * 0.5);
 
@@ -1077,7 +1075,7 @@ var ContentClues = (function () {
                                     fontFamily: 'Arial',
                                     fontSize: 16,
                                     fontStyle: 'normal',
-                                    fill: '#909090'
+                                    fill: '#808080'
                                 }));
                                 cluesCellItemLockedDesc.text = item.data[i].lockedDesc;
                                 cluesCellItemLockedDesc.position.y = cluesCellItemLockedBG.position.y;

@@ -14,22 +14,16 @@ var StageManager = (function () {
         var callBackArray = new Array();
 
         var app = new PIXI.Application(logicalWidth, logicalHeight, {backgroundColor : 0x000000, resolution: window.devicePixelRatio});
-
-        app.view.style.position = 'absolute';
-        app.view.style.top = 0;
-        app.view.style.left = 0;
-        app.view.style.right = 0;
-        app.view.style.bottom = 0;
-        app.view.style.margin = 'auto';
-
-        //Add the canvas to the HTML document
-        document.body.appendChild(app.view);
+        app.view.id = 'pixi-canvas';
 
         //Add style in document head
         var newStyle = document.createElement("style");
         var style = "* {padding: 0; margin: 0}";
         newStyle.appendChild(document.createTextNode(style));
         document.head.appendChild(newStyle);
+
+        //Add the canvas to the HTML document
+        document.body.appendChild(app.view);
 
         var container = new PIXI.Container();
 

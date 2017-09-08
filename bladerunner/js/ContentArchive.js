@@ -40,12 +40,6 @@ var ContentArchive = (function () {
         assets.push(new Asset('img_dossier04', 'images/archives/dossier/img_dossier04.png'));
         assets.push(new Asset('img_dossier05', 'images/archives/dossier/img_dossier05.png'));
         assets.push(new Asset('img_dossier06', 'images/archives/dossier/img_dossier06.png'));
-        assets.push(new Asset('img_images01', 'images/archives/images/img_images01.png'));
-        assets.push(new Asset('img_images02', 'images/archives/images/img_images02.png'));
-        assets.push(new Asset('img_images03', 'images/archives/images/img_images03.png'));
-        assets.push(new Asset('img_images04', 'images/archives/images/img_images04.png'));
-        assets.push(new Asset('img_images05', 'images/archives/images/img_images05.png'));
-        assets.push(new Asset('img_images06', 'images/archives/images/img_images06.png'));
 
         var objData =
         {
@@ -70,15 +64,7 @@ var ContentArchive = (function () {
                 {
                     title: 'Images',
                     imageRes: 'img_archive_image',
-                    imageHeaderRes: 'img_archive_header_images',
-                    data: [
-                        {imageRes: 'img_images01', unlocked: true},
-                        {imageRes: 'img_images02', unlocked: true},
-                        {imageRes: 'img_images03', unlocked: true},
-                        {imageRes: 'img_images04', unlocked: true},
-                        {imageRes: 'img_images05', unlocked: true},
-                        {imageRes: 'img_images06', unlocked: true}
-                    ]
+                    imageHeaderRes: 'img_archive_header_images'
                 },
                 {
                     title: 'Past Missions',
@@ -399,7 +385,7 @@ var ContentArchive = (function () {
                         fontFamily: 'Arial',
                         fontSize: 30,
                         fontStyle: 'normal',
-                        fill: '#909090'
+                        fill: '#999999'
                     }));
                     backButtonLabel.text = 'Back to Archive Menu';
                     backButtonLabel.anchor.x = 0;
@@ -469,33 +455,31 @@ var ContentArchive = (function () {
                             contentImageLocked.scale.set(0.6);
                         }
 
-                        if(archiveItem.title)
-                        {
-                            var contentImageShadingContainer =  libraryManager.createContainer('contentImageShadingContainer', contentImage);
-                            contentImageShadingContainer.visible = false;
-                            contentImageShadingContainer.content.show = (function() {
-                                this.visible = true;
-                                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                            }).bind(contentImageShadingContainer);
-                            archiveItemContainer.content.contentImageShadingContainer = contentImageShadingContainer;
+                        var contentImageShadingContainer =  libraryManager.createContainer('contentImageShadingContainer', contentImage);
+                        contentImageShadingContainer.visible = false;
+                        contentImageShadingContainer.content.show = (function() {
+                            this.visible = true;
+                            TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                        }).bind(contentImageShadingContainer);
+                        archiveItemContainer.content.contentImageShadingContainer = contentImageShadingContainer;
 
-                            var contentImageShading = libraryManager.createImage('contentImageShading', contentImageShadingContainer, res['img_archive_shading'].texture);
-                            contentImageShading.width = contentImage.content.width;
-                            contentImageShading.scale.y = 1.2;
+                        var contentImageShading = libraryManager.createImage('contentImageShading', contentImageShadingContainer, res['img_archive_shading'].texture);
+                        contentImageShading.width = contentImage.content.width;
+                        contentImageShading.scale.y = 1.2;
 
-                            contentImageShadingContainer.position.y = (contentImage.content.height * 0.5) - (contentImageShading.height * 0.5);
+                        contentImageShadingContainer.position.y = (contentImage.content.height * 0.5) - (contentImageShading.height * 0.5);
 
-                            var contentTitle = libraryManager.createText('contentTitle', contentImageShadingContainer, 0, new PIXI.TextStyle({
-                                fontFamily: 'Arial',
-                                fontSize: 18,
-                                fontStyle: 'normal',
-                                fill: '#909090'
-                            }));
-                            contentTitle.text = archiveItem.title;
-                            contentTitle.anchor.x = 0;
-                            contentTitle.position.x = -(contentImageShading.width * 0.5) + 6;
-                            contentTitle.position.y = 2;
-                        }
+                        var contentTitle = libraryManager.createText('contentTitle', contentImageShadingContainer, 0, new PIXI.TextStyle({
+                            fontFamily: 'Arial',
+                            fontSize: 18,
+                            fontStyle: 'normal',
+                            fill: '#999999'
+                        }));
+                        contentTitle.text = archiveItem.title;
+                        contentTitle.anchor.x = 0;
+                        contentTitle.position.x = -(contentImageShading.width * 0.5) + 6;
+                        contentTitle.position.y = 2;
+
 
                         archiveItemContainer.content.show = (function() {
 
