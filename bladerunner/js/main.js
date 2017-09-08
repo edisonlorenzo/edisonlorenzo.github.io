@@ -25,4 +25,7 @@ function init()
 
 }
 
-init();
+window.onload = function() {
+    console.log('window loaded');
+    init();
+}
