@@ -872,6 +872,7 @@ var ContentMission = (function () {
                 var res = assetLoaderManager.getRes();
 
                 var foregroundContainer = libraryManager.getElement('foregroundContainer');
+                var backgroundObj = libraryManager.getElement('backgroundObj');
 
                 var notificationContainer =  libraryManager.createContainer('notificationContainer', foregroundContainer);
                 notificationContainer.visible = false;
@@ -883,8 +884,8 @@ var ContentMission = (function () {
                 var notificationBGFade = libraryManager.createImage('notificationBGFade', notificationContainer, res['img_white'].texture);
                 notificationBGFade.tint = 0x000000;
                 notificationBGFade.alpha = 0.75;
-                notificationBGFade.width = stageManager.getDimension().canvasWidth;
-                notificationBGFade.height = stageManager.getDimension().canvasHeight;
+                notificationBGFade.width = backgroundObj.content.width;
+                notificationBGFade.height = backgroundObj.content.height;
 
                 var notificationBG = libraryManager.createImage('notificationBG', notificationContainer, res['img_bg_notification'].texture);
                 notificationBG.visible = false;
