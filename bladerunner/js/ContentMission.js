@@ -883,8 +883,8 @@ var ContentMission = (function () {
                 var notificationBGFade = libraryManager.createImage('notificationBGFade', notificationContainer, res['img_white'].texture);
                 notificationBGFade.tint = 0x000000;
                 notificationBGFade.alpha = 0.75;
-                notificationBGFade.width = stageManager.getDimension().width;
-                notificationBGFade.height = stageManager.getDimension().height;
+                notificationBGFade.width = stageManager.getDimension().canvasWidth;
+                notificationBGFade.height = stageManager.getDimension().canvasHeight;
 
                 var notificationBG = libraryManager.createImage('notificationBG', notificationContainer, res['img_bg_notification'].texture);
                 notificationBG.visible = false;

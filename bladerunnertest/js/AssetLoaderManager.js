@@ -65,8 +65,8 @@ var AssetLoaderManager = (function () {
 
                     canvasContainer.content.setLayout = function () {
                         canvasContainer.scale.x = canvasContainer.scale.y = 1;
-                        canvasContainer.position.x = stageManager.getDimension().width * 0.5;
-                        canvasContainer.position.y = stageManager.getDimension().height * 0.5;
+                        canvasContainer.position.x = stageManager.getDimension().canvasWidth * 0.5;
+                        canvasContainer.position.y = stageManager.getDimension().canvasHeight * 0.5;
                     }
                     stageManager.addCallBack(canvasContainer.content.setLayout);
 
