@@ -16,7 +16,6 @@ function init()
 
         function assetReady()
         {
-            assetLoaderManager.getProgress().done();
             sceneManager.setup();
         }
     }
