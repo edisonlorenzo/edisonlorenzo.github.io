@@ -53,11 +53,7 @@ var StageManager = (function () {
             canvasWidth = window.innerWidth;
             canvasHeight = window.innerHeight;
 
-            var getRatio = function(){
-                return canvasWidth > canvasHeight ? (canvasWidth / canvasHeight) : (canvasHeight / canvasWidth);
-            }
-
-            width = canvasHeight;
+            width = canvasWidth;
     		height = canvasHeight;
         }
 
