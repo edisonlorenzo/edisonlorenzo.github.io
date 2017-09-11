@@ -153,6 +153,12 @@ var SceneManager = (function () {
             backgroundContainerMask.height = backgroundObj.content.height;
 
             backgroundContainer.mask = backgroundContainerMask;
+
+            var foregroundContainerMask = libraryManager.createImage('foregroundContainerMask', foregroundContainer, res['img_white'].texture);
+            foregroundContainerMask.width = backgroundObj.content.width;
+            foregroundContainerMask.height = backgroundObj.content.height;
+
+            foregroundContainer.mask = foregroundContainerMask;
         }
 
         function initLoadingScene()
