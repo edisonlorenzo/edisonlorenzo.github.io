@@ -449,6 +449,11 @@ var ContentClues = (function () {
                 var sc = libraryManager.createScrollContainer('contentScrollContainer', contentBodyContainer, bodyBackgroundObj.width, bodyBackgroundObj.height);
                 var rowContainer;
 
+                function getRandomValue ()
+                {
+                    return Math.ceil(Math.random() * 100 + 50) * (Math.ceil(Math.random() * 2) == 1 ? -1 : 1);
+                }
+
                 for (var i = 0; i < objData.cluesList.length; i++)
                 {
                     if(i % maxCol == 0)
@@ -539,8 +544,7 @@ var ContentClues = (function () {
                         cluesCellBg.content.show = (function() {
                             this.visible = true;
                             TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                            // TweenMax.fromTo(this.scale, 0.5, {x: 2.5, y: 2.5}, {x: 1, y: 1, ease: Power2.easeOut});
-                            TweenMax.fromTo(this.position, 0.5, {x: this.content.posX + this.content.getRandomValue() , y: this.content.posY + this.content.getRandomValue()}, {x: this.content.posX, y: this.content.posY, ease: Power2.easeOut});
+                            TweenMax.fromTo(this.position, 0.5, {x: this.content.posX + getRandomValue() , y: this.content.posY + getRandomValue()}, {x: this.content.posX, y: this.content.posY, ease: Power2.easeOut});
                         }).bind(cluesCellBg);
 
                         if(!cluesItem.data[gridIdx].isCompleted)
@@ -556,7 +560,7 @@ var ContentClues = (function () {
 
                         cluesColPos = ((gridIdx % cluesMaxCol) - Math.ceil(cluesMaxCol * 0.5)) * cluesCellWidth;
 
-                        cluesCellBg.content.getRandomValue = function () { return Math.ceil(Math.random() * 100 + 50) * (Math.ceil(Math.random() * 2) == 1 ? -1 : 1); };
+
                         cluesCellBg.content.posY = cluesRowPos + (cluesCellHeight * 0.5);
                         cluesCellBg.content.posX = cluesColPos + (cluesCellWidth * 0.5);
                         cluesCellBg.position.x = cluesCellBg.content.posX;
@@ -638,7 +642,6 @@ var ContentClues = (function () {
                             TweenMax.fromTo(clueIconHighlight, 0.75, {alpha: 0.5}, {alpha: 1, ease: Quad.easeOut, repeat: -1, yoyo: true});
                         }
 
-
                         var cluesNewPieceContainer =  libraryManager.createContainer('cluesNewPieceContainer', cluesContentContainer);
                         TweenMax.fromTo(cluesNewPieceContainer, 0.75, {alpha: 0}, {alpha: 1, ease: Quad.easeOut, repeat: -1, yoyo: true});
 
@@ -646,7 +649,6 @@ var ContentClues = (function () {
                         cluesNewPiece.tint = 0xdd2525;
                         cluesNewPiece.width = 100;
                         cluesNewPiece.height = 25;
-
 
                         var cluesNewPieceText = libraryManager.createText('cluesNewPieceText', cluesNewPieceContainer, 0, new PIXI.TextStyle({
                             fontFamily: 'Arial',
@@ -736,7 +738,6 @@ var ContentClues = (function () {
 
                         if(animationTl)
                         {
-                            console.log('clearing');
                             animationTl.clear();
                         }
                         else
@@ -826,6 +827,11 @@ var ContentClues = (function () {
                 var cluesRowPos = -(cluesGrid.height * 0.5), cluesCellHeight = 0, cluesCellWidth = 0, cluesColPos = 0;
                 var cluesMaxCol = 4, cluesPadding = 1, maxGrid = item.data.length;
 
+                function getRandomValue()
+                {
+                    return Math.ceil(Math.random() * 100 + 50) * (Math.ceil(Math.random() * 2) == 1 ? -1 : 1);
+                }
+
                 var tl = new TimelineMax();
                 for (var gridIdx = 0; gridIdx < maxGrid; gridIdx++)
                 {
@@ -840,7 +846,7 @@ var ContentClues = (function () {
                         this.visible = true;
                         TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                         TweenMax.fromTo(this.scale, 0.5, {x: 2.5, y: 2.5}, {x: 1, y: 1, ease: Power2.easeOut});
-                        TweenMax.fromTo(this.position, 0.5, {x: this.content.posX + this.content.getRandomValue() , y: this.content.posY + this.content.getRandomValue()}, {x: this.content.posX, y: this.content.posY, ease: Power2.easeOut});
+                        TweenMax.fromTo(this.position, 0.5, {x: this.content.posX + getRandomValue() , y: this.content.posY + getRandomValue()}, {x: this.content.posX, y: this.content.posY, ease: Power2.easeOut});
                     }).bind(cluesCellBg);
 
                     if(!item.data[gridIdx].isCompleted)
@@ -853,7 +859,6 @@ var ContentClues = (function () {
 
                     cluesColPos = ((gridIdx % cluesMaxCol) - Math.ceil(cluesMaxCol * 0.5)) * cluesCellWidth;
 
-                    cluesCellBg.content.getRandomValue = function () { return Math.ceil(Math.random() * 100 + 50) * (Math.ceil(Math.random() * 2) == 1 ? -1 : 1); };
                     cluesCellBg.content.posY = cluesRowPos + (cluesCellHeight * 0.5);
                     cluesCellBg.content.posX = cluesColPos + (cluesCellWidth * 0.5);
                     cluesCellBg.position.x = cluesCellBg.content.posX;
