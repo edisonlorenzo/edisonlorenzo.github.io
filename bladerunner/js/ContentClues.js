@@ -10,6 +10,7 @@ var ContentClues = (function () {
         var isAssetLoaded;
         var isAssetPending;
         var assets = new Array();
+        var animationTl;
 
         assets.push(new Asset('img_clue_reward01', 'images/img_clue_reward01.png'));
         assets.push(new Asset('img_clue_bg1', 'images/img_clue_bg01.png'));
@@ -507,10 +508,17 @@ var ContentClues = (function () {
                         TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                     }).bind(cluesContentContainer);
 
-                    var cluesCellGridContainer =  libraryManager.createContainer('cluesCellGridContainer', cluesContentContainer);
+                    var cluesContentCellContainer =  libraryManager.createContainer('cluesContentCellContainer', cluesBG);
+
+                    var cluesCellGridContainer =  libraryManager.createContainer('cluesCellGridContainer', cluesContentCellContainer);
                     var cluesCellContainer =  libraryManager.createContainer('cluesCellContainer', cluesCellGridContainer);
                     var cluesGridContainer =  libraryManager.createContainer('cluesGridContainer', cluesCellGridContainer);
                     var cluesGrid = libraryManager.createImage('cluesGrid', cluesGridContainer, res['img_clue_puzzle_grid'].texture);
+                    cluesGrid.visible = false;
+                    cluesGrid.content.show = (function() {
+                        this.visible = true;
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    }).bind(cluesGrid);
 
                     cluesCellGridContainer.position.y = -25;
                     cluesGrid.width = 160;
@@ -526,7 +534,15 @@ var ContentClues = (function () {
                             cluesRowPos = cluesRowPos + cluesCellHeight;
                         }
 
-                        var cluesCellBg = libraryManager.createImage('img_clue', cluesCellContainer, res[cluesItem.data[gridIdx].imageRes].texture);
+                        var cluesCellBg = libraryManager.createImage('img_clue_' + i + '_' + gridIdx, cluesCellContainer, res[cluesItem.data[gridIdx].imageRes].texture);
+                        cluesCellBg.visible = false;
+                        cluesCellBg.content.show = (function() {
+                            this.visible = true;
+                            TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                            // TweenMax.fromTo(this.scale, 0.5, {x: 2.5, y: 2.5}, {x: 1, y: 1, ease: Power2.easeOut});
+                            TweenMax.fromTo(this.position, 0.5, {x: this.content.posX + this.content.getRandomValue() , y: this.content.posY + this.content.getRandomValue()}, {x: this.content.posX, y: this.content.posY, ease: Power2.easeOut});
+                        }).bind(cluesCellBg);
+
                         if(!cluesItem.data[gridIdx].isCompleted)
                         {
                             cluesCellBg.tint = 0x303030;
@@ -540,6 +556,7 @@ var ContentClues = (function () {
 
                         cluesColPos = ((gridIdx % cluesMaxCol) - Math.ceil(cluesMaxCol * 0.5)) * cluesCellWidth;
 
+                        cluesCellBg.content.getRandomValue = function () { return Math.ceil(Math.random() * 100 + 50) * (Math.ceil(Math.random() * 2) == 1 ? -1 : 1); };
                         cluesCellBg.content.posY = cluesRowPos + (cluesCellHeight * 0.5);
                         cluesCellBg.content.posX = cluesColPos + (cluesCellWidth * 0.5);
                         cluesCellBg.position.x = cluesCellBg.content.posX;
@@ -644,16 +661,36 @@ var ContentClues = (function () {
                     }
 
                     cluesItemContainer.content.cluesContentContainer = cluesContentContainer;
+                    cluesItemContainer.content.cluesGrid = cluesGrid;
+                    cluesItemContainer.content.cluesIdx = i;
+                    cluesItemContainer.content.animateCell = (function() {
+                        var i = this.cluesIdx;
+                        var tl = new TimelineMax();
+                        for (var gridIdx = 0; gridIdx < objData.cluesList[i].data.length; gridIdx++)
+                        {
+                            var cluesCellBg = libraryManager.getElement('img_clue_' + i + '_' + gridIdx);
+                            tl.add(cluesCellBg.content.show, '+=0.025');
+                        }
+                        tl.add(this.cluesGrid.content.show, '+=0.5');
+
+                    }).bind(cluesItemContainer.content);
 
                     cluesItemContainer.content.show = (function() {
 
                         var tl1 = new TimelineMax();
+                        if(this.animateCell)
+                        {
+                            tl1.add(this.animateCell, "+=0");
+                        }
+
                         if(this.cluesContentContainer)
                         {
-                            tl1.add(this.cluesContentContainer.content.show, "+=0.1");
+                            tl1.add(this.cluesContentContainer.content.show, "+=0.5");
                         }
 
                     }).bind(cluesItemContainer.content);
+
+
 
                 }
 
@@ -697,26 +734,34 @@ var ContentClues = (function () {
 
                         var tl = interfaceManager.getTimeline();
 
+                        if(animationTl)
+                        {
+                            console.log('clearing');
+                            animationTl.clear();
+                        }
+                        else
+                        {
+                            animationTl = new TimelineMax();
+                        }
+
                         var animateLoad = (function(){
-                            var tl = new TimelineMax();
                             for (var i = 0; i < objData.cluesList.length; i++)
                             {
                                 var itemContainer = libraryManager.getElement('cluesItemContainer_' + i);
-                                tl.add(itemContainer.content.load, "+=0.05");
+                                animationTl.add(itemContainer.content.load, "+=0.05");
                             }
                         });
 
                         var animateShow = (function(){
-                            var tl = new TimelineMax();
                             for (var i = 0; i < objData.cluesList.length; i++)
                             {
                                 var itemContainer = libraryManager.getElement('cluesItemContainer_' + i);
-                                tl.add(itemContainer.content.show, "+=0");
+                                animationTl.add(itemContainer.content.show, "+=0.1");
                             }
                         });
 
                         tl.add(animateLoad, "+=0.1");
-                        tl.add(animateShow, "+=0.5");
+                        tl.add(animateShow, "+=0.1");
                         tl.add(clearNotification, "+=0.5");
                     }
                 }
