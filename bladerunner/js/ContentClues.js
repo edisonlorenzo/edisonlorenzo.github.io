@@ -449,7 +449,7 @@ var ContentClues = (function () {
                 var sc = libraryManager.createScrollContainer('contentScrollContainer', contentBodyContainer, bodyBackgroundObj.width, bodyBackgroundObj.height);
                 var rowContainer;
 
-                function getRandomValue ()
+                function getRandomValue()
                 {
                     return Math.ceil(Math.random() * 100 + 50) * (Math.ceil(Math.random() * 2) == 1 ? -1 : 1);
                 }
