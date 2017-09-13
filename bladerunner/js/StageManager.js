@@ -18,7 +18,6 @@ var StageManager = (function () {
         app.view.style.display = "block";
         app.view.style.width = "100%";
         app.view.style.height = "100%";
-        // setSize();
 
         //Add style in document head
         var newStyle = document.createElement("style");
@@ -44,14 +43,6 @@ var StageManager = (function () {
         window.addEventListener("load", function (event) {
             setSize();
         });
-
-        // function resize()
-        // {
-        //     //setSize();
-        //     //app.view.setAttribute('width', canvasWidth);
-        //     //app.view.setAttribute('height', canvasHeight);
-        //     //app.renderer.resize(canvasWidth, canvasHeight);
-        // }
 
         function getCanvasSize()
         {
@@ -84,9 +75,7 @@ var StageManager = (function () {
         {
             this.canvasWidth = canvasWidth;
             this.canvasHeight = canvasHeight;
-
-            //console.log(canvasWidth + ' | ' + canvasHeight);
-
+            
             this.calculateRatioByWidth = function(value, multiplier){
                 return (multiplier * canvasWidth) / value;
             };

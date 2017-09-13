@@ -765,10 +765,15 @@ var ContentClues = (function () {
                     closePopupContent();
                 });
 
-                var cluesCellGridContainer =  libraryManager.createContainer('cluesCellGridContainer', popupBG);
+                var cluesPopupContentContainer =  libraryManager.createContainer('cluesPopupContentContainer', popupBG);
+                var cluesPopupCellContainer =  libraryManager.createContainer('cluesPopupCellContainer', popupBG);
+
+                var cluesCellGridContainer =  libraryManager.createContainer('cluesCellGridContainer', cluesPopupCellContainer);
                 var cluesCellContainer =  libraryManager.createContainer('cluesCellContainer', cluesCellGridContainer);
                 var cluesGridContainer =  libraryManager.createContainer('cluesGridContainer', cluesCellGridContainer);
+
                 var cluesGrid = libraryManager.createImage('cluesGrid', cluesGridContainer, res['img_clue_puzzle_grid'].texture);
+                cluesGrid.visible = false;
 
                 cluesCellGridContainer.position.x = -(popupBG.width * 0.5) + (cluesGrid.width * 0.5) + 20;
                 cluesCellGridContainer.position.y = -(popupBG.height * 0.5) + (cluesGrid.height * 0.5) + 20;
@@ -776,6 +781,7 @@ var ContentClues = (function () {
                 var cluesRowPos = -(cluesGrid.height * 0.5), cluesCellHeight = 0, cluesCellWidth = 0, cluesColPos = 0;
                 var cluesMaxCol = 4, cluesPadding = 1, maxGrid = item.data.length;
 
+                var tl = new TimelineMax();
                 for (var gridIdx = 0; gridIdx < maxGrid; gridIdx++)
                 {
                     if(gridIdx % cluesMaxCol == 0)
@@ -784,6 +790,14 @@ var ContentClues = (function () {
                     }
 
                     var cluesCellBg = libraryManager.createImage('img_clue', cluesCellContainer, res[item.data[gridIdx].imageRes].texture);
+                    cluesCellBg.visible = false;
+                    cluesCellBg.content.show = (function() {
+                        this.visible = true;
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                        TweenMax.fromTo(this.scale, 0.5, {x: 2.5, y: 2.5}, {x: 1, y: 1, ease: Power2.easeOut});
+                        TweenMax.fromTo(this.position, 0.5, {x: this.content.posX + this.content.getRandomValue() , y: this.content.posY + this.content.getRandomValue()}, {x: this.content.posX, y: this.content.posY, ease: Power2.easeOut});
+                    }).bind(cluesCellBg);
+
                     if(!item.data[gridIdx].isCompleted)
                     {
                         cluesCellBg.tint = 0x303030;
@@ -794,14 +808,16 @@ var ContentClues = (function () {
 
                     cluesColPos = ((gridIdx % cluesMaxCol) - Math.ceil(cluesMaxCol * 0.5)) * cluesCellWidth;
 
+                    cluesCellBg.content.getRandomValue = function () { return Math.ceil(Math.random() * 100 + 50) * (Math.ceil(Math.random() * 2) == 1 ? -1 : 1); };
                     cluesCellBg.content.posY = cluesRowPos + (cluesCellHeight * 0.5);
                     cluesCellBg.content.posX = cluesColPos + (cluesCellWidth * 0.5);
                     cluesCellBg.position.x = cluesCellBg.content.posX;
                     cluesCellBg.position.y = cluesCellBg.content.posY;
 
+                    tl.add(cluesCellBg.content.show, '+=0.025');
                 }
 
-                var caseFileLabel = libraryManager.createText('caseFileLabel', popupBG, 0, new PIXI.TextStyle({
+                var caseFileLabel = libraryManager.createText('caseFileLabel', cluesPopupContentContainer, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
@@ -813,7 +829,7 @@ var ContentClues = (function () {
                 caseFileLabel.position.x = cluesCellGridContainer.position.x + (cluesGrid.width * 0.5) + 10;
                 caseFileLabel.position.y = -(popupBG.height * 0.5) + 20;
 
-                var caseFileValue = libraryManager.createText('caseFileValue', popupBG, 0, new PIXI.TextStyle({
+                var caseFileValue = libraryManager.createText('caseFileValue', cluesPopupContentContainer, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
@@ -828,7 +844,7 @@ var ContentClues = (function () {
                 var cellCompleted = libraryManager.getElementCountFromList(item.data, 'isCompleted', true);
                 var isCaseCompleted = (cellCompleted == maxGrid);
 
-                var caseFileProgress = libraryManager.createText('caseFileProgress', popupBG, 0, new PIXI.TextStyle({
+                var caseFileProgress = libraryManager.createText('caseFileProgress', cluesPopupContentContainer, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
@@ -842,7 +858,7 @@ var ContentClues = (function () {
 
                 if(isCaseCompleted)
                 {
-                    var caseFileStatus = libraryManager.createText('caseFileStatus', popupBG, 0, new PIXI.TextStyle({
+                    var caseFileStatus = libraryManager.createText('caseFileStatus', cluesPopupContentContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
                         fontSize: 24,
                         fontStyle: 'bold',
@@ -855,7 +871,7 @@ var ContentClues = (function () {
                     caseFileStatus.position.y = caseFileProgress.position.y + caseFileProgress.height + 2;
                 }
 
-                var caseFileDesc = libraryManager.createText('caseFileDesc', popupBG, 0, new PIXI.TextStyle({
+                var caseFileDesc = libraryManager.createText('caseFileDesc', cluesPopupContentContainer, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
@@ -871,7 +887,7 @@ var ContentClues = (function () {
 
                 if(item.reward)
                 {
-                    var cluesRewardContainer = libraryManager.createContainer('cluesRewardContainer', popupBG);
+                    var cluesRewardContainer = libraryManager.createContainer('cluesRewardContainer', cluesPopupContentContainer);
 
                     var cluesRewardBG = libraryManager.createImage('cluesRewardBG', cluesRewardContainer, res[item.reward.imageRes].texture);
                     cluesRewardContainer.position.y = cluesCellGridContainer.position.y + (cluesGrid.height * 0.5) + (cluesRewardBG.height * 0.5) + 15;
@@ -912,7 +928,7 @@ var ContentClues = (function () {
                     var img_navigation_dot_highlight_texture = res['img_navigation_dot_highlight'].texture;
 
 
-                    var cluesNavLeftButton = libraryManager.createImage('cluesNavRightButton', popupBG, btn_arrow_left_texture);
+                    var cluesNavLeftButton = libraryManager.createImage('cluesNavRightButton', cluesPopupContentContainer, btn_arrow_left_texture);
                     cluesNavLeftButton.position.x = -(popupBG.width * 0.5) + (cluesNavLeftButton.width * 0.5) + 20;
                     cluesNavLeftButton.position.y = (popupBG.height * 0.5) - (cluesNavLeftButton.height * 0.5) - 20;
                     cluesNavLeftButton.on('pointertap', (function() {
@@ -920,7 +936,7 @@ var ContentClues = (function () {
                         showClueItems(this.currentPage);
                     }).bind(pageNav));
 
-                    var cluesNavRightButton = libraryManager.createImage('cluesNavRightButton', popupBG, btn_arrow_right_texture);
+                    var cluesNavRightButton = libraryManager.createImage('cluesNavRightButton', cluesPopupContentContainer, btn_arrow_right_texture);
                     cluesNavRightButton.position.x = (popupBG.width * 0.5) - (cluesNavRightButton.width * 0.5) - 20;
                     cluesNavRightButton.position.y = (popupBG.height * 0.5) - (cluesNavRightButton.height * 0.5) - 20;
                     cluesNavRightButton.on('pointertap', (function() {
@@ -930,7 +946,7 @@ var ContentClues = (function () {
 
                     pageNav.dot = new Array();
                     var dotPosX = 0;
-                    var cluesNavDotContainer = libraryManager.createContainer('cluesNavDotContainer', popupBG);
+                    var cluesNavDotContainer = libraryManager.createContainer('cluesNavDotContainer', cluesPopupContentContainer);
                     for(var i = 0; i < 3; i++)
                     {
 
@@ -995,10 +1011,10 @@ var ContentClues = (function () {
                         cluesCellItemNavContainer = libraryManager.getElement('cluesCellItemNavContainer');
                         if(cluesCellItemNavContainer)
                         {
-                            popupBG.removeChild(cluesCellItemNavContainer);
+                            cluesPopupContentContainer.removeChild(cluesCellItemNavContainer);
                         }
 
-                        cluesCellItemNavContainer = libraryManager.createContainer('cluesCellItemNavContainer', popupBG);
+                        cluesCellItemNavContainer = libraryManager.createContainer('cluesCellItemNavContainer', cluesPopupContentContainer);
 
                         var rowPos = 0, cluesCellPosY = 0, cluesCellPosX = 0;
 
