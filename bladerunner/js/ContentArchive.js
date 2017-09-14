@@ -213,6 +213,7 @@ var ContentArchive = (function () {
                     contentImageShadingContainer.content.show = (function() {
                         this.visible = true;
                         TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                        TweenMax.fromTo(this.position, 0.5, {y: this.content.posY + this.content.contentImageShading.height}, {y: this.content.posY, ease: Power2.easeOut});
                     }).bind(contentImageShadingContainer);
                     archiveItemContainer.content.contentImageShadingContainer = contentImageShadingContainer;
 
@@ -220,7 +221,9 @@ var ContentArchive = (function () {
                     contentImageShading.width = contentImage.width;
                     contentImageShading.scale.y = 1.4;
 
-                    contentImageShadingContainer.position.y = (contentImage.height * 0.5) - (contentImageShading.height * 0.5);
+                    contentImageShadingContainer.content.contentImageShading = contentImageShading;
+                    contentImageShadingContainer.content.posY = (contentImage.height * 0.5) - (contentImageShading.height * 0.5);
+                    contentImageShadingContainer.position.y = contentImageShadingContainer.content.posY;
 
                     var contentTitle = libraryManager.createText('contentTitle', contentImageShadingContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
@@ -476,6 +479,7 @@ var ContentArchive = (function () {
                             contentImageShadingContainer.content.show = (function() {
                                 this.visible = true;
                                 TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                                TweenMax.fromTo(this.position, 0.5, {y: this.content.posY + this.content.contentImageShading.height}, {y: this.content.posY, ease: Power2.easeOut});
                             }).bind(contentImageShadingContainer);
                             archiveItemContainer.content.contentImageShadingContainer = contentImageShadingContainer;
 
@@ -483,7 +487,9 @@ var ContentArchive = (function () {
                             contentImageShading.width = contentImage.content.width;
                             contentImageShading.scale.y = 1.2;
 
-                            contentImageShadingContainer.position.y = (contentImage.content.height * 0.5) - (contentImageShading.height * 0.5);
+                            contentImageShadingContainer.content.contentImageShading = contentImageShading;
+                            contentImageShadingContainer.content.posY = (contentImage.content.height * 0.5) - (contentImageShading.height * 0.5);
+                            contentImageShadingContainer.position.y = contentImageShadingContainer.content.posY;
 
                             var contentTitle = libraryManager.createText('contentTitle', contentImageShadingContainer, 0, new PIXI.TextStyle({
                                 fontFamily: 'Arial',
