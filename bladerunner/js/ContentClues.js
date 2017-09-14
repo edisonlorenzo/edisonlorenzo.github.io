@@ -628,6 +628,14 @@ var ContentClues = (function () {
                     var newPieceList = libraryManager.getElementsFromList(objData.notificationList, 'id', cluesItem.id);
                     if(newPieceList.length > 0)
                     {
+                        var cluesIconHighlightContainer = libraryManager.createContainer('cluesIconHighlightContainer', cluesCellContainer);
+                        cluesIconHighlightContainer.visible = false;
+                        cluesIconHighlightContainer.content.show = (function() {
+                            this.visible = true;
+                            TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                        }).bind(cluesIconHighlightContainer);
+                        cluesItemContainer.content.cluesIconHighlightContainer = cluesIconHighlightContainer;
+
                         for(var idx = 0; idx < newPieceList.length; idx++)
                         {
                             var clueCase = libraryManager.getElementFromList(objData.cluesList, 'id', newPieceList[idx].id);
@@ -636,13 +644,13 @@ var ContentClues = (function () {
                             var clueItem = libraryManager.getElementFromList(clueCase.data, 'cell', newPieceList[idx].cell);
                             if(!clueItem) break;
 
-                            var clueIconHighlight = libraryManager.createImage('clueIconHighlight', cluesCellContainer, res['img_clue_highlight'].texture);
+                            var clueIconHighlight = libraryManager.createImage('clueIconHighlight', cluesIconHighlightContainer, res['img_clue_highlight'].texture);
                             clueIconHighlight.position = clueItem.clueCell.position;
                             clueIconHighlight.scale = clueItem.clueCell.scale;
                             TweenMax.fromTo(clueIconHighlight, 0.75, {alpha: 0.5}, {alpha: 1, ease: Quad.easeOut, repeat: -1, yoyo: true});
                         }
 
-                        var cluesNewPieceContainer =  libraryManager.createContainer('cluesNewPieceContainer', cluesContentContainer);
+                        var cluesNewPieceContainer = libraryManager.createContainer('cluesNewPieceContainer', cluesContentContainer);
                         TweenMax.fromTo(cluesNewPieceContainer, 0.75, {alpha: 0}, {alpha: 1, ease: Quad.easeOut, repeat: -1, yoyo: true});
 
                         var cluesNewPiece = libraryManager.createImage('cluesNewPiece', cluesNewPieceContainer, res['img_white'].texture);
@@ -668,12 +676,19 @@ var ContentClues = (function () {
                     cluesItemContainer.content.animateCell = (function() {
                         var i = this.cluesIdx;
                         var tl = new TimelineMax();
+
                         for (var gridIdx = 0; gridIdx < objData.cluesList[i].data.length; gridIdx++)
                         {
                             var cluesCellBg = libraryManager.getElement('img_clue_' + i + '_' + gridIdx);
                             tl.add(cluesCellBg.content.show, '+=0.025');
                         }
+
                         tl.add(this.cluesGrid.content.show, '+=0.5');
+
+                        if(this.cluesIconHighlightContainer)
+                        {
+                            tl.add(this.cluesIconHighlightContainer.content.show, '+=0');
+                        }
 
                     }).bind(cluesItemContainer.content);
 
