@@ -11,6 +11,8 @@ var StageManager = (function () {
         var ratio;
         // var canvasWidth = 768;
         // var canvasHeight = 1350;
+        var baseWidth = 455;
+        var baseHeight = 800;
         var canvasWidth;
         var canvasHeight;
         var callBackArray = new Array();
@@ -61,20 +63,18 @@ var StageManager = (function () {
 
         function getCanvasSize()
         {
-            canvasWidth = 768;
-            canvasHeight = 1350;
             var width = $(window).width();
             var height = $(window).height();
 
-            var ratioX = canvasWidth / width;
-	        var ratioY = canvasHeight / height;
+            var baseWidth = width < height ? 768 : 1350;
+            var baseHeight = width < height ? 1350 : 768;
 
-	        ratio = Math.min(ratioX, ratioY);
-            console.log(canvasWidth + ' | ' + canvasHeight);
-            console.log(width + ' | ' + height);
-            console.log(ratio + ' | ' + ratioX + ' | ' + ratioY);
-            canvasWidth = width * ratioY;
-            canvasHeight = height * ratioY;
+            var ratioX = baseWidth / width;
+	        var ratioY = baseHeight / height;
+
+	        ratio = ratioY;
+            canvasWidth = width * ratio;
+            canvasHeight = height * ratio;
         }
 
         function setSize()
@@ -84,10 +84,6 @@ var StageManager = (function () {
             if(renderer)
             {
                 renderer.resize(canvasWidth, canvasHeight);
-
-                // var view = renderer.view;
-		        // view.style.width = "100%";
-		        // view.style.height = canvasHeight * ratio + "px";
             }
         }
 

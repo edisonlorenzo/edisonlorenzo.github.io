@@ -251,23 +251,25 @@ var LibraryManager = (function () {
             function onmousemove(e)
             {
                 var clientY = !e.data.originalEvent.touches ? e.data.originalEvent.clientY : e.data.originalEvent.touches[0].clientY;
-                var multiplier = window.devicePixelRatio == 1 ? 2 : window.devicePixelRatio;
+                var multiplier = window.devicePixelRatio > 2 ? 2 : window.devicePixelRatio;
+
 
                 if (mousedown) {
                     lastDiff = clientY - lastPos.y;
-                    // lastDiff = lastDiff == 0 ? 1 : lastDiff;
                     scrollDistance += Math.abs(lastDiff);
+
                     lastDiff *= multiplier;
 
-                    if(scrollDistance > 5 * multiplier)
+                    if(scrollDistance > 10 + multiplier)
                     {
                         isMoving = true;
                         scrollDistance = 0;
                     }
 
+
                     if(isMoving)
                     {
-                        var scrollSpeed = lastDiff / 2;
+                        var scrollSpeed = lastDiff;
 
                         if ((_this.scrollContainer.y < -_this.items.length * itemHeight + height) || (_this.scrollContainer.y > 0)) {
                             scrollSpeed = scrollSpeed / 3;
@@ -275,13 +277,6 @@ var LibraryManager = (function () {
 
                         _this.scrollContainer.y += scrollSpeed;
 
-                        //     console.log(_this.scrollContainer.y);
-                        // if (_this.scrollContainer.y < 0) {
-                        //     //console.log('top');
-                        // _this.scrollContainer.y += lastDiff;
-                        // }else{
-                        // _this.scrollContainer.y += lastDiff;
-                        // }
                     }
 
                     lastPos.y = clientY;
