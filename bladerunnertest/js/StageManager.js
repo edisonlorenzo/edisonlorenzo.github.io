@@ -17,7 +17,7 @@ var StageManager = (function () {
 
         getCanvasSize();
 
-        var renderer = PIXI.autoDetectRenderer(canvasWidth, canvasHeight);
+        var renderer = PIXI.autoDetectRenderer(canvasWidth, canvasHeight, {backgroundColor : 0x000000, resolution: window.devicePixelRatio});
         renderer.view.style.display = "block";
         renderer.view.style.width = "100%";
         renderer.view.style.height = "100%";
