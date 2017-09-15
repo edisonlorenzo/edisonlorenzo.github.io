@@ -17,7 +17,7 @@ var StageManager = (function () {
 
         getCanvasSize();
 
-        var renderer = PIXI.autoDetectRenderer(canvasWidth, canvasHeight, {backgroundColor : 0x000000, resolution: window.devicePixelRatio});
+        var renderer = PIXI.autoDetectRenderer(canvasWidth, canvasHeight);
         renderer.view.style.display = "block";
         renderer.view.style.width = "100%";
         renderer.view.style.height = "100%";
@@ -61,16 +61,20 @@ var StageManager = (function () {
 
         function getCanvasSize()
         {
-            canvasWidth = window.innerWidth;
-            canvasHeight = window.innerHeight;
-            // var width = $(window).width();
-            // var height = $(window).height();
-            //
-            // var ratioX = width / canvasWidth;
-	        // var ratioY = height / canvasHeight;
-            //
-	        // ratio = Math.min(ratioX, ratioY);
-            // console.log(ratioX + ' | ' + ratioY);
+            canvasWidth = 768;
+            canvasHeight = 1350;
+            var width = $(window).width();
+            var height = $(window).height();
+
+            var ratioX = canvasWidth / width;
+	        var ratioY = canvasHeight / height;
+
+	        ratio = Math.min(ratioX, ratioY);
+            console.log(canvasWidth + ' | ' + canvasHeight);
+            console.log(width + ' | ' + height);
+            console.log(ratio + ' | ' + ratioX + ' | ' + ratioY);
+            canvasWidth = width * ratioY;
+            canvasHeight = height * ratioY;
         }
 
         function setSize()
