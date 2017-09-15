@@ -17,10 +17,10 @@ var StageManager = (function () {
 
         getCanvasSize();
 
-        var app = new PIXI.Application(canvasWidth, canvasHeight, {backgroundColor : 0x000000});
-        app.view.style.display = "block";
-        app.view.style.width = "100%";
-        app.view.style.height = "100%";
+        var renderer = PIXI.autoDetectRenderer(canvasWidth, canvasHeight, {backgroundColor : 0x000000});
+        renderer.view.style.display = "block";
+        renderer.view.style.width = "100%";
+        renderer.view.style.height = "100%";
 
         //Add style in document head
         var newStyle = document.createElement("style");
@@ -29,11 +29,12 @@ var StageManager = (function () {
         document.head.appendChild(newStyle);
 
         //Add the canvas to the HTML document
-        document.body.appendChild(app.view);
+        document.body.appendChild(renderer.view);
 
+        var stage = new PIXI.Container();
         var container = new PIXI.Container();
 
-		app.stage.addChild(container);
+        stage.addChild(container);
 
         callBackArray.push(setSize);
 
@@ -46,6 +47,16 @@ var StageManager = (function () {
         window.addEventListener("load", function (event) {
             setSize();
         });
+
+        requestAnimationFrame(update);
+
+        function update (){
+            //Loop this function 60 times per second
+            requestAnimationFrame(update);
+
+            //Render the stage
+            renderer.render(stage);
+        }
 
         function getCanvasSize()
         {
@@ -67,9 +78,9 @@ var StageManager = (function () {
         {
             getCanvasSize();
 
-            if(app)
+            if(renderer)
             {
-                app.renderer.resize(canvasWidth, canvasHeight);
+                renderer.resize(canvasWidth, canvasHeight);
             }
         }
 
