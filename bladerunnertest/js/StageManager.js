@@ -9,8 +9,10 @@ var StageManager = (function () {
         // Singleton Init
 
         var ratio;
-        var canvasWidth = 768;
-        var canvasHeight = 1350;
+        // var canvasWidth = 768;
+        // var canvasHeight = 1350;
+        var canvasWidth;
+        var canvasHeight;
         var callBackArray = new Array();
 
         getCanvasSize();
@@ -59,16 +61,16 @@ var StageManager = (function () {
 
         function getCanvasSize()
         {
-            //canvasWidth = window.innerWidth;
-            //canvasHeight = window.innerHeight;
-            var width = $(window).width();
-            var height = $(window).height();
-
-            var ratioX = width / canvasWidth;
-	        var ratioY = height / canvasHeight;
-
-	        ratio = Math.min(ratioX, ratioY);
-            console.log(ratioX + ' | ' + ratioY);
+            canvasWidth = window.innerWidth;
+            canvasHeight = window.innerHeight;
+            // var width = $(window).width();
+            // var height = $(window).height();
+            //
+            // var ratioX = width / canvasWidth;
+	        // var ratioY = height / canvasHeight;
+            //
+	        // ratio = Math.min(ratioX, ratioY);
+            // console.log(ratioX + ' | ' + ratioY);
         }
 
         function setSize()
@@ -77,11 +79,11 @@ var StageManager = (function () {
 
             if(renderer)
             {
-                //container.scale.set(ratio);
-                //renderer.resize(canvasWidth * ratio, canvasHeight * ratio);
-                var view = renderer.view;
-		        view.style.width = "100%";
-		        view.style.height = canvasHeight * ratio + "px";
+                renderer.resize(canvasWidth, canvasHeight);
+
+                // var view = renderer.view;
+		        // view.style.width = "100%";
+		        // view.style.height = canvasHeight * ratio + "px";
             }
         }
 
