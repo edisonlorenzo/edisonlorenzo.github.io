@@ -16,7 +16,6 @@ function init()
 
         function assetReady()
         {
-            assetLoaderManager.getProgress().done();
             sceneManager.setup();
         }
     }
@@ -25,4 +24,7 @@ function init()
 
 }
 
-init();
+document.addEventListener('DOMContentLoaded', function(){
+    console.log('DOM Loaded');
+    init();
+}, false);

@@ -7,11 +7,13 @@ var SceneManager = (function () {
     function init() {
 
         // Singleton Init
+
         var assetLoaderManager;
         var stageManager;
         var interfaceManager;
         var soundManager;
         var libraryManager;
+
         var res;
         var tl;
 
@@ -118,8 +120,8 @@ var SceneManager = (function () {
             var canvasContainer = libraryManager.createContainer('canvasContainer', stageManager.getContainer());
             canvasContainer.content.setLayout = function () {
                 canvasContainer.scale.x = canvasContainer.scale.y = 1;
-                canvasContainer.position.x = stageManager.getDimension().width * 0.5;
-                canvasContainer.position.y = stageManager.getDimension().height * 0.5;
+                canvasContainer.position.x = stageManager.getDimension().canvasWidth * 0.5;
+                canvasContainer.position.y = stageManager.getDimension().canvasHeight * 0.5;
             }
             stageManager.addCallBack(canvasContainer.content.setLayout);
         }
@@ -134,7 +136,7 @@ var SceneManager = (function () {
 
             backgroundObj.content.setLayout = function () {
                 backgroundObj.scale.x = backgroundObj.scale.y = 1;
-                backgroundObj.scale.x = backgroundObj.scale.y = stageManager.getDimension().calculateRatioBoth('height', backgroundObj.width, backgroundObj.height, 1, 1);
+                backgroundObj.scale.x = backgroundObj.scale.y = stageManager.getDimension().calculateRatioByHeight(backgroundObj.height, 1);
             }
             stageManager.addCallBack(backgroundObj.content.setLayout);
         }
@@ -144,12 +146,19 @@ var SceneManager = (function () {
             var backgroundObj = libraryManager.getElement('backgroundObj');
             var backgroundContainer = libraryManager.createContainer('backgroundContainer', backgroundObj);
             var foregroundContainer = libraryManager.createContainer('foregroundContainer', backgroundObj);
+            var topContainer = libraryManager.createContainer('topContainer', backgroundObj);
 
             var backgroundContainerMask = libraryManager.createImage('backgroundContainerMask', backgroundContainer, res['img_white'].texture);
             backgroundContainerMask.width = backgroundObj.content.width;
             backgroundContainerMask.height = backgroundObj.content.height;
 
             backgroundContainer.mask = backgroundContainerMask;
+
+            var foregroundContainerMask = libraryManager.createImage('foregroundContainerMask', foregroundContainer, res['img_white'].texture);
+            foregroundContainerMask.width = backgroundObj.content.width;
+            foregroundContainerMask.height = backgroundObj.content.height;
+
+            foregroundContainer.mask = foregroundContainerMask;
         }
 
         function initLoadingScene()

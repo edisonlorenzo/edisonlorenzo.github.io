@@ -7,24 +7,50 @@ var InterfaceManager = (function () {
     function init() {
 
         // Singleton Init
+
         var assetLoaderManager;
         var libraryManager;
         var stageManager;
 
+        var contents = {
+            profile: ContentProfile.getInstance(),
+            mission: ContentMission.getInstance(),
+            clues: ContentClues.getInstance(),
+            archive: ContentArchive.getInstance()
+        };
+
+        var activeContent;
+
         var camera;
+        var loadingCircle;
         var backgroundObj;
         var backgroundContainer;
         var foregroundContainer;
+        var topContainer;
         var res;
         var tl;
+
+        var cluesValueObj = {};
 
         var footerButtonObjList;
 
         var assets = new Array();
 
+        assets.push(new Asset('icon_lock', 'images/icon_lock.png'));
         assets.push(new Asset('img_header', 'images/img_header.png'));
         assets.push(new Asset('img_header_neon', 'images/img_header_neon.png'));
         assets.push(new Asset('img_footer', 'images/img_footer.png'));
+        assets.push(new Asset('img_bg_pop', 'images/img_bg_pop.png'));
+        assets.push(new Asset('img_bg_pop_bar', 'images/img_bg_pop_bar.png'));
+        assets.push(new Asset('img_bg_notification', 'images/img_bg_notification.png'));
+        assets.push(new Asset('img_loading_circle', 'images/img_loading_circle.png'));
+        assets.push(new Asset('img_navigation_dot', 'images/img_navigation_dot.png'));
+        assets.push(new Asset('img_navigation_dot_highlight', 'images/img_navigation_dot_highlight.png'));
+        assets.push(new Asset('btn_arrow_left', 'images/btn_arrow_left.png'));
+        assets.push(new Asset('btn_arrow_right', 'images/btn_arrow_right.png'));
+        assets.push(new Asset('btn_arrow_left_highlight', 'images/btn_arrow_left_highlight.png'));
+        assets.push(new Asset('btn_arrow_right_highlight', 'images/btn_arrow_right_highlight.png'));
+        assets.push(new Asset('btn_close', 'images/btn_close.png'));
         assets.push(new Asset('btn_activate_default', 'images/btn_activate_default.png'));
         assets.push(new Asset('btn_activate_highlight', 'images/btn_activate_highlight.png'));
         assets.push(new Asset('btn_archive_default', 'images/btn_archive_default.png'));
@@ -40,57 +66,10 @@ var InterfaceManager = (function () {
         assets.push(new Asset('img_bar_neutrality', 'images/img_bar_neutrality.png'));
         assets.push(new Asset('img_red_highlight', 'images/img_red_highlight.png'));
         assets.push(new Asset('img_header_bar_green', 'images/img_header_bar_green.png'));
-        assets.push(new Asset('img_block01', 'images/img_block01.png'));
-        assets.push(new Asset('img_block02', 'images/img_block02.png'));
-        assets.push(new Asset('img_divider', 'images/img_divider.png'));
-        assets.push(new Asset('btn_start', 'images/btn_start.png'));
-        assets.push(new Asset('icon_book', 'images/icon_book.png'));
-        assets.push(new Asset('icon_event', 'images/icon_event.png'));
-        assets.push(new Asset('icon_game', 'images/icon_game.png'));
-        assets.push(new Asset('icon_video', 'images/icon_video.png'));
-        assets.push(new Asset('img_event01', 'images/img_event01.png'));
-        assets.push(new Asset('img_event02', 'images/img_event02.png'));
-        assets.push(new Asset('img_mission01', 'images/img_mission01.png'));
-        assets.push(new Asset('img_mission02', 'images/img_mission02.png'));
-        assets.push(new Asset('img_mission03', 'images/img_mission03.png'));
         assets.push(new Asset('img_camerabg_mask', 'images/img_camerabg_mask.png'));
         assets.push(new Asset('img_cameramarker', 'images/img_cameramarker.png'));
-
-        var missionDataObj =
-        [
-            {
-                data:
-                [
-                    {type: 'twocell', imageRes: 'img_event01', iconRes: 'icon_event', hasStartButton: true},
-                    {type: 'twocell', imageRes: 'img_event02', iconRes: 'icon_game', hasStartButton: true}
-                ]
-            },
-            {
-                data:
-                [
-                    {type: 'divider'}
-                ]
-            },
-            {
-                data:
-                [
-                    {type: 'onecell', imageRes: 'img_mission01', iconRes: 'icon_video'},
-                    {type: 'onecell', imageRes: 'img_mission02', iconRes: 'icon_book'},
-                    {type: 'onecell', imageRes: 'img_mission03', iconRes: 'icon_game'}
-                ]
-            }
-        ];
-        var typeDataObj =
-        [
-            {type: 'divider', imageRes: 'img_divider'},
-            {type: 'onecell', imageRes: 'img_block02'},
-            {type: 'twocell', imageRes: 'img_block01'}
-        ];
-
-        function getTypeDataObj(type)
-        {
-            return typeDataObj.find(function(item){return item.type === type});
-        }
+        assets.push(new Asset('img_clue_highlight', 'images/img_clue_highlight.png'));
+        assets.push(new Asset('icon_clue_pop', 'images/icon_clue_pop.png'));
 
         function Asset(resName, resPath)
         {
@@ -100,7 +79,32 @@ var InterfaceManager = (function () {
 
         function getAsset()
         {
+            //assets.push.apply(assets, contents.profile.getAsset());
+            //assets.push.apply(assets, contents.mission.getAsset());
+            //assets.push.apply(assets, contents.clues.getAsset());
+            //assets.push.apply(assets, contents.archive.getAsset());
+
             return assets;
+        }
+
+        function getTimeline()
+        {
+            return tl;
+        }
+
+        function getLoader()
+        {
+            return loadingCircle;
+        }
+
+        function getActiveContent()
+        {
+            return activeContent;
+        }
+
+        function getContents()
+        {
+            return contents;
         }
 
         function initResourceData()
@@ -118,6 +122,7 @@ var InterfaceManager = (function () {
             backgroundObj = libraryManager.getElement('backgroundObj');
             backgroundContainer = libraryManager.getElement('backgroundContainer');
             foregroundContainer = libraryManager.getElement('foregroundContainer');
+            topContainer = libraryManager.getElement('topContainer');
         }
 
         function initManagers()
@@ -144,138 +149,45 @@ var InterfaceManager = (function () {
 
         }
 
-        function initMissions()
+        function initLoadingCircle()
         {
-            var bodyContainer = libraryManager.getElement('bodyContainer');
-            bodyContainer.position.y = 45;
 
-            var contentContainer = libraryManager.getElement('contentContainer');
-            var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
-
-            var rowPos = -(bodyBackgroundObj.height * 0.5);
-            var rowHeight = 0;
-            for (var row = 0; row < missionDataObj.length; row++)
+            loadingCircle = function ()
             {
-                for (var i = 0; i < missionDataObj[row].data.length; i++)
+                var circleImage;
+
+                var assetLoaderManager = AssetLoaderManager.getInstance();
+                var libraryManager = LibraryManager.getInstance();
+
+                var res = assetLoaderManager.getRes();
+
+                var bodyContainer = libraryManager.getElement('bodyContainer');
+                bodyContainer.position.y = 0;
+
+                var contentContainer = libraryManager.getElement('contentContainer');
+                var bodyBackgroundObj = libraryManager.getElement('bodyBackgroundObj');
+
+                function show()
                 {
-                    var typeObj = getTypeDataObj(missionDataObj[row].data[i].type);
-                    if(typeObj)
+                    circleImage = libraryManager.createImage('circleImage', contentContainer, res['img_loading_circle'].texture);
+                    TweenMax.fromTo(circleImage, 1, {rotation: 0}, {rotation: Math.PI * 2, ease: Linear.easeNone, repeat: -1});
+                }
+
+                function hide()
+                {
+                    circleImage = libraryManager.getElement('circleImage');
+                    if(circleImage)
                     {
-                        var cellBlock = libraryManager.createImage(missionDataObj[row].data[i].type + '_' + row + '_' + i, contentContainer, res[typeObj.imageRes].texture);
-                        cellBlock.visible = false;
-                        rowHeight = cellBlock.height;
-
-                        if(missionDataObj[row].data[i].type == 'divider')
-                        {
-
-                            cellBlock.content.posX = 0;
-                            var cellMask = libraryManager.createImage('cellMask', cellBlock, res['img_white'].texture);
-                            cellMask.width = 0;
-                            cellMask.height = 50;
-                            cellBlock.mask = cellMask;
-                            cellMask.content.width = cellBlock.width;
-
-                            cellMask.content.load = (function() {
-                                TweenMax.to(this, 1, {width: 50 , ease: Back.easeOut});
-                            }).bind(cellMask);
-
-                            cellMask.content.show = (function() {
-                                TweenMax.to(this, 0.5, {width: this.content.width , ease: Power2.easeOut});
-                            }).bind(cellMask);
-                            cellBlock.content.cellMask = cellMask;
-
-                        } else {
-
-                            cellBlock.content.posX = ((i * cellBlock.width) + ((i+1)*8)) - (bodyBackgroundObj.width * 0.5) + (cellBlock.width * 0.5);
-                            var contentImage = libraryManager.createImage('contentImage', cellBlock, res[missionDataObj[row].data[i].imageRes].texture);
-                            contentImage.visible = false;
-                            contentImage.content.show = (function() {
-                                this.visible = true;
-                                TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                            }).bind(contentImage);
-                            cellBlock.content.contentImage = contentImage;
-
-                            var contentImageHighlight = libraryManager.createImage('contentImageHighlight', cellBlock, res['img_red_highlight'].texture);
-                            if(missionDataObj[row].data[i].type == 'twocell')
-                            {
-                                contentImageHighlight.position.y = 62;
-                            } else {
-                                contentImageHighlight.position.y = 77;
-                            }
-
-                            contentImageHighlight.visible = false;
-                            contentImageHighlight.content.baseWidth = contentImage.width;
-                            contentImageHighlight.content.show = (function() {
-                                this.visible = true;
-                                //TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                                TweenMax.fromTo(this, 0.5, {width: 0}, {width: this.content.baseWidth, ease: Quad.easeInOut, repeat: 1, yoyo: true});
-                                TweenMax.fromTo(this.position, 1, {x: -(this.content.baseWidth * 0.5)}, {x: (this.content.baseWidth * 0.5), ease: Quad.easeInOut});
-                            }).bind(contentImageHighlight);
-                            cellBlock.content.contentImageHighlight = contentImageHighlight;
-
-                            if(missionDataObj[row].data[i].iconRes)
-                            {
-                                var contentIcon = libraryManager.createImage('contentIcon', cellBlock, res[missionDataObj[row].data[i].iconRes].texture);
-                                contentIcon.position.x = (contentImage.width * 0.5) - (contentIcon.width * 0.5) - 5;
-                                contentIcon.position.y = -(contentImage.height * 0.5) + (contentIcon.height * 0.5) + 5;
-                                contentIcon.visible = false;
-                                contentIcon.content.show = (function() {
-                                    this.visible = true;
-                                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                                }).bind(contentIcon);
-                                cellBlock.content.contentIcon = contentIcon;
-                            }
-
-                            if(missionDataObj[row].data[i].hasStartButton)
-                            {
-                                var contentStart = libraryManager.createImageButton('contentStart', cellBlock, res['btn_start'].texture);
-                                contentStart.position.x = (contentImage.width * 0.5) - (contentStart.width * 0.5) - 10;
-                                contentStart.position.y = (contentImage.height * 0.5) - (contentStart.height * 0.5) - 24;
-                                contentStart.visible = false;
-                                contentStart.content.show = (function() {
-                                    this.visible = true;
-                                    TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                                }).bind(contentStart);
-                                cellBlock.content.contentStart = contentStart;
-                            }
-
-                        }
-
-                        cellBlock.content.posY = rowPos + (rowHeight * 0.5) + 15;
-                        cellBlock.position.x = cellBlock.content.posX;
-                        cellBlock.position.y = cellBlock.content.posY;
-                        cellBlock.content.load = (function() {
-                            this.visible = true;
-                            TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                            TweenMax.fromTo(this.position, 0.5, {y: this.content.posY - 10}, {y: this.content.posY, ease: Power2.easeOut});
-                        }).bind(cellBlock);
-
-                        cellBlock.content.show = (function() {
-                            var cellTimeLine = new TimelineMax();
-                            if(this.contentImage)
-                            {
-                                cellTimeLine.add(this.contentImage.content.show, "+=0.5");
-                            }
-
-                            if(this.contentImageHighlight)
-                            {
-                                cellTimeLine.add(this.contentImageHighlight.content.show, "+=1");
-                            }
-
-                            if(this.contentIcon)
-                            {
-                                cellTimeLine.add(this.contentIcon.content.show, "+=1");
-                            }
-
-                            if(this.contentStart)
-                            {
-                                cellTimeLine.add(this.contentStart.content.show, "+=0");
-                            }
-                        }).bind(cellBlock.content);
+                        libraryManager.removeElement(circleImage.content.id);
+                        contentContainer.removeChild(circleImage);
                     }
                 }
-                rowPos = rowPos + rowHeight + 15;
-            }
+
+                return {
+                    show: show,
+                    hide: hide
+                }
+            }();
 
         }
 
@@ -291,7 +203,7 @@ var InterfaceManager = (function () {
                 var videoElement;
                 var snapshotSquare;
 
-                const snapshotCanvas = document.getElementById('snapshot');
+                const snapshotCanvas = document.createElement('canvas');
                 const snapshotContext = snapshotCanvas.getContext('2d');
 
                 const qrcodeWorker = new Worker("js/qrcode_worker.js");
@@ -494,31 +406,6 @@ var InterfaceManager = (function () {
                     }
                 });
 
-                // window.addEventListener("optimizedResize", function() {
-                //     console.log('optimizedResize');
-                //     videoElement.pause();
-                // });
-                //
-                // (function() {
-                //     let throttle = function(type, name, obj) {
-                //         obj = obj || window;
-                //         let running = false;
-                //         let func = function() {
-                //             if (running) { return; }
-                //             running = true;
-                //             requestAnimationFrame(function() {
-                //                 obj.dispatchEvent(new CustomEvent(name));
-                //                 running = false;
-                //             });
-                //         };
-                //         obj.addEventListener(type, func);
-                //     };
-                //
-                //     /* init - you can init any event */
-                //     throttle("resize", "optimizedResize");
-                //     //throttle("resize", "runAllCallbacks")
-                // })();
-
                 return {
                     initVideoStream: initVideoStream,
                     stopStream: stopStream,
@@ -588,15 +475,19 @@ var InterfaceManager = (function () {
             headerStatusLeftImageMask.width = 0;
 
             headerStatusLeftImage.mask = headerStatusLeftImageMask;
-            var cluesValue = 3837856, cluesMax = 9999999;
-            var widthValue = headerStatusLeftImage.width + 2;
-            var finalWidthValue = Math.ceil(widthValue * (cluesValue / cluesMax));
 
-            headerStatusLeftImageMask.content.finalWidthValue = finalWidthValue;
+            cluesValueObj.value = 0;
+            cluesValueObj.cluesMax = 9999999;
+            cluesValueObj.cluesValue = 3453500;
+            cluesValueObj.setText = setText;
+            cluesValueObj.imageMask = headerStatusLeftImageMask;
+            cluesValueObj.widthValue = headerStatusLeftImage.width + 2;
+            cluesValueObj.finalWidthValue = computeFinalWidth;
+
             headerStatusLeftImage.content.show = (function() {
                 this.visible = true;
-                TweenMax.to(this, 1, {width: this.content.finalWidthValue, ease: Back.easeOut});
-            }).bind(headerStatusLeftImageMask);
+                TweenMax.to(this.imageMask, 1, {width: this.finalWidthValue(), ease: Back.easeOut});
+            }).bind(cluesValueObj);
 
             var headerStatusCluesValueText = libraryManager.createText('headerStatusCluesValueText', headerStatusLeftObjContainer, 0, new PIXI.TextStyle({
                 fontFamily: 'Arial',
@@ -613,7 +504,11 @@ var InterfaceManager = (function () {
                 headerStatusCluesValueText.text = cluesValueObj.value;
             }
 
-            var cluesValueObj = {value: 0, cluesValue: cluesValue, setText: setText};
+            function computeFinalWidth()
+            {
+                return Math.ceil(cluesValueObj.widthValue * ((cluesValueObj.value + cluesValueObj.cluesValue) / cluesValueObj.cluesMax));
+            }
+
             headerStatusCluesValueText.content.show = (function() {
                 TweenMax.to(this, 1, {value: "+="+this.cluesValue, roundProps:"value", ease: Back.easeOut, onUpdate: this.setText});
             }).bind(cluesValueObj);
@@ -684,6 +579,43 @@ var InterfaceManager = (function () {
             cluesButtonObj.position.x = (footerObj.width * 0.25) - 20;
             cluesButtonObj.position.y = (footerObj.height * 0.5) - (cluesButtonObj.height * 0.5) - 20;
 
+            var cluesButtonNotification = libraryManager.createImage('cluesButtonNotification', cluesButtonObj, res['icon_clue_pop'].texture,);
+            cluesButtonNotification.visible = false;
+            cluesButtonNotification.content.posX = (cluesButtonObj.width * 0.5) - (cluesButtonNotification.width * 0.5);
+            cluesButtonNotification.content.posY = -(cluesButtonObj.height * 0.5) - (cluesButtonNotification.height * 0.5) + 5;
+            cluesButtonNotification.position.x = cluesButtonNotification.content.posX;
+            cluesButtonNotification.position.y = cluesButtonNotification.content.posY;
+
+            cluesButtonNotification.content.show = (function() {
+                this.visible = true;
+                TweenMax.fromTo(this, 0.25, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                TweenMax.fromTo(this.position, 0.5, {y: this.content.posY + 25}, {y: this.content.posY, ease: Back.easeOut});
+            }).bind(cluesButtonNotification);
+
+            var cluesButtonNotificationText = libraryManager.createText('cluesButtonNotificationText', cluesButtonNotification, 0, new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 18,
+                fontStyle: 'normal',
+                fill: '#ffffff'
+            }));
+            cluesButtonNotificationText.position.y = -5;
+            cluesButtonNotificationText.text = '0';
+
+            cluesButtonObj.content.cluesButtonNotification = cluesButtonNotification;
+            cluesButtonObj.content.cluesButtonNotificationText = cluesButtonNotificationText;
+            cluesButtonObj.content.showNotification = (function(value) {
+                if(value > 0) {
+                    cluesButtonNotification.content.show();
+                    cluesButtonNotificationText.text = value;
+                }
+            }).bind(cluesButtonObj.content);
+
+            cluesButtonObj.content.hideNotification = (function() {
+                cluesButtonNotification.visible = false;
+                cluesButtonNotificationText.text = 0;
+            }).bind(cluesButtonObj.content);
+
+
             var archiveButtonObj = libraryManager.createImageButton('archiveButtonObj', footerButtonContainer, res['btn_archive_default'].texture, res['btn_archive_highlight'].texture);
             footerButtonObjList.push(archiveButtonObj);
             archiveButtonObj.position.x = (footerObj.width * 0.5) - (archiveButtonObj.width * 0.5) - 20;
@@ -729,101 +661,43 @@ var InterfaceManager = (function () {
 
         function showMission()
         {
+            activeContent = 'mission';
             var buttonObj = libraryManager.getElement('missionsButtonObj');
             setButtonSelected(buttonObj);
-
-            clearContent();
-
-            initMissions();
-
-            var animateBlock = (function(){
-                var tl = new TimelineMax();
-                for (var row = 0; row < missionDataObj.length; row++)
-                {
-                    for (var i = 0; i < missionDataObj[row].data.length; i++)
-                    {
-                        var cellBlock = libraryManager.getElement(missionDataObj[row].data[i].type + '_' + row + '_' + i);
-                        if(missionDataObj[row].data[i].type == 'divider')
-                        {
-                            var cellMask = cellBlock.content.cellMask;
-                            tl.add(cellMask.content.load, "+=0.075");
-                        }
-                        tl.add(cellBlock.content.load, "+=0.075");
-                    }
-                }
-            });
-
-            var animateDivider = (function(){
-                var tl = new TimelineMax();
-                for (var row = 0; row < missionDataObj.length; row++)
-                {
-                    for (var i = 0; i < missionDataObj[row].data.length; i++)
-                    {
-                        var cellBlock = libraryManager.getElement(missionDataObj[row].data[i].type + '_' + row + '_' + i);
-                        if(missionDataObj[row].data[i].type == 'divider')
-                        {
-                            var cellMask = cellBlock.content.cellMask;
-                            tl.add(cellMask.content.show, "+=0");
-                        }
-
-                    }
-                }
-            });
-
-            var showBlockContent = (function(){
-                var tl = new TimelineMax();
-                for (var row = 0; row < missionDataObj.length; row++)
-                {
-                    for (var i = 0; i < missionDataObj[row].data.length; i++)
-                    {
-                        var cellBlock = libraryManager.getElement(missionDataObj[row].data[i].type + '_' + row + '_' + i);
-                        tl.add(cellBlock.content.show, "+=0");
-                    }
-                }
-            });
-
-            tl.add(animateBlock, "+=0");
-            tl.add(animateDivider, "+=1");
-            tl.add(showBlockContent, "+=0");
-
+            contents.mission.loadCategory();
         }
 
         function showProfile()
         {
+            activeContent = 'profile';
             var buttonObj = libraryManager.getElement('profileButtonObj');
             setButtonSelected(buttonObj);
-
-            clearContent();
-
+            contents.profile.loadContent();
         }
 
         function showClues()
         {
+            activeContent = 'clues';
             var buttonObj = libraryManager.getElement('cluesButtonObj');
             setButtonSelected(buttonObj);
-
-            clearContent();
-
+            contents.clues.loadContent();
         }
 
         function showArchive()
         {
+            activeContent = 'archive';
             var buttonObj = libraryManager.getElement('archiveButtonObj');
             setButtonSelected(buttonObj);
-
-            clearContent();
-
+            contents.archive.loadCategory();
         }
 
         function showActivate()
         {
+            activeContent = 'activate';
             var buttonObj = libraryManager.getElement('activateButtonObj');
             setButtonSelected(buttonObj);
-
             clearContent();
-
             camera.startStream();
-
         }
 
         function showActivateResult(resultData)
@@ -876,6 +750,8 @@ var InterfaceManager = (function () {
 
             initBody();
 
+            initLoadingCircle();
+
             initCamera();
 
             initTimeLinedTween();
@@ -909,14 +785,63 @@ var InterfaceManager = (function () {
             headerNeonObj.content.show();
         }
 
+        function addCluePoints(value)
+        {
+            cluesValueObj.cluesValue = value;
+            var headerStatusLeftObjContainer = libraryManager.getElement('headerStatusLeftObjContainer');
+            headerStatusLeftObjContainer.content.show();
+        }
+
+        function highlightCluePoint(value)
+        {
+            var headerStatusContainer = libraryManager.getElement('headerStatusContainer');
+            var headerStatusLeftObj = libraryManager.getElement('headerStatusLeftObj');
+            if(value)
+            {
+                var tmpContainer = libraryManager.createContainer('tmpContainer', topContainer);
+                tmpContainer.addChild(headerStatusLeftObj);
+                tmpContainer.position = headerStatusContainer.position;
+            }
+            else
+            {
+                headerStatusContainer.addChild(headerStatusLeftObj);
+            }
+        }
+
+        function highlightClueButton(value)
+        {
+            var footerButtonContainer = libraryManager.getElement('footerButtonContainer');
+            var cluesButtonObj = libraryManager.getElement('cluesButtonObj');
+            cluesButtonObj.buttonMode = !value;
+            cluesButtonObj.interactive = !value;
+            if(value)
+            {
+                var tmpContainer = libraryManager.createContainer('tmpContainer', topContainer);
+                tmpContainer.addChild(cluesButtonObj);
+                tmpContainer.position = footerButtonContainer.position;
+            }
+            else
+            {
+                footerButtonContainer.addChild(cluesButtonObj);
+            }
+        }
+
         return {
             getAsset: getAsset,
+            getTimeline: getTimeline,
+            getLoader: getLoader,
+            getActiveContent: getActiveContent,
+            getContents: getContents,
             setup: setup,
             showHeader: showHeader,
             showFooter: showFooter,
             showMission: showMission,
             showHeaderStatus: showHeaderStatus,
-            showHeaderFlicker: showHeaderFlicker
+            showHeaderFlicker: showHeaderFlicker,
+            clearContent: clearContent,
+            addCluePoints: addCluePoints,
+            highlightCluePoint: highlightCluePoint,
+            highlightClueButton: highlightClueButton
         };
 
     };

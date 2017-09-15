@@ -24,7 +24,8 @@ var SoundManager = (function () {
 
         function playSound (soundName, delay)
         {
-            var res = AssetLoaderManager.getInstance().getRes();
+            var assetLoaderManager = AssetLoaderManager.getInstance();
+            var res = assetLoaderManager.getRes();
 
             setTimeout(play, delay*1000);
 

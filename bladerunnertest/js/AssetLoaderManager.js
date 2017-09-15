@@ -10,38 +10,15 @@ var AssetLoaderManager = (function () {
 
         var ticker = new PIXI.ticker.Ticker();
         var assetLoader = new PIXI.loaders.Loader();
-        var resources;
+        var resources = new Array();
         var onReadyCallback;
-        var hasProgressText;
 
         var progress = new function ()
         {
-            var stageManager;
-            var style = new PIXI.TextStyle({
-                fontFamily: 'Arial',
-                fontSize: 28,
-                fontStyle: 'normal',
-                fontWeight: 'bold',
-                fill: ['#ffffff', '#ffffff'], // gradient
-                stroke: '#000000',
-                strokeThickness: 1,
-                dropShadow: true,
-                dropShadowColor: '#000000',
-                dropShadowBlur: 5,
-                dropShadowAngle: Math.PI / 6,
-                dropShadowDistance: 2,
-                wordWrap: false,
-                wordWrapWidth: 600
-            });
-
-            var richText = new PIXI.Text('Loading 0%', style);
-            richText.anchor.set(0.5);
-            richText.visible = hasProgressText;
 
             var requestId = undefined;
             function loop() {
                 if (requestId) {
-                    richText.text = 'Loading ' + Math.floor(assetLoader.progress) + "%";
                     requestAnimationFrame(loop);
                 }
             }
@@ -51,26 +28,6 @@ var AssetLoaderManager = (function () {
             function start() {
                 if (requestId == undefined) {
                     requestId = requestAnimationFrame(loop);
-
-                    stageManager = StageManager.getInstance();
-
-                    canvasContainer = function()
-                    {
-                        var container = new PIXI.Container();
-                        container.content = {};
-                        return container;
-                    }();
-
-                    stageManager.getContainer().addChild(canvasContainer);
-
-                    canvasContainer.content.setLayout = function () {
-                        canvasContainer.scale.x = canvasContainer.scale.y = 1;
-                        canvasContainer.position.x = stageManager.getDimension().canvasWidth * 0.5;
-                        canvasContainer.position.y = stageManager.getDimension().canvasHeight * 0.5;
-                    }
-                    stageManager.addCallBack(canvasContainer.content.setLayout);
-
-                    canvasContainer.addChild(richText);
                 }
             }
 
@@ -78,19 +35,12 @@ var AssetLoaderManager = (function () {
                 if (requestId) {
                     cancelAnimationFrame(requestId);
                     requestId = undefined;
-                    richText.text = 'Please wait...';
                 }
-            }
-
-            function done()
-            {
-                canvasContainer.removeChild(richText);
             }
 
             return {
                 start: start,
-                stop: stop,
-                done: done
+                stop: stop
             };
 
         };
@@ -102,7 +52,7 @@ var AssetLoaderManager = (function () {
 
         function onAssetsLoaded(loader, res)
         {
-            resources = res;
+            resources = extend(resources, res);
             setTimeout(function(){
                     onReadyCallback();
                     progress.stop();
@@ -110,9 +60,31 @@ var AssetLoaderManager = (function () {
             );
         }
 
+        function extend()
+        {
+            var o = {};
+
+            for (var i in arguments)
+            {
+                var s = arguments[i];
+
+                for (var i in s)
+                {
+                    o[i] = s[i];
+                }
+            }
+
+            return o;
+        }
+
         function getRes()
         {
             return resources;
+        }
+
+        function setRes(res)
+        {
+            resources = extend(resources, res);
         }
 
         function getProgress()
@@ -128,11 +100,6 @@ var AssetLoaderManager = (function () {
             }
         }
 
-        function showProgressText(value)
-        {
-            hasProgressText = value;
-        }
-
         function load()
         {
             progress.start();
@@ -141,8 +108,8 @@ var AssetLoaderManager = (function () {
 
         return {
             getRes: getRes,
+            setRes: setRes,
             getProgress: getProgress,
-            showProgressText: showProgressText,
             onReady: onReady,
             addAsset: addAsset,
             load: load
