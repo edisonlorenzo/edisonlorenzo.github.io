@@ -22,6 +22,8 @@ var StageManager = (function () {
         renderer.view.style.width = "100%";
         renderer.view.style.height = "100%";
 
+        setSize();
+
         //Add style in document head
         var newStyle = document.createElement("style");
         var style = "* {padding: 0; margin: 0}";
@@ -44,9 +46,9 @@ var StageManager = (function () {
             }
         });
 
-        window.addEventListener("load", function (event) {
-            setSize();
-        });
+        // window.addEventListener("load", function (event) {
+        //     setSize();
+        // });
 
         requestAnimationFrame(update);
 
