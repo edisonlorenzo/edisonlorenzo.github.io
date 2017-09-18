@@ -579,7 +579,7 @@ var InterfaceManager = (function () {
             cluesButtonObj.position.x = (footerObj.width * 0.25) - 20;
             cluesButtonObj.position.y = (footerObj.height * 0.5) - (cluesButtonObj.height * 0.5) - 20;
 
-            var cluesButtonNotification = libraryManager.createImage('cluesButtonNotification', cluesButtonObj, res['icon_clue_pop'].texture,);
+            var cluesButtonNotification = libraryManager.createImage('cluesButtonNotification', cluesButtonObj, res['icon_clue_pop'].texture);
             cluesButtonNotification.visible = false;
             cluesButtonNotification.content.posX = (cluesButtonObj.width * 0.5) - (cluesButtonNotification.width * 0.5);
             cluesButtonNotification.content.posY = -(cluesButtonObj.height * 0.5) - (cluesButtonNotification.height * 0.5) + 5;
