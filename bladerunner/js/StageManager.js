@@ -60,8 +60,6 @@ var StageManager = (function () {
 
         function getCanvasSize()
         {
-            // var width = $(window).width();
-            // var height = $(window).height();
             var width = window.innerWidth;
             var height = window.innerHeight;
 
@@ -71,7 +69,8 @@ var StageManager = (function () {
             var ratioX = localWidth / width;
 	        var ratioY = localHeight / height;
 
-	        ratio = ratioY;
+            ratio = ratioY < 1 ? 1 : ratioY;
+
             canvasWidth = width * ratio;
             canvasHeight = height * ratio;
         }
