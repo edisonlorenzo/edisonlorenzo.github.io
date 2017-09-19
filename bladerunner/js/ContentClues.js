@@ -829,6 +829,7 @@ var ContentClues = (function () {
                 var cluesPopupContentContainer =  libraryManager.createContainer('cluesPopupContentContainer', popupBG);
                 var cluesPopupCellContainer =  libraryManager.createContainer('cluesPopupCellContainer', popupBG);
 
+                var cluesStatusContainer =  libraryManager.createContainer('cluesStatusContainer', cluesPopupContentContainer);
                 var cluesCellGridContainer =  libraryManager.createContainer('cluesCellGridContainer', cluesPopupCellContainer);
                 var cluesCellContainer =  libraryManager.createContainer('cluesCellContainer', cluesCellGridContainer);
                 var cluesGridContainer =  libraryManager.createContainer('cluesGridContainer', cluesCellGridContainer);
@@ -882,7 +883,7 @@ var ContentClues = (function () {
                     tl.add(cluesCellBg.content.show, '+=0.025');
                 }
 
-                var caseFileLabel = libraryManager.createText('caseFileLabel', cluesPopupContentContainer, 0, new PIXI.TextStyle({
+                var caseFileLabel = libraryManager.createText('caseFileLabel', cluesStatusContainer, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
@@ -894,7 +895,7 @@ var ContentClues = (function () {
                 caseFileLabel.position.x = cluesCellGridContainer.position.x + (cluesGrid.width * 0.5) + 10;
                 caseFileLabel.position.y = -(popupBG.height * 0.5) + 20;
 
-                var caseFileValue = libraryManager.createText('caseFileValue', cluesPopupContentContainer, 0, new PIXI.TextStyle({
+                var caseFileValue = libraryManager.createText('caseFileValue', cluesStatusContainer, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
@@ -909,7 +910,7 @@ var ContentClues = (function () {
                 var cellCompleted = libraryManager.getElementCountFromList(item.data, 'isCompleted', true);
                 var isCaseCompleted = (cellCompleted == maxGrid);
 
-                var caseFileProgress = libraryManager.createText('caseFileProgress', cluesPopupContentContainer, 0, new PIXI.TextStyle({
+                var caseFileProgress = libraryManager.createText('caseFileProgress', cluesStatusContainer, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
@@ -923,7 +924,7 @@ var ContentClues = (function () {
 
                 if(isCaseCompleted)
                 {
-                    var caseFileStatus = libraryManager.createText('caseFileStatus', cluesPopupContentContainer, 0, new PIXI.TextStyle({
+                    var caseFileStatus = libraryManager.createText('caseFileStatus', cluesStatusContainer, 0, new PIXI.TextStyle({
                         fontFamily: 'Arial',
                         fontSize: 24,
                         fontStyle: 'bold',
@@ -936,7 +937,7 @@ var ContentClues = (function () {
                     caseFileStatus.position.y = caseFileProgress.position.y + caseFileProgress.height + 2;
                 }
 
-                var caseFileDesc = libraryManager.createText('caseFileDesc', cluesPopupContentContainer, 0, new PIXI.TextStyle({
+                var caseFileDesc = libraryManager.createText('caseFileDesc', cluesStatusContainer, 0, new PIXI.TextStyle({
                     fontFamily: 'Arial',
                     fontSize: 24,
                     fontStyle: 'normal',
