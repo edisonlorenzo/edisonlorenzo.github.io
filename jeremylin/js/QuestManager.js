@@ -285,7 +285,8 @@ var QuestManager = (function () {
 
             backgroundObj.content.setLayout = function () {
                 backgroundObj.scale.x = backgroundObj.scale.y = 1;
-                backgroundObj.scale.x = backgroundObj.scale.y = stageManager.getDimension().calculateRatioBoth('height', backgroundObj.width, backgroundObj.height, 1, 1);
+                // backgroundObj.scale.x = backgroundObj.scale.y = stageManager.getDimension().calculateRatioBoth('height', backgroundObj.width, backgroundObj.height, 1, 1);
+                backgroundObj.scale.x = backgroundObj.scale.y = stageManager.getDimension().calculateRatioByHeight(backgroundObj.height, 1);
             }
             stageManager.addCallBack(backgroundObj.content.setLayout);
         }
