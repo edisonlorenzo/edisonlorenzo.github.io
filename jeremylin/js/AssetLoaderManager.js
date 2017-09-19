@@ -18,7 +18,7 @@ var AssetLoaderManager = (function () {
             var stageManager;
             var style = new PIXI.TextStyle({
                 fontFamily: 'Arial',
-                fontSize: 28,
+                fontSize: 40,
                 fontStyle: 'normal',
                 fontWeight: 'bold',
                 fill: ['#ffffff', '#ffffff'], // gradient
