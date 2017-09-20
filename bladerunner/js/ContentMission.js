@@ -977,10 +977,14 @@ var ContentMission = (function () {
                     notificationBG.content.load = (function() {
                         var tl = new TimelineMax();
                         this.show();
+
+                        tl.add(playActivated, "+=0");
+
                         if(this.notificationTitle)
                         {
                             tl.add(this.notificationTitle.content.show, "+=0.5");
                         }
+
                         if(this.notificationMessageContainer)
                         {
                             tl.add(this.notificationMessageContainer.content.show, "+=0.5");
@@ -1076,6 +1080,8 @@ var ContentMission = (function () {
                         var tl = new TimelineMax();
                         this.show();
 
+                        tl.add(playActivated, "+=0");
+                        
                         if(this.clueIcon)
                         {
                             tl.add(this.clueIcon.content.show, "+=0.5");
@@ -1097,6 +1103,12 @@ var ContentMission = (function () {
                 }
 
             }
+        }
+
+        function playActivated()
+        {
+            var soundManager = SoundManager.getInstance();
+            soundManager.playSound('sfx-activated', 0);
         }
 
         function closeNotification(missionItem)
