@@ -79,11 +79,6 @@ var InterfaceManager = (function () {
 
         function getAsset()
         {
-            //assets.push.apply(assets, contents.profile.getAsset());
-            //assets.push.apply(assets, contents.mission.getAsset());
-            //assets.push.apply(assets, contents.clues.getAsset());
-            //assets.push.apply(assets, contents.archive.getAsset());
-
             return assets;
         }
 
@@ -195,7 +190,6 @@ var InterfaceManager = (function () {
         {
 
             var contentContainer = libraryManager.getElement('contentContainer');
-            var backgroundObj = libraryManager.getElement('backgroundObj');
 
             camera = function ()
             {
