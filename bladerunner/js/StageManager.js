@@ -8,7 +8,6 @@ var StageManager = (function () {
 
         // Singleton Init
 
-        var ratio;
         var baseWidth = 768;
         var baseHeight = 1350;
         var canvasWidth;
@@ -50,7 +49,8 @@ var StageManager = (function () {
 
         requestAnimationFrame(update);
 
-        function update (){
+        function update()
+        {
             //Loop this function 60 times per second
             requestAnimationFrame(update);
 
@@ -69,7 +69,7 @@ var StageManager = (function () {
             var ratioX = localWidth / width;
 	        var ratioY = localHeight / height;
 
-            ratio = ratioY < 1 ? 1 : ratioY;
+            var ratio = ratioY < 1 ? 1 : ratioY;
 
             canvasWidth = width * ratio;
             canvasHeight = height * ratio;
