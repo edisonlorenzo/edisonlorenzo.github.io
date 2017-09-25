@@ -1,0 +1,26 @@
+html, body {
+    background: black;
+    margin: 0;
+}
+
+#top-logo {
+    width: 100%;
+    padding: 0;
+    /*margin: 0;
+    max-width: 100%;*/
+}
+
+#top-logo .child {
+    /*width: 100%;*/
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    z-index: 1;
+}
+
+#top-logo .center {
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+}

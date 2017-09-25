@@ -9,25 +9,110 @@
 
         <title>Power Rangers Activation Portal</title>
 
-        <script src="js/jQuery/jquery-3.2.1.min.js"></script>
-
-        <script src="js/pixi/pixi.min.js"></script>
-        <script src="js/pixi/pixi-sound.js"></script>
         <script src="js/gsap/TweenMax.min.js"></script>
         <script src="js/gsap/TimelineMax.min.js"></script>
 
-        <link rel="stylesheet" href="style.css">
+        <link href="css/normalize.min.css" rel="stylesheet">
+        <link href="css/skeleton.min.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+
     </head>
     <body>
+        <div class="container" id="top-logo">
+            <div class="row">
+                <img src="images/img_bg_globe.png" id="img_bg_globe" style="width: 100%;">
+                <img src="images/img_globe.png" id="img_globe" class="child center" style="width: 50%; top: 50%; left: 50%">
+                <img src="images/img_bg_globe_logo_placeholder.png" id="img_bg_globe_logo_placeholder" class="child center" style="width: 40%; top: 22%; left:51.5%">
+                <img src="images/img_globe_anchor.png" id="img_globe_anchor" class="child center" style="width: 10%; top: 40%; left:51.5%">
+                <img src="images/img_bg_globe_line02.png" id="img_bg_globe_line02" class="child center" style="width: 40%; top: 40%; left:71.5%">
+                <img src="images/img_bg_globe_line03.png" id="img_bg_globe_line03" class="child center" style="width: 40%; top: 41%; left:30.5%">
+                <img src="images/img_globe_line.png" id="img_globe_line" class="child center" style="width: 1px; height: 30%; top: 55%; left:51.5%">
+            </div>
 
-        <script src="js/AssetLoaderManager.js"></script>
-        <script src="js/InterfaceManager.js"></script>
-        <script src="js/ContentArchive.js"></script>
-        <script src="js/StageManager.js"></script>
-        <script src="js/SoundManager.js"></script>
-        <script src="js/LibraryManager.js"></script>
-        <script src="js/SceneManager.js"></script>
-        <script src="js/main.js"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function(){
+                    console.log('DOM Loaded');
+                    init();
+                }, false);
+
+                function init()
+                {
+                    var tl = new TimelineMax();
+
+                    function addPercent(percent, value)
+                    {
+                        var pctValue = parseFloat(percent);
+                        return (pctValue + value) + "%";
+                    }
+
+                    var img_bg_globe = document.getElementById("img_bg_globe");
+                    img_bg_globe.style.visibility = "hidden";
+                    img_bg_globe.show = (function() {
+                        this.style.visibility = "visible";
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    }).bind(img_bg_globe);
+
+                    var img_globe = document.getElementById("img_globe");
+                    img_globe.style.visibility = "hidden";
+                    console.log(img_globe.scale);
+                    img_globe.show = (function() {
+                        this.currentTop = this.style.top;
+                        this.style.visibility = "visible";
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                        // TweenMax.fromTo(this.style, 0.5, {top: addPercent(this.currentTop, 10)}, {top: this.currentTop, ease: Power2.easeOut});
+                        TweenMax.fromTo(this, 0.5, {scale: 0}, {scale: 1, ease: Back.easeOut, onComplete:function(){this.style.removeProperty('transform');}.bind(this)});
+
+                    }).bind(img_globe);
+
+                    var img_bg_globe_logo_placeholder = document.getElementById("img_bg_globe_logo_placeholder");
+                    img_bg_globe_logo_placeholder.style.visibility = "hidden";
+                    img_bg_globe_logo_placeholder.show = (function() {
+                        this.currentTop = this.style.top;
+                        this.style.visibility = "visible";
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                        TweenMax.fromTo(this.style, 0.5, {top: addPercent(this.currentTop, -20)}, {top: this.currentTop, ease: Power2.easeOut});
+                    }).bind(img_bg_globe_logo_placeholder);
+
+                    var img_globe_anchor = document.getElementById("img_globe_anchor");
+                    img_globe_anchor.style.visibility = "hidden";
+                    img_globe_anchor.show = (function() {
+                        this.style.visibility = "visible";
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    }).bind(img_globe_anchor);
+
+                    var img_bg_globe_line02 = document.getElementById("img_bg_globe_line02");
+                    img_bg_globe_line02.style.visibility = "hidden";
+                    img_bg_globe_line02.show = (function() {
+                        this.style.visibility = "visible";
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    }).bind(img_bg_globe_line02);
+
+                    var img_bg_globe_line03 = document.getElementById("img_bg_globe_line03");
+                    img_bg_globe_line03.style.visibility = "hidden";
+                    img_bg_globe_line03.show = (function() {
+                        this.style.visibility = "visible";
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    }).bind(img_bg_globe_line03);
+
+                    var img_globe_line = document.getElementById("img_globe_line");
+                    img_globe_line.style.visibility = "hidden";
+                    img_globe_line.show = (function() {
+                        this.style.visibility = "visible";
+                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                    }).bind(img_globe_line);
+
+                    tl.add(img_bg_globe.show, "+=0");
+                    tl.add(img_globe.show, "+=0.5");
+                    tl.add(img_bg_globe_logo_placeholder.show, "+=0.5");
+                    tl.add(img_globe_anchor.show, "+=0.5");
+                    tl.add(img_bg_globe_line02.show, "+=0.5");
+                    tl.add(img_bg_globe_line03.show, "+=0");
+                    tl.add(img_globe_line.show, "+=0");
+                }
+
+
+            </script>
+        </div>
 
     </body>
 </html>

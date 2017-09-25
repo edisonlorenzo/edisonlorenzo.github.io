@@ -58,7 +58,7 @@ var SceneManager = (function () {
 
         function start()
         {
-            loadAdditionalAssets(interfaceManager.showHeader);
+            loadAdditionalAssets();
         }
 
         function loadAdditionalAssets()
@@ -81,7 +81,7 @@ var SceneManager = (function () {
                 // tl.add(interfaceManager.showHeader, "+=0");
                 // tl.add(interfaceManager.showFooter, "+=0");
                 // tl.add(interfaceManager.showHeaderStatus, "+=0.5");
-                // tl.add(interfaceManager.showMission, "+=0");
+                tl.add(interfaceManager.showMainContent, "+=0");
                 // tl.add(interfaceManager.showHeaderFlicker, "+=1");
             }
 

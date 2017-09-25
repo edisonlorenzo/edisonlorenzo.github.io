@@ -13,12 +13,11 @@ var InterfaceManager = (function () {
         var stageManager;
 
         var contents = {
-            archive: ContentArchive.getInstance()
+            main: ContentMain.getInstance()
         };
 
         var activeContent;
 
-        var camera;
         var loadingCircle;
         var backgroundObj;
         var backgroundContainer;
@@ -26,10 +25,6 @@ var InterfaceManager = (function () {
         var topContainer;
         var res;
         var tl;
-
-        var cluesValueObj = {};
-
-        var footerButtonObjList;
 
         var assets = new Array();
 
@@ -41,7 +36,7 @@ var InterfaceManager = (function () {
         // assets.push(new Asset('img_bg_pop_bar', 'images/img_bg_pop_bar.png'));
         // assets.push(new Asset('img_bg_notification', 'images/img_bg_notification.png'));
         assets.push(new Asset('img_loading_circle', 'images/img_loading_circle.png'));
-        assets.push(new Asset('img_bg_globe', 'images/img_bg_globe.png'));
+        // assets.push(new Asset('img_bg_globe', 'images/img_bg_globe.png'));
         // assets.push(new Asset('img_navigation_dot', 'images/img_navigation_dot.png'));
         // assets.push(new Asset('img_navigation_dot_highlight', 'images/img_navigation_dot_highlight.png'));
         // assets.push(new Asset('btn_arrow_left', 'images/btn_arrow_left.png'));
@@ -127,7 +122,6 @@ var InterfaceManager = (function () {
 
         function initBody()
         {
-
             var bodyContainer = libraryManager.createContainer('bodyContainer', backgroundContainer);
             var bodyBackgroundObj = libraryManager.createImage('bodyBackgroundObj', bodyContainer, res['img_white'].texture);
 
@@ -136,9 +130,26 @@ var InterfaceManager = (function () {
             bodyBackgroundObj.alpha = 0;
             bodyBackgroundObj.width = 768;
             bodyBackgroundObj.height = backgroundObj.content.height;
+        }
 
-            var contentBackground = libraryManager.createImage('contentBackground', contentContainer, res['img_bg_globe'].texture);
-            contentBackground.position.y = -(bodyBackgroundObj.height * 0.5) + (contentBackground.height * 0.5);
+        function showMainContent()
+        {
+            activeContent = 'main';
+            contents.main.loadContent();
+        }
+
+        function clearContent()
+        {
+            tl.clear();
+            var contentContainer = libraryManager.getElement('contentContainer');
+            for(var i = contentContainer.children.length - 1; i >= 0; i--)
+            {
+                if(contentContainer.children[i].content)
+                {
+                    libraryManager.removeElement(contentContainer.children[i].content.id);
+                }
+                contentContainer.removeChild(contentContainer.children[i]);
+            }
         }
 
         function initLoadingCircle()
@@ -196,6 +207,10 @@ var InterfaceManager = (function () {
 
             initBody();
 
+            initLoadingCircle();
+
+            initTimeLinedTween();
+
         }
 
         return {
@@ -204,6 +219,8 @@ var InterfaceManager = (function () {
             getLoader: getLoader,
             getActiveContent: getActiveContent,
             getContents: getContents,
+            showMainContent: showMainContent,
+            clearContent: clearContent,
             setup: setup
 
         };
