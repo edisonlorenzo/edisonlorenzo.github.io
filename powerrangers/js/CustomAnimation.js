@@ -130,8 +130,12 @@ var CustomAnimation = (function ()
         this.init = function ()
         {
             console.log("CustomAnimation: Initializing...");
-            _this.hideContainer(_this.containerId);
             scriptLoader.loadFiles();
+
+            window.addEventListener("DOMContentLoaded", function(event) {
+                console.log("DOM Elements Loaded");
+                _this.hideContainer(_this.containerId);
+            });
         }
 
         this.start = function (animationObject)
