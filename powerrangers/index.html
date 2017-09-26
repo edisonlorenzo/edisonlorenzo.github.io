@@ -20,11 +20,11 @@
             var animationObject = [
                 {id:"img_bg_globe", animation:[{id:"fadeIn"}], timing: 0},
                 {id:"img_globe", animation:[{id:"fadeIn"}, {id:"zoomIn"}], timing: 0.5},
-                {id:"img_bg_globe_logo_placeholder", animation:[{id:"fadeIn"}, {id:"slideIn"}], timing: 0.5},
-                {id:"img_globe_anchor", animation:[{id:"fadeIn"}], timing: 0.5},
-                {id:"img_bg_globe_line02", animation:[{id:"fadeIn"}], timing: 0.5},
-                {id:"img_bg_globe_line03", animation:[{id:"fadeIn"}], timing: 0},
-                {id:"img_globe_line", animation:[{id:"fadeIn"}], timing: 0}
+                {id:"img_bg_globe_logo_placeholder", animation:[{id:"fadeIn"}, {id:"slideInFromTop"}], timing: 0.5},
+                {id:"img_globe_anchor", animation:[{id:"fadeIn"}, {id:"zoomOut"}], timing: 0.5},
+                {id:"img_bg_globe_line02", animation:[{id:"fadeIn"}, {id:"wipeFromLeft"}], timing: 0.5},
+                {id:"img_bg_globe_line03", animation:[{id:"fadeIn"}, {id:"wipeFromRight"}], timing: 0},
+                {id:"img_globe_line", animation:[{id:"fadeIn"}, {id:"wipeFromTop"}], timing: 0.5}
             ];
         </script>
 
@@ -69,15 +69,51 @@
                             TweenMax.fromTo(element, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
                         }
 
-                        function slideIn(element)
+                        function slideIn(element, direction)
                         {
-                            element.currentTop = element.style.top;
-                            TweenMax.fromTo(element.style, 0.5, {top: addPercent(element.currentTop, -20)}, {top: element.currentTop, ease: Power2.easeOut});
+                            var offsetValue = (direction == "fromTop" || direction == "fromLeft") ? -20 : 20;
+                            var currentPos = (direction == "fromTop" || direction == "fromBottom") ? element.style.top : element.style.left;
+
+                            element.currentPos = currentPos;
+                            if(direction == "fromTop" || direction == "fromBottom")
+                            {
+                                TweenMax.fromTo(element.style, 0.5, {top: addPercent(element.currentPos, offsetValue)}, {top: element.currentPos, ease: Power2.easeOut});
+                            }
+                            else if(direction == "fromLeft" || direction == "fromRight")
+                            {
+                                TweenMax.fromTo(element.style, 0.5, {left: addPercent(element.currentPos, offsetValue)}, {left: element.currentPos, ease: Power2.easeOut});
+                            }
                         }
 
                         function zoomIn(element)
                         {
                             TweenMax.fromTo(element, 0.5, {scale: 0}, {scale: 1, ease: Back.easeOut, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
+                        }
+
+                        function zoomOut(element)
+                        {
+                            TweenMax.fromTo(element, 0.5, {scale: 2}, {scale: 1, ease: Back.easeOut, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
+                        }
+
+                        function wipeIn(element, direction)
+                        {
+                            var width = element.width + "px";
+                            var height = element.height + "px";
+
+                            switch (direction) {
+                                case "fromLeft":
+                                    TweenMax.fromTo(element, 0.5, {clip:"rect(0px 0px " + height + " 0px)"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
+                                    break;
+                                case "fromRight":
+                                    TweenMax.fromTo(element, 0.5, {clip:"rect(0px " + width + " " + height + " " + width + ")"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
+                                    break;
+                                case "fromTop":
+                                    TweenMax.fromTo(element, 0.5, {clip:"rect(0px " + width + " 0px 0px)"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
+                                    break;
+                                default:
+
+                            }
+
                         }
 
                         function checkAnimation(element)
@@ -88,11 +124,32 @@
                                     case "fadeIn":
                                         fadeIn(element);
                                         break;
-                                    case "slideIn":
-                                        slideIn(element);
+                                    case "slideInFromTop":
+                                        slideIn(element, "fromTop");
+                                        break;
+                                    case "slideInFromBottom":
+                                        slideIn(element, "fromBottom");
+                                        break;
+                                    case "slideInFromLeft":
+                                        slideIn(element, "fromLeft");
+                                        break;
+                                    case "slideInFromRight":
+                                        slideIn(element, "fromRight");
                                         break;
                                     case "zoomIn":
                                         zoomIn(element);
+                                        break;
+                                    case "zoomOut":
+                                        zoomOut(element);
+                                        break;
+                                    case "wipeFromLeft":
+                                        wipeIn(element, "fromLeft");
+                                        break;
+                                    case "wipeFromRight":
+                                        wipeIn(element, "fromRight");
+                                        break;
+                                    case "wipeFromTop":
+                                        wipeIn(element, "fromTop");
                                         break;
                                     default:
                                 }
