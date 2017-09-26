@@ -17,10 +17,13 @@ function init()
             return (pctValue + value) + "%";
         }
 
-        function fadeIn(element)
+        function fadeIn(element, config)
         {
-
-            TweenMax.fromTo(element, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+            var duration = config && config.duration ? config.duration : 0.5;
+            var from = config && config.from ? config.from : 0;
+            var to = config && config.to ? config.to : 1;
+            var easeType = config && config.ease ? config.ease : Power2.easeOut;
+            TweenMax.fromTo(element, duration, {alpha: from}, {alpha: to, ease: easeType});
         }
 
         function slideIn(element, direction)
@@ -39,14 +42,30 @@ function init()
             }
         }
 
-        function zoomIn(element)
+        function zoomIn(element, config)
         {
-            TweenMax.fromTo(element, 0.5, {scale: 0}, {scale: 1, ease: Back.easeOut, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
+            var duration = config && config.duration ? config.duration : 0.5;
+            var from = config && config.from ? config.from : 0;
+            var to = config && config.to ? config.to : 1;
+            var easeType = config && config.ease ? config.ease : Linear.easeNone;
+            TweenMax.fromTo(element, duration, {scale: from}, {scale: to, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
         }
 
-        function zoomOut(element)
+        function zoomOut(element, config)
         {
-            TweenMax.fromTo(element, 0.5, {scale: 2}, {scale: 1, ease: Back.easeOut, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
+            var duration = config && config.duration ? config.duration : 0.5;
+            var from = config && config.from ? config.from : 2;
+            var to = config && config.to ? config.to : 1;
+            var easeType = config && config.ease ? config.ease : Linear.easeNone;
+            TweenMax.fromTo(element, duration, {scale: from}, {scale: to, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
+        }
+
+        function rotate(element, config)
+        {
+            var duration = config && config.duration ? config.duration : 0.5;
+            var degree = config && config.degree ? config.degree : 360;
+            var easeType = config && config.ease ? config.ease : Linear.easeNone;
+            TweenMax.fromTo(element, duration, {rotation: 0}, {rotation: degree, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
         }
 
         function wipeIn(element, direction)
@@ -76,7 +95,7 @@ function init()
             {
                 switch (element.animation[i].id) {
                     case "fadeIn":
-                        fadeIn(element);
+                        fadeIn(element, element.animation[i].config);
                         break;
                     case "slideInFromTop":
                         slideIn(element, "fromTop");
@@ -91,10 +110,10 @@ function init()
                         slideIn(element, "fromRight");
                         break;
                     case "zoomIn":
-                        zoomIn(element);
+                        zoomIn(element, element.animation[i].config);
                         break;
                     case "zoomOut":
-                        zoomOut(element);
+                        zoomOut(element, element.animation[i].config);
                         break;
                     case "wipeFromLeft":
                         wipeIn(element, "fromLeft");
@@ -104,6 +123,9 @@ function init()
                         break;
                     case "wipeFromTop":
                         wipeIn(element, "fromTop");
+                        break;
+                    case "rotate":
+                        rotate(element, element.animation[i].config);
                         break;
                     default:
                 }

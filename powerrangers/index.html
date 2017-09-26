@@ -20,9 +20,9 @@
         <script>
             var animationObject = [
                 {id:"img_bg_globe", animation:[{id:"fadeIn"}], timing: 0},
-                {id:"img_globe", animation:[{id:"fadeIn"}, {id:"zoomIn"}], timing: 0.5},
-                {id:"img_bg_globe_logo_placeholder", animation:[{id:"fadeIn"}, {id:"slideInFromTop"}], timing: 0.5},
-                {id:"img_globe_anchor", animation:[{id:"fadeIn"}, {id:"zoomOut"}], timing: 0.5},
+                {id:"img_globe", animation:[{id:"fadeIn"}, {id:"zoomIn", config:{ease: Back.easeOut}}], timing: 0.5},
+                {id:"img_bg_globe_logo_placeholder", animation:[{id:"fadeIn"}, {id:"slideInFromTop"}, {id:"zoomIn", config:{duration: 1, ease: Back.easeOut}}], timing: 0.5},
+                {id:"img_globe_anchor", animation:[{id:"fadeIn"}, {id:"zoomOut", config:{ease: Back.easeOut}}, {id:"rotate", config:{duration: 1, degree: 720, ease: Back.easeOut}}], timing: 0.5},
                 {id:"img_bg_globe_line02", animation:[{id:"fadeIn"}, {id:"wipeFromLeft"}], timing: 0.5},
                 {id:"img_bg_globe_line03", animation:[{id:"fadeIn"}, {id:"wipeFromRight"}], timing: 0},
                 {id:"img_globe_line", animation:[{id:"fadeIn"}, {id:"wipeFromTop"}], timing: 0.5}
@@ -42,6 +42,5 @@
                 <img src="images/img_globe_line.png" id="img_globe_line" class="child center" style="width: 1px; height: 30%; top: 55%; left:51.5%">
             </div>
         </div>
-
     </body>
 </html>
