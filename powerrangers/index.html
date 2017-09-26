@@ -16,6 +16,18 @@
         <link href="css/skeleton.min.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
 
+        <script>
+            var animationObject = [
+                {id:"img_bg_globe", animation:[{id:"fadeIn"}], timing: 0},
+                {id:"img_globe", animation:[{id:"fadeIn"}, {id:"zoomIn"}], timing: 0.5},
+                {id:"img_bg_globe_logo_placeholder", animation:[{id:"fadeIn"}, {id:"slideIn"}], timing: 0.5},
+                {id:"img_globe_anchor", animation:[{id:"fadeIn"}], timing: 0.5},
+                {id:"img_bg_globe_line02", animation:[{id:"fadeIn"}], timing: 0.5},
+                {id:"img_bg_globe_line03", animation:[{id:"fadeIn"}], timing: 0},
+                {id:"img_globe_line", animation:[{id:"fadeIn"}], timing: 0}
+            ];
+        </script>
+
     </head>
     <body>
         <div class="container" id="top-logo">
@@ -29,85 +41,79 @@
                 <img src="images/img_globe_line.png" id="img_globe_line" class="child center" style="width: 1px; height: 30%; top: 55%; left:51.5%">
             </div>
 
+
+
             <script>
-                document.addEventListener('DOMContentLoaded', function(){
-                    console.log('DOM Loaded');
+
+                window.onload = function(){
+                    console.log('Loaded');
                     init();
-                }, false);
+                }
+
 
                 function init()
                 {
-                    var tl = new TimelineMax();
-
-                    function addPercent(percent, value)
+                    if(animationObject)
                     {
-                        var pctValue = parseFloat(percent);
-                        return (pctValue + value) + "%";
+                        var tl = new TimelineMax();
+
+                        function addPercent(percent, value)
+                        {
+                            var pctValue = parseFloat(percent);
+                            return (pctValue + value) + "%";
+                        }
+
+                        function fadeIn(element)
+                        {
+
+                            TweenMax.fromTo(element, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
+                        }
+
+                        function slideIn(element)
+                        {
+                            element.currentTop = element.style.top;
+                            TweenMax.fromTo(element.style, 0.5, {top: addPercent(element.currentTop, -20)}, {top: element.currentTop, ease: Power2.easeOut});
+                        }
+
+                        function zoomIn(element)
+                        {
+                            TweenMax.fromTo(element, 0.5, {scale: 0}, {scale: 1, ease: Back.easeOut, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
+                        }
+
+                        function checkAnimation(element)
+                        {
+                            for(var i = 0; i < element.animation.length; i++)
+                            {
+                                switch (element.animation[i].id) {
+                                    case "fadeIn":
+                                        fadeIn(element);
+                                        break;
+                                    case "slideIn":
+                                        slideIn(element);
+                                        break;
+                                    case "zoomIn":
+                                        zoomIn(element);
+                                        break;
+                                    default:
+                                }
+                            }
+
+                        }
+
+                        for(var i = 0; i < animationObject.length; i++)
+                        {
+                            var elem = document.getElementById(animationObject[i].id);
+                            elem.animation = animationObject[i].animation;
+                            elem.style.visibility = "hidden";
+                            elem.show = (function() {
+                                this.style.visibility = "visible";
+                                checkAnimation(this);
+                            }).bind(elem);
+
+                            tl.add(elem.show, "+=" + animationObject[i].timing);
+                        }
                     }
 
-                    var img_bg_globe = document.getElementById("img_bg_globe");
-                    img_bg_globe.style.visibility = "hidden";
-                    img_bg_globe.show = (function() {
-                        this.style.visibility = "visible";
-                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                    }).bind(img_bg_globe);
-
-                    var img_globe = document.getElementById("img_globe");
-                    img_globe.style.visibility = "hidden";
-                    console.log(img_globe.scale);
-                    img_globe.show = (function() {
-                        this.currentTop = this.style.top;
-                        this.style.visibility = "visible";
-                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                        // TweenMax.fromTo(this.style, 0.5, {top: addPercent(this.currentTop, 10)}, {top: this.currentTop, ease: Power2.easeOut});
-                        TweenMax.fromTo(this, 0.5, {scale: 0}, {scale: 1, ease: Back.easeOut, onComplete:function(){this.style.removeProperty('transform');}.bind(this)});
-
-                    }).bind(img_globe);
-
-                    var img_bg_globe_logo_placeholder = document.getElementById("img_bg_globe_logo_placeholder");
-                    img_bg_globe_logo_placeholder.style.visibility = "hidden";
-                    img_bg_globe_logo_placeholder.show = (function() {
-                        this.currentTop = this.style.top;
-                        this.style.visibility = "visible";
-                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                        TweenMax.fromTo(this.style, 0.5, {top: addPercent(this.currentTop, -20)}, {top: this.currentTop, ease: Power2.easeOut});
-                    }).bind(img_bg_globe_logo_placeholder);
-
-                    var img_globe_anchor = document.getElementById("img_globe_anchor");
-                    img_globe_anchor.style.visibility = "hidden";
-                    img_globe_anchor.show = (function() {
-                        this.style.visibility = "visible";
-                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                    }).bind(img_globe_anchor);
-
-                    var img_bg_globe_line02 = document.getElementById("img_bg_globe_line02");
-                    img_bg_globe_line02.style.visibility = "hidden";
-                    img_bg_globe_line02.show = (function() {
-                        this.style.visibility = "visible";
-                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                    }).bind(img_bg_globe_line02);
-
-                    var img_bg_globe_line03 = document.getElementById("img_bg_globe_line03");
-                    img_bg_globe_line03.style.visibility = "hidden";
-                    img_bg_globe_line03.show = (function() {
-                        this.style.visibility = "visible";
-                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                    }).bind(img_bg_globe_line03);
-
-                    var img_globe_line = document.getElementById("img_globe_line");
-                    img_globe_line.style.visibility = "hidden";
-                    img_globe_line.show = (function() {
-                        this.style.visibility = "visible";
-                        TweenMax.fromTo(this, 0.5, {alpha: 0}, {alpha: 1, ease: Power2.easeOut});
-                    }).bind(img_globe_line);
-
-                    tl.add(img_bg_globe.show, "+=0");
-                    tl.add(img_globe.show, "+=0.5");
-                    tl.add(img_bg_globe_logo_placeholder.show, "+=0.5");
-                    tl.add(img_globe_anchor.show, "+=0.5");
-                    tl.add(img_bg_globe_line02.show, "+=0.5");
-                    tl.add(img_bg_globe_line03.show, "+=0");
-                    tl.add(img_globe_line.show, "+=0");
                 }
 
 
