@@ -9,24 +9,29 @@
 
         <title>Power Rangers Activation Portal</title>
 
-        <script src="js/gsap/TweenMax.min.js"></script>
-        <script src="js/gsap/TimelineMax.min.js"></script>
-        <script src="js/CustomAnimation.js"></script>
-
         <link href="css/normalize.min.css" rel="stylesheet">
         <link href="css/skeleton.min.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
 
+        <script src="js/CustomAnimation.js"></script>
+
         <script>
-            var animationObject = [
-                {id:"img_bg_globe", animation:[{id:"fadeIn", config:{duration: 1.5}}], timing: 0},
-                {id:"img_globe", animation:[{id:"fadeIn"}, {id:"zoomIn", config:{ease: Back.easeOut}}], timing: 0.5},
-                {id:"img_bg_globe_logo_placeholder", animation:[{id:"fadeIn"}, {id:"slideInFromTop"}, {id:"zoomIn", config:{duration: 1, ease: Back.easeOut}}], timing: 0.5},
-                {id:"img_globe_anchor", animation:[{id:"fadeIn"}, {id:"zoomOut", config:{ease: Back.easeOut}}, {id:"rotate", config:{duration: 1, degree: 720, ease: Back.easeOut}}], timing: 0.5},
-                {id:"img_bg_globe_line02", animation:[{id:"fadeIn"}, {id:"wipeFromLeft"}], timing: 0.5},
-                {id:"img_bg_globe_line03", animation:[{id:"fadeIn"}, {id:"wipeFromRight"}], timing: 0},
-                {id:"img_globe_line", animation:[{id:"fadeIn"}, {id:"wipeFromTop"}], timing: 0.5}
-            ];
+            var customAnimation = new CustomAnimation();
+            customAnimation.onReady(start);
+            customAnimation.init();
+            function start()
+            {
+                var animationObject = [
+                    {id:"img_bg_globe", animation:[{id:"fadeIn", config:{duration: 1.5}}], timing: 0},
+                    {id:"img_globe", animation:[{id:"fadeIn"}, {id:"zoomIn", config:{ease: Back.easeOut}}], timing: 0.5},
+                    {id:"img_bg_globe_logo_placeholder", animation:[{id:"fadeIn"}, {id:"slideInFromTop"}, {id:"zoomIn", config:{duration: 1, ease: Back.easeOut}}], timing: 0.5},
+                    {id:"img_globe_anchor", animation:[{id:"fadeIn"}, {id:"zoomOut", config:{ease: Back.easeOut}}, {id:"rotate", config:{duration: 1, degree: 720, ease: Back.easeOut}}], timing: 0.5},
+                    {id:"img_bg_globe_line02", animation:[{id:"fadeIn"}, {id:"wipeFromLeft"}], timing: 0.5},
+                    {id:"img_bg_globe_line03", animation:[{id:"fadeIn"}, {id:"wipeFromRight"}], timing: 0},
+                    {id:"img_globe_line", animation:[{id:"fadeIn"}, {id:"wipeFromTop"}], timing: 0.5}
+                ];
+                customAnimation.start(animationObject);
+            }
         </script>
 
     </head>

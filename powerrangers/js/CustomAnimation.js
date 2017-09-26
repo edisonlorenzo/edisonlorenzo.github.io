@@ -1,150 +1,267 @@
 "use strict";
 
-window.onload = function(){
-    console.log('Loaded');
-    init();
-}
-
-function init()
+var ScriptLoader = (function ()
 {
-    if(animationObject)
+    function ScriptLoader(files)
     {
-        var tl = new TimelineMax();
-
-        function addPercent(percent, value)
+        var _this = this;
+        this.log = function (t)
         {
-            var pctValue = parseFloat(percent);
-            return (pctValue + value) + "%";
-        }
-
-        function fadeIn(element, config)
+            console.log("ScriptLoader: " + t);
+        };
+        this.onReady = function (callback)
         {
-            var duration = config && config.duration ? config.duration : 0.5;
-            var from = config && config.from ? config.from : 0;
-            var to = config && config.to ? config.to : 1;
-            var easeType = config && config.ease ? config.ease : Power2.easeOut;
-            TweenMax.fromTo(element, duration, {alpha: from}, {alpha: to, ease: easeType});
-        }
-
-        function slideIn(element, direction)
+            _this.onReadyCallback = callback;
+        };
+        this.withNoCache = function (filename)
         {
-            var offsetValue = (direction == "fromTop" || direction == "fromLeft") ? -20 : 20;
-            var currentPos = (direction == "fromTop" || direction == "fromBottom") ? element.style.top : element.style.left;
-
-            element.currentPos = currentPos;
-            if(direction == "fromTop" || direction == "fromBottom")
+            if (filename.indexOf("?") === -1)
+                filename += "?no_cache=" + new Date().getTime();
+            else
+                filename += "&no_cache=" + new Date().getTime();
+            return filename;
+        };
+        this.loadStyle = function (filename)
+        {
+            // HTMLLinkElement
+            var link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.type = "text/css";
+            // link.href = _this.withNoCache(filename);
+            link.href = filename;
+            _this.log('Loading style ' + filename);
+            link.onload = function ()
             {
-                TweenMax.fromTo(element.style, 0.5, {top: addPercent(element.currentPos, offsetValue)}, {top: element.currentPos, ease: Power2.easeOut});
-            }
-            else if(direction == "fromLeft" || direction == "fromRight")
+                _this.log('Loaded style "' + filename + '".');
+            };
+            link.onerror = function ()
             {
-                TweenMax.fromTo(element.style, 0.5, {left: addPercent(element.currentPos, offsetValue)}, {left: element.currentPos, ease: Power2.easeOut});
-            }
-        }
-
-        function zoomIn(element, config)
+                _this.log('Error loading style "' + filename + '".');
+            };
+            _this.m_head.appendChild(link);
+        };
+        this.loadScript = function (i)
         {
-            var duration = config && config.duration ? config.duration : 0.5;
-            var from = config && config.from ? config.from : 0;
-            var to = config && config.to ? config.to : 1;
-            var easeType = config && config.ease ? config.ease : Linear.easeNone;
-            TweenMax.fromTo(element, duration, {scale: from}, {scale: to, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
-        }
-
-        function zoomOut(element, config)
-        {
-            var duration = config && config.duration ? config.duration : 0.5;
-            var from = config && config.from ? config.from : 2;
-            var to = config && config.to ? config.to : 1;
-            var easeType = config && config.ease ? config.ease : Linear.easeNone;
-            TweenMax.fromTo(element, duration, {scale: from}, {scale: to, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
-        }
-
-        function rotate(element, config)
-        {
-            var duration = config && config.duration ? config.duration : 0.5;
-            var degree = config && config.degree ? config.degree : 360;
-            var easeType = config && config.ease ? config.ease : Linear.easeNone;
-            TweenMax.fromTo(element, duration, {rotation: 0}, {rotation: degree, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
-        }
-
-        function wipeIn(element, direction)
-        {
-            var width = element.width + "px";
-            var height = element.height + "px";
-
-            switch (direction) {
-                case "fromLeft":
-                    TweenMax.fromTo(element, 0.5, {clip:"rect(0px 0px " + height + " 0px)"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
-                    break;
-                case "fromRight":
-                    TweenMax.fromTo(element, 0.5, {clip:"rect(0px " + width + " " + height + " " + width + ")"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
-                    break;
-                case "fromTop":
-                    TweenMax.fromTo(element, 0.5, {clip:"rect(0px " + width + " 0px 0px)"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
-                    break;
-                default:
-
-            }
-
-        }
-
-        function checkAnimation(element)
-        {
-            for(var i = 0; i < element.animation.length; i++)
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            // script.src = _this.withNoCache(_this.m_js_files[i]);
+            script.src = _this.m_js_files[i];
+            var loadNextScript = function ()
             {
-                switch (element.animation[i].id) {
-                    case "fadeIn":
-                        fadeIn(element, element.animation[i].config);
-                        break;
-                    case "slideInFromTop":
-                        slideIn(element, "fromTop");
-                        break;
-                    case "slideInFromBottom":
-                        slideIn(element, "fromBottom");
-                        break;
-                    case "slideInFromLeft":
-                        slideIn(element, "fromLeft");
-                        break;
-                    case "slideInFromRight":
-                        slideIn(element, "fromRight");
-                        break;
-                    case "zoomIn":
-                        zoomIn(element, element.animation[i].config);
-                        break;
-                    case "zoomOut":
-                        zoomOut(element, element.animation[i].config);
-                        break;
-                    case "wipeFromLeft":
-                        wipeIn(element, "fromLeft");
-                        break;
-                    case "wipeFromRight":
-                        wipeIn(element, "fromRight");
-                        break;
-                    case "wipeFromTop":
-                        wipeIn(element, "fromTop");
-                        break;
-                    case "rotate":
-                        rotate(element, element.animation[i].config);
-                        break;
-                    default:
+                if (i + 1 < _this.m_js_files.length)
+                {
+                    _this.loadScript(i + 1);
                 }
-            }
-
-        }
-
-        for(var i = 0; i < animationObject.length; i++)
+                else
+                {
+                    _this.onReadyCallback();
+                }
+            };
+            script.onload = function ()
+            {
+                _this.log('Loaded script "' + _this.m_js_files[i] + '".');
+                loadNextScript();
+            };
+            script.onerror = function ()
+            {
+                _this.log('Error loading script "' + _this.m_js_files[i] + '".');
+                loadNextScript();
+            };
+            _this.log('Loading script "' + _this.m_js_files[i] + '".');
+            _this.m_head.appendChild(script);
+        };
+        this.loadFiles = function ()
         {
-            var elem = document.getElementById(animationObject[i].id);
-            elem.animation = animationObject[i].animation;
-            elem.style.visibility = "hidden";
-            elem.show = (function() {
-                this.style.visibility = "visible";
-                checkAnimation(this);
-            }).bind(elem);
+            for (var i = 0; i < _this.m_css_files.length; ++i)
+                _this.loadStyle(_this.m_css_files[i]);
+            _this.loadScript(0);
+        };
+        this.m_js_files = [];
+        this.m_css_files = [];
+        this.m_head = document.getElementsByTagName("head")[0];
 
-            tl.add(elem.show, "+=" + animationObject[i].timing);
+        function endsWith(str, suffix)
+        {
+            if (str === null || suffix === null)
+                return false;
+            return str.indexOf(suffix, str.length - suffix.length) !== -1;
+        }
+        for (var i = 0; i < files.length; ++i)
+        {
+            if (endsWith(files[i], ".css"))
+            {
+                this.m_css_files.push(files[i]);
+            }
+            else if (endsWith(files[i], ".js"))
+            {
+                this.m_js_files.push(files[i]);
+            }
+            else
+                this.log('Error unknown filetype "' + files[i] + '".');
         }
     }
+    return ScriptLoader;
+})();
 
-}
+
+var CustomAnimation = (function ()
+{
+    function CustomAnimation()
+    {
+        var scriptLoader = new ScriptLoader(["js/gsap/TweenMax.min.js", "js/gsap/TimelineMax.min.js"]);
+        this.onReady = function (callback)
+        {
+            scriptLoader.onReady(callback);
+        };
+
+        this.init = function ()
+        {
+            scriptLoader.loadFiles();
+        }
+
+        this.start = function (animationObject)
+        {
+            if(animationObject)
+            {
+                var tl = new TimelineMax();
+
+                function addPercent(percent, value)
+                {
+                    var pctValue = parseFloat(percent);
+                    return (pctValue + value) + "%";
+                }
+
+                function fadeIn(element, config)
+                {
+                    var duration = config && config.duration ? config.duration : 0.5;
+                    var from = config && config.from ? config.from : 0;
+                    var to = config && config.to ? config.to : 1;
+                    var easeType = config && config.ease ? config.ease : Power2.easeOut;
+                    TweenMax.fromTo(element, duration, {alpha: from}, {alpha: to, ease: easeType});
+                }
+
+                function slideIn(element, direction)
+                {
+                    var offsetValue = (direction == "fromTop" || direction == "fromLeft") ? -20 : 20;
+                    var currentPos = (direction == "fromTop" || direction == "fromBottom") ? element.style.top : element.style.left;
+
+                    element.currentPos = currentPos;
+                    if(direction == "fromTop" || direction == "fromBottom")
+                    {
+                        TweenMax.fromTo(element.style, 0.5, {top: addPercent(element.currentPos, offsetValue)}, {top: element.currentPos, ease: Power2.easeOut});
+                    }
+                    else if(direction == "fromLeft" || direction == "fromRight")
+                    {
+                        TweenMax.fromTo(element.style, 0.5, {left: addPercent(element.currentPos, offsetValue)}, {left: element.currentPos, ease: Power2.easeOut});
+                    }
+                }
+
+                function zoomIn(element, config)
+                {
+                    var duration = config && config.duration ? config.duration : 0.5;
+                    var from = config && config.from ? config.from : 0;
+                    var to = config && config.to ? config.to : 1;
+                    var easeType = config && config.ease ? config.ease : Linear.easeNone;
+                    TweenMax.fromTo(element, duration, {scale: from}, {scale: to, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
+                }
+
+                function zoomOut(element, config)
+                {
+                    var duration = config && config.duration ? config.duration : 0.5;
+                    var from = config && config.from ? config.from : 2;
+                    var to = config && config.to ? config.to : 1;
+                    var easeType = config && config.ease ? config.ease : Linear.easeNone;
+                    TweenMax.fromTo(element, duration, {scale: from}, {scale: to, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
+                }
+
+                function rotate(element, config)
+                {
+                    var duration = config && config.duration ? config.duration : 0.5;
+                    var degree = config && config.degree ? config.degree : 360;
+                    var easeType = config && config.ease ? config.ease : Linear.easeNone;
+                    TweenMax.fromTo(element, duration, {rotation: 0}, {rotation: degree, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
+                }
+
+                function wipeIn(element, direction)
+                {
+                    var width = element.width + "px";
+                    var height = element.height + "px";
+
+                    switch (direction) {
+                        case "fromLeft":
+                            TweenMax.fromTo(element, 0.5, {clip:"rect(0px 0px " + height + " 0px)"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
+                            break;
+                        case "fromRight":
+                            TweenMax.fromTo(element, 0.5, {clip:"rect(0px " + width + " " + height + " " + width + ")"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
+                            break;
+                        case "fromTop":
+                            TweenMax.fromTo(element, 0.5, {clip:"rect(0px " + width + " 0px 0px)"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
+                            break;
+                        default:
+
+                    }
+
+                }
+
+                function checkAnimation(element)
+                {
+                    for(var i = 0; i < element.animation.length; i++)
+                    {
+                        switch (element.animation[i].id) {
+                            case "fadeIn":
+                                fadeIn(element, element.animation[i].config);
+                                break;
+                            case "slideInFromTop":
+                                slideIn(element, "fromTop");
+                                break;
+                            case "slideInFromBottom":
+                                slideIn(element, "fromBottom");
+                                break;
+                            case "slideInFromLeft":
+                                slideIn(element, "fromLeft");
+                                break;
+                            case "slideInFromRight":
+                                slideIn(element, "fromRight");
+                                break;
+                            case "zoomIn":
+                                zoomIn(element, element.animation[i].config);
+                                break;
+                            case "zoomOut":
+                                zoomOut(element, element.animation[i].config);
+                                break;
+                            case "wipeFromLeft":
+                                wipeIn(element, "fromLeft");
+                                break;
+                            case "wipeFromRight":
+                                wipeIn(element, "fromRight");
+                                break;
+                            case "wipeFromTop":
+                                wipeIn(element, "fromTop");
+                                break;
+                            case "rotate":
+                                rotate(element, element.animation[i].config);
+                                break;
+                            default:
+                        }
+                    }
+
+                }
+
+                for(var i = 0; i < animationObject.length; i++)
+                {
+                    var elem = document.getElementById(animationObject[i].id);
+                    elem.animation = animationObject[i].animation;
+                    elem.style.visibility = "hidden";
+                    elem.show = (function() {
+                        this.style.visibility = "visible";
+                        checkAnimation(this);
+                    }).bind(elem);
+
+                    tl.add(elem.show, "+=" + animationObject[i].timing);
+                }
+            }
+        };
+    }
+
+    return CustomAnimation;
+})();
