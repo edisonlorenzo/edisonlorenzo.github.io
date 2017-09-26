@@ -19,7 +19,7 @@
 
         <script>
             var animationObject = [
-                {id:"img_bg_globe", animation:[{id:"fadeIn"}], timing: 0},
+                {id:"img_bg_globe", animation:[{id:"fadeIn", config:{duration: 1.5}}], timing: 0},
                 {id:"img_globe", animation:[{id:"fadeIn"}, {id:"zoomIn", config:{ease: Back.easeOut}}], timing: 0.5},
                 {id:"img_bg_globe_logo_placeholder", animation:[{id:"fadeIn"}, {id:"slideInFromTop"}, {id:"zoomIn", config:{duration: 1, ease: Back.easeOut}}], timing: 0.5},
                 {id:"img_globe_anchor", animation:[{id:"fadeIn"}, {id:"zoomOut", config:{ease: Back.easeOut}}, {id:"rotate", config:{duration: 1, degree: 720, ease: Back.easeOut}}], timing: 0.5},
