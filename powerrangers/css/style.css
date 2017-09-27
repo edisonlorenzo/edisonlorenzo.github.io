@@ -3,7 +3,13 @@ html, body {
     margin: 0;
 }
 
+@font-face {
+    font-family: "Audiowide";
+    src: url("fonts/Audiowide-Regular.ttf");
+}
+
 #top-logo {
+
     width: 100%;
     padding: 0;
     /*margin: 0;
@@ -23,4 +29,10 @@ html, body {
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
+}
+
+#top-logo #txt_right, #txt_left{
+    font-family: "Audiowide";
+    font-size: 3vw;
+    color: white;
 }
