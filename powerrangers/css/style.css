@@ -36,3 +36,9 @@ html, body {
     font-size: 3vw;
     color: white;
 }
+
+@media only screen and (min-width: 960px) {
+    #top-logo #txt_right, #txt_left{
+        font-size: 28px;
+    }
+}
