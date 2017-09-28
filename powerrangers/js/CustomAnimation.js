@@ -13,38 +13,10 @@ var ScriptLoader = (function ()
         {
             _this.onReadyCallback = callback;
         };
-        this.withNoCache = function (filename)
-        {
-            if (filename.indexOf("?") === -1)
-                filename += "?no_cache=" + new Date().getTime();
-            else
-                filename += "&no_cache=" + new Date().getTime();
-            return filename;
-        };
-        this.loadStyle = function (filename)
-        {
-            // HTMLLinkElement
-            var link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.type = "text/css";
-            // link.href = _this.withNoCache(filename);
-            link.href = filename;
-            _this.log('Loading style ' + filename);
-            link.onload = function ()
-            {
-                _this.log('Loaded style "' + filename + '".');
-            };
-            link.onerror = function ()
-            {
-                _this.log('Error loading style "' + filename + '".');
-            };
-            _this.m_head.appendChild(link);
-        };
         this.loadScript = function (i)
         {
             var script = document.createElement('script');
             script.type = 'text/javascript';
-            // script.src = _this.withNoCache(_this.m_js_files[i]);
             script.src = _this.m_js_files[i];
             var loadNextScript = function ()
             {
@@ -72,12 +44,9 @@ var ScriptLoader = (function ()
         };
         this.loadFiles = function ()
         {
-            for (var i = 0; i < _this.m_css_files.length; ++i)
-                _this.loadStyle(_this.m_css_files[i]);
             _this.loadScript(0);
         };
         this.m_js_files = [];
-        this.m_css_files = [];
         this.m_head = document.getElementsByTagName("head")[0];
 
         function endsWith(str, suffix)
@@ -88,11 +57,7 @@ var ScriptLoader = (function ()
         }
         for (var i = 0; i < files.length; ++i)
         {
-            if (endsWith(files[i], ".css"))
-            {
-                this.m_css_files.push(files[i]);
-            }
-            else if (endsWith(files[i], ".js"))
+            if (endsWith(files[i], ".js"))
             {
                 this.m_js_files.push(files[i]);
             }
@@ -110,6 +75,10 @@ var CustomAnimation = (function ()
     {
         var scriptLoader = new ScriptLoader(["js/gsap/TweenMax.min.js", "js/gsap/TimelineMax.min.js"]);
         var _this = this;
+        this.log = function (t)
+        {
+            console.log("CustomAnimation: " + t);
+        };
         this.onReady = function (callback)
         {
             scriptLoader.onReady(callback);
@@ -129,11 +98,11 @@ var CustomAnimation = (function ()
 
         this.init = function ()
         {
-            console.log("CustomAnimation: Initializing...");
+            _this.log("Initializing...");
             scriptLoader.loadFiles();
 
             window.addEventListener("DOMContentLoaded", function(event) {
-                console.log("DOM Elements Loaded");
+                _this.log("DOM Elements Loaded!");
                 _this.hideContainer(_this.containerId);
             });
         }
@@ -141,11 +110,11 @@ var CustomAnimation = (function ()
         this.start = function (animationObject)
         {
             window.addEventListener("load", function(event) {
-                console.log("All resources finished loading!");
+                _this.log("All resources finished loading!");
                 _this.showContainer(_this.containerId);
                 if(animationObject)
                 {
-                    console.log("CustomAnimation: Starting Animation...");
+                    _this.log("Starting Animation...");
                     var tl = new TimelineMax();
 
                     function addPercent(percent, value)
@@ -230,9 +199,10 @@ var CustomAnimation = (function ()
                     {
                         for(var i = 0; i < element.animation.length; i++)
                         {
-                            switch (element.animation[i].id) {
+                            var animation = element.animation[i];
+                            switch (animation.id) {
                                 case "fadeIn":
-                                    fadeIn(element, element.animation[i].config);
+                                    fadeIn(element, animation.config);
                                     break;
                                 case "slideInFromTop":
                                     slideIn(element, "fromTop");
@@ -247,10 +217,10 @@ var CustomAnimation = (function ()
                                     slideIn(element, "fromRight");
                                     break;
                                 case "zoomIn":
-                                    zoomIn(element, element.animation[i].config);
+                                    zoomIn(element, animation.config);
                                     break;
                                 case "zoomOut":
-                                    zoomOut(element, element.animation[i].config);
+                                    zoomOut(element, animation.config);
                                     break;
                                 case "wipeFromLeft":
                                     wipeIn(element, "fromLeft");
@@ -262,7 +232,7 @@ var CustomAnimation = (function ()
                                     wipeIn(element, "fromTop");
                                     break;
                                 case "rotate":
-                                    rotate(element, element.animation[i].config);
+                                    rotate(element, animation.config);
                                     break;
                                 default:
                             }
