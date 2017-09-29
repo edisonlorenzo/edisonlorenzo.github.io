@@ -75,25 +75,36 @@ var CustomAnimation = (function ()
     {
         var scriptLoader = new ScriptLoader(["js/gsap/TweenMax.min.js", "js/gsap/TimelineMax.min.js"]);
         var _this = this;
+        var animationObject;
         this.log = function (t)
         {
             console.log("CustomAnimation: " + t);
         };
-        this.onReady = function (callback)
+        this.config = function(value)
+        {
+            animationObject = value;
+        }
+        this.onReady = function(callback)
         {
             scriptLoader.onReady(callback);
         };
 
         this.hideContainer = function(id)
         {
-            var elem = document.getElementById(id);
-            elem.style.opacity = 0;
+            if(id)
+            {
+                var elem = document.getElementById(id);
+                elem.style.opacity = 0;
+            }
         };
 
         this.showContainer = function(id)
         {
-            var elem = document.getElementById(id);
-            elem.style.opacity = 1;
+            if(id)
+            {
+                var elem = document.getElementById(id);
+                elem.style.opacity = 1;
+            }
         };
 
         this.init = function ()
@@ -107,7 +118,7 @@ var CustomAnimation = (function ()
             });
         }
 
-        this.start = function (animationObject)
+        this.start = function()
         {
             window.addEventListener("load", function(event) {
                 _this.log("All resources finished loading!");

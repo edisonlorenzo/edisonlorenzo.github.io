@@ -21,7 +21,7 @@
             customAnimation.init();
             function start()
             {
-                var animationObject = [
+                customAnimation.config([
                     {id:"img_bg_globe", animation:[{id:"fadeIn", config:{duration: 1.5}}], timing: 0},
                     {id:"img_globe", animation:[{id:"fadeIn"}, {id:"zoomIn", config:{ease: Back.easeOut}}], timing: 0.5},
                     {id:"img_bg_globe_logo_placeholder", animation:[{id:"fadeIn"}, {id:"slideInFromTop"}, {id:"zoomIn", config:{duration: 1, ease: Back.easeOut}}], timing: 0.5},
@@ -31,8 +31,8 @@
                     {id:"txt_right", animation:[{id:"fadeIn"}, {id:"slideInFromLeft"}], timing: 0.2},
                     {id:"txt_left", animation:[{id:"fadeIn"}, {id:"slideInFromRight"}], timing: 0},
                     {id:"img_globe_line", animation:[{id:"wipeFromTop"}], timing: 0.5}
-                ];
-                customAnimation.start(animationObject);
+                ]);
+                customAnimation.start();
             }
         </script>
 
@@ -48,7 +48,7 @@
                 <div id="txt_right" class="child center" style="width: 25%; top: 54.5%; left:83%;">October 5-8</div>
                 <div id="txt_left" class="child center" style="width: 30%; top: 57.6%; left:25.5%;">Javits Center</div>
                 <img src="images/img_bg_globe_line03.png" id="img_bg_globe_line03" class="child center" style="width: 40%; top: 41%; left:30.5%">
-                <img src="images/img_globe_line.png" id="img_globe_line" class="child center" style="width: 1px; height: 30%; top: 55%; left:51.5%">
+                <img src="images/img_globe_line.png" id="img_globe_line" class="child center" style="width: 2px; height: 30%; top: 55%; left:51.5%">
             </div>
         </div>
     </body>
