@@ -206,6 +206,9 @@ var CustomAnimation = (function ()
                             case "fromTop":
                                 TweenMax.fromTo(element, 0.5, {clip:"rect(0px " + width + " 0px 0px)"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
                                 break;
+                            case "fromBottom":
+                                TweenMax.fromTo(element, 0.5, {clip:"rect(" + height + " " + width + " " + height + " 0px)"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
+                                break;
                             default:
 
                         }
@@ -247,6 +250,9 @@ var CustomAnimation = (function ()
                                     break;
                                 case "wipeFromTop":
                                     wipeIn(element, "fromTop");
+                                    break;
+                                case "wipeFromBottom":
+                                    wipeIn(element, "fromBottom");
                                     break;
                                 case "rotate":
                                     rotate(element, animation.config);
