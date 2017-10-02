@@ -1,5 +1,5 @@
 "use strict";
-
+var isScriptLoaded = false;
 var ScriptLoader = (function ()
 {
     function ScriptLoader(files)
@@ -110,7 +110,13 @@ var CustomAnimation = (function ()
         this.init = function ()
         {
             _this.log("Initializing...");
-            scriptLoader.loadFiles();
+
+            if(!isScriptLoaded)
+            {
+                _this.log("Loading Dependency Scripts...");
+                isScriptLoaded = true;
+                scriptLoader.loadFiles();
+            }
 
             window.addEventListener("DOMContentLoaded", function(event) {
                 _this.log("DOM Elements Loaded!");
