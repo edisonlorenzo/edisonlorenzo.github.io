@@ -183,36 +183,41 @@ var CustomAnimation = (function ()
                         TweenMax.fromTo(element, duration, {scale: from}, {scale: to, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
                     }
 
-                    function rotate(element, config)
+                    function rotate(element, config, direction)
                     {
                         var duration = config && config.duration ? config.duration : 0.5;
-                        var degree = config && config.degree ? config.degree : 360;
+                        var degree = config && config.degree ? Math.abs(config.degree) : 360;
                         var easeType = config && config.ease ? config.ease : Linear.easeNone;
+
+                        degree = direction == "CCW" ? -(degree) : degree;
                         TweenMax.fromTo(element, duration, {rotation: 0}, {rotation: degree, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
                     }
 
-                    function wipeIn(element, direction)
+                    function wipeIn(element, config, direction)
                     {
                         var width = element.width + "px";
                         var height = element.height + "px";
+                        var easeType = config && config.ease ? config.ease : Linear.easeNone;
+                        var fromRect = "rect(0px 0px 0px 0px)";
 
                         switch (direction) {
                             case "fromLeft":
-                                TweenMax.fromTo(element, 0.5, {clip:"rect(0px 0px " + height + " 0px)"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
+                                fromRect = "rect(0px 0px " + height + " 0px)";
                                 break;
                             case "fromRight":
-                                TweenMax.fromTo(element, 0.5, {clip:"rect(0px " + width + " " + height + " " + width + ")"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
+                                fromRect = "rect(0px " + width + " " + height + " " + width + ")";
                                 break;
                             case "fromTop":
-                                TweenMax.fromTo(element, 0.5, {clip:"rect(0px " + width + " 0px 0px)"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
+                                fromRect = "rect(0px " + width + " 0px 0px)";
                                 break;
                             case "fromBottom":
-                                TweenMax.fromTo(element, 0.5, {clip:"rect(" + height + " " + width + " " + height + " 0px)"}, {clip:"rect(0px " + width + " " + height + " 0px)", ease: Power2.easeOut, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
+                                fromRect = "rect(" + height + " " + width + " " + height + " 0px)";
                                 break;
                             default:
-
+                                break;
                         }
 
+                        TweenMax.fromTo(element, 0.5, {clip: fromRect}, {clip: "rect(0px " + width + " " + height + " 0px)", ease: easeType, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
                     }
 
                     function checkAnimation(element)
@@ -243,19 +248,22 @@ var CustomAnimation = (function ()
                                     zoomOut(element, animation.config);
                                     break;
                                 case "wipeFromLeft":
-                                    wipeIn(element, "fromLeft");
+                                    wipeIn(element, animation.config, "fromLeft");
                                     break;
                                 case "wipeFromRight":
-                                    wipeIn(element, "fromRight");
+                                    wipeIn(element, animation.config, "fromRight");
                                     break;
                                 case "wipeFromTop":
-                                    wipeIn(element, "fromTop");
+                                    wipeIn(element, animation.config, "fromTop");
                                     break;
                                 case "wipeFromBottom":
-                                    wipeIn(element, "fromBottom");
+                                    wipeIn(element, animation.config, "fromBottom");
                                     break;
-                                case "rotate":
-                                    rotate(element, animation.config);
+                                case "rotateCW":
+                                    rotate(element, animation.config, "CW");
+                                    break;
+                                case "rotateCCW":
+                                    rotate(element, animation.config, "CCW");
                                     break;
                                 default:
                             }

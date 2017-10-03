@@ -25,12 +25,12 @@
                     {id:"img_bg_globe", animation:[{id:"fadeIn", config:{duration: 1.5}}], timing: 0},
                     {id:"img_globe", animation:[{id:"fadeIn"}, {id:"zoomIn", config:{ease: Back.easeOut}}], timing: 0.5},
                     {id:"img_bg_globe_logo_placeholder", animation:[{id:"fadeIn"}, {id:"slideInFromTop"}, {id:"zoomIn", config:{duration: 1, ease: Back.easeOut}}], timing: 0.5},
-                    {id:"img_globe_anchor", animation:[{id:"fadeIn"}, {id:"zoomOut", config:{ease: Back.easeOut}}, {id:"rotate", config:{duration: 1, degree: 720, ease: Back.easeOut}}], timing: 0.5},
-                    {id:"img_bg_globe_line02", animation:[{id:"wipeFromLeft"}], timing: 0.5},
-                    {id:"img_bg_globe_line03", animation:[{id:"wipeFromRight"}], timing: 0},
+                    {id:"img_globe_anchor", animation:[{id:"fadeIn"}, {id:"zoomOut", config:{ease: Back.easeOut}}, {id:"rotateCW", config:{duration: 1, degree: 720, ease: Back.easeOut}}], timing: 0.5},
+                    {id:"img_bg_globe_line02", animation:[{id:"wipeFromLeft", config:{ease: Power2.easeOut}}], timing: 0.5},
+                    {id:"img_bg_globe_line03", animation:[{id:"wipeFromRight", config:{ease: Power2.easeOut}}], timing: 0},
                     {id:"txt_right", animation:[{id:"fadeIn"}, {id:"slideInFromLeft"}], timing: 0.2},
                     {id:"txt_left", animation:[{id:"fadeIn"}, {id:"slideInFromRight"}], timing: 0},
-                    {id:"img_globe_line", animation:[{id:"wipeFromTop"}], timing: 0.5}
+                    {id:"img_globe_line", animation:[{id:"wipeFromTop", config:{ease: Power2.easeOut}}], timing: 0.5}
                 ]);
                 customAnimation.start();
             }
