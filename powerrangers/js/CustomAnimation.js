@@ -17,10 +17,10 @@ var ScriptLoader = (function ()
         {
             var script = document.createElement('script');
             script.type = 'text/javascript';
-            script.src = _this.m_js_files[i];
+            script.src = _this.js_files[i];
             var loadNextScript = function ()
             {
-                if (i + 1 < _this.m_js_files.length)
+                if (i + 1 < _this.js_files.length)
                 {
                     _this.loadScript(i + 1);
                 }
@@ -31,23 +31,23 @@ var ScriptLoader = (function ()
             };
             script.onload = function ()
             {
-                _this.log('Loaded script "' + _this.m_js_files[i] + '".');
+                _this.log('Loaded script "' + _this.js_files[i] + '".');
                 loadNextScript();
             };
             script.onerror = function ()
             {
-                _this.log('Error loading script "' + _this.m_js_files[i] + '".');
+                _this.log('Error loading script "' + _this.js_files[i] + '".');
                 loadNextScript();
             };
-            _this.log('Loading script "' + _this.m_js_files[i] + '".');
-            _this.m_head.appendChild(script);
+            _this.log('Loading script "' + _this.js_files[i] + '".');
+            _this.head.appendChild(script);
         };
         this.loadFiles = function ()
         {
             _this.loadScript(0);
         };
-        this.m_js_files = [];
-        this.m_head = document.getElementsByTagName("head")[0];
+        this.js_files = [];
+        this.head = document.getElementsByTagName("head")[0];
 
         function endsWith(str, suffix)
         {
@@ -59,7 +59,7 @@ var ScriptLoader = (function ()
         {
             if (endsWith(files[i], ".js"))
             {
-                this.m_js_files.push(files[i]);
+                this.js_files.push(files[i]);
             }
             else
                 this.log('Error unknown filetype "' + files[i] + '".');
