@@ -149,19 +149,23 @@ var CustomAnimation = (function ()
                         TweenMax.fromTo(element, duration, {alpha: from}, {alpha: to, ease: easeType});
                     }
 
-                    function slideIn(element, direction)
+                    function slideIn(element, config, direction)
                     {
-                        var offsetValue = (direction == "fromTop" || direction == "fromLeft") ? -20 : 20;
+                        var duration = config && config.duration ? config.duration : 0.5;
+                        var offset = config && config.offset ? Math.abs(config.offset) : 20;
+                        var easeType = config && config.ease ? config.ease : Linear.easeNone;
+
+                        var offsetValue = (direction == "fromTop" || direction == "fromLeft") ? -(offset) : offset;
                         var currentPos = (direction == "fromTop" || direction == "fromBottom") ? element.style.top : element.style.left;
 
                         element.currentPos = currentPos;
                         if(direction == "fromTop" || direction == "fromBottom")
                         {
-                            TweenMax.fromTo(element.style, 0.5, {top: addPercent(element.currentPos, offsetValue)}, {top: element.currentPos, ease: Power2.easeOut});
+                            TweenMax.fromTo(element.style, duration, {top: addPercent(element.currentPos, offsetValue)}, {top: element.currentPos, ease: easeType});
                         }
                         else if(direction == "fromLeft" || direction == "fromRight")
                         {
-                            TweenMax.fromTo(element.style, 0.5, {left: addPercent(element.currentPos, offsetValue)}, {left: element.currentPos, ease: Power2.easeOut});
+                            TweenMax.fromTo(element.style, duration, {left: addPercent(element.currentPos, offsetValue)}, {left: element.currentPos, ease: easeType});
                         }
                     }
 
@@ -230,16 +234,16 @@ var CustomAnimation = (function ()
                                     fadeIn(element, animation.config);
                                     break;
                                 case "slideInFromTop":
-                                    slideIn(element, "fromTop");
+                                    slideIn(element, animation.config, "fromTop");
                                     break;
                                 case "slideInFromBottom":
-                                    slideIn(element, "fromBottom");
+                                    slideIn(element, animation.config, "fromBottom");
                                     break;
                                 case "slideInFromLeft":
-                                    slideIn(element, "fromLeft");
+                                    slideIn(element, animation.config, "fromLeft");
                                     break;
                                 case "slideInFromRight":
-                                    slideIn(element, "fromRight");
+                                    slideIn(element, animation.config, "fromRight");
                                     break;
                                 case "zoomIn":
                                     zoomIn(element, animation.config);
