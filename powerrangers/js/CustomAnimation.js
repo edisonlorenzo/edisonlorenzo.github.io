@@ -159,14 +159,19 @@ var CustomAnimation = (function ()
                         var currentPos = (direction == "fromTop" || direction == "fromBottom") ? element.style.top : element.style.left;
 
                         element.currentPos = currentPos;
+                        element.from = {};
+                        element.to = {ease: easeType};
                         if(direction == "fromTop" || direction == "fromBottom")
                         {
-                            TweenMax.fromTo(element.style, duration, {top: addPercent(element.currentPos, offsetValue)}, {top: element.currentPos, ease: easeType});
+                            element.from.top = addPercent(element.currentPos, offsetValue);
+                            element.to.top = element.currentPos;
                         }
-                        else if(direction == "fromLeft" || direction == "fromRight")
+                        else
                         {
-                            TweenMax.fromTo(element.style, duration, {left: addPercent(element.currentPos, offsetValue)}, {left: element.currentPos, ease: easeType});
+                            element.from.left = addPercent(element.currentPos, offsetValue);
+                            element.to.left = element.currentPos;
                         }
+                        TweenMax.fromTo(element.style, duration, element.from, element.to);
                     }
 
                     function zoomIn(element, config)
