@@ -283,14 +283,17 @@ var CustomAnimation = (function ()
                     for(var i = 0; i < animationObject.length; i++)
                     {
                         var elem = document.getElementById(animationObject[i].id);
-                        elem.animation = animationObject[i].animation;
-                        elem.style.visibility = "hidden";
-                        elem.show = (function() {
-                            this.style.visibility = "visible";
-                            checkAnimation(this);
-                        }).bind(elem);
+                        if(elem)
+                        {
+                            elem.animation = animationObject[i].animation;
+                            elem.style.visibility = "hidden";
+                            elem.show = (function() {
+                                this.style.visibility = "visible";
+                                checkAnimation(this);
+                            }).bind(elem);
 
-                        tl.add(elem.show, "+=" + animationObject[i].timing);
+                            tl.add(elem.show, "+=" + animationObject[i].timing);
+                        }
                     }
                 }
             });
