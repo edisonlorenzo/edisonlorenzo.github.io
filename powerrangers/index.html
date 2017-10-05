@@ -12,11 +12,12 @@
         <link href="css/normalize.min.css" rel="stylesheet">
         <link href="css/skeleton.min.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
+        <link href="css/powermap.css" rel="stylesheet">
 
         <script src="js/CustomAnimation.js"></script>
         <script>
             var customAnimation = new CustomAnimation();
-            customAnimation.containerId = "top-logo";
+            customAnimation.containerId = "top-logo-wrapper";
             customAnimation.onReady(start);
             customAnimation.init();
             function start()
@@ -39,17 +40,30 @@
 
     </head>
     <body>
-        <div class="container" id="top-logo">
-            <div class="row">
-                <img src="images/img_bg_globe.png" id="img_bg_globe" style="width: 100%;">
-                <img src="images/img_globe.png" id="img_globe" class="child center" style="width: 50%; top: 50%; left: 50%">
-                <img src="images/img_bg_globe_logo_placeholder.png" id="img_bg_globe_logo_placeholder" class="child center" style="width: 40%; top: 22%; left:51.5%">
-                <img src="images/img_globe_anchor.png" id="img_globe_anchor" class="child center" style="width: 10%; top: 40%; left:51.5%">
-                <img src="images/img_bg_globe_line02.png" id="img_bg_globe_line02" class="child center" style="width: 40%; top: 40%; left:71.5%">
-                <div id="txt_right" class="child center" style="width: 25%; top: 54.5%; left:83%;">October 5-8</div>
-                <div id="txt_left" class="child center" style="width: 30%; top: 57.6%; left:25.5%;">Javits Center</div>
-                <img src="images/img_bg_globe_line03.png" id="img_bg_globe_line03" class="child center" style="width: 40%; top: 41%; left:30.5%">
-                <img src="images/img_globe_line.png" id="img_globe_line" class="child center" style="width: 2px; height: 30%; top: 55%; left:51.5%">
+        <div id="top-logo-wrapper">
+            <div class="container" id="top-logo">
+                <div class="row">
+                    <img src="images/img_bg_globe.png" id="img_bg_globe" style="width: 100%;">
+                    <img src="images/img_globe.png" id="img_globe" class="child center" style="width: 50%; top: 50%; left: 50%">
+                    <img src="images/img_bg_globe_logo_placeholder.png" id="img_bg_globe_logo_placeholder" class="child center" style="width: 40%; top: 22%; left:51.5%">
+                    <img src="images/img_globe_anchor.png" id="img_globe_anchor" class="child center" style="width: 10%; top: 40%; left:51.5%">
+                    <img src="images/img_bg_globe_line02.png" id="img_bg_globe_line02" class="child center" style="width: 40%; top: 40%; left:71.5%">
+                    <div id="txt_right" class="child center" style="width: 25%; top: 54.5%; left:83%;">October 5-8</div>
+                    <div id="txt_left" class="child center" style="width: 30%; top: 57.6%; left:25.5%;">Javits Center</div>
+                    <img src="images/img_bg_globe_line03.png" id="img_bg_globe_line03" class="child center" style="width: 40%; top: 41%; left:30.5%">
+                    <img src="images/img_globe_line.png" id="img_globe_line" class="child center" style="width: 2px; height: 30%; top: 55%; left:51.5%">
+                </div>
+            </div>
+            <div id="top-logo-fade">
+                <div id="logo-blurb">
+                    <img id="logo-bracket-img" src="images/img_globe_bracket_full.png">
+                    <img id="logo-nycc" src="images/img_logo_NYCC.png">
+                    <div id="logo-title">
+                        <div id="logo-title-top">2017 New York</div>
+                        <div id="logo-subtitle">Comic Con</div>
+                    </div>
+                    <div id="blurb">Welcome to the PowerMap! Your guide to the Power Rangers at NYCC2017!</div>
+                </div>
             </div>
         </div>
     </body>
