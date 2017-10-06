@@ -282,18 +282,26 @@ var CustomAnimation = (function ()
 
                     for(var i = 0; i < animationObject.length; i++)
                     {
-                        var elem = document.getElementById(animationObject[i].id);
-                        if(elem)
+                        var id = animationObject[i].id;
+                        if(id)
                         {
-                            elem.animation = animationObject[i].animation;
-                            elem.style.visibility = "hidden";
-                            elem.show = (function() {
-                                this.style.visibility = "visible";
-                                checkAnimation(this);
-                            }).bind(elem);
+                            var elem = document.getElementById(id);
+                            if(elem)
+                            {
+                                var animation = animationObject[i].animation;
+                                animation = animation ? animation : [{id:"fadeIn"}];
+                                elem.animation = animation;
+                                elem.style.visibility = "hidden";
+                                elem.show = (function() {
+                                    this.style.visibility = "visible";
+                                    checkAnimation(this);
+                                }).bind(elem);
 
-                            var timing = animationObject[i].timing ? animationObject[i].timing : 0;
-                            tl.add(elem.show, "+=" + timing);
+                                var timing = animationObject[i].timing;
+                                timing = timing ? timing : 0;
+
+                                tl.add(elem.show, "+=" + timing);
+                            }
                         }
                     }
                 }
