@@ -290,6 +290,7 @@ var CustomAnimation = (function ()
                             {
                                 var animation = animationObject[i].animation;
                                 animation = animation ? animation : [{id:"fadeIn"}];
+
                                 elem.animation = animation;
                                 elem.style.visibility = "hidden";
                                 elem.show = (function() {
