@@ -292,7 +292,8 @@ var CustomAnimation = (function ()
                                 checkAnimation(this);
                             }).bind(elem);
 
-                            tl.add(elem.show, "+=" + animationObject[i].timing);
+                            var timing = animationObject[i].timing ? animationObject[i].timing : 0;
+                            tl.add(elem.show, "+=" + timing);
                         }
                     }
                 }
