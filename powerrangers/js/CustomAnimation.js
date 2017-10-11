@@ -80,6 +80,10 @@ var CustomAnimation = (function ()
         {
             console.log("CustomAnimation: " + t);
         };
+        this.logError = function (t)
+        {
+            console.error("Script Error: " + t);
+        };
         this.config = function(value)
         {
             animationObject = value;
@@ -89,22 +93,30 @@ var CustomAnimation = (function ()
             scriptLoader.onReady(callback);
         };
 
-        this.hideContainer = function(id)
+        function setElementOpacity(id, value)
         {
             if(id)
             {
                 var elem = document.getElementById(id);
-                elem.style.opacity = 0;
+                if(elem)
+                {
+                    elem.style.opacity = value;
+                }
+                else
+                {
+                    _this.logError("Invalid containerId : \"" + id + "\" using " + (value == 0 ? "hideContainer" : "showContainer") + "(id) function.");
+                }
             }
+        }
+
+        this.hideContainer = function(id)
+        {
+            setElementOpacity(id, 0);
         };
 
         this.showContainer = function(id)
         {
-            if(id)
-            {
-                var elem = document.getElementById(id);
-                elem.style.opacity = 1;
-            }
+            setElementOpacity(id, 1);
         };
 
         this.init = function ()
