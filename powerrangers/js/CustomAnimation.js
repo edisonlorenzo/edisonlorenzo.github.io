@@ -2,12 +2,16 @@
 var isScriptLoaded = false;
 var ScriptLoader = (function ()
 {
-    function ScriptLoader(files)
+    function ScriptLoader(files, sender)
     {
         var _this = this;
         this.log = function (t)
         {
             console.log("ScriptLoader: " + t);
+        };
+        this.logError = function (t)
+        {
+            console.error("Script Error: " + t);
         };
         this.onReady = function (callback)
         {
@@ -26,7 +30,15 @@ var ScriptLoader = (function ()
                 }
                 else
                 {
-                    _this.onReadyCallback();
+                    if(_this.hasError)
+                    {
+                        sender.showContainer();
+                    }
+                    else
+                    {
+                        _this.onReadyCallback();
+                    }
+
                 }
             };
             script.onload = function ()
@@ -36,7 +48,8 @@ var ScriptLoader = (function ()
             };
             script.onerror = function ()
             {
-                _this.log('Error loading script "' + _this.js_files[i] + '".');
+                _this.logError('Error loading script "' + _this.js_files[i] + '".');
+                _this.hasError = true;
                 loadNextScript();
             };
             _this.log('Loading script "' + _this.js_files[i] + '".');
@@ -73,7 +86,7 @@ var CustomAnimation = (function ()
 {
     function CustomAnimation()
     {
-        var scriptLoader = new ScriptLoader(["js/gsap/TweenMax.min.js", "js/gsap/TimelineMax.min.js"]);
+        var scriptLoader = new ScriptLoader(["js/gsap/TweenMax.min.js", "js/gsap/TimelineMax.min.js"], this);
         var _this = this;
         var animationObject;
         this.log = function (t)
@@ -109,14 +122,14 @@ var CustomAnimation = (function ()
             }
         }
 
-        this.hideContainer = function(id)
+        this.hideContainer = function()
         {
-            setElementOpacity(id, 0);
+            setElementOpacity(_this.containerId, 0);
         };
 
-        this.showContainer = function(id)
+        this.showContainer = function()
         {
-            setElementOpacity(id, 1);
+            setElementOpacity(_this.containerId, 1);
         };
 
         this.init = function ()
@@ -132,7 +145,7 @@ var CustomAnimation = (function ()
 
             window.addEventListener("DOMContentLoaded", function(event) {
                 _this.log("DOM Elements Loaded!");
-                _this.hideContainer(_this.containerId);
+                _this.hideContainer();
             });
         }
 
@@ -140,7 +153,7 @@ var CustomAnimation = (function ()
         {
             window.addEventListener("load", function(event) {
                 _this.log("All resources finished loading!");
-                _this.showContainer(_this.containerId);
+                _this.showContainer();
                 if(animationObject)
                 {
                     _this.log("Starting Animation...");
