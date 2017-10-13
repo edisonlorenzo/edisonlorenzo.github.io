@@ -106,6 +106,11 @@ var CustomAnimation = (function ()
             scriptLoader.onReady(callback);
         };
 
+        function removeProperty(element, property)
+        {
+            element.style.removeProperty(property);
+        }
+
         function setElementOpacity(id, value)
         {
             if(id)
@@ -205,7 +210,7 @@ var CustomAnimation = (function ()
                         var from = config && config.from ? config.from : 0;
                         var to = config && config.to ? config.to : 1;
                         var easeType = config && config.ease ? config.ease : Linear.easeNone;
-                        TweenMax.fromTo(element, duration, {scale: from}, {scale: to, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
+                        TweenMax.fromTo(element, duration, {scale: from}, {scale: to, ease: easeType, onComplete: removeProperty(element, 'transform')});
                     }
 
                     function zoomOut(element, config)
@@ -214,7 +219,7 @@ var CustomAnimation = (function ()
                         var from = config && config.from ? config.from : 2;
                         var to = config && config.to ? config.to : 1;
                         var easeType = config && config.ease ? config.ease : Linear.easeNone;
-                        TweenMax.fromTo(element, duration, {scale: from}, {scale: to, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
+                        TweenMax.fromTo(element, duration, {scale: from}, {scale: to, ease: easeType, onComplete: removeProperty(element, 'transform')});
                     }
 
                     function rotate(element, config, direction)
@@ -224,7 +229,7 @@ var CustomAnimation = (function ()
                         var easeType = config && config.ease ? config.ease : Linear.easeNone;
 
                         degree = direction == "CCW" ? -(degree) : degree;
-                        TweenMax.fromTo(element, duration, {rotation: 0}, {rotation: degree, ease: easeType, onComplete:function(){this.style.removeProperty('transform');}.bind(element)});
+                        TweenMax.fromTo(element, duration, {rotation: 0}, {rotation: degree, ease: easeType, onComplete: removeProperty(element, 'transform')});
                     }
 
                     function wipeIn(element, config, direction)
@@ -251,7 +256,7 @@ var CustomAnimation = (function ()
                                 break;
                         }
 
-                        TweenMax.fromTo(element, 0.5, {clip: fromRect}, {clip: "rect(0px " + width + " " + height + " 0px)", ease: easeType, onComplete:function(){this.style.removeProperty('clip');}.bind(element)});
+                        TweenMax.fromTo(element, 0.5, {clip: fromRect}, {clip: "rect(0px " + width + " " + height + " 0px)", ease: easeType, onComplete: removeProperty(element, 'clip')});
                     }
 
                     function checkAnimation(element)
