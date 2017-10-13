@@ -100,7 +100,7 @@ var CustomAnimation = (function ()
         this.config = function(value)
         {
             animationObject = value;
-        }
+        };
         this.onReady = function(callback)
         {
             scriptLoader.onReady(callback);
@@ -152,7 +152,7 @@ var CustomAnimation = (function ()
                 _this.log("DOM Elements Loaded!");
                 _this.hideContainer();
             });
-        }
+        };
 
         this.start = function()
         {
