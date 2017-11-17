@@ -80,7 +80,7 @@
 			// });
 
 			var textureLoader = new THREE.TextureLoader( manager );
-			var texture = textureLoader.load( 'OniNinja-LowRemesh.png' );
+			var texture = textureLoader.load( 'oni_ninja.png' );
 
 			// model
 
@@ -95,7 +95,7 @@
 			};
 
 			var loader = new THREE.OBJLoader( manager );
-			loader.load( 'OniNinja-LowRemesh.obj', function ( object ) {
+			loader.load( 'oni_ninja.obj', function ( object ) {
 				var mesh;
 				object.traverse( function ( child ) {
 
