@@ -40,11 +40,12 @@
 			document.body.appendChild( container );
 
 			camera = new THREE.PerspectiveCamera( 1, window.innerWidth / window.innerHeight, 1, 2000 );
-			camera.position.z = 250;
+			camera.position.z = 200;
 
 			// scene
 
 			scene = new THREE.Scene();
+			scene.background = new THREE.Color( 0x000000 );
 
 			var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
 			scene.add( ambientLight );
