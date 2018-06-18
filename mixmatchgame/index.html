@@ -4,42 +4,29 @@
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Mix and Match WebGL</title>
-	<script src="Build/UnityLoader.js"></script>
+    <script src="Build/UnityLoader.js"></script>
 	<script>
 		var gameInstance = UnityLoader.instantiate("gameContainer", "Build/mixmatchgame.json");
-		var scaleToFit;
-		try{
-			scaleToFit = !!JSON.parse("true");
-		}catch(e){
-			scaleToFit = true;
-		}
 
 		function setDimensions()
 		{
-			var canvas = gameInstance.Module.canvas;
-			var container = gameInstance.container;
-			var w;
-			var h;
+			var unityCanvas = gameInstance.Module.canvas;
+			var gameContainer = gameInstance.container;
+			var UNITY_W = 600;
+			var UNITY_H = 960;
 
-			if(scaleToFit){
-				w = window.innerWidth;
-				h = window.innerHeight;
+			var winW = window.innerWidth;
+			var winH = window.innerHeight;
 
-				var r = 960/600;
+			var scale = Math.min(winW / UNITY_W, winH / UNITY_H);
 
-				if(w * r > window.innerHeight){
-					w = Math.min(w, Math.ceil(h / r));
-				}
-				h = Math.floor(w * r);
-			}else{
-				w=600;
-				h=960;
-			}
+			var fitW = Math.floor(UNITY_W * scale);
+			var fitH = Math.floor(UNITY_H * scale);
 
-			container.style.width = canvas.style.width = w + "px";
-			container.style.height = canvas.style.height = h + "px";
-			container.style.top = Math.floor((window.innerHeight - h)/2) + "px";
-			container.style.left = Math.floor((window.innerWidth - w)/2) + "px";
+			gameContainer.style.width = unityCanvas.style.width = fitW + "px";
+			gameContainer.style.height = unityCanvas.style.height = fitH + "px";
+			gameContainer.style.top = Math.floor((window.innerHeight - fitH)/2) + "px";
+			gameContainer.style.left = Math.floor((window.innerWidth - fitW)/2) + "px";
 		}
 
 		var resizeTimer;
@@ -76,7 +63,9 @@
 		}
 	</style>
 </head>
-<body onload="window.onresize();">
-	<div id="gameContainer"></div>
+<body onload="setDimensions();">
+	<div class="webgl-content">
+      <div id="gameContainer" style="width: 600px; height: 960px; margin: auto"></div>
+    </div>
 </body>
 </html>
