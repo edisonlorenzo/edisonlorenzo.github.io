@@ -2,70 +2,26 @@
 <html lang="en-us">
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Mix and Match WebGL</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Mix and Match WebGL</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>
     <script src="Build/UnityLoader.js"></script>
-	<script>
-		var gameInstance = UnityLoader.instantiate("gameContainer", "Build/mixmatchgame.json");
-
-		function setDimensions()
-		{
-			var unityCanvas = gameInstance.Module.canvas;
-			var gameContainer = gameInstance.container;
-			var UNITY_W = 600;
-			var UNITY_H = 960;
-
-			var winW = window.innerWidth;
-			var winH = window.innerHeight;
-
-			var scale = Math.min(winW / UNITY_W, winH / UNITY_H);
-
-			var fitW = Math.floor(UNITY_W * scale);
-			var fitH = Math.floor(UNITY_H * scale);
-
-			gameContainer.style.width = unityCanvas.style.width = fitW + "px";
-			gameContainer.style.height = unityCanvas.style.height = fitH + "px";
-			gameContainer.style.top = Math.floor((window.innerHeight - fitH)/2) + "px";
-			gameContainer.style.left = Math.floor((window.innerWidth - fitW)/2) + "px";
-		}
-
-		var resizeTimer;
-		window.onresize = function(){
-			clearTimeout(resizeTimer);
-			resizeTimer = setTimeout(setDimensions, 150);
-		}
-	</script>
+    <script>
+        var gameInstance = UnityLoader.instantiate("gameContainer", "Build/mixmatchgame.json", {onProgress: UnityProgress});
+    </script>
 	<style>
 		html,body{
 			background: #000;
-			background: #000;
-			width: 100%;
-			height: 100%;
-			overflow:visible;
-			padding:0;
-			margin:0;
-		}
-		div#gameContainer{
-			background: transparent!important;
-			position: absolute;
-		}
-		div#gameContainer canvas{
-			position: absolute;
-			image-rendering: optimizeSpeed;
-            image-rendering: -webkit-crisp-edges;
-			image-rendering: -moz-crisp-edges;
-			image-rendering: -o-crisp-edges;
-			image-rendering: crisp-edges;
-			image-rendering: -webkit-optimize-contrast;
-            image-rendering: optimize-contrast;
-			image-rendering: pixelated;
-			-ms-interpolation-mode: nearest-neighbor;
+			background: ;
 		}
 	</style>
 </head>
-<body onload="setDimensions();">
+<body>
 	<div class="webgl-content">
-      <div id="gameContainer" style="width: 600px; height: 960px; margin: auto"></div>
-    </div>
+	    <div id="gameContainer" style="width: 600px; height: 960px"></div>
+	</div>
+	<script src="TemplateData/responsive.js"></script>
 </body>
 </html>
