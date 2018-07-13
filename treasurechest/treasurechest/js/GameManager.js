@@ -30,16 +30,16 @@ var GameManager = (function () {
             return assets;
         }
 
-        function createChest(imageRes, position)
+        function createChest(position)
         {
             var content = {};
-            var image = new PIXI.Sprite(imageRes);
+            var image = new PIXI.Sprite(res['chest_closed'].texture);
             image.interactive = true;
-            image.anchor.x = 0.35;
-            image.anchor.y = 0.6;
+            image.anchor.x = 0.5;
+            image.anchor.y = 1;
             image.scale.x = image.scale.y = 0.8;
-            image.position.x = position.x + (image.width * 0.35);
-            image.position.y = stageManager.getDimension().height * 0.5;
+            image.position.x = position.x + (image.width * 0.5);
+            image.position.y = image.height + 50;
 
             content.isOpened = false;
             content.animation = {};
@@ -47,6 +47,15 @@ var GameManager = (function () {
             {
                 CustomWiggle.create("funWiggle", {wiggles:6, type:"easeOut"});
                 TweenMax.fromTo(image, 0.5, {rotation:0},  {rotation:0.5, ease:"funWiggle"});
+            });
+
+            content.animation.bounce = (function()
+            {
+                var tl = new TimelineMax();
+                tl.add(TweenMax.fromTo(image.scale, 0.1, {x:0.8},  {x:1, ease:Quad.easeOut}));
+                tl.add(TweenMax.fromTo(image.scale, 0.1, {y:0.8},  {y:0.6, ease:Quad.easeOut}),"-=0.1");
+                tl.add(TweenMax.to(image.scale, 0.5, {x:0.8, ease:Bounce.easeOut}), "+=0.1");
+                tl.add(TweenMax.to(image.scale, 0.5, {y:0.8, ease:Bounce.easeOut}), "-=0.5");
             });
 
             content.animation.chestOpen = (function()
@@ -59,8 +68,8 @@ var GameManager = (function () {
                 if(!content.isOpened)
                 {
                     var tl = new TimelineMax();
-                    tl.add(this.animation.shake);
-                    tl.add(this.animation.chestOpen, "+=0.5");
+                    tl.add(this.animation.bounce);
+                    tl.add(this.animation.chestOpen, "+=0.4");
                     content.isOpened = true;
                 }
             }).bind(content));
@@ -84,10 +93,10 @@ var GameManager = (function () {
 
             res =  AssetLoaderManager.getInstance().getRes();
 
-            var chestObj1 = createChest(res['chest_closed'].texture, {x: 40});
-            var chestObj2 = createChest(res['chest_closed'].texture, {x: 225});
-            var chestObj3 = createChest(res['chest_closed'].texture, {x: 415});
-            var chestObj4 = createChest(res['chest_closed'].texture, {x: 605});
+            var chestObj1 = createChest({x: 40});
+            var chestObj2 = createChest({x: 225});
+            var chestObj3 = createChest({x: 415});
+            var chestObj4 = createChest({x: 605});
 
         }
 
