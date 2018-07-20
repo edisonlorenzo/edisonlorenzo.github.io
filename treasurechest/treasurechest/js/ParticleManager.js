@@ -45,13 +45,6 @@ var ParticleManager = (function () {
                     }
                 });
 
-
-
-                // if(emitter != undefined)
-                // {
-                //     emitter.update(diff);
-                // }
-
             }
             elapsed = now;
         }
@@ -60,7 +53,6 @@ var ParticleManager = (function () {
 
         function setEmitter(_emitter)
         {
-            //emitter = _emitter;
             emitters.push(_emitter);
         }
 

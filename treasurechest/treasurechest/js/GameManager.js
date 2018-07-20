@@ -15,9 +15,9 @@ var GameManager = (function () {
 
         var chestContainer;
 
-        var emitter;
-        var emitterContainer;
-        var emitterConfig;
+        var splashEmitter;
+        var splashEmitterContainer;
+        var splashEmitterConfig;
 
         var rayEmitterConfig;
 
@@ -25,6 +25,8 @@ var GameManager = (function () {
 
         assets.push(new Asset('chest_open', 'treasurechest/images/chest_open.png'));
         assets.push(new Asset('chest_closed', 'treasurechest/images/chest_closed.png'));
+        assets.push(new Asset('enfagrow_logo', 'treasurechest/images/enfagrow_logo.png'));
+        assets.push(new Asset('flag', 'treasurechest/images/flag.png'));
 
         function Asset(resName, resPath)
         {
@@ -37,63 +39,85 @@ var GameManager = (function () {
             return assets;
         }
 
-        function createChest(position)
+        function createChest(position, hasLogo)
         {
             var content = {};
-            var image = new PIXI.Sprite(res['chest_closed'].texture);
 
-            image.interactive = true;
-            image.anchor.x = 0.5;
-            image.anchor.y = 1;
-            image.scale.x = image.scale.y = 0.8;
-            image.position.x = position.x + (image.width * 0.5);
-            image.position.y = image.height + 50;
+            var item = new PIXI.Sprite(res['enfagrow_logo'].texture);
+            item.alpha = 0;
+            item.anchor.x = 0.5;
+            item.anchor.y = 1;
+            item.scale.x = item.scale.y = 1;
+            item.position.x = 0;
+            item.position.y = -110;
 
-            content.x = image.position.x;
-            content.y = image.position.y - (image.height * 0.5);
+            var chest = new PIXI.Sprite(res['chest_closed'].texture);
+            chest.interactive = true;
+            chest.anchor.x = 0.5;
+            chest.anchor.y = 1;
+            chest.scale.x = chest.scale.y = 0.8;
+            chest.position.x = position.x + (chest.width * 0.5);
+            chest.position.y = chest.height + 50;
 
-            console.log(content.x + " | " +content.y);
-            //content.position = image.position;
+            content.x = chest.position.x;
+            content.y = chest.position.y - (chest.height * 0.5);
+
+            chest.addChild(item);
+
+            content.hasLogo = hasLogo;
+            console.log(content.hasLogo);
+
             content.isOpened = false;
             content.animation = {};
             content.animation.shake = (function()
             {
                 CustomWiggle.create("funWiggle", {wiggles:6, type:"easeOut"});
-                TweenMax.fromTo(image, 0.5, {rotation:0},  {rotation:0.5, ease:"funWiggle"});
+                TweenMax.fromTo(chest, 0.5, {rotation:0},  {rotation:0.5, ease:"funWiggle"});
             });
 
             content.animation.bounce = (function()
             {
                 var tl = new TimelineMax();
-                tl.add(TweenMax.fromTo(image.scale, 0.1, {x:0.8},  {x:1, ease:Quad.easeOut}));
-                tl.add(TweenMax.fromTo(image.scale, 0.1, {y:0.8},  {y:0.6, ease:Quad.easeOut}),"-=0.1");
-                tl.add(TweenMax.to(image.scale, 0.5, {x:0.8, ease:Bounce.easeOut}), "+=0.1");
-                tl.add(TweenMax.to(image.scale, 0.5, {y:0.8, ease:Bounce.easeOut}), "-=0.5");
+                tl.add(TweenMax.fromTo(chest.scale, 0.1, {x:0.8},  {x:1, ease:Quad.easeOut}));
+                tl.add(TweenMax.fromTo(chest.scale, 0.1, {y:0.8},  {y:0.6, ease:Quad.easeOut}),"-=0.1");
+                tl.add(TweenMax.to(chest.scale, 0.5, {x:0.8, ease:Bounce.easeOut}), "+=0.1");
+                tl.add(TweenMax.to(chest.scale, 0.5, {y:0.8, ease:Bounce.easeOut}), "-=0.5");
             });
 
             content.animation.chestOpen = (function()
             {
-                image.texture = res['chest_open'].texture;
+                chest.texture = res['chest_open'].texture;
                 soundManager.playSound('point', 0);
+            });
+
+            content.animation.showItem = (function()
+            {
+                console.log(content.hasLogo);
+                if(!content.hasLogo)
+                {
+                    item.texture = res['flag'].texture;
+                }
+                var tl = new TimelineMax();
+                tl.add(TweenMax.fromTo(item, 0.3, {alpha:0},  {alpha:1, ease:Quad.easeOut}));
+                tl.add(TweenMax.fromTo(item, 0.3, {y:-80},  {y:-100, ease:Quad.easeOut}), "-=0.3");
             });
 
             content.animation.chestParticle = (function()
             {
-                emitter.emit = true;
-                emitter.cleanup();
-                emitter.resetPositionTracking();
-                emitter.updateOwnerPos(content.x - 15, content.y - 25);
-
-                console.log(content.y);
+                splashEmitter.emit = true;
+                splashEmitter.cleanup();
+                splashEmitter.resetPositionTracking();
+                splashEmitter.updateOwnerPos(content.x - 10, content.y - 15);
             });
 
-            image.on('pointertap', (function(eventData) {
+            chest.on('pointertap', (function(eventData) {
                 if(!content.isOpened)
                 {
                     var tl = new TimelineMax();
                     tl.add(this.animation.bounce);
                     tl.add(this.animation.chestOpen, "+=0.4");
-                    tl.add(this.animation.chestParticle, "+=0");
+                    tl.add(this.animation.showItem, "+=0");
+                    tl.add(this.animation.chestParticle, "+=0.1");
                     content.isOpened = true;
                 }
 
@@ -116,11 +140,11 @@ var GameManager = (function () {
             particleManager.setEmitter(rayEmitter);
 
             chestContainer.addChild(rayEmitterContainer);
-            chestContainer.addChild(image);
+            chestContainer.addChild(chest);
 
             content.animation.bounce();
 
-            return image;
+            return chest;
         }
 
         function setup()
@@ -138,10 +162,10 @@ var GameManager = (function () {
 
             res =  AssetLoaderManager.getInstance().getRes();
 
-            emitterConfig = {
+            splashEmitterConfig = {
             	"alpha": {
             		"start": 1,
-            		"end": 0.5
+            		"end": 1
             	},
             	"scale": {
             		"start": 0.5,
@@ -193,17 +217,17 @@ var GameManager = (function () {
             	}
             };
 
-            emitterContainer = new PIXI.Container();
-            emitter = new PIXI.particles.Emitter(
-                emitterContainer,
+            splashEmitterContainer = new PIXI.Container();
+            splashEmitter = new PIXI.particles.Emitter(
+                splashEmitterContainer,
                 [
                     new PIXI.Texture(res['particle-star'].texture),
                     new PIXI.Texture(res['particle-circle'].texture)
                 ],
-                emitterConfig
+                splashEmitterConfig
             );
-            particleManager.setEmitter(emitter);
-            emitter.emit = false;
+            particleManager.setEmitter(splashEmitter);
+            splashEmitter.emit = false;
 
             rayEmitterConfig = {
             	"alpha": {
@@ -211,13 +235,13 @@ var GameManager = (function () {
             		"end": 0
             	},
             	"scale": {
-            		"start": 0.5,
+            		"start": 1,
             		"end": 4,
             		"minimumScaleMultiplier": 1
             	},
             	"color": {
-            		"start": "#fffdb8",
-            		"end": "#7fa8ff"
+            		"start": "#fff700",
+            		"end": "#ffffaa"
             	},
             	"speed": {
             		"start": 0,
@@ -256,18 +280,34 @@ var GameManager = (function () {
 
             var chests = new Array();
 
+            var item = new Array();
+            for(var i = 0; i < 4; i++)
+            {
+                item.push(false);
+            }
+
+            var numOfLogo = window.numOfLogo;
+
+            if(numOfLogo != null)
+            {
+                while(numOfLogo > 0)
+                {
+                    var randomIdx = parseInt(Math.random() * 4);
+                    if(!item[randomIdx])
+                    {
+                        item[randomIdx] = true;
+                        numOfLogo -= 1;
+                    }
+
+                }
+            }
+
             var tl = new TimelineMax();
-            tl.add(function(){ chests.push(createChest({x: 40})); }, "+=0.2");
-            tl.add(function(){ chests.push(createChest({x: 225})); }, "+=0.2");
-            tl.add(function(){ chests.push(createChest({x: 415})); }, "+=0.2");
-            tl.add(function(){ chests.push(createChest({x: 605})); }, "+=0.2");
-
-            // var chestObj1 = createChest({x: 40});
-            // var chestObj2 = createChest({x: 225});
-            // var chestObj3 = createChest({x: 415});
-            // var chestObj4 = createChest({x: 605});
-
-            chestContainer.addChild(emitterContainer);
+            tl.add(function(){ chests.push(createChest({x: 40}, item[0])); }, "+=0.2");
+            tl.add(function(){ chests.push(createChest({x: 225}, item[1])); }, "+=0.2");
+            tl.add(function(){ chests.push(createChest({x: 415}, item[2])); }, "+=0.2");
+            tl.add(function(){ chests.push(createChest({x: 605}, item[3])); }, "+=0.2");
+            tl.add(function(){ chestContainer.addChild(splashEmitterContainer); });
 
         }
 
