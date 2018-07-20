@@ -45,7 +45,7 @@ var GameManager = (function () {
         {
             var content = {};
 
-            var chestScale = 0.28;
+            var chestScale = 0.5;
 
             var item = new PIXI.Sprite(res['enfagrow_logo'].texture);
             item.alpha = 0;
@@ -153,7 +153,7 @@ var GameManager = (function () {
             }).bind(content));
 
             var rayEmitterContainer = new PIXI.Container();
-            rayEmitterContainer.position.y = 30;
+            rayEmitterContainer.position.y = 50;
             var rayEmitter = new PIXI.particles.Emitter(
                 rayEmitterContainer,
                 [
@@ -198,8 +198,8 @@ var GameManager = (function () {
             		"end": 1
             	},
             	"scale": {
-            		"start": 0.2,
-            		"end": 0.6,
+            		"start": 0.5,
+            		"end": 1,
             		"minimumScaleMultiplier": 1
             	},
             	"color": {
@@ -265,8 +265,8 @@ var GameManager = (function () {
             		"end": 0
             	},
             	"scale": {
-            		"start": 0.2,
-            		"end": 0.9,
+            		"start": 0.5,
+            		"end": 1.5,
             		"minimumScaleMultiplier": 1
             	},
             	"color": {
@@ -332,11 +332,14 @@ var GameManager = (function () {
                 }
             }
 
+            var width = stageManager.getDimension().width;
+            var offset = -290;
+
             var tl = new TimelineMax();
-            tl.add(function(){ chests.push(createChest({x: 40}, item[0])); }, "+=0.2");
-            tl.add(function(){ chests.push(createChest({x: 225}, item[1])); }, "+=0.2");
-            tl.add(function(){ chests.push(createChest({x: 415}, item[2])); }, "+=0.2");
-            tl.add(function(){ chests.push(createChest({x: 605}, item[3])); }, "+=0.2");
+            tl.add(function(){ chests.push(createChest({x: (width * 0.25) + offset}, item[0])); }, "+=0.2");
+            tl.add(function(){ chests.push(createChest({x: (width * 0.5) + offset}, item[1])); }, "+=0.2");
+            tl.add(function(){ chests.push(createChest({x: (width * 0.75) + offset}, item[2])); }, "+=0.2");
+            tl.add(function(){ chests.push(createChest({x: (width * 1) + offset}, item[3])); }, "+=0.2");
             tl.add(function(){ chestContainer.addChild(splashEmitterContainer); });
 
         }

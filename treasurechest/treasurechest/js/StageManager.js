@@ -8,8 +8,8 @@ var StageManager = (function () {
 
         // Singleton Init
 
-        var width = 800;
-		var height = 230;
+        var width = 1280;
+		var height = 380;
 
         PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.LINEAR;
 
