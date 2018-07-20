@@ -11,7 +11,7 @@ var StageManager = (function () {
         var width = 800;
 		var height = 230;
 
-        PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+        PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.LINEAR;
 
         var myView = document.getElementById('myCanvas');
 
