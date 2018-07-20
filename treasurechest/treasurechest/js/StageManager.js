@@ -9,7 +9,7 @@ var StageManager = (function () {
         // Singleton Init
 
         var width = 800;
-		var height = 200;
+		var height = 230;
 
         PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 

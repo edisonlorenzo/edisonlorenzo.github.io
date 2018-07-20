@@ -11,6 +11,7 @@ var scriptMap = [
     "treasurechest/js/gsap/CustomWiggle.min.js",
     "treasurechest/js/StageManager.js",
     "treasurechest/js/AssetLoaderManager.js",
+    "treasurechest/js/ParticleManager.js",
     "treasurechest/js/SoundManager.js",
     "treasurechest/js/GameManager.js"];
 
@@ -20,9 +21,11 @@ function init()
 {
     var soundManager = SoundManager.getInstance();
     var gameManager = GameManager.getInstance();
+    var particleManager = ParticleManager.getInstance();
     var assetLoaderManager = AssetLoaderManager.getInstance();
 
     assetLoaderManager.addAsset(soundManager.getAsset());
+    assetLoaderManager.addAsset(particleManager.getAsset());
     assetLoaderManager.addAsset(gameManager.getAsset());
     assetLoaderManager.onReady(assetReady);
     assetLoaderManager.load();
