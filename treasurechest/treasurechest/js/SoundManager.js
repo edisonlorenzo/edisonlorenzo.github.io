@@ -9,9 +9,8 @@ var SoundManager = (function () {
         // Singleton Init
 
         var assets = new Array();
-        assets.push(new Asset('point', filesLocation + 'sounds/sfx_point.wav'));
-
-
+        assets.push(new Asset('success', filesLocation + 'sounds/sfx_success.mp3'));
+        assets.push(new Asset('failed', filesLocation + 'sounds/sfx_failed.mp3'));
 
         function Asset(resName, resPath)
         {
