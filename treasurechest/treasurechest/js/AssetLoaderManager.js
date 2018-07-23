@@ -18,13 +18,13 @@ var AssetLoaderManager = (function () {
             var stageManager;
             var style = new PIXI.TextStyle({
                 fontFamily: 'Arial',
-                fontSize: 36,
+                fontSize: 24,
                 fontStyle: 'normal',
                 fontWeight: 'bold',
-                fill: ['#888888', '#888888'], // gradient
-                stroke: '#000000',
-                strokeThickness: 1,
-                dropShadow: true,
+                fill: ['#AAAAAA', '#AAAAAA'], // gradient
+                //stroke: '#000000',
+                //strokeThickness: 1,
+                dropShadow: false,
                 dropShadowColor: '#000000',
                 dropShadowBlur: 5,
                 dropShadowAngle: Math.PI / 6,
