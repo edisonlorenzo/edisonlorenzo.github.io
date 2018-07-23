@@ -333,21 +333,19 @@ var GameManager = (function () {
                 item.push(false);
             }
 
-            var numOfLogo = window.treasureChest.numOfLogo;
+            var numOfLogo = window.treasureChest ? window.treasureChest.numOfLogo : 0;
 
-            if(numOfLogo != null)
+            while(numOfLogo > 0)
             {
-                while(numOfLogo > 0)
+                var randomIdx = parseInt(Math.random() * 4);
+                if(!item[randomIdx])
                 {
-                    var randomIdx = parseInt(Math.random() * 4);
-                    if(!item[randomIdx])
-                    {
-                        item[randomIdx] = true;
-                        numOfLogo -= 1;
-                    }
-
+                    item[randomIdx] = true;
+                    numOfLogo -= 1;
                 }
+
             }
+
 
             var width = stageManager.getDimension().width;
             var offset = -290;
