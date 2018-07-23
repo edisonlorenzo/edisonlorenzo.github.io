@@ -23,12 +23,12 @@ var GameManager = (function () {
 
         var assets = new Array();
 
-        assets.push(new Asset('chest_container', 'https://edisonlorenzo.github.io/treasurechest/treasurechest/images/chest_container.png'));
-        assets.push(new Asset('chest_bottom', 'https://edisonlorenzo.github.io/treasurechest/treasurechest/images/chest_bottom.png'));
-        assets.push(new Asset('chest_open', 'https://edisonlorenzo.github.io/treasurechest/treasurechest/images/chest_open.png'));
-        assets.push(new Asset('chest_closed', 'https://edisonlorenzo.github.io/treasurechest/treasurechest/images/chest_closed.png'));
-        assets.push(new Asset('enfagrow_logo', 'https://edisonlorenzo.github.io/treasurechest/treasurechest/images/enfagrow_logo.png'));
-        assets.push(new Asset('flag', 'https://edisonlorenzo.github.io/treasurechest/treasurechest/images/flag.png'));
+        assets.push(new Asset('chest_container', filesLocation + 'images/chest_container.png'));
+        assets.push(new Asset('chest_bottom', filesLocation + 'images/chest_bottom.png'));
+        assets.push(new Asset('chest_open', filesLocation + 'images/chest_open.png'));
+        assets.push(new Asset('chest_closed', filesLocation + 'images/chest_closed.png'));
+        assets.push(new Asset('enfagrow_logo', filesLocation + 'images/enfagrow_logo.png'));
+        assets.push(new Asset('flag', filesLocation + 'images/flag.png'));
 
         function Asset(resName, resPath)
         {

@@ -9,7 +9,7 @@ var SoundManager = (function () {
         // Singleton Init
 
         var assets = new Array();
-        assets.push(new Asset('point', 'treasurechest/sounds/sfx_point.wav'));
+        assets.push(new Asset('point', filesLocation + 'sounds/sfx_point.wav'));
 
 
 

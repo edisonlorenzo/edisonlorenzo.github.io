@@ -1,19 +1,21 @@
 "use strict";
 
+var filesLocation = "https://edisonlorenzo.github.io/treasurechest/treasurechest/";
+
 var scriptMap = [
-    "treasurechest/js/pixi/pixi.min.js",
-    "treasurechest/js/pixi/pixi-spine.js",
-    "treasurechest/js/pixi/pixi-particles.min.js",
-    //"treasurechest/js/pixi/pixi-sound.min.js",
-    "treasurechest/js/gsap/TweenMax.min.js",
-    "treasurechest/js/gsap/TimelineMax.min.js",
-    "treasurechest/js/gsap/CustomEase.min.js",
-    "treasurechest/js/gsap/CustomWiggle.min.js",
-    "treasurechest/js/StageManager.js",
-    "treasurechest/js/AssetLoaderManager.js",
-    "treasurechest/js/ParticleManager.js",
-    //"treasurechest/js/SoundManager.js",
-    "treasurechest/js/GameManager.js"];
+    filesLocation + "js/pixi/pixi.min.js",
+    filesLocation + "js/pixi/pixi-spine.js",
+    filesLocation + "js/pixi/pixi-particles.min.js",
+    //filesLocation + "js/pixi/pixi-sound.min.js",
+    filesLocation + "js/gsap/TweenMax.min.js",
+    filesLocation + "js/gsap/TimelineMax.min.js",
+    filesLocation + "js/gsap/CustomEase.min.js",
+    filesLocation + "js/gsap/CustomWiggle.min.js",
+    filesLocation + "js/StageManager.js",
+    filesLocation + "js/AssetLoaderManager.js",
+    filesLocation + "js/ParticleManager.js",
+    //filesLocation + "js/SoundManager.js",
+    filesLocation + "js/GameManager.js"];
 
 var order = 0;
 

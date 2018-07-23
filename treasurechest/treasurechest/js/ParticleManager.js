@@ -10,9 +10,9 @@ var ParticleManager = (function () {
         var assetLoaderManager = AssetLoaderManager.getInstance();
 
         var assets = new Array();
-        assets.push(new Asset('particle-star', 'treasurechest/images/particle-star.png'));
-        assets.push(new Asset('particle-circle', 'treasurechest/images/particle-circle.png'));
-        assets.push(new Asset('particle-glitter', 'treasurechest/images/particle-glitter.png'));
+        assets.push(new Asset('particle-star', filesLocation + 'images/particle-star.png'));
+        assets.push(new Asset('particle-circle', filesLocation + 'images/particle-circle.png'));
+        assets.push(new Asset('particle-glitter', filesLocation + 'images/particle-glitter.png'));
 
         //var emitter;
         var emitters = new Array();
