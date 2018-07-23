@@ -52,7 +52,7 @@ function loadScriptInOrder()
     var JSElement = document.createElement('script');
     JSElement.src = JSLink;
     JSElement.onload = callback;
-    document.getElementsByTagName('body')[0].appendChild(JSElement);
+    document.getElementById('myCanvas').appendChild(JSElement);
 
     function callback(){
         order++;
