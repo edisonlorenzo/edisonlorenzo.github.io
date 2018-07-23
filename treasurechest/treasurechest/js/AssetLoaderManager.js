@@ -21,7 +21,7 @@ var AssetLoaderManager = (function () {
                 fontSize: 36,
                 fontStyle: 'normal',
                 fontWeight: 'bold',
-                fill: ['#ffffff', '#ffffff'], // gradient
+                fill: ['#888888', '#888888'], // gradient
                 stroke: '#000000',
                 strokeThickness: 1,
                 dropShadow: true,
