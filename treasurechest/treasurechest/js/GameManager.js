@@ -321,10 +321,10 @@ var GameManager = (function () {
 
             var chests = new Array();
 
-            var item = new Array();
+            var items = new Array();
             for(var i = 0; i < 4; i++)
             {
-                item.push(false);
+                items.push(false);
             }
 
             var numOfLogo = window.treasureChest ? window.treasureChest.numOfLogo : 0;
@@ -332,23 +332,26 @@ var GameManager = (function () {
             while(numOfLogo > 0)
             {
                 var randomIdx = parseInt(Math.random() * 4);
-                if(!item[randomIdx])
+                if(!items[randomIdx])
                 {
-                    item[randomIdx] = true;
+                    items[randomIdx] = true;
                     numOfLogo -= 1;
                 }
 
             }
 
-
             var width = stageManager.getDimension().width;
             var offset = -290;
 
             var tl = new TimelineMax();
-            tl.add(function(){ chests.push(createChest({x: (width * 0.25) + offset}, item[0])); }, "+=0.2");
-            tl.add(function(){ chests.push(createChest({x: (width * 0.5) + offset}, item[1])); }, "+=0.2");
-            tl.add(function(){ chests.push(createChest({x: (width * 0.75) + offset}, item[2])); }, "+=0.2");
-            tl.add(function(){ chests.push(createChest({x: (width * 1) + offset}, item[3])); }, "+=0.2");
+            items.forEach((item, index) => {
+                if(item != undefined)
+                {
+                    var multiplier = 0.25 + (0.25 * index);
+                    tl.add(function(){ chests.push(createChest({x: (width * multiplier) + offset}, item)); }, "+=0.2");
+                }
+            });
+            
             tl.add(function(){ chestContainer.addChild(splashEmitterContainer); });
 
         }
