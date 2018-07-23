@@ -1,6 +1,6 @@
 "use strict";
 
-var filesLocation = window.treasureChestLoc ? window.treasureChestLoc : "https://edisonlorenzo.github.io/treasurechest/treasurechest/";
+var filesLocation = window.treasureChest.treasureChestLoc ? window.treasureChest.treasureChestLoc : "https://edisonlorenzo.github.io/treasurechest/treasurechest/";
 
 var scriptMap = [
     filesLocation + "js/pixi/pixi.min.js",

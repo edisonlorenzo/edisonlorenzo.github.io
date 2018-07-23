@@ -24,7 +24,7 @@ var GameManager = (function () {
         var assets = new Array();
         var openedChestCount = 0;
 
-        var nextPageLoc = window.nextPageLoc ? window.nextPageLoc : "https://edisonlorenzo.github.io/treasurechest";
+        var nextPageLoc = window.treasureChest.nextPageLoc ? window.treasureChest.nextPageLoc : "https://edisonlorenzo.github.io/treasurechest";
 
         assets.push(new Asset('chest_container', filesLocation + 'images/chest_container.png'));
         assets.push(new Asset('chest_bottom', filesLocation + 'images/chest_bottom.png'));
@@ -333,7 +333,7 @@ var GameManager = (function () {
                 item.push(false);
             }
 
-            var numOfLogo = window.numOfLogo;
+            var numOfLogo = window.treasureChest.numOfLogo;
 
             if(numOfLogo != null)
             {
