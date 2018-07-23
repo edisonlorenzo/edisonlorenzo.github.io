@@ -9,7 +9,7 @@ var GameManager = (function () {
         // Singleton Init
 
         var stageManager;
-        var soundManager;
+        //var soundManager;
         var particleManager;
         var res;
 
@@ -113,7 +113,7 @@ var GameManager = (function () {
             content.animation.chestOpen = (function()
             {
                 chestTop.texture = res['chest_open'].texture;
-                soundManager.playSound('point', 0);
+                //soundManager.playSound('point', 0);
             });
 
             content.animation.showItem = (function()
@@ -181,7 +181,7 @@ var GameManager = (function () {
         {
 
             stageManager = StageManager.getInstance();
-            soundManager = SoundManager.getInstance();
+            //soundManager = SoundManager.getInstance();
             particleManager = ParticleManager.getInstance();
 
             elements = new Array();

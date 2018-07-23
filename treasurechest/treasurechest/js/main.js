@@ -4,7 +4,7 @@ var scriptMap = [
     "treasurechest/js/pixi/pixi.min.js",
     "treasurechest/js/pixi/pixi-spine.js",
     "treasurechest/js/pixi/pixi-particles.min.js",
-    "treasurechest/js/pixi/pixi-sound.js",
+    //"treasurechest/js/pixi/pixi-sound.min.js",
     "treasurechest/js/gsap/TweenMax.min.js",
     "treasurechest/js/gsap/TimelineMax.min.js",
     "treasurechest/js/gsap/CustomEase.min.js",
@@ -12,19 +12,19 @@ var scriptMap = [
     "treasurechest/js/StageManager.js",
     "treasurechest/js/AssetLoaderManager.js",
     "treasurechest/js/ParticleManager.js",
-    "treasurechest/js/SoundManager.js",
+    //"treasurechest/js/SoundManager.js",
     "treasurechest/js/GameManager.js"];
 
 var order = 0;
 
 function init()
 {
-    var soundManager = SoundManager.getInstance();
+    //var soundManager = SoundManager.getInstance();
     var gameManager = GameManager.getInstance();
     var particleManager = ParticleManager.getInstance();
     var assetLoaderManager = AssetLoaderManager.getInstance();
 
-    assetLoaderManager.addAsset(soundManager.getAsset());
+    //assetLoaderManager.addAsset(soundManager.getAsset());
     assetLoaderManager.addAsset(particleManager.getAsset());
     assetLoaderManager.addAsset(gameManager.getAsset());
     assetLoaderManager.onReady(assetReady);
