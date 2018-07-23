@@ -22,6 +22,9 @@ var GameManager = (function () {
         var rayEmitterConfig;
 
         var assets = new Array();
+        var openedChestCount = 0;
+
+        var nextPageLoc = window.nextPageLoc ? window.nextPageLoc : "https://edisonlorenzo.github.io/treasurechest";
 
         assets.push(new Asset('chest_container', filesLocation + 'images/chest_container.png'));
         assets.push(new Asset('chest_bottom', filesLocation + 'images/chest_bottom.png'));
@@ -83,7 +86,6 @@ var GameManager = (function () {
             content.y = chest.position.y - (chest.height * 0.5);
 
             content.hasLogo = hasLogo;
-            console.log(content.hasLogo);
 
             content.isOpened = false;
             content.animation = {};
@@ -118,7 +120,6 @@ var GameManager = (function () {
 
             content.animation.showItem = (function()
             {
-                console.log(content.hasLogo);
                 if(!content.hasLogo)
                 {
                     item.texture = res['flag'].texture;
@@ -148,6 +149,8 @@ var GameManager = (function () {
                         tl.add(this.animation.chestParticle, "+=0");
                     }
                     content.isOpened = true;
+                    openedChestCount += 1;
+                    checkOpenedChest();
                 }
 
             }).bind(content));
@@ -175,6 +178,20 @@ var GameManager = (function () {
             content.animation.intro();
 
             return content;
+        }
+
+        function gotoNextPage()
+        {
+            window.location.href = nextPageLoc;
+        }
+
+        function checkOpenedChest()
+        {
+            if(openedChestCount >= 4)
+            {
+                var tl = new TimelineMax();
+                tl.add(gotoNextPage, "+=2");
+            }
         }
 
         function setup()
