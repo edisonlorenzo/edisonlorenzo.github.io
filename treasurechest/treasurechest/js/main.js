@@ -9,8 +9,6 @@ var scriptMap = [
     filesLocation + "js/pixi/pixi-sound.min.js",
     filesLocation + "js/gsap/TweenMax.min.js",
     filesLocation + "js/gsap/TimelineMax.min.js",
-    filesLocation + "js/gsap/CustomEase.min.js",
-    filesLocation + "js/gsap/CustomWiggle.min.js",
     filesLocation + "js/StageManager.js",
     filesLocation + "js/AssetLoaderManager.js",
     filesLocation + "js/ParticleManager.js",

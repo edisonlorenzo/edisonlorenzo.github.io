@@ -90,12 +90,6 @@ var GameManager = (function () {
             content.isOpened = false;
             content.animation = {};
 
-            content.animation.shake = (function()
-            {
-                CustomWiggle.create("funWiggle", {wiggles:6, type:"easeOut"});
-                TweenMax.fromTo(chest, 0.5, {rotation:0},  {rotation:0.5, ease:"funWiggle"});
-            });
-
             content.animation.intro = (function()
             {
                 var tl = new TimelineMax();
