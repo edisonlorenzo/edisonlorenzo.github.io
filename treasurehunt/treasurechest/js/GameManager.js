@@ -22,7 +22,7 @@ var GameManager = (function () {
         var assets = new Array();
         var openedChestCount = 0;
 
-        var nextPageLoc = window.treasureChest ? window.treasureChest.nextPageLoc : "http://localhost:8888/pixiweb/treasurehunt";
+        var nextPageLoc = window.treasureChest ? window.treasureChest.nextPageLoc : "https://edisonlorenzo.github.io/treasurehunt/";
 
         assets.push(new Asset('chest_container', filesLocation + 'images/chest_container.png'));
         assets.push(new Asset('chest_bottom', filesLocation + 'images/chest_bottom.png'));
