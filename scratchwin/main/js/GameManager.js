@@ -23,7 +23,7 @@ var GameManager = (function () {
         var assets = new Array();
         var openedChestCount = 0;
 
-        var nextPageLoc = window.scratchWin ? window.scratchWin.nextPageLoc : "https://edisonlorenzo.github.io/scratchwin/";
+        var nextPageLoc = window.scratchWin ? window.scratchWin.nextPageLoc : "https://edisonlorenzo.github.io/scratchwin";
 
         assets.push(new Asset('star_container', filesLocation + '/images/star_container.png'));
         assets.push(new Asset('lactum_logo', filesLocation + '/images/lactum_logo.png'));
