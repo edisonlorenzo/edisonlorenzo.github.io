@@ -14,8 +14,9 @@
 
     <body>
         <script>
+            const isDebug = false;
             const mainLoc = "main";
-            const nextPageLoc = "https://edisonlorenzo.github.io/scratchwin";
+            const nextPageLoc = !isDebug ? "https://edisonlorenzo.github.io/scratchwin" : "#";
 
             window.scratchWin = {};
             window.scratchWin.mainLoc = mainLoc;

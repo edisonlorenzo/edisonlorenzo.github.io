@@ -14,7 +14,6 @@ var GameManager = (function () {
         var res;
 
         var viewContainer;
-        var isMouseDown = false;
 
         var splashEmitterConfig;
         var rayEmitterConfig;
@@ -23,7 +22,7 @@ var GameManager = (function () {
         var assets = new Array();
         var openedChestCount = 0;
 
-        var nextPageLoc = window.scratchWin ? window.scratchWin.nextPageLoc : "https://edisonlorenzo.github.io/scratchwin";
+        var nextPageLoc = window.scratchWin && window.scratchWin.nextPageLoc ? window.scratchWin.nextPageLoc : "#";
 
         assets.push(new Asset('star_container', filesLocation + '/images/star_container.png'));
         assets.push(new Asset('lactum_logo', filesLocation + '/images/lactum_logo.png'));
@@ -131,12 +130,6 @@ var GameManager = (function () {
                 tl.add(TweenMax.fromTo(starContainer.scale, 2, {x:starScale * 0.5, y:starScale * 0.5},  {x: starScale, y: starScale, ease:Elastic.easeOut}), "-=0.25");
             });
 
-            content.animation.chestOpen = (function()
-            {
-                chestTop.texture = res['chest_open'].texture;
-                soundManager.playSound(content.hasLogo ? 'success' : 'failed', 0);
-            });
-
             content.animation.showItem = (function()
             {
                 if(content.hasLogo) {
@@ -176,7 +169,7 @@ var GameManager = (function () {
             }).bind(content));
 
             content.onMouseOver = (function() {
-                starSelect.alpha = 1;
+                starSelect.alpha = 0;
                 content.isSelected = true;
             });
 
@@ -186,7 +179,7 @@ var GameManager = (function () {
             });
 
             content.onMouseMove = (function(eventData) {
-                if(content.isSelected && isMouseDown){
+                if(content.isSelected){
                     var posX = eventData.data.global.x;
                     content.scratchValue += content.eventData.x ? Math.abs(eventData.data.global.x - content.eventData.x) : 0;
                     if(content.scratchValue >= 200){
@@ -265,15 +258,6 @@ var GameManager = (function () {
             viewContainer = new PIXI.Container();
 
             stageManager.getContainer().addChild(viewContainer);
-
-            window.addEventListener('pointerdown', (function(eventData) {
-                isMouseDown = true;
-            }));
-
-            window.addEventListener('pointerup', (function(eventData) {
-                isMouseDown = false;
-            }));
-            
 
             splashEmitterConfig = particleManager.getEmitterConfig('splashEmitterConfig');
             rayEmitterConfig = particleManager.getEmitterConfig('rayEmitterConfig');
